@@ -28,12 +28,7 @@ public class OntologLangException extends RuntimeException {
 	private static final long serialVersionUID = 704251867847845399L;
 
 	protected SourceLocation sourceLocation;
-
-	public OntologLangException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
+	
 	public OntologLangException(String message, Throwable cause) {
 		super(message, cause);
 	}
