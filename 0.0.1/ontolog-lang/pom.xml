@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>so.ontolog</groupId>
-  <artifactId>lang</artifactId>
+  <artifactId>ontolog-lang</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
