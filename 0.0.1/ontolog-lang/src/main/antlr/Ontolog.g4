@@ -19,6 +19,7 @@ options {
 	language = Java;
 }
 
+// generate target dir : ./src/mai/antlr
 // use command line option : -package so.ontolog.lang.antlr
 
 @parser::header {
@@ -37,3 +38,47 @@ ontologExpression returns [Node result]
 	( '=' '(' * ')' )
 	| ( '=' *  )
 	;
+
+	
+	
+    
+/* *********************************************
+	Lexer rules
+********************************************* */
+fragment DIGIT	: '0'..'9' ;
+
+// LATIN ALPAHBETs, $, _ and Korean charset  
+fragment LETTER
+    : 	'$'
+    	| 'A'..'Z' 
+    	| '_' | 'a'..'z'
+    	| '\uAC00'..'\uD7AF'
+    	| '\u3130'..'\u318F'
+        | '\u1100'..'\u11FF'
+    ;
+
+NUMBER : DIGIT+ ('.' DIGIT+)? ;
+
+STRING_LITERAL
+	:	( '"' ( ~('"'|'\r'|'\n') )* '"' )
+		| ( '\'' ( ~('\''|'\r'|'\n') )* '\'' )
+	;
+
+NULL : ('null'|'nil'|'NULL') ;
+
+BOOLEAN :	('true' | 'false' | 'TRUE' | 'FALSE') ;
+IDENT :  LETTER (LETTER|DIGIT)* ;
+
+//
+// Whitespace and comments
+//
+WS  :  [ \t\r\n\u000C]+ -> skip
+    ;
+
+COMMENT
+    :   '/*' .*? '*/' -> skip
+    ;
+
+LINE_COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;
