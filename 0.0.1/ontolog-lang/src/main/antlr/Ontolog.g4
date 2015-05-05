@@ -17,6 +17,7 @@ grammar Ontolog;
 
 options {
 	language = Java;
+	superClass = so.ontolog.lang.antlr.AbstractOntologHandlerParser;
 }
 
 // generate target dir : ./src/mai/antlr

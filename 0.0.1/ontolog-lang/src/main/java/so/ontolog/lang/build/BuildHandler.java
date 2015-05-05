@@ -17,13 +17,16 @@ package so.ontolog.lang.build;
 import java.util.List;
 import java.util.Map;
 
-import so.ontolog.lang.runtime.Block;
-import so.ontolog.lang.runtime.BlockStatement;
+import so.ontolog.lang.ast.ASTBlock;
+import so.ontolog.lang.ast.ASTBlockStatement;
+import so.ontolog.lang.ast.ASTFunction;
+import so.ontolog.lang.ast.ASTGettable;
+import so.ontolog.lang.ast.ASTLiteral;
+import so.ontolog.lang.ast.ASTNode;
+import so.ontolog.lang.ast.ASTRef;
+import so.ontolog.lang.ast.ASTStatement;
 import so.ontolog.lang.runtime.Gettable;
-import so.ontolog.lang.runtime.Literal;
-import so.ontolog.lang.runtime.Node;
 import so.ontolog.lang.runtime.Ref;
-import so.ontolog.lang.runtime.Statement;
 
 /**
  * @author kighie@gmail.com
@@ -46,7 +49,7 @@ public interface BuildHandler {
 	 * @param token
 	 * @return
 	 */
-	Block block(String token);
+	ASTBlock block(String token);
 	
 	/**
 	 * <pre>
@@ -71,7 +74,7 @@ public interface BuildHandler {
 	 * @param node
 	 * @return
 	 */
-	Gettable<?> operator (String token, Node node);
+	ASTGettable<?> operator (String token, ASTNode node);
 	
 	/**
 	 * <pre>
@@ -82,7 +85,7 @@ public interface BuildHandler {
 	 * @param right
 	 * @return
 	 */
-	Gettable<?> operator (String token, Node left, Node right);
+	ASTGettable<?> operator (String token, ASTNode left, ASTNode right);
 	
 	/**
 	 * <pre>
@@ -93,7 +96,7 @@ public interface BuildHandler {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	Literal literal(String token, String value);
+	ASTLiteral literal(String token, String value);
 
 	/**
 	 * <pre>
@@ -103,7 +106,7 @@ public interface BuildHandler {
 	 * @param exp
 	 * @return
 	 */
-	Ref refer(String name);
+	ASTRef refer(String name);
 	
 
 	/**
@@ -115,7 +118,7 @@ public interface BuildHandler {
 	 * @param name
 	 * @return
 	 */
-	Ref refer(Ref parent, String name);
+	ASTRef refer(ASTRef parent, String name);
 
 	/**
 	 * <pre>
@@ -125,7 +128,7 @@ public interface BuildHandler {
 	 * @param index
 	 * @return
 	 */
-	Ref referIndexed(Ref parent, Node index);
+	ASTRef referIndexed(ASTRef parent, ASTNode index);
 	
 	/**
 	 * <pre>
@@ -136,7 +139,7 @@ public interface BuildHandler {
 	 * @param name
 	 * @return
 	 */
-	Ref declare(String token, Class<?> type, String name);
+	ASTRef declare(String token, Class<?> type, String name);
 	
 
 	/**
@@ -147,7 +150,7 @@ public interface BuildHandler {
 	 * @param name
 	 * @return
 	 */
-	Gettable<?> declareProto(String token, List<?>fieldList);
+	ASTGettable<?> declareProto(String token, List<?>fieldList);
 	
 
 	/**
@@ -158,21 +161,21 @@ public interface BuildHandler {
 	 * @param defaultValue
 	 * @param extra
 	 */
-	void protoField(String token, List<?>fieldList, Class<?> type, String name, Node defaultValue, Object ... extra);
+	void protoField(String token, List<?>fieldList, Class<?> type, String name, ASTNode defaultValue, Object ... extra);
 	
 	
 	
-//	/**
-//	 * <pre>
-//	 * Declares Function
-//	 * [Caution] You must call {@link #endBlock()} after completing block parsing.
-//	 * </pre>
-//	 * @param token
-//	 * @param type
-//	 * @param name
-//	 * @return
-//	 */
-//	BlockStatement declareFn(Class<?> retType, String name, List<Ref> args);
+	/**
+	 * <pre>
+	 * Declares Function
+	 * [Caution] You must call {@link #endBlock()} after completing block parsing.
+	 * </pre>
+	 * @param token
+	 * @param type
+	 * @param name
+	 * @return
+	 */
+	ASTFunction<?> declareFn(Class<?> retType, String name, List<ASTRef> args);
 
 //	/**
 //	 * <pre>
@@ -182,7 +185,7 @@ public interface BuildHandler {
 //	 * @param args
 //	 * @return
 //	 */
-//	Lambda<?> lambda(String token, List<Ref> args, Object ... extra);
+//	ASTFunction<?> lambda(String token, List<Ref> args, Object ... extra);
 	
 	/**
 	 * <pre>
@@ -209,7 +212,7 @@ public interface BuildHandler {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	Gettable functionCall(String name, List<Node> args);
+	ASTGettable functionCall(String name, List<ASTNode> args);
 
 	/**
 	 * <pre>
@@ -220,7 +223,7 @@ public interface BuildHandler {
 	 * @param args
 	 * @return
 	 */
-	Ref methodCall(Ref parent, String name, List<Node> args);
+	ASTRef methodCall(Ref parent, String name, List<ASTNode> args);
 	
 	/**
 	 * <pre>
@@ -230,7 +233,7 @@ public interface BuildHandler {
 	 * @param args
 	 * @return
 	 */
-	Statement statement(String token, Node ... args);
+	ASTStatement statement(String token, ASTNode ... args);
 	
 
 	/**
@@ -242,7 +245,7 @@ public interface BuildHandler {
 	 * @param args
 	 * @return
 	 */
-	BlockStatement statementBlock(String token, Node ... args);
+	ASTBlockStatement statementBlock(String token, ASTNode ... args);
 	
 	/**
 	 * <pre>
@@ -251,7 +254,7 @@ public interface BuildHandler {
 	 * @param element
 	 * @return
 	 */
-	Gettable<?> array(List<Node> elements);
+	ASTGettable<?> array(List<ASTNode> elements);
 	
 
 	/**
@@ -262,7 +265,7 @@ public interface BuildHandler {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	Gettable<Map> map(String token);
+	ASTGettable<Map> map(String token);
 	
 	/**
 	 * <pre>
@@ -273,10 +276,10 @@ public interface BuildHandler {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	void mapEntry(Gettable<Map> mapGettable, Class<?> entryType, String name, Node value);
+	void mapEntry(Gettable<Map> mapGettable, Class<?> entryType, String name, ASTNode value);
 	
 	
-	void importJava(Ref ref);
+	void importJava(ASTRef ref);
 	
 	
 }

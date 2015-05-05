@@ -16,37 +16,13 @@ package so.ontolog.lang.runtime;
 
 import java.io.Serializable;
 
-import so.ontolog.lang.util.SourceLocation;
-
 /**
  * <pre>
- * Common interface of all Node classes.
+ * Common markup interface of all Node classes.
  * </pre>
  * @author kighie@gmail.com
  *
  */
 public interface Node extends Serializable {
-	/**
-	 * Returns full expression string of this node 
-	 * @return
-	 */
-	String getExpression();
 	
-	/**
-	 * @return this node's grammar token
-	 * @see GrammarTokens
-	 */
-	String getToken();
-	
-	/**
-	 * @return this node's location
-	 */
-	SourceLocation getLocation();
-
-	/**
-	 * set this node's location
-	 * @param location
-	 * @return this node
-	 */
-	Node setLocation(SourceLocation location);
 }

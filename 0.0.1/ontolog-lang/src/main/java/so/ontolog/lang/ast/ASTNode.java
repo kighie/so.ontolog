@@ -12,17 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime;
+package so.ontolog.lang.ast;
+
+import java.io.Serializable;
+
+import so.ontolog.lang.util.SourceLocation;
 
 /**
- * <pre></pre>
- * @author Ikchan Kwon
+ * <pre>
+ * Common interface of all ASTNode classes.
+ * </pre>
+ * @author kighie@gmail.com
  *
  */
-public interface Function<T> extends Gettable<T>{
+public interface ASTNode extends Serializable {
+	/**
+	 * Returns full expression string of this node 
+	 * @return
+	 */
+	String getExpression();
 	
-	String name();
+	/**
+	 * @return this node's grammar token
+	 * @see GrammarTokens
+	 */
+	String getToken();
 	
-	Class<?>[] argTypes();
-	
+	/**
+	 * @return this node's location
+	 */
+	SourceLocation getLocation();
+
+	/**
+	 * set this node's location
+	 * @param location
+	 * @return this node
+	 */
+	ASTNode setLocation(SourceLocation location);
 }

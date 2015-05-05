@@ -19,16 +19,18 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class OntologParser extends Parser {
+public class OntologParser extends so.ontolog.lang.antlr.AbstractOntologHandlerParser {
 	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__2=1, T__1=2, T__0=3;
+		T__2=1, T__1=2, T__0=3, NUMBER=4, STRING_LITERAL=5, NULL=6, BOOLEAN=7, 
+		IDENT=8, WS=9, COMMENT=10, LINE_COMMENT=11;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'('", "')'", "'='"
+		"<INVALID>", "'('", "')'", "'='", "NUMBER", "STRING_LITERAL", "NULL", 
+		"BOOLEAN", "IDENT", "WS", "COMMENT", "LINE_COMMENT"
 	};
 	public static final int
 		RULE_ontologExpression = 0;
@@ -134,7 +136,7 @@ public class OntologParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\5\25\4\2\t\2\3\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\r\25\4\2\t\2\3\2"+
 		"\3\2\7\2\7\n\2\f\2\16\2\n\13\2\3\2\3\2\7\2\16\n\2\f\2\16\2\21\13\2\5\2"+
 		"\23\n\2\3\2\2\2\3\2\2\2\26\2\22\3\2\2\2\4\b\7\5\2\2\5\7\7\3\2\2\6\5\3"+
 		"\2\2\2\7\n\3\2\2\2\b\6\3\2\2\2\b\t\3\2\2\2\t\13\3\2\2\2\n\b\3\2\2\2\13"+

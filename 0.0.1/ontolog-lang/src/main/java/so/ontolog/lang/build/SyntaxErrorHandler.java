@@ -12,17 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime;
+package so.ontolog.lang.build;
+
+import so.ontolog.lang.util.SourceLocation;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface Function<T> extends Gettable<T>{
-	
-	String name();
-	
-	Class<?>[] argTypes();
-	
+public interface SyntaxErrorHandler {
+	void syntaxError( String message, Object offendingSymbol, SourceLocation location, Exception cause); 
 }

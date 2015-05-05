@@ -12,14 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime;
+package so.ontolog.lang.ast;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface Function<T> extends Gettable<T>{
+public interface ASTFunction<T> extends ASTGettable<T>, ASTBlock{
 	
 	String name();
 	

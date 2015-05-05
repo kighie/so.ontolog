@@ -12,13 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.antlr;
+package so.ontolog.lang.ast;
+
 
 /**
- * <pre></pre>
- * @author Ikchan Kwon
+ * @author kighie@gmail.com
  *
  */
-public class AntlrBuildHandlerWrapper {
-
+public interface ASTLiteral<T> extends ASTNode, ASTGettable<T>{
+	
+	public T getValue();
+	
 }
