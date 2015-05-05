@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.ast.ASTBlock;
 import so.ontolog.lang.ast.ASTBlockStatement;
 import so.ontolog.lang.ast.ASTFunction;
@@ -24,12 +25,10 @@ import so.ontolog.lang.ast.ASTLiteral;
 import so.ontolog.lang.ast.ASTNode;
 import so.ontolog.lang.ast.ASTRef;
 import so.ontolog.lang.ast.ASTStatement;
-import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.build.BuildContext;
 import so.ontolog.lang.build.BuildHandler;
 import so.ontolog.lang.build.SyntaxErrorHandler;
 import so.ontolog.lang.runtime.Gettable;
-import so.ontolog.lang.runtime.Ref;
 import so.ontolog.lang.util.SimpleSourceLocation;
 import so.ontolog.lang.util.SourceLocation;
 
@@ -147,7 +146,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 
-	public ASTRef methodCall(Ref parent, String name, List<ASTNode> args) {
+	public ASTRef methodCall(ASTRef parent, String name, List<ASTNode> args) {
 		return handler.methodCall(parent, name, args);
 	}
 

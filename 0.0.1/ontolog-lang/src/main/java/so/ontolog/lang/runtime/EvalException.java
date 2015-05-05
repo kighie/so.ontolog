@@ -14,15 +14,39 @@
  */
 package so.ontolog.lang.runtime;
 
-import java.io.Serializable;
+import so.ontolog.lang.OntologLangException;
 
 /**
- * <pre>
- * Common markup interface of all Node classes.
- * </pre>
- * @author kighie@gmail.com
+ * <pre></pre>
+ * @author Ikchan Kwon
  *
  */
-public interface Node extends Serializable {
-	String token();
+public class EvalException extends OntologLangException {
+	private static final long serialVersionUID = -148960022231244976L;
+	
+	private Node node;
+	
+	public EvalException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public EvalException(String message) {
+		super(message);
+	}
+
+	public EvalException(Throwable cause) {
+		super(cause);
+	}
+
+	public EvalException setNode(Node node){
+		this.node = node;
+		return this;
+	}
+	
+	/**
+	 * @return the node
+	 */
+	public Node getNode() {
+		return node;
+	}
 }

@@ -12,42 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
-
-import java.io.Serializable;
+package so.ontolog.lang.runtime.ref;
 
 import so.ontolog.lang.GrammarTokens;
-import so.ontolog.lang.util.SourceLocation;
+import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.Ref;
 
 /**
- * <pre>
- * Common interface of all ASTNode classes.
- * </pre>
- * @author kighie@gmail.com
+ * <pre></pre>
+ * @author Ikchan Kwon
  *
  */
-public interface ASTNode extends Serializable {
-	/**
-	 * Returns full expression string of this node 
-	 * @return
-	 */
-	String getExpression();
+public abstract class GenericRef implements Ref {
+	private static final long serialVersionUID = 8381103642569733743L;
+	protected final QName qname;
 	
-	/**
-	 * @return this node's grammar token
-	 * @see GrammarTokens
-	 */
-	String getToken();
-	
-	/**
-	 * @return this node's location
-	 */
-	SourceLocation getLocation();
 
 	/**
-	 * set this node's location
-	 * @param location
-	 * @return this node
+	 * @param qname
 	 */
-	ASTNode setLocation(SourceLocation location);
+	public GenericRef(QName qname) {
+		this.qname = qname;
+	}
+
+	@Override
+	public QName qualifiedName() {
+		return qname;
+	}
+	
+	@Override
+	public String token() {
+		return GrammarTokens.REF;
+	}
+	
+	@Override
+	public String toString() {
+		return "{ref:" + qname + "}";
+	}
+	
 }

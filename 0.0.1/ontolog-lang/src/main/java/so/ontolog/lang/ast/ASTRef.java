@@ -16,6 +16,7 @@ package so.ontolog.lang.ast;
 
 import so.ontolog.lang.runtime.QName;
 
+
 /**
  * 
  * @author IkChan Kwon

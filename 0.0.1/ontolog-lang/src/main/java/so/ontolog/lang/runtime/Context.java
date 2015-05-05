@@ -17,6 +17,7 @@ package so.ontolog.lang.runtime;
 
 
 
+
 /**
  * 
  * @author IkChan Kwon

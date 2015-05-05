@@ -26,7 +26,6 @@ import so.ontolog.lang.ast.ASTNode;
 import so.ontolog.lang.ast.ASTRef;
 import so.ontolog.lang.ast.ASTStatement;
 import so.ontolog.lang.runtime.Gettable;
-import so.ontolog.lang.runtime.Ref;
 
 /**
  * @author kighie@gmail.com
@@ -223,7 +222,7 @@ public interface BuildHandler {
 	 * @param args
 	 * @return
 	 */
-	ASTRef methodCall(Ref parent, String name, List<ASTNode> args);
+	ASTRef methodCall(ASTRef parent, String name, List<ASTNode> args);
 	
 	/**
 	 * <pre>

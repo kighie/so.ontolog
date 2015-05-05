@@ -1,4 +1,4 @@
-/* 
+/* ******************************************************************************
  * Copyright (c) 2012 IkChan Kwon kighie@gmail.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,28 @@
  */
 package so.ontolog.lang.runtime;
 
+import java.io.Serializable;
+
+
+
+
 /**
  * 
  * @author IkChan Kwon
- * @date 2012. 10. 11.
  * @since	1.0
  */
-public interface BlockStatement extends Block, Statement {
+public interface Operator<T> extends Serializable {
+	
+	String token();
+	
+	Class<? extends T> type();
+	
+	public interface Unary<T, OP> extends Operator<T> {
+		T eval(OP val);
+	}
+
+	public interface Binary<T, OP1, OP2> extends Operator<T> {
+		T eval(OP1 val1, OP2 val2);
+	}
 	
 }

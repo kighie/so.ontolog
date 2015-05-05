@@ -16,11 +16,12 @@ package so.ontolog.lang.runtime;
 
 
 /**
- * @author kighie@gmail.com
+ * <pre></pre>
+ * @author Ikchan Kwon
  *
  */
-public interface Literal<T> extends Node, Gettable<T>{
+public interface Literal<T> extends Gettable<T>{
 	
-	public T getValue();
+	T getValue();
 	
 }

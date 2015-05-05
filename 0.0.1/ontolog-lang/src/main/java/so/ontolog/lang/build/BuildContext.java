@@ -16,9 +16,9 @@ package so.ontolog.lang.build;
 
 import java.util.Map.Entry;
 
+import so.ontolog.lang.ast.ASTRef;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
-import so.ontolog.lang.runtime.Ref;
 
 /**
  * 
@@ -37,10 +37,10 @@ public interface BuildContext {
 	Function<?> getBuiltInFunction(String name);
 
 	
-	void registerRef(QName qname, Ref ref);
+	void registerRef(QName qname, ASTRef ref);
 	
-	Ref getRef(QName qname);
+	ASTRef getRef(QName qname);
 
-	Iterable<Entry<QName, Ref>> references();
+	Iterable<Entry<QName, ASTRef>> references();
 
 }
