@@ -26,9 +26,6 @@ public abstract class AbstractField implements Field {
 
 	private static final long serialVersionUID = -3899071010486688214L;
 	
-	
-	
-	
 	protected final Class<?> type;
 	protected final String name;
 	protected final TypeKind typeKind;

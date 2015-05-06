@@ -12,29 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata;
-
-import so.ontolog.data.common.FieldMap;
-import so.ontolog.data.util.StringArraySet;
+package so.ontolog.data.binding.convert;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class BeanMetadata extends FieldMap<BeanProperty>{
-	private static final long serialVersionUID = 8012712582777493688L;
+public interface Converter<T> {
 
-	public BeanMetadata(String[] strArray) {
-		super(strArray, BeanProperty.class);
-	}
-	
-	public BeanMetadata(String[] strArray, BeanProperty[] fields) {
-		super(strArray, fields);
-	}
-
-	public BeanMetadata(StringArraySet keySet, BeanProperty[] fields) {
-		super(keySet, fields);
-	}
-
+	T convert(Object value);
 }

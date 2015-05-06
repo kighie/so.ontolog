@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.ref;
 
+import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -27,26 +28,37 @@ import so.ontolog.lang.runtime.Settable;
  */
 public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<T>{
 	private static final long serialVersionUID = -4458545471076570289L;
-	
-	protected Class<? extends T> valueType;
+
+	protected final Class<? extends T> type;
 	
 	/**
 	 * @param qname
 	 */
-	public VariableRef(Class<? extends T> valueType, QName qname) {
+	public VariableRef(Class<? extends T> type, QName qname) {
 		super(qname);
-		this.valueType = valueType;
+		this.type = type;
+	}
+
+	@Override
+	public Class<? extends T> type() {
+		return type;
 	}
 	
 	@Override
-	public Class<? extends T> type() {
-		return valueType;
+	public String token() {
+		return GrammarTokens.VAR;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public T get(Context context) {
+		return (T)context.getReference(qname);
 	}
 	
 	@Override
 	public void set(Context context, T value) {
-		if( valueType != null && value != null){
-			if(!valueType.isAssignableFrom(value.getClass())){
+		if( type != null && value != null){
+			if(!type.isAssignableFrom(value.getClass())){
 				throw new EvalException("Value " + value + " cannot be set to " + qname).setNode(this);
 			}
 		}
@@ -57,10 +69,29 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		context.setLocalVar(qname, value);
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public T get(Context context) {
-		return (T)context.getReference(qname);
+	/**
+	 * 
+	 * <pre></pre>
+	 * @author Ikchan Kwon
+	 *
+	 * @param <T>
+	 */
+	public static class ArgDeclRef<T>  extends VariableRef<T> {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 535106876225275853L;
+		
+		/**
+		 * @param qname
+		 */
+		public ArgDeclRef(Class<? extends T> type, QName qname) {
+			super(type,qname);
+		}
+		
+		@Override
+		public String token() {
+			return GrammarTokens.ARG_DECL;
+		}
 	}
-	
 }

@@ -25,6 +25,7 @@ import so.ontolog.lang.runtime.Ref;
  */
 public abstract class GenericRef implements Ref {
 	private static final long serialVersionUID = 8381103642569733743L;
+	
 	protected final QName qname;
 	
 
@@ -47,7 +48,7 @@ public abstract class GenericRef implements Ref {
 	
 	@Override
 	public String toString() {
-		return "{ref:" + qname + "}";
+		return "{" + token() + ":" + qname + "}";
 	}
 	
 }

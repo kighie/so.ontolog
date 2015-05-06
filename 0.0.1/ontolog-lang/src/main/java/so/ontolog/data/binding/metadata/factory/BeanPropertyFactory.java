@@ -12,25 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata;
+package so.ontolog.data.binding.metadata.factory;
 
-import so.ontolog.data.common.AbstractField;
-import so.ontolog.data.type.TypeKind;
+import java.beans.PropertyDescriptor;
+
+import so.ontolog.data.binding.metadata.BeanProperty;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class BeanField extends AbstractField{
-	private static final long serialVersionUID = -196837514470986311L;
+public interface BeanPropertyFactory {
 
-	public BeanField(String name, Class<?> type) {
-		super(name, type);
-	}
+	BeanProperty<?> createBeanProperty(Class<?> beanClass, String fieldName);
 	
-	public BeanField(String name, Class<?> type, TypeKind typeKind) {
-		super(name, type, typeKind);
-	}
-
+	BeanProperty<?> createBeanProperty(PropertyDescriptor pd);
 }
