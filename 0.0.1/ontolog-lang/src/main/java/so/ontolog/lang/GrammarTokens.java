@@ -63,6 +63,7 @@ public interface GrammarTokens {
 	String VAR_DECL			= "VAR_DECL";
 	String ARG_DECL			= "ARG_DECL";
 	String FUNC_DECL		= "FUNC_DECL";
+	String FUNC_REF 		= "FUNC_REF";
 	String PARAM_DECL		= "PARAM_DECL";
 	String PARAM_DECL_STMT	= "PARAM_DECL_STMT";
 	
