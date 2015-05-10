@@ -12,30 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata;
-
-import so.ontolog.data.common.FieldMap;
-import so.ontolog.data.util.StringArraySet;
+package so.ontolog.lang.ast;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-@SuppressWarnings("rawtypes")
-public class BeanMetadata extends FieldMap<BeanProperty>{
-	private static final long serialVersionUID = 8012712582777493688L;
+public interface ASTHandler {
 
-	public BeanMetadata(String[] strArray) {
-		super(strArray, BeanProperty.class);
-	}
+	ASTNode create(String token);
 	
-	public BeanMetadata(String[] strArray, BeanProperty[] fields) {
-		super(strArray, fields);
-	}
-
-	public BeanMetadata(StringArraySet keySet, BeanProperty[] fields) {
-		super(keySet, fields);
-	}
-
+	ASTNode create(String token, ASTNode ... args);
 }

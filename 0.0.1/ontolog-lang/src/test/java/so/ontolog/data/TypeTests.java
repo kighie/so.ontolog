@@ -12,30 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata;
+package so.ontolog.data;
 
-import so.ontolog.data.common.FieldMap;
-import so.ontolog.data.util.StringArraySet;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Test;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-@SuppressWarnings("rawtypes")
-public class BeanMetadata extends FieldMap<BeanProperty>{
-	private static final long serialVersionUID = 8012712582777493688L;
+public class TypeTests {
 
-	public BeanMetadata(String[] strArray) {
-		super(strArray, BeanProperty.class);
+	@Test
+	public void test(){
+		Map<String,String> map = new HashMap<String, String>();
+		Class<?> mapClz = map.getClass();
+		ParameterizedType type = (ParameterizedType)mapClz.getGenericSuperclass();
+		
+		Type[] types = type.getActualTypeArguments();
+		
+		for(Type t : types){
+			TypeVariable tv = (TypeVariable)t;
+			System.out.println(Arrays.toString(tv.getBounds()));
+		}
 	}
-	
-	public BeanMetadata(String[] strArray, BeanProperty[] fields) {
-		super(strArray, fields);
-	}
-
-	public BeanMetadata(StringArraySet keySet, BeanProperty[] fields) {
-		super(keySet, fields);
-	}
-
 }

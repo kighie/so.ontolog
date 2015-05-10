@@ -37,6 +37,7 @@ public enum TypeKind {
 	Array,
 	Collection,
 	Map,
+	Record,
 	Object,
 	Undefined;
 	
