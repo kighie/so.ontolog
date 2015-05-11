@@ -14,7 +14,7 @@
  */
 package so.ontolog.lang.runtime.wrapper;
 
-import so.ontolog.lang.GrammarTokens;
+
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -47,10 +47,6 @@ public class MethodCallGettable<T> implements Gettable<T> {
 		return type;
 	}
 	
-	@Override
-	public String token() {
-		return GrammarTokens.METHOD_CALL;
-	}
 
 
 	@SuppressWarnings("unchecked")

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.util;
+package so.ontolog.lang.ast;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
@@ -22,24 +22,24 @@ import org.antlr.v4.runtime.misc.Interval;
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class SourceLocationUtils {
+public class SourcePositionUtils {
 	
-	public static SourceLocation createSourceLocation(Token token){
-		SimpleSourceLocation loc = new SimpleSourceLocation(token.getLine(), token.getCharPositionInLine(), 
+	public static SourcePosition create(Token token){
+		SimpleSourcePosition loc = new SimpleSourcePosition(token.getLine(), token.getCharPositionInLine(), 
 				token.getStartIndex(), token.getStopIndex());
 		loc.setText(token.getText());
 		loc.setText(token.getInputStream().getText(new Interval(token.getStartIndex() - token.getCharPositionInLine(), token.getStopIndex())));
 		return loc;
 	}
 
-	public static SourceLocation createSourceLocation(int line, int charPositionInLine, 
+	public static SourcePosition create(int line, int charPositionInLine, 
 			int startIndex, int endIndex){
-		SimpleSourceLocation loc = new SimpleSourceLocation(line, charPositionInLine, startIndex, endIndex);
+		SimpleSourcePosition loc = new SimpleSourcePosition(line, charPositionInLine, startIndex, endIndex);
 		return loc;
 	}
 
-	public static SourceLocation createSourceLocation(int line, int charPositionInLine){
-		SimpleSourceLocation loc = new SimpleSourceLocation(line, charPositionInLine);
+	public static SourcePosition create(int line, int charPositionInLine){
+		SimpleSourcePosition loc = new SimpleSourcePosition(line, charPositionInLine);
 		return loc;
 	}
 	

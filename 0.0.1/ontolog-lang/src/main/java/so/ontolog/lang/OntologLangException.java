@@ -14,8 +14,8 @@
  */
 package so.ontolog.lang;
 
-import so.ontolog.lang.util.SourceLocation;
-import so.ontolog.lang.util.SourceLocationUtils;
+import so.ontolog.lang.ast.SourcePosition;
+import so.ontolog.lang.ast.SourcePositionUtils;
 
 /**
  * 
@@ -27,7 +27,7 @@ import so.ontolog.lang.util.SourceLocationUtils;
 public class OntologLangException extends RuntimeException {
 	private static final long serialVersionUID = 704251867847845399L;
 
-	protected SourceLocation sourceLocation;
+	protected SourcePosition sourceLocation;
 	
 	public OntologLangException(String message, Throwable cause) {
 		super(message, cause);
@@ -46,7 +46,7 @@ public class OntologLangException extends RuntimeException {
 	 * @param token
 	 * @return this object
 	 */
-	public OntologLangException setLocation(SourceLocation token) {
+	public OntologLangException setLocation(SourcePosition token) {
 		this.sourceLocation = token;
 		return this;
 	}
@@ -58,7 +58,7 @@ public class OntologLangException extends RuntimeException {
 	 * @return this object
 	 */
 	public OntologLangException setLocation(int line, int charPositionInLine) {
-		this.sourceLocation = SourceLocationUtils.createSourceLocation(line, charPositionInLine);
+		this.sourceLocation = SourcePositionUtils.create(line, charPositionInLine);
 		return this;
 	}
 
@@ -72,11 +72,11 @@ public class OntologLangException extends RuntimeException {
 	 */
 	public OntologLangException setLocation(int line, int charPositionInLine, 
 			int startIndex, int endIndex) {
-		this.sourceLocation = SourceLocationUtils.createSourceLocation(line, charPositionInLine, startIndex, endIndex);
+		this.sourceLocation = SourcePositionUtils.create(line, charPositionInLine, startIndex, endIndex);
 		return this;
 	}
 
-	public SourceLocation getLocation() {
+	public SourcePosition getLocation() {
 		return sourceLocation;
 	}
 	

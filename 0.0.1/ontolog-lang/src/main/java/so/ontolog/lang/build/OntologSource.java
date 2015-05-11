@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 
-import so.ontolog.lang.util.SourceLocation;
+import so.ontolog.lang.ast.SourcePosition;
 
 
 /**
@@ -68,7 +68,7 @@ public class OntologSource {
 		return sourceString;
 	}
 	
-	public String getText(SourceLocation location){
+	public String getText(SourcePosition location){
 		return sourceString.substring(location.getStartIndex(), location.getEndIndex());
 	}
 	/**

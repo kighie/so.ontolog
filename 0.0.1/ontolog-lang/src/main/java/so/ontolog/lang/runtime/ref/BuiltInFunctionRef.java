@@ -14,7 +14,6 @@
  */
 package so.ontolog.lang.runtime.ref;
 
-import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.Gettable;
@@ -37,11 +36,6 @@ public class BuiltInFunctionRef extends GenericRef implements Gettable<Function>
 		this.function = function;
 	}
 
-	@Override
-	public String token() {
-		return GrammarTokens.FUNC_REF;
-	}
-	
 	@Override
 	public Class<? extends Function> type() {
 		return Function.class;

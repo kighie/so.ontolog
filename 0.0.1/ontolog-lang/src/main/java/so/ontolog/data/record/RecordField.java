@@ -15,7 +15,7 @@
 package so.ontolog.data.record;
 
 import so.ontolog.data.common.AbstractField;
-import so.ontolog.data.type.TypeKind;
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 
 public class RecordField extends AbstractField {
@@ -32,16 +32,16 @@ public class RecordField extends AbstractField {
 		super(name, type);
 	}
 
-	public RecordField(String name , Class<?> type, TypeKind fieldType) {
-		super(name, type, fieldType);
+	public RecordField(String name , TypeSpec typeSpec) {
+		super(name, typeSpec);
 	}
 
 	public RecordField(String name , Class<?> type, int length) {
-		this(name, type, length, TypeUtils.getTypeKind(type));
+		this(name, TypeUtils.getTypeSpec(type), length);
 	}
 
-	public RecordField(String name , Class<?> type, int length, TypeKind fieldType) {
-		super(name, type, fieldType);
+	public RecordField(String name , TypeSpec typeSpec, int length) {
+		super(name, typeSpec);
 		this.length = length;
 	}
 
@@ -73,18 +73,18 @@ public class RecordField extends AbstractField {
 	 * @return
 	 */
 	public boolean checkType(Object value){
-		if(value == null || type == null){
+		if(value == null || typeSpec == null){
 			return true;
 		}
 		
-		return type.isAssignableFrom(value.getClass());
+		return typeSpec.isAssignableFrom(value.getClass());
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
-		if(type != null){
-			buf.append(type.getName()).append(" ");
+		if(typeSpec != null){
+			buf.append(typeSpec.getName()).append(" ");
 			
 			if(length > UNDEFINED_LENGTH){
 				buf.append("(").append(length).append(") ");

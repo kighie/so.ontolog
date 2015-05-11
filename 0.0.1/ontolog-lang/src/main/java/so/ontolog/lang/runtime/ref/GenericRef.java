@@ -14,7 +14,6 @@
  */
 package so.ontolog.lang.runtime.ref;
 
-import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Ref;
 
@@ -42,13 +41,8 @@ public abstract class GenericRef implements Ref {
 	}
 	
 	@Override
-	public String token() {
-		return GrammarTokens.REF;
-	}
-	
-	@Override
 	public String toString() {
-		return "{" + token() + ":" + qname + "}";
+		return "{Ref:" + qname + "}";
 	}
 	
 }

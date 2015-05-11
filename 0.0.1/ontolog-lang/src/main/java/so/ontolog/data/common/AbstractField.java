@@ -15,6 +15,7 @@
 package so.ontolog.data.common;
 
 import so.ontolog.data.type.TypeKind;
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 
 /**
@@ -26,19 +27,17 @@ public abstract class AbstractField implements Field {
 
 	private static final long serialVersionUID = -3899071010486688214L;
 	
-	protected final Class<?> type;
+	protected final TypeSpec typeSpec;
 	protected final String name;
-	protected final TypeKind typeKind;
 	
 	
 	public AbstractField(String name , Class<?> type) {
-		this(name, type, TypeUtils.getTypeKind(type));
+		this(name, TypeUtils.getTypeSpec(type));
 	}
 
-	public AbstractField(String name , Class<?> type, TypeKind typeKind) {
-		this.type = type;
+	public AbstractField(String name , TypeSpec typeSpec) {
+		this.typeSpec = typeSpec;
 		this.name = name;
-		this.typeKind = typeKind;
 	}
 
 	@Override
@@ -47,12 +46,18 @@ public abstract class AbstractField implements Field {
 	}
 
 	public Class<?> type() {
-		return type;
+		return typeSpec.getBaseType();
 	}
 
 	@Override
 	public TypeKind typeKind() {
-		return typeKind;
+		return typeSpec.getTypeKind();
 	}
 
+	/**
+	 * @return the typeSpec
+	 */
+	public TypeSpec typeSpec() {
+		return typeSpec;
+	}
 }

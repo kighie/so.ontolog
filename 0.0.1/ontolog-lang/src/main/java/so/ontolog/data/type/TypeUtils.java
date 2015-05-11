@@ -76,6 +76,50 @@ public final class TypeUtils {
 		simpleTypeMap.put(HashMap.class, TypeKind.Map);
 	}
 	
+	private static final Map<Class<?>, TypeSpec> typeSpecMap;
+	
+	static {
+		typeSpecMap = new HashMap<Class<?>, TypeSpec>(41);	
+		
+		typeSpecMap.put(Boolean.class, TypeSpec.BOOLEAN);
+		typeSpecMap.put(Boolean.TYPE, TypeSpec.BOOLEAN_PRIM);
+		typeSpecMap.put(Byte.class, TypeSpec.BYTE);
+		typeSpecMap.put(Byte.TYPE, TypeSpec.BYTE_PRIM);
+		typeSpecMap.put(String.class, TypeSpec.STRING);
+		typeSpecMap.put(Character.class, TypeSpec.CHAR);
+		typeSpecMap.put(Character.TYPE, TypeSpec.CHAR_PRIM);
+		typeSpecMap.put(Double.class, TypeSpec.DOUBLE);
+		typeSpecMap.put(Double.TYPE, TypeSpec.DOUBLE_PRIM);
+		typeSpecMap.put(Float.class, TypeSpec.FLOAT);
+		typeSpecMap.put(Float.TYPE, TypeSpec.FLOAT_PRIM);
+		typeSpecMap.put(Integer.class, TypeSpec.INTEGER);
+		typeSpecMap.put(Integer.TYPE, TypeSpec.INTEGER_PRIM);
+		typeSpecMap.put(Long.class, TypeSpec.LONG);
+		typeSpecMap.put(Long.TYPE, TypeSpec.LONG_PRIM);
+		typeSpecMap.put(Short.class, TypeSpec.SHORT);
+		typeSpecMap.put(Short.TYPE, TypeSpec.SHORT_PRIM);
+		typeSpecMap.put(BigDecimal.class, TypeSpec.DECIMAL);
+		typeSpecMap.put(BigInteger.class, TypeSpec.BIG_INTEGER);
+		typeSpecMap.put(BigInt.class, TypeSpec.BIGINT);
+		typeSpecMap.put(Int.class, TypeSpec.INT);
+		typeSpecMap.put(Real.class, TypeSpec.REAL);
+
+		typeSpecMap.put(Date.class, TypeSpec.DATE);
+		typeSpecMap.put(java.sql.Date.class, TypeSpec.DATE_SQL);
+		typeSpecMap.put(java.sql.Time.class, TypeSpec.TIME);
+		typeSpecMap.put(java.sql.Timestamp.class, TypeSpec.TIMESTAMP);
+		
+
+		typeSpecMap.put(Set.class, TypeSpec.SET);
+		typeSpecMap.put(Collection.class, TypeSpec.COLLECTION);
+		typeSpecMap.put(List.class, TypeSpec.LIST);
+		typeSpecMap.put(ArrayList.class, new TypeSpec(ArrayList.class, TypeKind.Collection) );
+		typeSpecMap.put(LinkedList.class, new TypeSpec(LinkedList.class, TypeKind.Collection) );
+
+		typeSpecMap.put(Map.class, TypeSpec.MAP);
+		typeSpecMap.put(HashMap.class, new TypeSpec(HashMap.class, TypeKind.Map));
+	}
+	
 	
 	public static TypeKind getTypeKind(Class<?> type){
 		TypeKind kind = simpleTypeMap.get(type);
@@ -97,6 +141,29 @@ public final class TypeUtils {
 	}
 	
 
+	public static TypeSpec getTypeSpec(Class<?> type){
+		TypeSpec spec = typeSpecMap.get(type);
+		
+		if(spec == null){
+			TypeKind kind = getTypeKind(type);
+			
+			if(kind == TypeKind.Array){
+				TypeSpec compType = getTypeSpec(type.getComponentType());
+				spec = new TypeSpec(type, kind, compType);
+				if(compType.getTypeKind() != TypeKind.Object){
+					typeSpecMap.put(type, spec);
+				}
+			} else {
+				spec = new TypeSpec(type, kind);
+				
+				if(kind != TypeKind.Object){
+					typeSpecMap.put(type, spec);
+				}
+			}
+		}
+		return spec;
+	}
+	
 	public static Class<?> getElementType(Object bean){
 		return bean.getClass().getComponentType();
 	}

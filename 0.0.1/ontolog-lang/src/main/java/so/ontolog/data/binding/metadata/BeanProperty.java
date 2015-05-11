@@ -20,7 +20,7 @@ import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.common.AbstractField;
-import so.ontolog.data.type.TypeKind;
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 
 /**
@@ -42,11 +42,11 @@ public class BeanProperty<T> extends AbstractField{
 	}
 
 	public BeanProperty(String name, Class<T> type, Converter<T> converter) {
-		this(name, type, TypeUtils.getTypeKind(type), converter);
+		this(name, TypeUtils.getTypeSpec(type), converter);
 	}
 
-	public BeanProperty(String name, Class<T> type, TypeKind typeKind, Converter<T> converter) {
-		super(name, type, typeKind);
+	public BeanProperty(String name, TypeSpec typeSpec, Converter<T> converter) {
+		super(name, typeSpec);
 		this.converter = converter;
 		initDefault();
 	}
@@ -54,8 +54,8 @@ public class BeanProperty<T> extends AbstractField{
 	
 	@SuppressWarnings("incomplete-switch")
 	protected void initDefault(){
-		if(type.isPrimitive()) {
-			switch(typeKind){
+		if(typeSpec.isPrimitive()) {
+			switch(typeSpec.getTypeKind()){
 			case Number : 
 			case Text :  defaultValue = converter.convert(0); break;
 			case Bool :  defaultValue = converter.convert(false); break;

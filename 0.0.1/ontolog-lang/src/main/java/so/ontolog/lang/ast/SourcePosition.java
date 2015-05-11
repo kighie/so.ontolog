@@ -15,14 +15,20 @@
 package so.ontolog.lang.ast;
 
 /**
- * <pre></pre>
- * @author Ikchan Kwon
- *
+ * <pre>
+ * Interface of all source location indicator class
+ * </pre>
+ * @author kighie@gmail.com
+ * @since 1.0
  */
-public interface ASTFunction<T> extends ASTGettable<T>, ASTBlock{
+public interface SourcePosition {
+	int getLine();
 	
-	String name();
+	int getCharPositionInLine();
 	
-	Class<?>[] argTypes();
+	int getStartIndex();
 	
+	int getEndIndex();
+	
+	String getText();
 }

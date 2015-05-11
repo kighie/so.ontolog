@@ -50,11 +50,6 @@ public class BinaryOperatorGettable<T, O1, O2> implements Gettable<T> {
 	}
 	
 	@Override
-	public String token() {
-		return operator.token();
-	}
-	
-	@Override
 	public T get(Context context) {
 		try {
 			return operator.eval(operand1.get(context), operand2.get(context));

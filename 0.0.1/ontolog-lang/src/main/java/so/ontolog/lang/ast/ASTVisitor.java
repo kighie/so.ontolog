@@ -14,13 +14,11 @@
  */
 package so.ontolog.lang.ast;
 
-
 /**
- * @author kighie@gmail.com
+ * <pre></pre>
+ * @author Ikchan Kwon
  *
  */
-public interface ASTLiteral<T> extends ASTNode, ASTGettable<T>{
-	
-	public T getValue();
-	
+public interface ASTVisitor {
+
 }

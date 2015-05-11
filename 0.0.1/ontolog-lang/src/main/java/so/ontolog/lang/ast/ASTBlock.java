@@ -14,14 +14,52 @@
  */
 package so.ontolog.lang.ast;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
- * 
- * @author IkChan Kwon
- * @date 2012. 10. 11.
- * @since	1.0
+ * <pre></pre>
+ * @author Ikchan Kwon
+ *
  */
-public interface ASTBlock extends ASTNode {
+public abstract class ASTBlock extends ASTNode {
+	private static final long serialVersionUID = -379295710765793638L;
+
+	@SuppressWarnings("unchecked")
+	protected final List<ASTStatement> EMPTY_STATEMENT = Collections.EMPTY_LIST;
 	
-	void append(ASTStatement node);
+	protected List<ASTStatement> children;
+	
+	
+	public boolean append(ASTStatement e) {
+		if(children == null){
+			children = new LinkedList<ASTStatement>();
+		}
+		return children.add(e);
+	}
+	
+	@Override
+	public List<ASTStatement> children() {
+		if(children == null){
+			return EMPTY_STATEMENT;
+		}
+		return children;
+	}
+
+	@Override
+	public <C> C accept(ASTVisitor visitor, C context) {
+		return acceptChildren(visitor, context);
+	}
+	
+	protected <C> C acceptChildren(ASTVisitor visitor, C context) {
+		if(children != null){
+			for(ASTNode c : children){
+				c.accept(visitor, context);
+			}
+		}
+		return context;
+	}
+
 	
 }

@@ -15,39 +15,55 @@
 package so.ontolog.lang.ast;
 
 import java.io.Serializable;
-
-import so.ontolog.lang.GrammarTokens;
-import so.ontolog.lang.util.SourceLocation;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * <pre>
- * Common interface of all ASTNode classes.
- * </pre>
- * @author kighie@gmail.com
+ * <pre></pre>
+ * @author Ikchan Kwon
  *
  */
-public interface ASTNode extends Serializable {
+public abstract class ASTNode implements Serializable {
+	private static final long serialVersionUID = -2448547060134876394L;
+	
+	@SuppressWarnings("unchecked")
+	protected final List<? extends ASTNode> EMPTY_CHILDREN = Collections.EMPTY_LIST;
+	
+	protected SourcePosition position;
+	
 	/**
-	 * Returns full expression string of this node 
+	 * @return this node's position
+	 */
+	public SourcePosition getPosition(){
+		return position;
+	}
+
+	/**
+	 * set this node's location
+	 * @param position
+	 * @return this node
+	 */
+	public ASTNode setPosition(SourcePosition position){
+		this.position = position;
+		return this;
+	}
+	
+	/**
+	 * <pre></pre>
+	 * @param visitor
+	 * @param context
 	 * @return
 	 */
-	String getExpression();
-	
+	public abstract <C> C accept(ASTVisitor visitor, C context);
+
 	/**
 	 * @return this node's grammar token
 	 * @see GrammarTokens
 	 */
-	String getToken();
+	public abstract String getToken();
 	
-	/**
-	 * @return this node's location
-	 */
-	SourceLocation getLocation();
-
-	/**
-	 * set this node's location
-	 * @param location
-	 * @return this node
-	 */
-	ASTNode setLocation(SourceLocation location);
+	
+	public List<? extends ASTNode> children(){
+		return EMPTY_CHILDREN;
+	}
 }

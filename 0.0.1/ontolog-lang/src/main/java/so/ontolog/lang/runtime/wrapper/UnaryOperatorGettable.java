@@ -37,11 +37,6 @@ public class UnaryOperatorGettable<T, O1> implements Gettable<T>{
 	}
 
 	@Override
-	public String token() {
-		return operator.token();
-	}
-	
-	@Override
 	public Class<? extends T> type() {
 		return operator.type();
 	}

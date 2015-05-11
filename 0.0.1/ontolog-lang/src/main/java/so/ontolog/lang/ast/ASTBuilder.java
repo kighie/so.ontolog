@@ -19,9 +19,7 @@ package so.ontolog.lang.ast;
  * @author Ikchan Kwon
  *
  */
-public interface ASTHandler {
+public interface ASTBuilder {
 
-	ASTNode create(String token);
 	
-	ASTNode create(String token, ASTNode ... args);
 }

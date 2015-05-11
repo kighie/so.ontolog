@@ -1,4 +1,4 @@
-/* ******************************************************************************
+/* 
  * Copyright (c) 2012 IkChan Kwon kighie@gmail.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,12 @@
 package so.ontolog.lang.ast;
 
 /**
- * 
- * @author kighie
- * @since	1.0
- * @param <T>
+ * <pre></pre>
+ * @author Ikchan Kwon
+ *
  */
-public interface ASTStatement extends ASTNode {
+public abstract class ASTStatement extends ASTNode {
 
-//	void eval(Context context);
+	private static final long serialVersionUID = 7123673043495834373L;
 	
 }

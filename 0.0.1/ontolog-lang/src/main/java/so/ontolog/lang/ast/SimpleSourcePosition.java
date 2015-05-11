@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.util;
+package so.ontolog.lang.ast;
 
 
 /**
@@ -20,7 +20,7 @@ package so.ontolog.lang.util;
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class SimpleSourceLocation implements SourceLocation {
+public class SimpleSourcePosition implements SourcePosition {
 	private int line;
 	private int charPositionInLine;
 	private int startIndex;
@@ -34,7 +34,7 @@ public class SimpleSourceLocation implements SourceLocation {
 	 * @param startIndex
 	 * @param endIndex
 	 */
-	public SimpleSourceLocation(int line, int charPositionInLine, int startIndex,
+	public SimpleSourcePosition(int line, int charPositionInLine, int startIndex,
 			int endIndex) {
 		super();
 		this.line = line;
@@ -48,7 +48,7 @@ public class SimpleSourceLocation implements SourceLocation {
 	 * @param line
 	 * @param charPositionInLine
 	 */
-	public SimpleSourceLocation(int line, int charPositionInLine) {
+	public SimpleSourcePosition(int line, int charPositionInLine) {
 		this(charPositionInLine, charPositionInLine, -1, -1);
 	}
 

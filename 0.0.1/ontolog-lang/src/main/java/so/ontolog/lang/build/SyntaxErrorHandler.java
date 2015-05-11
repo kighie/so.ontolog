@@ -14,7 +14,7 @@
  */
 package so.ontolog.lang.build;
 
-import so.ontolog.lang.util.SourceLocation;
+import so.ontolog.lang.ast.SourcePosition;
 
 /**
  * <pre></pre>
@@ -22,5 +22,5 @@ import so.ontolog.lang.util.SourceLocation;
  *
  */
 public interface SyntaxErrorHandler {
-	void syntaxError( String message, Object offendingSymbol, SourceLocation location, Exception cause); 
+	void syntaxError( String message, Object offendingSymbol, SourcePosition location, Exception cause); 
 }

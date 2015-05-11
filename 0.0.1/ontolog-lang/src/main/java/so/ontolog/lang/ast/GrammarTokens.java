@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang;
+package so.ontolog.lang.ast;
 
 /**
  * <pre></pre>
@@ -20,6 +20,7 @@ package so.ontolog.lang;
  * @since 1.0
  */
 public interface GrammarTokens {
+	
 	String LIT_NUMBER 		= "LIT_NUMBER";
 	String LIT_BOOLEAN 		= "LIT_BOOLEAN";
 	String LIT_DATE 		= "LIT_DATE";

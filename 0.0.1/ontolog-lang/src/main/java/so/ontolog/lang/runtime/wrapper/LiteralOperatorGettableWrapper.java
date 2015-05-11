@@ -52,11 +52,6 @@ public class LiteralOperatorGettableWrapper<T> implements Literal<T> {
 	}
 	
 	@Override
-	public String token() {
-		return original.token();
-	}
-	
-	@Override
 	public T getValue() {
 		return value;
 	}

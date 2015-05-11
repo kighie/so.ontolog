@@ -14,7 +14,6 @@
  */
 package so.ontolog.lang.runtime.ref;
 
-import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -42,11 +41,6 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 	@Override
 	public Class<? extends T> type() {
 		return type;
-	}
-	
-	@Override
-	public String token() {
-		return GrammarTokens.VAR;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -87,11 +81,6 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		 */
 		public ArgDeclRef(Class<? extends T> type, QName qname) {
 			super(type,qname);
-		}
-		
-		@Override
-		public String token() {
-			return GrammarTokens.ARG_DECL;
 		}
 	}
 }

@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Literal;
 
@@ -79,12 +78,6 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		public String toString() {
 			return "'" + value + "'";
 		}
-
-		@Override
-		public String token() {
-			return GrammarTokens.LIT_STRING;
-		}
-		
 	}
 	
 
@@ -144,11 +137,6 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 
 		@Override
-		public String token() {
-			return GrammarTokens.LIT_NUMBER;
-		}
-		
-		@Override
 		public Class<BigDecimal> type() {
 			return BigDecimal.class;
 		}
@@ -176,12 +164,6 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		public Class<Boolean> type() {
 			return Boolean.class;
 		}
-
-		@Override
-		public String token() {
-			return GrammarTokens.LIT_BOOLEAN;
-		}
-		
 	}
 
 	/**
@@ -204,11 +186,6 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 			super(formatter.parse(value));
 		}
 
-		@Override
-		public String token() {
-			return GrammarTokens.LIT_DATE;
-		}
-		
 		@Override
 		public Class<Date> type() {
 			return Date.class;

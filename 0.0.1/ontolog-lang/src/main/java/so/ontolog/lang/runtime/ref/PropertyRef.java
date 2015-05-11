@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import so.ontolog.data.binding.metadata.BeanProperty;
-import so.ontolog.lang.GrammarTokens;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -146,11 +145,6 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		}
 
 		@Override
-		public String token() {
-			return GrammarTokens.ARRAY_EL;
-		}
-		
-		@Override
 		public T get(Context context) {
 			T[] array = getParent(context);
 			Number index = indexer.get(context);
@@ -199,11 +193,6 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 			super(type, parentQname, parent, indexer);
 		}
 
-		@Override
-		public String token() {
-			return GrammarTokens.ARRAY_EL;
-		}
-		
 		@Override
 		public T get(Context context) {
 			List<T> list = getParent(context);
