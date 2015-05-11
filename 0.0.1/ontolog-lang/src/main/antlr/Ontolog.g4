@@ -30,7 +30,6 @@ options {
 	import so.ontolog.lang.runtime.*;
 	import so.ontolog.lang.ast.*;
 	import so.ontolog.lang.build.*;
-	import so.ontolog.lang.util.*;
 }
 
 

@@ -7,7 +7,6 @@ package so.ontolog.lang.antlr;
 	import so.ontolog.lang.runtime.*;
 	import so.ontolog.lang.ast.*;
 	import so.ontolog.lang.build.*;
-	import so.ontolog.lang.util.*;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
