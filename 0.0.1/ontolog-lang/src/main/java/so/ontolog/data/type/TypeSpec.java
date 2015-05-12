@@ -30,7 +30,17 @@ import java.util.Set;
  */
 public class TypeSpec implements Serializable {
 	private static final long serialVersionUID = -2981246612944358912L;
-
+	
+	/**
+	 * <pre>
+	 * Markup class of undefined Type
+	 * </pre>
+	 * @author Ikchan Kwon
+	 *
+	 */
+	public static final class Undefined implements Serializable {
+		private static final long serialVersionUID = 6989212413512268013L;
+	}
 
 	public static final TypeSpec BOOLEAN = new TypeSpec(Boolean.class, TypeKind.Bool);
 	public static final TypeSpec BOOLEAN_PRIM = new TypeSpec(Boolean.TYPE, TypeKind.Bool);
@@ -67,6 +77,9 @@ public class TypeSpec implements Serializable {
 	public static final TypeSpec LIST = new TypeSpec(List.class, TypeKind.Collection);
 
 	public static final TypeSpec MAP = new TypeSpec(Map.class, TypeKind.Map);
+
+	public static final TypeSpec UNDEFINED = new TypeSpec(Undefined.class, TypeKind.Undefined);
+	
 	
 	private Class<?> baseType;
 	private TypeKind typeKind;

@@ -14,28 +14,37 @@
  */
 package so.ontolog.lang.ast;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.expr.BinaryExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
-
+import so.ontolog.lang.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTVisitor {
+public interface ASTFactory {
 
-	<C> C visit(UnaryExpr unaryExpr, C context);
-
-	<C> C visit(BinaryExpr binaryExpr, C context);
+	TypeSpec createType(String expr);
 	
-	<C> C visit(TernaryExpr ternaryExpr, C context);
+	TypeSpec createType(QName qname);
 
-	<C> C visit(VariableExpr variableExpr, C context);
+	QName createQName(String name);
 	
-	<C> C visit(LiteralExpr variableExpr, C context);
+	QName createQName(QName parent, String name);
+	
+	UnaryExpr createUnary(ASTToken token, ASTExpression expr);
+
+	BinaryExpr createBinary(ASTToken token, ASTExpression left, ASTExpression right);
+	
+	TernaryExpr createTernary(ASTToken token, ASTExpression expr1, ASTExpression expr2, ASTExpression expr3);
+
+	VariableExpr createVariable(ASTToken token, QName qname);
+	
+	LiteralExpr createLiteral(ASTToken token, String expr);
 	
 }

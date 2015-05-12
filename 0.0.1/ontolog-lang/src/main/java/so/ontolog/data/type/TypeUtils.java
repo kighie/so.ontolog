@@ -122,6 +122,9 @@ public final class TypeUtils {
 	
 	
 	public static TypeKind getTypeKind(Class<?> type){
+		if(type == null){
+			return TypeKind.Undefined;
+		}
 		TypeKind kind = simpleTypeMap.get(type);
 		
 		if(kind == null){
@@ -142,6 +145,10 @@ public final class TypeUtils {
 	
 
 	public static TypeSpec getTypeSpec(Class<?> type){
+		if(type == null){
+			return TypeSpec.UNDEFINED;
+		}
+		
 		TypeSpec spec = typeSpecMap.get(type);
 		
 		if(spec == null){

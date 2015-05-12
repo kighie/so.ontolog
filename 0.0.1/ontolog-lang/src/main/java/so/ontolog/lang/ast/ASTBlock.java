@@ -23,7 +23,7 @@ import java.util.List;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTBlock extends ASTNode {
+public abstract class ASTBlock extends ASTStatement {
 	private static final long serialVersionUID = -379295710765793638L;
 
 	@SuppressWarnings("unchecked")
@@ -32,6 +32,10 @@ public abstract class ASTBlock extends ASTNode {
 	protected List<ASTStatement> children;
 	
 	
+	public ASTBlock(ASTToken position) {
+		super(position);
+	}
+
 	public boolean append(ASTStatement e) {
 		if(children == null){
 			children = new LinkedList<ASTStatement>();

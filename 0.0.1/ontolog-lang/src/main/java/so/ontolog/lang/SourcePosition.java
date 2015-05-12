@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang;
 
 /**
  * <pre>
@@ -30,5 +30,5 @@ public interface SourcePosition {
 	
 	int getEndIndex();
 	
-	String getText();
+	String getToken();
 }

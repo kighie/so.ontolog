@@ -29,13 +29,17 @@ public abstract class ASTNode implements Serializable {
 	@SuppressWarnings("unchecked")
 	protected final List<? extends ASTNode> EMPTY_CHILDREN = Collections.EMPTY_LIST;
 	
-	protected SourcePosition position;
+	protected ASTToken token;
 	
+	public ASTNode(ASTToken token) {
+		this.token = token;
+	}
+
 	/**
 	 * @return this node's position
 	 */
-	public SourcePosition getPosition(){
-		return position;
+	public ASTToken getToken(){
+		return token;
 	}
 
 	/**
@@ -43,8 +47,8 @@ public abstract class ASTNode implements Serializable {
 	 * @param position
 	 * @return this node
 	 */
-	public ASTNode setPosition(SourcePosition position){
-		this.position = position;
+	public ASTNode setToken(ASTToken token){
+		this.token = token;
 		return this;
 	}
 	
@@ -55,13 +59,6 @@ public abstract class ASTNode implements Serializable {
 	 * @return
 	 */
 	public abstract <C> C accept(ASTVisitor visitor, C context);
-
-	/**
-	 * @return this node's grammar token
-	 * @see GrammarTokens
-	 */
-	public abstract String getToken();
-	
 	
 	public List<? extends ASTNode> children(){
 		return EMPTY_CHILDREN;

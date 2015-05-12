@@ -14,8 +14,6 @@
  */
 package so.ontolog.lang;
 
-import so.ontolog.lang.ast.SourcePosition;
-import so.ontolog.lang.ast.SourcePositionUtils;
 
 /**
  * 
@@ -50,32 +48,7 @@ public class OntologLangException extends RuntimeException {
 		this.sourceLocation = token;
 		return this;
 	}
-
-	/**
-	 * <pre></pre>
-	 * @param line
-	 * @param charPositionInLine
-	 * @return this object
-	 */
-	public OntologLangException setLocation(int line, int charPositionInLine) {
-		this.sourceLocation = SourcePositionUtils.create(line, charPositionInLine);
-		return this;
-	}
-
-	/**
-	 * <pre></pre>
-	 * @param line
-	 * @param charPositionInLine
-	 * @param startIndex
-	 * @param endIndex
-	 * @return this object
-	 */
-	public OntologLangException setLocation(int line, int charPositionInLine, 
-			int startIndex, int endIndex) {
-		this.sourceLocation = SourcePositionUtils.create(line, charPositionInLine, startIndex, endIndex);
-		return this;
-	}
-
+	
 	public SourcePosition getLocation() {
 		return sourceLocation;
 	}

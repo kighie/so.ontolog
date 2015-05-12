@@ -14,28 +14,39 @@
  */
 package so.ontolog.lang.ast;
 
-import so.ontolog.lang.ast.expr.BinaryExpr;
-import so.ontolog.lang.ast.expr.LiteralExpr;
-import so.ontolog.lang.ast.expr.TernaryExpr;
-import so.ontolog.lang.ast.expr.UnaryExpr;
-import so.ontolog.lang.ast.expr.VariableExpr;
-
+import so.ontolog.data.type.TypeSpec;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTVisitor {
+public abstract class ASTExpression extends ASTNode {
+	private static final long serialVersionUID = 874891282549239854L;
 
-	<C> C visit(UnaryExpr unaryExpr, C context);
+	protected TypeSpec typeSpec;
+	
 
-	<C> C visit(BinaryExpr binaryExpr, C context);
-	
-	<C> C visit(TernaryExpr ternaryExpr, C context);
+	public ASTExpression(ASTToken token) {
+		super(token);
+	}
 
-	<C> C visit(VariableExpr variableExpr, C context);
+	public ASTExpression(ASTToken token, TypeSpec typeSpec) {
+		super(token);
+		this.typeSpec = typeSpec;
+	}
 	
-	<C> C visit(LiteralExpr variableExpr, C context);
+	/**
+	 * @param typeSpec the typeSpec to set
+	 */
+	public void setTypeSpec(TypeSpec typeSpec) {
+		this.typeSpec = typeSpec;
+	}
 	
+	/**
+	 * @return the typeSpec
+	 */
+	public TypeSpec getTypeSpec() {
+		return typeSpec;
+	}
 }

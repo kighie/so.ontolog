@@ -14,7 +14,7 @@
  */
 package so.ontolog.lang.build;
 
-import so.ontolog.lang.ast.SourcePosition;
+import so.ontolog.lang.SourcePosition;
 
 /**
  * <pre></pre>

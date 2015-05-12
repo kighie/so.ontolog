@@ -22,5 +22,9 @@ package so.ontolog.lang.ast;
 public abstract class ASTStatement extends ASTNode {
 
 	private static final long serialVersionUID = 7123673043495834373L;
+
+	public ASTStatement(ASTToken position) {
+		super(position);
+	}
 	
 }

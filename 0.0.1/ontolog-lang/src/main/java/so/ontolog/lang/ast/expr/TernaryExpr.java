@@ -1,0 +1,73 @@
+/* 
+ * Copyright (c) 2012 IkChan Kwon kighie@gmail.com
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package so.ontolog.lang.ast.expr;
+
+import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.ASTVisitor;
+
+/**
+ * <pre></pre>
+ * @author Ikchan Kwon
+ *
+ */
+public class TernaryExpr extends ASTExpression {
+
+	private static final long serialVersionUID = -5755226002106875177L;
+	protected ASTExpression expr1;
+	protected ASTExpression expr2;
+	protected ASTExpression expr3;
+
+	public TernaryExpr(ASTToken token, ASTExpression expr1,
+			ASTExpression expr2, ASTExpression expr3) {
+		super(token);
+		this.expr1 = expr1;
+		this.expr2 = expr2;
+		this.expr3 = expr3;
+	}
+
+	public TernaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpression expr1,
+			ASTExpression expr2, ASTExpression expr3) {
+		super(token, typeSpec);
+		this.expr1 = expr1;
+		this.expr2 = expr2;
+		this.expr3 = expr3;
+	}
+
+	/**
+	 * @return the left
+	 */
+	public ASTExpression getExpr1() {
+		return expr1;
+	}
+	
+	/**
+	 * @return the right
+	 */
+	public ASTExpression getExpr2() {
+		return expr2;
+	}
+	
+	public ASTExpression getExpr3() {
+		return expr3;
+	}
+
+	@Override
+	public <C> C accept(ASTVisitor visitor, C context) {
+		return visitor.visit(this, context);
+	}
+
+}

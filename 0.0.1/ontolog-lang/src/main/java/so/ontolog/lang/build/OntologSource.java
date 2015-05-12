@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 
-import so.ontolog.lang.ast.SourcePosition;
+import so.ontolog.lang.SourcePosition;
 
 
 /**

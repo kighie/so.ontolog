@@ -14,29 +14,39 @@
  */
 package so.ontolog.lang.ast;
 
+import so.ontolog.lang.SourcePosition;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
- * @since 1.0
+ * @author Ikchan Kwon
+ *
  */
-public class SimpleSourcePosition implements SourcePosition {
+public class ASTToken implements SourcePosition {
+	private String token;
 	private int line;
 	private int charPositionInLine;
 	private int startIndex;
 	private int endIndex;
-	private String text;
 	
 	
+	public ASTToken(String token, int line, int charPositionInLine,
+			int startIndex, int endIndex) {
+		this.token = token;
+		this.line = line;
+		this.charPositionInLine = charPositionInLine;
+		this.startIndex = startIndex;
+		this.endIndex = endIndex;
+	}
+
+
 	/**
 	 * @param line
 	 * @param charPositionInLine
 	 * @param startIndex
 	 * @param endIndex
 	 */
-	public SimpleSourcePosition(int line, int charPositionInLine, int startIndex,
+	public ASTToken(int line, int charPositionInLine, int startIndex,
 			int endIndex) {
-		super();
 		this.line = line;
 		this.charPositionInLine = charPositionInLine;
 		this.startIndex = startIndex;
@@ -48,7 +58,7 @@ public class SimpleSourcePosition implements SourcePosition {
 	 * @param line
 	 * @param charPositionInLine
 	 */
-	public SimpleSourcePosition(int line, int charPositionInLine) {
+	public ASTToken(int line, int charPositionInLine) {
 		this(charPositionInLine, charPositionInLine, -1, -1);
 	}
 
@@ -78,14 +88,14 @@ public class SimpleSourcePosition implements SourcePosition {
 		this.endIndex = endIndex;
 	}
 	
-	public void setText(String text) {
-		this.text = text;
+	public void setToken(String text) {
+		this.token = text;
 	}
 
 
 	@Override
-	public String getText() {
-		return text;
+	public String getToken() {
+		return token;
 	}
 	
 	@Override
@@ -97,8 +107,8 @@ public class SimpleSourcePosition implements SourcePosition {
 		buf.append(startIndex).append(":").append(endIndex);
 		buf.append("]");
 		
-		if(text !=null){
-			buf.append(" ").append(text);
+		if(token !=null){
+			buf.append(" ").append(token);
 		}
 		return buf.toString();
 	}

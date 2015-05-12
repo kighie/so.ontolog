@@ -12,14 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.ast.expr;
+
+import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.ASTVisitor;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTBuilder {
+public class LiteralExpr extends ASTExpression {
 
+	private static final long serialVersionUID = -6538997135514749338L;
+
+	protected final String expr;
 	
+	public LiteralExpr(ASTToken token, TypeSpec typeSpec, String expr) {
+		super(token, typeSpec);
+		this.expr = expr;
+	}
+	
+	/**
+	 * @return the expr
+	 */
+	public String getExpr() {
+		return expr;
+	}
+	
+	@Override
+	public <C> C accept(ASTVisitor visitor, C context) {
+		return visitor.visit(this, context);
+	}
+
 }
