@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -171,8 +172,55 @@ public final class TypeUtils {
 		return spec;
 	}
 	
-	public static Class<?> getElementType(Object bean){
-		return bean.getClass().getComponentType();
+
+	public static TypeSpec forName(String className){
+		try {
+			return getTypeSpec(Class.forName(className));
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
+
+	public static TypeSpec forName(ClassLoader loader , String className){
+		try {
+			return getTypeSpec(loader.loadClass(className));
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+
+	private static final Set<Class<?>> fpSet;
+	
+	static {
+		fpSet = new HashSet<Class<?>>(10);	
+		
+		fpSet.add(Double.class);
+		fpSet.add(Double.TYPE);
+		fpSet.add(Float.class);
+		fpSet.add(Float.TYPE);
+		fpSet.add(BigDecimal.class);
+		fpSet.add(Real.class);
+	}
+	
+	public static boolean hasFloatinPoint(Class<?> type){
+		return fpSet.contains(type);
+	}
+	
+
+	private static final Set<Class<?>> longSet;
+	
+	static {
+		longSet = new HashSet<Class<?>>(10);	
+		
+		longSet.add(Long.class);
+		longSet.add(Long.TYPE);
+		longSet.add(BigInt.class);
+		longSet.add(BigInteger.class);
+	}
+	
+	public static boolean isLong(Class<?> type){
+		return longSet.contains(type);
+	}
 }

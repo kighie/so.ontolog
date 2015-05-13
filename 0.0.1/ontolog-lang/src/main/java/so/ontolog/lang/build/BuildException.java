@@ -15,7 +15,7 @@
 package so.ontolog.lang.build;
 
 import so.ontolog.lang.OntologLangException;
-import so.ontolog.lang.runtime.Node;
+import so.ontolog.lang.ast.ASTNode;
 
 /**
  * <pre></pre>
@@ -26,7 +26,7 @@ public class BuildException extends OntologLangException {
 
 	private static final long serialVersionUID = -2856099805781611531L;
 
-	private Node node;
+	private ASTNode node;
 	
 	public BuildException(String message, Throwable cause) {
 		super(message, cause);
@@ -40,7 +40,7 @@ public class BuildException extends OntologLangException {
 		super(cause);
 	}
 
-	public BuildException setNode(Node node){
+	public BuildException setNode(ASTNode node){
 		this.node = node;
 		return this;
 	}
@@ -48,7 +48,7 @@ public class BuildException extends OntologLangException {
 	/**
 	 * @return the node
 	 */
-	public Node getNode() {
+	public ASTNode getNode() {
 		return node;
 	}
 }

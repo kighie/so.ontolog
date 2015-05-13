@@ -15,6 +15,7 @@
 package so.ontolog.lang.build;
 
 import so.ontolog.lang.runtime.Function;
+import so.ontolog.lang.runtime.Ref;
 
 /**
  * 
@@ -26,16 +27,9 @@ public interface BuildContext {
 	
 	BuildContext getParent() ;
 
-	void registerLocalFn(String name, Function<?> fn);
+	Function<?> getFunction(String fnName);
 	
-	Function<?> getLocalFn(String name);
-
-	Function<?> getBuiltInFunction(String name);
-
+	void register(Function<?> fn);
 	
-//	void registerRef(QName qname, ASTRef ref);
-//	ASTRef getRef(QName qname);
-//
-//	Iterable<Entry<QName, ASTRef>> references();
-
+	void register(Ref ref);
 }

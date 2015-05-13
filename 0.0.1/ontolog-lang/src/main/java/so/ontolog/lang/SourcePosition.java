@@ -30,5 +30,5 @@ public interface SourcePosition {
 	
 	int getEndIndex();
 	
-	String getToken();
+	String getName();
 }

@@ -15,7 +15,7 @@
 package so.ontolog.lang.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 
@@ -24,18 +24,18 @@ import so.ontolog.lang.ast.ASTVisitor;
  * @author Ikchan Kwon
  *
  */
-public class UnaryExpr extends ASTExpression {
+public class UnaryExpr extends ASTExpr {
 
 	private static final long serialVersionUID = -3046445070714553198L;
-	protected ASTExpression expr;
-	protected ASTExpression right;
+	protected ASTExpr expr;
+	protected ASTExpr right;
 
-	public UnaryExpr(ASTToken token, ASTExpression expr) {
+	public UnaryExpr(ASTToken token, ASTExpr expr) {
 		super(token);
 		this.expr = expr;
 	}
 
-	public UnaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpression expr) {
+	public UnaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr) {
 		super(token, typeSpec);
 		this.expr = expr;
 	}
@@ -43,7 +43,7 @@ public class UnaryExpr extends ASTExpression {
 	/**
 	 * @return the left
 	 */
-	public ASTExpression getExpr() {
+	public ASTExpr getExpr() {
 		return expr;
 	}
 	

@@ -94,7 +94,7 @@ public class ASTToken implements SourcePosition {
 
 
 	@Override
-	public String getToken() {
+	public String getName() {
 		return token;
 	}
 	

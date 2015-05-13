@@ -12,42 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.type;
+package so.ontolog.lang.ast;
+
+import so.ontolog.lang.SourcePosition;
 
 /**
- * <pre>
- * Kinds of field value type. 
- * </pre>
+ * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public enum TypeKind {
-	/** Simple value type : Number */
-	Number, 
-	/** Simple value type : String, CharSequence, char */
-	Text, 
-	/** Simple value type : boolean */
-	Bool,
-	/** Simple value type : Date */
-	Date,
-	/** Simple value type : byte */
-	Byte,
-	/** Enumeration type */
-	Enum,
-	Array,
-	Collection,
-	Map,
-	Record,
-	Table,
-	Object,
-	Void,
-	Undefined;
-	
-	boolean isScalar(TypeKind kind){
-		return ( kind == Number 
-				|| kind == Text 
-				|| kind==Bool 
-				|| kind==Date 
-				|| kind==Byte);
-	}
+public interface SyntaxErrorHandler {
+	void syntaxError( String message, Object offendingSymbol, SourcePosition location, Exception cause); 
 }

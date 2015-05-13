@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import so.ontolog.data.record.Record;
+import so.ontolog.data.table.Table;
+
 /**
  * <pre></pre>
  * @author Ikchan Kwon
@@ -77,6 +80,8 @@ public class TypeSpec implements Serializable {
 	public static final TypeSpec LIST = new TypeSpec(List.class, TypeKind.Collection);
 
 	public static final TypeSpec MAP = new TypeSpec(Map.class, TypeKind.Map);
+	public static final TypeSpec RECORD = new TypeSpec(Record.class, TypeKind.Record);
+	public static final TypeSpec TABLE = new TypeSpec(Table.class, TypeKind.Table);
 
 	public static final TypeSpec UNDEFINED = new TypeSpec(Undefined.class, TypeKind.Undefined);
 	

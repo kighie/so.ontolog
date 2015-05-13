@@ -15,7 +15,7 @@
 package so.ontolog.lang.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.runtime.QName;
@@ -25,7 +25,7 @@ import so.ontolog.lang.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class VariableExpr extends ASTExpression {
+public class VariableExpr extends ASTExpr {
 
 	private static final long serialVersionUID = 1892405954432146025L;
 

@@ -43,6 +43,7 @@ public interface GrammarTokens {
 	String OP_EQ_GT	 		= "OP_EQ_GT";
 	String OP_LT 			= "OP_LT";
 	String OP_GT	 		= "OP_GT";
+	String OP_TERNARY	 	= "OP_TERNARY";
 	String IDENT 			= "IDENT";
 	String REF				= "REF";
 	String METHOD_CALL		= "METHOD_CALL";

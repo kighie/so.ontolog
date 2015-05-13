@@ -37,14 +37,51 @@ public interface ASTFactory {
 	
 	QName createQName(QName parent, String name);
 	
-	UnaryExpr createUnary(ASTToken token, ASTExpression expr);
+	UnaryExpr createUnary(ASTToken token, ASTExpr expr);
 
-	BinaryExpr createBinary(ASTToken token, ASTExpression left, ASTExpression right);
+	BinaryExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right);
 	
-	TernaryExpr createTernary(ASTToken token, ASTExpression expr1, ASTExpression expr2, ASTExpression expr3);
+	TernaryExpr createTernary(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
 
 	VariableExpr createVariable(ASTToken token, QName qname);
 	
 	LiteralExpr createLiteral(ASTToken token, String expr);
+	
+	
+
+	/**
+	 *
+	 */
+	public interface UnaryExprFactory {
+		UnaryExpr create(ASTToken token, ASTExpr expr);
+	}
+
+	/**
+	 *
+	 */
+	public interface BinaryExprFactory {
+		BinaryExpr create(ASTToken token, ASTExpr left, ASTExpr right);
+	}
+
+	/**
+	 *
+	 */
+	public interface TernaryExprFactory {
+		TernaryExpr create(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
+	}
+
+	/**
+	 *
+	 */
+	public interface VariableExprFactory {
+		VariableExpr create(ASTToken token, QName qname);
+	}
+
+	/**
+	 *
+	 */
+	public interface LiteralExprFactory {
+		LiteralExpr create(ASTToken token, String expr);
+	}
 	
 }

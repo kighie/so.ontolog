@@ -12,42 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.type;
+package so.ontolog.lang.build;
+
+import so.ontolog.lang.runtime.Node;
 
 /**
- * <pre>
- * Kinds of field value type. 
- * </pre>
+ * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public enum TypeKind {
-	/** Simple value type : Number */
-	Number, 
-	/** Simple value type : String, CharSequence, char */
-	Text, 
-	/** Simple value type : boolean */
-	Bool,
-	/** Simple value type : Date */
-	Date,
-	/** Simple value type : byte */
-	Byte,
-	/** Enumeration type */
-	Enum,
-	Array,
-	Collection,
-	Map,
-	Record,
-	Table,
-	Object,
-	Void,
-	Undefined;
+public interface OntologBuilder {
 	
-	boolean isScalar(TypeKind kind){
-		return ( kind == Number 
-				|| kind == Text 
-				|| kind==Bool 
-				|| kind==Date 
-				|| kind==Byte);
-	}
+	BuildContext createBuildContext();
+
+	Node buildExpr(String expression);
+
+	Node build(String expression);
+
+	Node build(OntologSource source);
+
+	Node build(OntologSource source, BuildContext rootContext);
+	
 }

@@ -15,7 +15,7 @@
 package so.ontolog.lang.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 
@@ -24,23 +24,23 @@ import so.ontolog.lang.ast.ASTVisitor;
  * @author Ikchan Kwon
  *
  */
-public class TernaryExpr extends ASTExpression {
+public class TernaryExpr extends ASTExpr {
 
 	private static final long serialVersionUID = -5755226002106875177L;
-	protected ASTExpression expr1;
-	protected ASTExpression expr2;
-	protected ASTExpression expr3;
+	protected ASTExpr expr1;
+	protected ASTExpr expr2;
+	protected ASTExpr expr3;
 
-	public TernaryExpr(ASTToken token, ASTExpression expr1,
-			ASTExpression expr2, ASTExpression expr3) {
+	public TernaryExpr(ASTToken token, ASTExpr expr1,
+			ASTExpr expr2, ASTExpr expr3) {
 		super(token);
 		this.expr1 = expr1;
 		this.expr2 = expr2;
 		this.expr3 = expr3;
 	}
 
-	public TernaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpression expr1,
-			ASTExpression expr2, ASTExpression expr3) {
+	public TernaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr1,
+			ASTExpr expr2, ASTExpr expr3) {
 		super(token, typeSpec);
 		this.expr1 = expr1;
 		this.expr2 = expr2;
@@ -50,18 +50,18 @@ public class TernaryExpr extends ASTExpression {
 	/**
 	 * @return the left
 	 */
-	public ASTExpression getExpr1() {
+	public ASTExpr getExpr1() {
 		return expr1;
 	}
 	
 	/**
 	 * @return the right
 	 */
-	public ASTExpression getExpr2() {
+	public ASTExpr getExpr2() {
 		return expr2;
 	}
 	
-	public ASTExpression getExpr3() {
+	public ASTExpr getExpr3() {
 		return expr3;
 	}
 

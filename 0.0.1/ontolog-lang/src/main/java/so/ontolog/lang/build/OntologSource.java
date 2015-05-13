@@ -86,7 +86,7 @@ public class OntologSource {
 			reader = new FileReader(file);
 			return newSource(sourcePath, reader);
 		} catch (FileNotFoundException e) {
-			throw new BuildException("Cannot find Fomula source file [" + file + "]" , e);
+			throw new BuildException("Cannot find Ontolog source file [" + file + "]" , e);
 		} finally {
 			try {
 				if(reader != null) { reader.close(); }
@@ -109,7 +109,7 @@ public class OntologSource {
 				writer.write('\n');
 			}
 		} catch (IOException e) {
-			throw new BuildException("Load Fomula source stream [" + sourcePath + "]" , e);
+			throw new BuildException("Load Ontolog source stream [" + sourcePath + "]" , e);
 		} finally {
 			try {
 				reader.close();
@@ -129,7 +129,7 @@ public class OntologSource {
 			reader = new InputStreamReader(stream, encoding);
 			return newSource(sourcePath, reader);
 		} catch (IOException e) {
-			throw new BuildException("Cannot find Fomula source stream [" + sourcePath + "]" , e);
+			throw new BuildException("Cannot find Ontolog source stream [" + sourcePath + "]" , e);
 		} finally {
 			try {
 				if(stream != null) { stream.close(); }

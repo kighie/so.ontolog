@@ -15,7 +15,7 @@
 package so.ontolog.lang.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTExpression;
+import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 
@@ -24,27 +24,23 @@ import so.ontolog.lang.ast.ASTVisitor;
  * @author Ikchan Kwon
  *
  */
-public class BinaryExpr extends ASTExpression {
+public class BinaryExpr extends ASTExpr {
 
 	private static final long serialVersionUID = -1178295662888508086L;
-	protected ASTExpression left;
-	protected ASTExpression right;
+	protected ASTExpr left;
+	protected ASTExpr right;
 
-	/**
-	 * @param position
-	 * @param typeSpec
-	 */
-	public BinaryExpr(ASTToken token, ASTExpression left, ASTExpression right) {
-		super(token);
-		this.left = left;
-		this.right = right;
-	}
+//	/**
+//	 * @param position
+//	 * @param typeSpec
+//	 */
+//	public BinaryExpr(ASTToken token, ASTExpr left, ASTExpr right) {
+//		super(token);
+//		this.left = left;
+//		this.right = right;
+//	}
 
-	/**
-	 * @param position
-	 * @param typeSpec
-	 */
-	public BinaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpression left, ASTExpression right) {
+	public BinaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr left, ASTExpr right) {
 		super(token, typeSpec);
 		this.left = left;
 		this.right = right;
@@ -53,14 +49,14 @@ public class BinaryExpr extends ASTExpression {
 	/**
 	 * @return the left
 	 */
-	public ASTExpression getLeft() {
+	public ASTExpr getLeft() {
 		return left;
 	}
 	
 	/**
 	 * @return the right
 	 */
-	public ASTExpression getRight() {
+	public ASTExpr getRight() {
 		return right;
 	}
 	

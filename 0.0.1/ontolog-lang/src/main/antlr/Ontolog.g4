@@ -33,14 +33,138 @@ options {
 }
 
 
-ontologExpression returns [Node result]
+ontologExpression returns [ASTNode result]
 	: 
-	( '=' '(' * ')' )
-	| ( '=' *  )
+	( '=' '(' expression ')' { $result = $expression.result ; } )
+	| ( '=' expression { $result = $expression.result ; } )
 	;
 
 
+expression returns [ASTExpr result]
+	: 
+	(
+	operatorExpression { $result = $operatorExpression.result ; }
+//	| funcCallExp { $result =  $funcCallExp.result ; }
+//	| methodCallExp { $result =  $methodCallExp.result ; }
+	) 
+	;
 
+
+literalTerm  returns [ASTExpr result]
+	: BOOLEAN 			{ $result = literal( LIT_BOOLEAN, $BOOLEAN.text); }
+	| STRING_LITERAL	{ $result = literal( LIT_STRING,  strip($STRING_LITERAL.text)); }
+	| NUMBER			{ $result = literal( LIT_NUMBER, $NUMBER.text); }
+	| NULL				{ $result = literal( LIT_NULL, null); }
+	;
+
+
+qualifiedName returns [QName result]
+	: IDENT 	{ $result = qname( $IDENT.text); }
+	('.' IDENT	{ $result = qname( $result, $IDENT.text); } )* 
+	;
+
+
+formulaTerm returns [ASTExpr result]
+	: literalTerm 		{ $result = $literalTerm.result; }
+	| IDENT				{ $result = variable( $IDENT.text); }
+	| qualifiedName		{ $result = variable( $qualifiedName.result) ; }
+	;
+
+
+// Operations
+unary  returns [ASTExpr result]
+	:  { boolean negative = false; }
+		( '-' { negative = true; } )? ( 
+		formulaTerm { $result = $formulaTerm.result;  }
+		| '(' operatorExpression ')' { $result = $operatorExpression.result;  }
+		) 
+		{ 
+			if(negative){
+				$result = unary(OP_NUM_NEGATION, $result );
+			} 
+		}
+	;
+
+percent  returns [ASTExpr result]
+	:	unary 	{ $result = $unary.result;  }
+    	('%' {$result = unary(OP_PERCENT, $result); } )?
+    ;
+
+    
+exponential returns [ASTExpr result]
+    :	percent 	{ $result = $percent.result;  }
+    	(
+    		'^'		op2 = percent  	{$result = binary(OP_POW, $result, $op2.result); }
+    	)*
+    ;
+    
+multiplicative returns [ASTExpr result]
+    :	exponential 	{ $result = $exponential.result;  }
+    	(
+    		'*' 		op2 = exponential 	{$result = binary(OP_MULTI, $result, $op2.result); }
+    		| '/' 		op2 = exponential  	{$result = binary(OP_DIVIDE, $result, $op2.result); }
+    	)*
+    ;
+    
+additiveExpression returns [ASTExpr result]
+    :   multiplicative { $result = $multiplicative.result;  }
+    ( 
+    	'+' 	op2 = multiplicative	{$result = binary(OP_PLUS, $result, $op2.result); }
+    	| '-' 	op2 = multiplicative	{$result = binary(OP_MINUS, $result, $op2.result); }
+    )*
+    ;
+    
+/*
+	Logical Expression
+*/
+comparison returns [ASTExpr result]
+	: additiveExpression  { $result = $additiveExpression.result;  }
+	( 
+		'='  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
+		|'is'  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
+		|'!=' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'<>' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'is' 'not' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'>'  op2 = additiveExpression {$result = binary(OP_GT, $result, $op2.result); }
+		|'>=' op2 = additiveExpression {$result = binary(OP_EQ_GT, $result, $op2.result); }
+		|'<'  op2 = additiveExpression {$result = binary(OP_LT, $result, $op2.result); }
+		|'<=' op2 = additiveExpression {$result = binary(OP_EQ_LT, $result, $op2.result); }
+	)*
+	;
+	
+notExpression returns [ASTExpr result]
+	: 
+	(
+		comparison { $result = $comparison.result;  }
+		| 'not' comparison {$result = unary(OP_NOT, $comparison.result); }
+		
+	)
+	;
+	
+logicalExpression returns [ASTExpr result]
+	: notExpression { $result = $notExpression.result;  }
+	( 
+		'and' 	op2 = operatorExpression {$result = binary(OP_AND, $result, $op2.result); }
+		|'or' 	op2 = operatorExpression {$result = binary(OP_OR, $result, $op2.result); }
+		
+	)*
+	;
+    
+ternaryExpression returns [ASTExpr result]
+	: logicalExpression { $result = $logicalExpression.result;  }
+	(
+		'?'
+		( op2 = operatorExpression  )
+		':'
+		( op3 = operatorExpression )
+		{$result = ternary(OP_TERNARY, $result, $op2.result, $op3.result); }
+	)
+	;
+    
+operatorExpression returns [ASTExpr result]
+	: logicalExpression { $result = $logicalExpression.result;  }
+	;
+    
 
 
 /* *********************************************

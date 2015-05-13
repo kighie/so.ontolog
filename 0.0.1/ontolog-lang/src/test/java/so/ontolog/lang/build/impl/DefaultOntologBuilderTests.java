@@ -12,41 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.build.impl;
 
-import so.ontolog.data.type.TypeSpec;
+import org.junit.Test;
+
+import so.ontolog.lang.ast.ASTNode;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTExpression extends ASTNode {
-	private static final long serialVersionUID = 874891282549239854L;
+public class DefaultOntologBuilderTests {
 
-	protected TypeSpec typeSpec;
+	private DefaultOntologBuilder builder = new DefaultOntologBuilder();
 	
-
-	public ASTExpression(ASTToken token) {
-		super(token);
-	}
-
-	public ASTExpression(ASTToken token, TypeSpec typeSpec) {
-		super(token);
-		this.typeSpec = typeSpec;
-	}
 	
-	/**
-	 * @param typeSpec the typeSpec to set
-	 */
-	public void setTypeSpec(TypeSpec typeSpec) {
-		this.typeSpec = typeSpec;
-	}
-	
-	/**
-	 * @return the typeSpec
-	 */
-	public TypeSpec getTypeSpec() {
-		return typeSpec;
+	@Test
+	public void buildAST(){
+		
+		ASTNode ast = builder.buildExprAST("=3*4.5/(3+5) - 1.3");
+		
+		System.out.println(ast);
 	}
 }
