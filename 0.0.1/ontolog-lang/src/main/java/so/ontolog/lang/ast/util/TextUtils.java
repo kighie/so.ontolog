@@ -12,44 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
-
-import so.ontolog.lang.OntologLangException;
-import so.ontolog.lang.ast.ASTNode;
+package so.ontolog.lang.ast.util;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class BuildException extends OntologLangException {
+public class TextUtils {
 
-	private static final long serialVersionUID = -2856099805781611531L;
 
-	private ASTNode node;
-	
-	public BuildException(String message, Throwable cause) {
-		super(message, cause);
-	}
+	private static String[] INDENTS = new String[]{"", "\t", "\t\t", "\t\t\t", "\t\t\t\t", "\t\t\t\t\t", "\t\t\t\t\t\t", 
+		"\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t\t\t"};
 
-	public BuildException(String message) {
-		super(message);
-	}
-
-	public BuildException(Throwable cause) {
-		super(cause);
-	}
-
-	public BuildException setNode(ASTNode node){
-		this.node = node;
-		setLocation(node.getToken());
-		return this;
-	}
-	
-	/**
-	 * @return the node
-	 */
-	public ASTNode getNode() {
-		return node;
+	public static String getIndent(int depth){
+		return INDENTS[depth];
 	}
 }

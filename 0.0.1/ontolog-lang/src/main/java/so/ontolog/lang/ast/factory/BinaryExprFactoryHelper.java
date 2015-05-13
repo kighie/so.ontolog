@@ -80,7 +80,7 @@ public class BinaryExprFactoryHelper {
 			if(leftTypeKind!=TypeKind.Bool){
 				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(left);
 			}
-			if(rightTypeKind!=TypeKind.Number){
+			if(rightTypeKind!=TypeKind.Bool){
 				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(right);
 			}
 			

@@ -63,4 +63,13 @@ public abstract class ASTNode implements Serializable {
 	public List<? extends ASTNode> children(){
 		return EMPTY_CHILDREN;
 	}
+
+	public abstract void getText(StringBuilder buffer, int depth);
+
+	public String getText(){
+		StringBuilder buffer = new StringBuilder();
+		getText(buffer, 0);
+		return buffer.toString();
+	}
+	
 }

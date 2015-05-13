@@ -18,6 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.util.TextUtils;
 
 /**
  * <pre></pre>
@@ -46,5 +47,17 @@ public class LiteralExpr extends ASTExpr {
 	public <C> C accept(ASTVisitor visitor, C context) {
 		return visitor.visit(this, context);
 	}
-
+	
+	@Override
+	public String toString() {
+		return "(" + token.getName() + " " + expr + ")";
+	}
+	
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append("(").append(token.getName()).append(" ").append(expr).append(")");
+	}
 }

@@ -18,6 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.util.TextUtils;
 
 /**
  * <pre></pre>
@@ -31,13 +32,13 @@ public class TernaryExpr extends ASTExpr {
 	protected ASTExpr expr2;
 	protected ASTExpr expr3;
 
-	public TernaryExpr(ASTToken token, ASTExpr expr1,
-			ASTExpr expr2, ASTExpr expr3) {
-		super(token);
-		this.expr1 = expr1;
-		this.expr2 = expr2;
-		this.expr3 = expr3;
-	}
+//	public TernaryExpr(ASTToken token, ASTExpr expr1,
+//			ASTExpr expr2, ASTExpr expr3) {
+//		super(token);
+//		this.expr1 = expr1;
+//		this.expr2 = expr2;
+//		this.expr3 = expr3;
+//	}
 
 	public TernaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr1,
 			ASTExpr expr2, ASTExpr expr3) {
@@ -69,5 +70,19 @@ public class TernaryExpr extends ASTExpr {
 	public <C> C accept(ASTVisitor visitor, C context) {
 		return visitor.visit(this, context);
 	}
-
+	
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append("(");
+		buffer.append(token.getName()).append(" ");
+		expr1.getText(buffer, depth+1);
+		buffer.append(",");
+		expr2.getText(buffer, depth+1);
+		buffer.append(",");
+		expr3.getText(buffer, depth+1);
+		buffer.append(")");
+	}
 }

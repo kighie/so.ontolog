@@ -18,6 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.util.TextUtils;
 
 /**
  * <pre></pre>
@@ -30,10 +31,10 @@ public class UnaryExpr extends ASTExpr {
 	protected ASTExpr expr;
 	protected ASTExpr right;
 
-	public UnaryExpr(ASTToken token, ASTExpr expr) {
-		super(token);
-		this.expr = expr;
-	}
+//	public UnaryExpr(ASTToken token, ASTExpr expr) {
+//		super(token);
+//		this.expr = expr;
+//	}
 
 	public UnaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr) {
 		super(token, typeSpec);
@@ -52,4 +53,23 @@ public class UnaryExpr extends ASTExpr {
 		return visitor.visit(this, context);
 	}
 
+	@Override
+	public String toString() {
+		return "(" + token.getName() + " " + expr + ")";
+	}
+	
+
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		
+		buffer.append("(").append(token.getName()).append(" ");
+		expr.getText(buffer, depth+1);
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append(")");
+	}
 }

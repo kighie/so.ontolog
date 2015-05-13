@@ -18,6 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.util.TextUtils;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -32,7 +33,7 @@ public class VariableExpr extends ASTExpr {
 	protected final QName qname;
 	
 	public VariableExpr(ASTToken token, QName qname) {
-		super(token);
+		super(token, TypeSpec.UNDEFINED);
 		this.qname = qname;
 	}
 
@@ -57,4 +58,16 @@ public class VariableExpr extends ASTExpr {
 		return visitor.visit(this, context);
 	}
 
+	@Override
+	public String toString() {
+		return "(" + token.getName() + " " + qname + ")";
+	}
+
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append("(").append(token.getName()).append(" ").append(qname).append(")");
+	}
 }

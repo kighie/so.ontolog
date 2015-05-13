@@ -30,9 +30,11 @@ public class DefaultOntologBuilderTests {
 	
 	@Test
 	public void buildAST(){
-		
 		ASTNode ast = builder.buildExprAST("=3*4.5/(3+5) - 1.3");
-		
-		System.out.println(ast);
+		System.out.println(ast.getText());
+		ASTNode ast2 = builder.buildExprAST("=3*4.5/(3+5) - 1.3 + 'sting'");
+		System.out.println(ast2.getText());
+		ASTNode ast3 = builder.buildExprAST("= not (3*4 < 12) and (12 > 11/2)");
+		System.out.println(ast3.getText());
 	}
 }

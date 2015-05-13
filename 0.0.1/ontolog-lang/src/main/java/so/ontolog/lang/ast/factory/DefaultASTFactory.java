@@ -99,7 +99,7 @@ public class DefaultASTFactory implements ASTFactory {
 				if(expr.getTypeSpec().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Expression " + expr + " cannot be negated." ).setNode(expr);
 				}
-				return new UnaryExpr(token, expr);
+				return new UnaryExpr(token, expr.getTypeSpec(), expr);
 			}
 		});
 
@@ -109,17 +109,7 @@ public class DefaultASTFactory implements ASTFactory {
 				if(expr.getTypeSpec().getTypeKind() != TypeKind.Bool){
 					throw new BuildException("Expression " + expr + " cannot negated logically." ).setNode(expr);
 				}
-				return new UnaryExpr(token, expr);
-			}
-		});
-		
-		map.put(GrammarTokens.OP_NUM_NEGATION, new UnaryExprFactory() {
-			@Override
-			public UnaryExpr create(ASTToken token, ASTExpr expr) {
-				if(expr.getTypeSpec().getTypeKind() != TypeKind.Number){
-					throw new BuildException("Expression " + expr + " cannot be negated." ).setNode(expr);
-				}
-				return new UnaryExpr(token, expr);
+				return new UnaryExpr(token, expr.getTypeSpec(), expr);
 			}
 		});
 		
@@ -129,7 +119,7 @@ public class DefaultASTFactory implements ASTFactory {
 				if(expr.getTypeSpec().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Illegal Expression " + expr + "%" ).setNode(expr);
 				}
-				return new UnaryExpr(token, expr);
+				return new UnaryExpr(token, TypeSpec.REAL, expr);
 			}
 		});
 		return map;

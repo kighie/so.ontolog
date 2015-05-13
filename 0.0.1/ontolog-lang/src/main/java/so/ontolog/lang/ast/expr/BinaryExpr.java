@@ -18,6 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.util.TextUtils;
 
 /**
  * <pre></pre>
@@ -29,16 +30,6 @@ public class BinaryExpr extends ASTExpr {
 	private static final long serialVersionUID = -1178295662888508086L;
 	protected ASTExpr left;
 	protected ASTExpr right;
-
-//	/**
-//	 * @param position
-//	 * @param typeSpec
-//	 */
-//	public BinaryExpr(ASTToken token, ASTExpr left, ASTExpr right) {
-//		super(token);
-//		this.left = left;
-//		this.right = right;
-//	}
 
 	public BinaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr left, ASTExpr right) {
 		super(token, typeSpec);
@@ -64,5 +55,33 @@ public class BinaryExpr extends ASTExpr {
 	public <C> C accept(ASTVisitor visitor, C context) {
 		return visitor.visit(this, context);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("(");
+		buf.append(token.getName()).append(" ");
+		buf.append(left).append(",");
+		buf.append(right);
+		buf.append(")");
+		
+		return buf.toString();
+	}
+	
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append("(");
+		buffer.append(token.getName()).append(" ");
+		left.getText(buffer, depth+1);
+		buffer.append(",");
+		right.getText(buffer, depth+1);
 
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		buffer.append(")");
+	}
 }
