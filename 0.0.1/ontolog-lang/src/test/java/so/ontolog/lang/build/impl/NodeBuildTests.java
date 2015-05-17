@@ -66,9 +66,10 @@ public class NodeBuildTests {
 		SimpleContext context = new SimpleContext();
 		context.setParameter("a", 1);
 		context.setParameter("b", 2);
+		context.setParameter("c", "6");
 		
 		buildAndRunExpr("[param int a as pa; param real b;] =(3*4.5/(3+5) - 1.3)", context);
-
-//		testAst("[param int a as pa; param real b;] =(3*4.5/(pa+5) - b)");
+		buildAndRunExpr("[param int a as pa; param real b;] =(3*4.5/(pa+5) - b)", context);
+		buildAndRunExpr("[param int a as pa; param real b;param text c;] =(3*4.5/(pa+5) - b) + ' : ' + c * 3", context);
 	}
 }

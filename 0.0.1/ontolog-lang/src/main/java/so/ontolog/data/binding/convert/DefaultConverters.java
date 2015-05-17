@@ -23,6 +23,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import so.ontolog.data.type.BigInt;
+import so.ontolog.data.type.Int;
+import so.ontolog.data.type.Real;
 import so.ontolog.data.util.NumberUtils;
 
 /**
@@ -92,9 +95,6 @@ public abstract class DefaultConverters {
 				}
 				BigDecimal bd = new BigDecimal(str);
 				return bd;
-			} else if( value instanceof Number){
-				BigDecimal bd = new BigDecimal(value.toString());
-				return bd;
 			} else if(value instanceof Number){
 				return new BigDecimal(value.toString());
 			} else {
@@ -104,6 +104,101 @@ public abstract class DefaultConverters {
 		}
 		public String toString() {
 			return "Converter<BIG_DECIMAL>";
+		};
+	};
+	
+
+	/**
+	 * @see 
+	 */
+	public static Converter<Int> ONT_INT = new Converter<Int>() {
+		@Override
+		public Int convert(Object value) {
+			if( value == null ){
+				return null;
+			} else if(value instanceof Int){
+				return (Int)value;
+			} else if(value instanceof BigDecimal){
+				return new Int(value.toString());
+			} else if(value instanceof String){
+				String str = ((String) value).trim();
+				if(str.length()==0){
+					return null;
+				}
+				Int bd = new Int(str);
+				return bd;
+			} else if( value instanceof Number){
+				return new Int(value.toString());
+			} else {
+				throw new IllegalArgumentException("Cannot convert type ["  
+						+ value.getClass().getName() + "] to Int.");
+			}
+		}
+		public String toString() {
+			return "Converter<ontolog.Int>";
+		};
+	};
+	
+
+	/**
+	 * @see 
+	 */
+	public static Converter<BigInt> ONT_BIGINT = new Converter<BigInt>() {
+		@Override
+		public BigInt convert(Object value) {
+			if( value == null ){
+				return null;
+			} else if(value instanceof BigInt){
+				return (BigInt)value;
+			} else if(value instanceof BigDecimal){
+				return new BigInt(value.toString());
+			} else if(value instanceof String){
+				String str = ((String) value).trim();
+				if(str.length()==0){
+					return null;
+				}
+				
+				return new BigInt(str);
+			} else if( value instanceof Number){
+				return new BigInt(value.toString());
+			} else {
+				throw new IllegalArgumentException("Cannot convert type ["  
+						+ value.getClass().getName() + "] to BigInt.");
+			}
+		}
+		public String toString() {
+			return "Converter<BigInt>";
+		};
+	};
+
+	/**
+	 * @see 
+	 */
+	public static Converter<Real> REAL = new Converter<Real>() {
+		@Override
+		public Real convert(Object value) {
+			if( value == null ){
+				return null;
+			} else if(value instanceof Real){
+				return (Real)value;
+			} else if(value instanceof BigDecimal){
+				return new Real(value.toString());
+			} else if(value instanceof String){
+				String str = ((String) value).trim();
+				if(str.length()==0){
+					return null;
+				}
+				
+				return new Real(str);
+			} else if( value instanceof Number){
+				return new Real(value.toString());
+			} else {
+				throw new IllegalArgumentException("Cannot convert type ["  
+						+ value.getClass().getName() + "] to Real.");
+			}
+		}
+		public String toString() {
+			return "Converter<Real>";
 		};
 	};
 	
@@ -474,6 +569,9 @@ public abstract class DefaultConverters {
 		convertersMap.put(Float.TYPE, DefaultConverters.PRIM_FLOAT);
 		convertersMap.put(Short.class, DefaultConverters.SHORT);
 		convertersMap.put(Short.TYPE, DefaultConverters.PRIM_SHORT);
+		convertersMap.put(Int.class, DefaultConverters.ONT_INT);
+		convertersMap.put(BigInt.class, DefaultConverters.ONT_BIGINT);
+		convertersMap.put(Real.class, DefaultConverters.REAL);
 		
 		convertersMap = Collections.unmodifiableMap(convertersMap);
 	}

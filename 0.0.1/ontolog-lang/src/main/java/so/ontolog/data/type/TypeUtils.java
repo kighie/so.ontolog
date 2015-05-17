@@ -243,4 +243,12 @@ public final class TypeUtils {
 		return DefaultConverters.getConverter((Class<T>)type.getBaseType());
 	}
 	
+
+	public static Object convert(Object value, TypeSpec to){
+		Converter<?> converter = getConverter(to);
+		if(converter == null){
+			throw new TypeException("Cannot find Converter for " + to);
+		}
+		return converter.convert(value);
+	}
 }

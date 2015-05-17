@@ -32,14 +32,15 @@ public class DefaultParamDeclFactory implements ParamDeclFactory {
 	public ParamDecl create(ASTContext context, ASTToken token,
 			TypeSpec type, String paramName, String alias) {
 		QName qname;
-		
+		QName paramQName = new QName(paramName);
 		if(alias != null){
 			qname = new QName(alias);
 		} else {
-			qname = new QName(paramName);
+			qname = paramQName;
 		}
-		
-		return new ParamDecl(token, qname, type, paramName);
+		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
+		context.registerDecl(paramDecl);
+		return paramDecl;
 	}
 
 }

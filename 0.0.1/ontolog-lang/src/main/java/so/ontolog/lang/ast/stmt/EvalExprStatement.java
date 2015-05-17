@@ -47,6 +47,7 @@ public class EvalExprStatement extends ASTStatement {
 	
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
+		expression.accept(visitor, context);
 		return visitor.visit(this, context);
 	}
 	

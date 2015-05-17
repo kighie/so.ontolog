@@ -38,7 +38,7 @@ public abstract class ASTDeclaration extends ASTNode {
 		return qname;
 	}
 
-	public TypeSpec getTypeSpec() {
+	public TypeSpec getType() {
 		return typeSpec;
 	}
 	

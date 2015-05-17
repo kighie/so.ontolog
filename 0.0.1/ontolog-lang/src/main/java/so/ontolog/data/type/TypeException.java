@@ -12,42 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.data.type;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class CompilationUnit extends ASTBlock {
+public class TypeException extends RuntimeException {
 
-	private static final long serialVersionUID = -3772387129534484495L;
+	private static final long serialVersionUID = -4724215562115441110L;
 
-	protected final ASTContext context;
-	
-	/**
-	 * @param token
-	 */
-	public CompilationUnit(ASTContext context, ASTToken token) {
-		super(token);
-		this.context = context;
+	public TypeException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	/**
-	 * @return the context
-	 */
-	public ASTContext getContext() {
-		return context;
+	public TypeException(String message) {
+		super(message);
 	}
-	
-	@Override
-	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		acceptChildren(visitor, context);
-		visitor.visit(this, context);
-		if(context != null){
-			
-		}
-		return context;
+
+	public TypeException(Throwable cause) {
+		super(cause);
 	}
-	
+
 }

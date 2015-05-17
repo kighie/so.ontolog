@@ -46,7 +46,9 @@ public class DeclarationStatement extends ASTStatement {
 	
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		return visitor.visit(declaration, context);
+		declaration.accept(visitor, context);
+		setNode(declaration.getNode());
+		return context;
 	}
 	
 	@Override

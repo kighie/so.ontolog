@@ -30,14 +30,14 @@ public class ParamDecl extends ASTDeclaration {
 
 	private static final long serialVersionUID = 4702206536943488765L;
 	
-	private String paramName;
+	private QName paramName;
 	
 	/**
 	 * @param token
 	 * @param qname
 	 * @param typeSpec
 	 */
-	public ParamDecl(ASTToken token, QName qname, TypeSpec typeSpec, String paramName) {
+	public ParamDecl(ASTToken token, QName qname, TypeSpec typeSpec, QName paramName) {
 		super(token, qname, typeSpec);
 		this.paramName = paramName;
 	}
@@ -45,14 +45,13 @@ public class ParamDecl extends ASTDeclaration {
 	/**
 	 * @return the paramName
 	 */
-	public String getParamName() {
+	public QName getParamName() {
 		return paramName;
 	}
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this, context);
 	}
 
 	@Override

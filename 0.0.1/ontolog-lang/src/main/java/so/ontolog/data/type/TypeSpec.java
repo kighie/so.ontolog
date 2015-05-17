@@ -165,6 +165,9 @@ public class TypeSpec implements Serializable {
 	public boolean isSubclassOf(TypeSpec other) {
 		return isSubclassOf(other.baseType);
 	}
-
 	
+	@Override
+	public String toString() {
+		return "Type[" + baseType.getName() +"]";
+	}
 }

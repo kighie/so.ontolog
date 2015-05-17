@@ -15,6 +15,8 @@
 package so.ontolog.lang.build.impl;
 
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
@@ -22,9 +24,11 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
+import so.ontolog.lang.ast.ASTStatement;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
+import so.ontolog.lang.ast.decl.ParamDecl;
 import so.ontolog.lang.ast.expr.BinaryExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
@@ -35,9 +39,9 @@ import so.ontolog.lang.build.BuildContext;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.Gettable;
 import so.ontolog.lang.runtime.Literal;
-import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
+import so.ontolog.lang.runtime.Statement;
 import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
 import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
 import so.ontolog.lang.runtime.internal.GenericLiteral.BooleanLiteral;
@@ -45,6 +49,8 @@ import so.ontolog.lang.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.TextLiteral;
 import so.ontolog.lang.runtime.module.ExprModule;
+import so.ontolog.lang.runtime.ref.VariableRef;
+import so.ontolog.lang.runtime.stmt.ParamDeclStmt;
 
 /**
  * <pre></pre>
@@ -53,13 +59,28 @@ import so.ontolog.lang.runtime.module.ExprModule;
  */
 public class BuildVisitor implements ASTVisitor<BuildContext>{
 	
+	private static Logger logger = Logger.getLogger(BuildVisitor.class.getName());
 	
 	@Override
 	public BuildContext visit(CompilationUnit compilationUnit,
 			BuildContext context) {
 		String token = compilationUnit.getToken().getName();
+		
 		if(GrammarTokens.EXPR_MODULE.equals(token)) {
-			context.setModule(new ExprModule());
+			ExprModule module = new ExprModule();
+			
+			for(ASTStatement s : compilationUnit.children() ){
+				if(GrammarTokens.PARAM_DECL.equals( s.getToken().getName()) ){
+					Statement paramDecl = (Statement)s.getNode();
+					module.addParamDef(paramDecl);
+				} else if(GrammarTokens.EVAL_EXPR_STMT.equals( s.getToken().getName())){
+					module.setExpression((Gettable<?>)s.getNode());
+				} else {
+					throw new BuildException("Illegal statment : " + s.getToken().getName()).setNode(s);
+				}
+			}
+			
+			context.setModule(module);
 			return context;
 		}
 		
@@ -107,10 +128,12 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public BuildContext visit(VariableExpr variableExpr, BuildContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		VariableRef<?> varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
+		variableExpr.setNode(varRef);
+		return context;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -139,26 +162,26 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 
 	@Override
 	public BuildContext visit(ASTDeclaration declStmt, BuildContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		String tokenName = declStmt.getToken().getName();
+		
+		if(GrammarTokens.PARAM_DECL.equals(tokenName)){
+			ParamDecl paramDecl = (ParamDecl)declStmt;
+			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.getQname(), paramDecl.getType(), paramDecl.getParamName());
+			declStmt.setNode(stmt);
+		} else {
+			throw new BuildException("Unknown Declaration token : " + tokenName).setNode(declStmt);
+		}
+		
+		return context;
 	}
 
 	@Override
 	public BuildContext visit(EvalExprStatement stmt, BuildContext context) {
-		Module module = context.getModule();
-		
-		if(!(module instanceof ExprModule)){
-			throw new BuildException("EvalExprStatement must be in  ExprModule").setNode(stmt);
-		}
-		
-		ExprModule exprModule = (ExprModule)module;
 		ASTExpr expr = stmt.getExpression();
 		
-		expr.accept(this, context);
-		exprModule.setExpression((Gettable<?>)expr.getNode());
-		
-		System.out.println("EvalExprStatement::" + expr);
-		System.out.println(exprModule);
+		stmt.setNode(expr.getNode());
+
+		logger.log(Level.INFO, "EvalExprStatement::" + expr);
 		return context;
 	}
 
