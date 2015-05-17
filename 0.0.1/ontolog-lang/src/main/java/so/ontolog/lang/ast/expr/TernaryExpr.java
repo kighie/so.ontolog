@@ -67,7 +67,7 @@ public class TernaryExpr extends ASTExpr {
 	}
 
 	@Override
-	public <C> C accept(ASTVisitor visitor, C context) {
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		return visitor.visit(this, context);
 	}
 	

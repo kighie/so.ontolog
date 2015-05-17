@@ -19,17 +19,20 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import so.ontolog.lang.SourcePosition;
 import so.ontolog.lang.antlr.OntologLexer;
 import so.ontolog.lang.antlr.OntologParser;
 import so.ontolog.lang.antlr.OntologParser.OntologExpressionContext;
-import so.ontolog.lang.ast.ASTNode;
+import so.ontolog.lang.ast.ASTFactory;
+import so.ontolog.lang.ast.ASTVisitor;
+import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.SyntaxErrorHandler;
+import so.ontolog.lang.ast.context.RootASTContext;
 import so.ontolog.lang.ast.factory.DefaultASTFactory;
 import so.ontolog.lang.build.BuildContext;
 import so.ontolog.lang.build.OntologBuilder;
 import so.ontolog.lang.build.OntologSource;
-import so.ontolog.lang.runtime.Node;
+import so.ontolog.lang.build.context.RootBuildContext;
+import so.ontolog.lang.runtime.Module;
 
 /**
  * <pre></pre>
@@ -38,69 +41,84 @@ import so.ontolog.lang.runtime.Node;
  */
 public class DefaultOntologBuilder implements OntologBuilder {
 	
-	private DefaultASTFactory factory;
+	private ASTFactory factory;
+	private SyntaxErrorHandler syntaxErrorHandler;
+	private ASTVisitor<BuildContext> visitor = new BuildVisitor();
+	private boolean inited;
 	
 	public DefaultOntologBuilder() {
-		factory = new DefaultASTFactory();
+	}
+
+	public void initialize(){
+		if(!inited){
+			factory = initASTFactory();
+			syntaxErrorHandler = initSyntaxErrorHandler();
+			visitor = initBuildVisitor();
+			inited = true;
+		}
+	}
+	
+	protected ASTFactory initASTFactory(){
+		DefaultASTFactory factory = new DefaultASTFactory();
 		factory.initFactory();
+		return factory;
 	}
-
-	@Override
-	public BuildContext createBuildContext() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	protected SyntaxErrorHandler initSyntaxErrorHandler() {
+		SyntaxErrorHandler syntaxErrorHandler = new DefaultSyntaxErrorHandler();
+		return syntaxErrorHandler;
 	}
-
+	
+	protected ASTVisitor<BuildContext> initBuildVisitor(){
+		return new BuildVisitor();
+	}
+	
+	
 	protected OntologParser createParser(String expression)  {
 		CharStream input = new ANTLRInputStream(expression);
 		OntologLexer lexer = new OntologLexer(input);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		OntologParser parser = new OntologParser(tokenStream);
 		parser.setASTFactory(factory);
-		parser.setSyntaxErrorHandler(new SyntaxErrorHandler() {
-			@Override
-			public void syntaxError(String message, Object offendingSymbol,
-					SourcePosition location, Exception cause) {
-				
-			}
-		});
+		parser.setSyntaxErrorHandler(syntaxErrorHandler);
+		parser.setRootContext(new RootASTContext());
 		return parser;
 	}
 
-//	public ASTNode buildAST(String expression) {
-//		OntologParser parser = createParser(expression);
-//		OntologExpressionContext ctx = parser.ontologExpression();
-//		
-//		return ctx.result;
-//	}
 
-	public ASTNode buildExprAST(String expression) {
+	public CompilationUnit buildExprAST(String expression) {
 		OntologParser parser = createParser(expression);
 		OntologExpressionContext ctx = parser.ontologExpression();
 		
 		return ctx.result;
 	}
-	
-	@Override
-	public Node buildExpr(String expression) {
-		// TODO Auto-generated method stub
-		return null;
+
+	protected Module buildExpr(CompilationUnit ast) {
+		RootBuildContext context = new RootBuildContext(ast);
+		ast.accept(visitor, context);
+		return context.getModule();
 	}
 	
 	@Override
-	public Node build(String expression) {
+	public Module buildExpr(String expression) {
+		CompilationUnit astNode = buildExprAST(expression);
+		return buildExpr(astNode);
+	}
+	
+	@Override
+	public Module build(String expression) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Node build(OntologSource source) {
+	public Module build(OntologSource source) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Node build(OntologSource source, BuildContext rootContext) {
+	public Module build(OntologSource source, BuildContext rootContext) {
 		// TODO Auto-generated method stub
 		return null;
 	}

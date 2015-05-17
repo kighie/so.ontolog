@@ -12,29 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build.impl;
-
-import org.junit.Test;
-
-import so.ontolog.lang.ast.ASTNode;
+package so.ontolog.lang.runtime;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class DefaultOntologBuilderTests {
+public interface Module extends Node {
 
-	private DefaultOntologBuilder builder = new DefaultOntologBuilder();
-	
-	
-	@Test
-	public void buildAST(){
-		ASTNode ast = builder.buildExprAST("=3*4.5/(3+5) - 1.3");
-		System.out.println(ast.getText());
-		ASTNode ast2 = builder.buildExprAST("=3*4.5/(3+5) - 1.3 + 'sting'");
-		System.out.println(ast2.getText());
-		ASTNode ast3 = builder.buildExprAST("= not (3*4 < 12) and (12 > 11/2)");
-		System.out.println(ast3.getText());
-	}
+	Object eval(Context context);
 }

@@ -14,8 +14,7 @@
  */
 package so.ontolog.lang.build;
 
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.Ref;
+import so.ontolog.lang.runtime.Module;
 
 /**
  * 
@@ -27,9 +26,13 @@ public interface BuildContext {
 	
 	BuildContext getParent() ;
 
-	Function<?> getFunction(String fnName);
+	void setModule(Module module);
 	
-	void register(Function<?> fn);
+	Module getModule();
 	
-	void register(Ref ref);
+//	Function<?> getFunction(String fnName);
+//	
+//	void register(Function<?> fn);
+//	
+//	void register(Ref ref);
 }

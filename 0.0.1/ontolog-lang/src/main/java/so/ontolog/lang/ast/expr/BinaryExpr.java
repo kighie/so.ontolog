@@ -14,11 +14,11 @@
  */
 package so.ontolog.lang.ast.expr;
 
-import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.util.TextUtils;
+import so.ontolog.lang.runtime.Operator;
 
 /**
  * <pre></pre>
@@ -30,11 +30,20 @@ public class BinaryExpr extends ASTExpr {
 	private static final long serialVersionUID = -1178295662888508086L;
 	protected ASTExpr left;
 	protected ASTExpr right;
+	protected Operator.Binary<?, ?, ?> operator;
 
-	public BinaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr left, ASTExpr right) {
-		super(token, typeSpec);
+	public BinaryExpr(ASTToken token, Operator.Binary<?, ?, ?> operator, ASTExpr left, ASTExpr right) {
+		super(token, operator.type());
+		this.operator = operator;
 		this.left = left;
 		this.right = right;
+	}
+	
+	/**
+	 * @return the operator
+	 */
+	public Operator.Binary<?, ?, ?> getOperator() {
+		return operator;
 	}
 	
 	/**
@@ -52,7 +61,10 @@ public class BinaryExpr extends ASTExpr {
 	}
 	
 	@Override
-	public <C> C accept(ASTVisitor visitor, C context) {
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
+		left.accept(visitor, context);
+		right.accept(visitor, context);
+		
 		return visitor.visit(this, context);
 	}
 	

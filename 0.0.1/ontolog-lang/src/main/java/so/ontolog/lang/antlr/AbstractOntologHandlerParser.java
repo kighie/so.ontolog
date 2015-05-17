@@ -15,22 +15,26 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTContext;
+import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
+import so.ontolog.lang.ast.ASTStatement;
 import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.SyntaxErrorHandler;
-import so.ontolog.lang.ast.expr.BinaryExpr;
-import so.ontolog.lang.ast.expr.LiteralExpr;
-import so.ontolog.lang.ast.expr.TernaryExpr;
-import so.ontolog.lang.ast.expr.UnaryExpr;
-import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.ast.context.RootASTContext;
+import so.ontolog.lang.ast.context.ScopeASTContext;
+import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.QName;
 
 public abstract class AbstractOntologHandlerParser extends Parser implements GrammarTokens, ANTLRErrorListener {
 	
 	private ASTFactory factory;
 	private SyntaxErrorHandler syntaxErrorHandler;
+	private RootASTContext rootContext;
+	private ASTContext current;
 	
 	public AbstractOntologHandlerParser(TokenStream input) {
 		super(input);
@@ -45,8 +49,48 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		this.syntaxErrorHandler = syntaxErrorHandler;
 		addErrorListener(this);
 	}
-
+  	
+  	/**
+	 * @return the rootContext
+	 */
+	public RootASTContext getRootContext() {
+		return rootContext;
+	}
 	
+  	/**
+	 * @param rootContext the rootContext to set
+	 */
+	public void setRootContext(RootASTContext rootContext) {
+		this.rootContext = rootContext;
+	}
+
+	public ASTContext beginScope(){
+		if(current == null){
+			current = rootContext;
+		} else {
+			ScopeASTContext newCtx = new ScopeASTContext(current);
+			current = newCtx;
+		}
+		return current;
+	}
+
+	public ASTContext endScope(){
+		if(current == null){
+			throw new BuildException("Excess root scope.").setLocation(createASTToken());
+		}
+		
+		ASTContext prevCtx = current.parent();
+		current = prevCtx;
+		return current;
+	}
+	
+	public CompilationUnit createModule(String token) {
+		ASTToken astToken = createASTToken(token);
+		ASTContext context = beginScope();
+		return factory.createModule(context, astToken);
+	}
+
+
 	public TypeSpec type(String expr) {
 		return factory.createType(expr);
 	}
@@ -67,41 +111,61 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 
-	public UnaryExpr unary(String token, ASTExpr expr) {
+	public ASTExpr unary(String token, ASTExpr expr) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createUnary(astToken, expr);
 	}
 
 
-	public BinaryExpr binary(String token, ASTExpr left,
+	public ASTExpr binary(String token, ASTExpr left,
 			ASTExpr right) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createBinary(astToken, left, right);
 	}
 
 
-	public TernaryExpr ternary(String token, ASTExpr expr1,
+	public ASTExpr ternary(String token, ASTExpr expr1,
 			ASTExpr expr2, ASTExpr expr3) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createTernary(astToken, expr1, expr2, expr3);
 	}
 
 
-	public VariableExpr variable(QName qname) {
+	public ASTExpr variable(QName qname) {
 		ASTToken astToken = createASTToken(GrammarTokens.VAR);
-		return factory.createVariable(astToken, qname);
+		return factory.createVariable(current, astToken, qname);
 	}
 
-	public VariableExpr variable(String name) {
+	public ASTExpr variable(String name) {
 		QName qname = factory.createQName(name);
 		ASTToken astToken = createASTToken(GrammarTokens.VAR);
-		return factory.createVariable(astToken, qname);
+		return factory.createVariable(current, astToken, qname);
 	}
 
 
-	public LiteralExpr literal(String token, String expr) {
+	public ASTExpr literal(String token, String expr) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createLiteral(astToken, expr);
+	}
+
+	
+
+	public ASTDeclaration createParamDecl(String token,QName typeName,
+			String name, String alias) {
+		ASTToken astToken = createASTToken(token);
+		TypeSpec type = type(typeName);
+		return factory.createParamDecl(current, astToken, type, name, alias);
+	}
+
+
+	public ASTStatement asStatement(ASTDeclaration decl) {
+		return factory.asStatement(current, decl);
+	}
+
+
+	public ASTStatement createEvalStmt(String token, ASTExpr expr) {
+		ASTToken astToken = createASTToken(token);
+		return factory.createEvalStmt(astToken, expr);
 	}
 
 
@@ -113,32 +177,42 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
     	}
     	return text;
 	}
-	
+
 	protected ASTToken createASTToken(String tokenStr){
+		ASTToken location = createASTToken();
+		location.setToken(tokenStr);
+		
+		return location;
+	}
+
+	protected ASTToken createASTToken(){
 		ASTToken location = null;
 		
 		if(_ctx == null){
 			Token token = this.getCurrentToken();
-			location = new ASTToken(tokenStr, token.getLine(), token.getCharPositionInLine(), 
+			location = new ASTToken(token.getLine(), token.getCharPositionInLine(), 
 					token.getStartIndex(), token.getStopIndex());
 			return location;
 		} else {
-			location = new ASTToken(tokenStr, _ctx.start.getLine(), _ctx.start.getCharPositionInLine(), 
+			location = new ASTToken(_ctx.start.getLine(), _ctx.start.getCharPositionInLine(), 
 					_ctx.start.getStartIndex(), _ctx.start.getStopIndex());
 			
 			int end = -1;
-			ParseTree last = _ctx.children.get(_ctx.children.size()-1);
 			
-			if(last instanceof TerminalNode){
-				end = ((TerminalNode)last).getSymbol().getStopIndex();
-			} else if(last instanceof ParserRuleContext) {
-				end = ((ParserRuleContext)last).stop.getStopIndex();
+			if(_ctx.children != null){
+				ParseTree last = _ctx.children.get(_ctx.children.size()-1);
+				
+				if(last instanceof TerminalNode){
+					end = ((TerminalNode)last).getSymbol().getStopIndex();
+				} else if(last instanceof ParserRuleContext) {
+					end = ((ParserRuleContext)last).stop.getStopIndex();
+				}
 			}
+			
 			
 			location.setEndIndex(end);
 		}
 		
-//		System.out.println(location + "\t" + this.getCurrentToken());
 		return location;
 	}
 

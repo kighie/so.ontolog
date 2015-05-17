@@ -15,7 +15,7 @@
 package so.ontolog.lang.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTExpr;
+import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.util.TextUtils;
@@ -26,35 +26,20 @@ import so.ontolog.lang.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class VariableExpr extends ASTExpr {
+public class VariableExpr extends ASTSymbol {
 
 	private static final long serialVersionUID = 1892405954432146025L;
-
-	protected final QName qname;
 	
-	public VariableExpr(ASTToken token, QName qname) {
-		super(token, TypeSpec.UNDEFINED);
-		this.qname = qname;
-	}
-
 	/**
 	 * @param token
 	 * @param typeSpec
 	 */
 	public VariableExpr(ASTToken token, TypeSpec typeSpec, QName qname) {
-		super(token, typeSpec);
-		this.qname = qname;
-	}
-	
-	/**
-	 * @return the qname
-	 */
-	public QName getQName() {
-		return qname;
+		super(token, typeSpec, qname);
 	}
 	
 	@Override
-	public <C> C accept(ASTVisitor visitor, C context) {
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		return visitor.visit(this, context);
 	}
 

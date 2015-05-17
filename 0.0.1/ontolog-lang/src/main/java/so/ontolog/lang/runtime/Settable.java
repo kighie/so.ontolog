@@ -14,6 +14,8 @@
  */
 package so.ontolog.lang.runtime;
 
+import so.ontolog.data.type.TypeSpec;
+
 /**
  * 
  * @author kighie
@@ -22,7 +24,7 @@ package so.ontolog.lang.runtime;
  */
 public interface Settable<T> extends Node {
 
-	Class<? extends T> type();
+	TypeSpec type();
 	
 	void set(Context context, T value);
 	

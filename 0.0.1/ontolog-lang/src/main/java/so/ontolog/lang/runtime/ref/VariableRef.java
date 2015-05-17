@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.ref;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -28,18 +29,18 @@ import so.ontolog.lang.runtime.Settable;
 public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<T>{
 	private static final long serialVersionUID = -4458545471076570289L;
 
-	protected final Class<? extends T> type;
+	protected final TypeSpec type;
 	
 	/**
 	 * @param qname
 	 */
-	public VariableRef(Class<? extends T> type, QName qname) {
+	public VariableRef(TypeSpec type, QName qname) {
 		super(qname);
 		this.type = type;
 	}
 
 	@Override
-	public Class<? extends T> type() {
+	public TypeSpec type() {
 		return type;
 	}
 	
@@ -59,9 +60,9 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		context.setReference(qname, value);
 	}
 
-	public void setLocal(Context context, T value) {
-		context.setLocalVar(qname, value);
-	}
+//	public void setLocal(Context context, T value) {
+//		context.setLocalVar(qname, value);
+//	}
 	
 	/**
 	 * 
@@ -79,7 +80,7 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		/**
 		 * @param qname
 		 */
-		public ArgDeclRef(Class<? extends T> type, QName qname) {
+		public ArgDeclRef(TypeSpec type, QName qname) {
 			super(type,qname);
 		}
 	}

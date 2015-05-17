@@ -20,6 +20,13 @@ package so.ontolog.lang.ast;
  * @since 1.0
  */
 public interface GrammarTokens {
+
+	String EXPR_MODULE 		= "EXPR_MODULE";
+	String SCRIPT_MODULE 	= "SCRIPT_MODULE";
+
+	/*
+	 * Expr
+	 */
 	
 	String LIT_NUMBER 		= "LIT_NUMBER";
 	String LIT_BOOLEAN 		= "LIT_BOOLEAN";
@@ -49,8 +56,9 @@ public interface GrammarTokens {
 	String METHOD_CALL		= "METHOD_CALL";
 	String FUNC_CALL		= "FUNC_CALL";
 
-	String SIMPLE_MAP		= "SIMPLE_MAP";
-	
+	/*
+	 * Statements
+	 */
 	
 	String IF 				= "IF";
 	String ELSEIF 			= "ELSEIF";
@@ -60,16 +68,23 @@ public interface GrammarTokens {
 	String MTHODE_CALL_STMT	= "MTHODE_CALL_STMT";
 	String FUNCTION_CALL_STMT	= "FUNC_CALL_STMT";
 	String ASSIGN_STMT		= "ASSIGN_STMT";
+//	String PARAM_DECL_STMT	= "PARAM_DECL_STMT";
+
+	String EVAL_EXPR_STMT	= "EVAL";
+	String RETURN		= "RETURN";
+	
+	/*
+	 * Declaration
+	 */
 	
 	String VAR				= "VAR";
+	String SIMPLE_MAP		= "SIMPLE_MAP";
 	String VAR_DECL			= "VAR_DECL";
 	String ARG_DECL			= "ARG_DECL";
 	String FUNC_DECL		= "FUNC_DECL";
 	String FUNC_REF 		= "FUNC_REF";
 	String PARAM_DECL		= "PARAM_DECL";
-	String PARAM_DECL_STMT	= "PARAM_DECL_STMT";
-	
-	String RETURN		= "RETURN";
+
 
 	String ARRAY_GET 	= "GET[]";
 	String ARRAY_EL 	= "GET[x]";
@@ -77,4 +92,6 @@ public interface GrammarTokens {
 	String LAMBDA		= "LAMBDA";
 
 	String RECORD		= "R";
+	
+	
 }

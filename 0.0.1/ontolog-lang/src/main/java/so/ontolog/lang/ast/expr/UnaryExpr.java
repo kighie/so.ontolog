@@ -14,11 +14,12 @@
  */
 package so.ontolog.lang.ast.expr;
 
-import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.util.TextUtils;
+import so.ontolog.lang.runtime.Operator;
+import so.ontolog.lang.runtime.Operator.Unary;
 
 /**
  * <pre></pre>
@@ -29,15 +30,12 @@ public class UnaryExpr extends ASTExpr {
 
 	private static final long serialVersionUID = -3046445070714553198L;
 	protected ASTExpr expr;
-	protected ASTExpr right;
 
-//	public UnaryExpr(ASTToken token, ASTExpr expr) {
-//		super(token);
-//		this.expr = expr;
-//	}
+	protected Operator.Unary<?, ?> operator;
 
-	public UnaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr) {
-		super(token, typeSpec);
+	public UnaryExpr(ASTToken token, Unary<?, ?> operator, ASTExpr expr) {
+		super(token, operator.type());
+		this.operator = operator;
 		this.expr = expr;
 	}
 	
@@ -48,8 +46,16 @@ public class UnaryExpr extends ASTExpr {
 		return expr;
 	}
 	
+	/**
+	 * @return the operator
+	 */
+	public Operator.Unary<?, ?> getOperator() {
+		return operator;
+	}
+	
 	@Override
-	public <C> C accept(ASTVisitor visitor, C context) {
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
+		expr.accept(visitor, context);
 		return visitor.visit(this, context);
 	}
 

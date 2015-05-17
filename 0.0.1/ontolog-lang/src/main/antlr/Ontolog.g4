@@ -33,12 +33,25 @@ options {
 }
 
 
-ontologExpression returns [ASTNode result]
-	: 
-	( '=' '(' expression ')' { $result = $expression.result ; } )
-	| ( '=' expression { $result = $expression.result ; } )
+ontologExpression returns [CompilationUnit result]
+	: { $result = createModule(EXPR_MODULE); }
+	( '[' paramDecl[$result]*  ']' )?
+	'='
+	( 
+		( '(' expression ')' { $result.append( createEvalStmt (EVAL_EXPR_STMT, $expression.result) ) ; } )
+		| ( expression { $result.append(createEvalStmt (EVAL_EXPR_STMT, $expression.result)) ; } )	
+	)
 	;
 
+paramDecl [CompilationUnit module] 
+	: 'param' 
+		{ String alias = null; }
+		type = qualifiedName 
+		name = IDENT
+		('as' IDENT  { alias = $IDENT.text; })?
+		{ $module.append( asStatement( createParamDecl(PARAM_DECL, $type.result, $name.text, alias) ) ); }
+		';'
+	;
 
 expression returns [ASTExpr result]
 	: 

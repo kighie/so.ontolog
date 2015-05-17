@@ -52,4 +52,19 @@ public class BuildException extends OntologLangException {
 	public ASTNode getNode() {
 		return node;
 	}
+	
+	/* (non-Javadoc)
+	 * @see so.ontolog.lang.OntologLangException#toString()
+	 */
+	@Override
+	public String toString() {
+		if(node != null){
+			StringBuilder buf = new StringBuilder();
+			buf.append(super.toString());
+			buf.append( " at ").append(node);
+			return buf.toString();
+		} else {
+			return super.toString();
+		}
+	}
 }

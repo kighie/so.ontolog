@@ -23,7 +23,7 @@ import java.util.List;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTBlock extends ASTStatement {
+public class ASTBlock extends ASTStatement {
 	private static final long serialVersionUID = -379295710765793638L;
 
 	@SuppressWarnings("unchecked")
@@ -52,11 +52,11 @@ public abstract class ASTBlock extends ASTStatement {
 	}
 
 	@Override
-	public <C> C accept(ASTVisitor visitor, C context) {
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		return acceptChildren(visitor, context);
 	}
 	
-	protected <C> C acceptChildren(ASTVisitor visitor, C context) {
+	protected <C> C acceptChildren(ASTVisitor<C> visitor, C context) {
 		if(children != null){
 			for(ASTNode c : children){
 				c.accept(visitor, context);
@@ -64,6 +64,18 @@ public abstract class ASTBlock extends ASTStatement {
 		}
 		return context;
 	}
-
 	
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		getChildrenText(buffer, depth);
+	}
+	
+	protected void getChildrenText(StringBuilder buffer, int depth){
+		if(children != null){
+			int cDepth = depth+1;
+			for(ASTNode c : children){
+				c.getText(buffer, cDepth);
+			}
+		}
+	}
 }

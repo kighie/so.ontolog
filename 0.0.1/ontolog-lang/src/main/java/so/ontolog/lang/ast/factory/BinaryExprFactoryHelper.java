@@ -25,6 +25,8 @@ import so.ontolog.lang.ast.ASTFactory.BinaryExprFactory;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.BinaryExpr;
 import so.ontolog.lang.build.BuildException;
+import so.ontolog.lang.runtime.Operator;
+import so.ontolog.lang.runtime.internal.DefaultOperators;
 
 /**
  * <pre></pre>
@@ -44,7 +46,6 @@ public class BinaryExprFactoryHelper {
 		map.put(GrammarTokens.OP_MULTI , numStrFac);
 		
 		LogicalExprFactory logicalFac = new LogicalExprFactory();
-		map.put(GrammarTokens.OP_NOT , logicalFac);
 		map.put(GrammarTokens.OP_AND , logicalFac);
 		map.put(GrammarTokens.OP_OR , logicalFac);
 		
@@ -63,8 +64,8 @@ public class BinaryExprFactoryHelper {
 	public static abstract class AbstractBinaryExprFactory implements BinaryExprFactory {
 		@Override
 		public final BinaryExpr create(ASTToken token, ASTExpr left, ASTExpr right) {
-			TypeKind leftTypeKind = left.getTypeSpec().getTypeKind();
-			TypeKind rightTypeKind = right.getTypeSpec().getTypeKind();
+			TypeKind leftTypeKind = left.type().getTypeKind();
+			TypeKind rightTypeKind = right.type().getTypeKind();
 			return createImpl(token, leftTypeKind, left, rightTypeKind, right);
 		}
 		
@@ -84,7 +85,19 @@ public class BinaryExprFactoryHelper {
 				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(right);
 			}
 			
-			return new BinaryExpr(token, TypeSpec.BOOLEAN, left, right);
+			String tokenName = token.getName();
+			
+			Operator.Binary<?, ?, ?> operator;
+			
+			if(GrammarTokens.OP_AND.equals(tokenName) ){
+				operator = DefaultOperators.AND;
+			} else if(GrammarTokens.OP_OR.equals(tokenName) ){
+				operator = DefaultOperators.OR;
+			} else {
+				throw new BuildException("Unknown logical expression " + tokenName).setLocation(token);
+			}
+			
+			return new BinaryExpr(token, operator, left, right);
 		}
 	}
 
@@ -93,7 +106,27 @@ public class BinaryExprFactoryHelper {
 		@Override
 		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
 				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
-			return new BinaryExpr(token, TypeSpec.BOOLEAN, left, right);
+			String tokenName = token.getName();
+			
+			Operator.Binary<?, ?, ?> operator;
+			
+			if(GrammarTokens.OP_NOT_EQ.equals(tokenName) ){
+				operator = DefaultOperators.NOT_EQUALS;
+			} else if(GrammarTokens.OP_EQ.equals(tokenName) ){
+				operator = DefaultOperators.EQUALS;
+			} else if(GrammarTokens.OP_GT.equals(tokenName) ){
+				operator = DefaultOperators.GT;
+			} else if(GrammarTokens.OP_EQ_GT.equals(tokenName) ){
+				operator = DefaultOperators.EQUALS_GT;
+			} else if(GrammarTokens.OP_LT.equals(tokenName) ){
+				operator = DefaultOperators.LT;
+			} else if(GrammarTokens.OP_EQ_LT.equals(tokenName) ){
+				operator = DefaultOperators.EQUALS_LT;
+			} else {
+				throw new BuildException("Unknown compare expression " + tokenName).setLocation(token);
+			}
+			
+			return new BinaryExpr(token, operator, left, right);
 		}
 	}
 	
@@ -108,21 +141,62 @@ public class BinaryExprFactoryHelper {
 				throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(right);
 			}
 			
-			TypeSpec typeSpec = getNumberTypeSpec(left, right);
+			String tokenName = token.getName();
 			
-			return new BinaryExpr(token, typeSpec, left, right);
+			Operator.Binary<?, ?, ?> operator;
+			
+			if(GrammarTokens.OP_MINUS.equals(tokenName) ){
+				operator = DefaultOperators.SUBTRACT;
+			} else if(GrammarTokens.OP_DIVIDE.equals(tokenName) ){
+				operator = DefaultOperators.DIVIDE;
+			} else if(GrammarTokens.OP_POW.equals(tokenName) ){
+				operator = DefaultOperators.POW;
+			} else {
+				throw new BuildException("Unknown number operator " + tokenName).setLocation(token);
+			}
+			
+			return new BinaryExpr(token, operator, left, right);
 		}
 	}
-
+//	NumberExprFactory numberFac = new NumberExprFactory();
+//	map.put(GrammarTokens.OP_MINUS , numberFac);
+//	map.put(GrammarTokens.OP_DIVIDE , numberFac);
+//	map.put(GrammarTokens.OP_POW , numberFac);
+//	
+//	NumberStringExprFactory numStrFac = new NumberStringExprFactory();
+//	map.put(GrammarTokens.OP_PLUS , numStrFac);
+//	map.put(GrammarTokens.OP_MULTI , numStrFac);
+	
 	public static class NumberStringExprFactory extends AbstractBinaryExprFactory {
 		@Override
 		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
 				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
+
+			String tokenName = token.getName();
+			
+			Operator.Binary<?, ?, ?> operator;
+			
 			if( leftTypeKind == TypeKind.Text || rightTypeKind == TypeKind.Text) {
-				return new BinaryExpr(token, TypeSpec.STRING, left, right);
+				if(GrammarTokens.OP_PLUS.equals(tokenName) ){
+					operator = DefaultOperators.CONCAT;
+				} else if(GrammarTokens.OP_MULTI.equals(tokenName) ){
+					operator = DefaultOperators.MULTI_STR;
+				} else {
+					throw new BuildException("Unknown string operator " + tokenName).setLocation(token);
+				}
+				
+				return new BinaryExpr(token, operator, left, right);
 			} else if(leftTypeKind ==TypeKind.Number && leftTypeKind == TypeKind.Number){
-				return new BinaryExpr(token, getNumberTypeSpec(left, right), left, right);
+				if(GrammarTokens.OP_PLUS.equals(tokenName) ){
+					operator = DefaultOperators.ADD;
+				} else if(GrammarTokens.OP_MULTI.equals(tokenName) ){
+					operator = DefaultOperators.MULTIFLY;
+				} else {
+					throw new BuildException("Unknown number operator " + tokenName).setLocation(token);
+				}
+				return new BinaryExpr(token, operator, left, right);
 			}
+			
 			throw new BuildException(token.getName() + " operator must have numeric or string operand.").setLocation(token);
 		}
 	}
@@ -135,11 +209,11 @@ public class BinaryExprFactoryHelper {
 	protected static TypeSpec getNumberTypeSpec(ASTExpr left, ASTExpr right) {
 		TypeSpec typeSpec = TypeSpec.INT;
 
-		if( TypeUtils.hasFloatinPoint(left.getTypeSpec().getBaseType()) 
-				||  TypeUtils.hasFloatinPoint(right.getTypeSpec().getBaseType()) ){
+		if( TypeUtils.hasFloatinPoint(left.type().getBaseType()) 
+				||  TypeUtils.hasFloatinPoint(right.type().getBaseType()) ){
 			typeSpec = TypeSpec.REAL;
-		} else if( TypeUtils.isLong(left.getTypeSpec().getBaseType()) 
-					||  TypeUtils.isLong(right.getTypeSpec().getBaseType()) ){
+		} else if( TypeUtils.isLong(left.type().getBaseType()) 
+					||  TypeUtils.isLong(right.type().getBaseType()) ){
 			typeSpec = TypeSpec.BIGINT;
 		}
 		return typeSpec;

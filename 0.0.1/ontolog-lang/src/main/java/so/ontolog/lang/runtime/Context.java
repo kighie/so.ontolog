@@ -25,14 +25,10 @@ package so.ontolog.lang.runtime;
  * @since 1.0
  */
 public interface Context {
-
-	Object getAttribute(String name);
-
+	
 	Object getReference(QName name);
 	
 	void setReference(QName name, Object value);
-	
-	void setLocalVar(QName name, Object value);
 	
 	void clear();
 	

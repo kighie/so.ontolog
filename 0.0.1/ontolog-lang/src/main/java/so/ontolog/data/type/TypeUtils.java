@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import so.ontolog.data.binding.convert.Converter;
+import so.ontolog.data.binding.convert.DefaultConverters;
+
 /**
  * <pre></pre>
  * @author Ikchan Kwon
@@ -223,4 +226,21 @@ public final class TypeUtils {
 	public static boolean isLong(Class<?> type){
 		return longSet.contains(type);
 	}
+	
+	/**
+	 * <pre></pre>
+	 * @param type
+	 * @return 
+	 * @see DefaultConverters#getConverter(Class)
+	 */
+	public static <T> Converter<T> getConverter(Class<T>type){
+		return DefaultConverters.getConverter(type);
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	public static <T> Converter<T> getConverter(TypeSpec type){
+		return DefaultConverters.getConverter((Class<T>)type.getBaseType());
+	}
+	
 }

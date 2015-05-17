@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Literal;
 
@@ -70,8 +71,8 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 
 		@Override
-		public Class<String> type() {
-			return String.class;
+		public TypeSpec type() {
+			return TypeSpec.STRING;
 		}
 		
 		@Override
@@ -137,8 +138,8 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 
 		@Override
-		public Class<BigDecimal> type() {
-			return BigDecimal.class;
+		public TypeSpec type() {
+			return TypeSpec.DECIMAL;
 		}
 		
 	}
@@ -161,8 +162,8 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 
 		@Override
-		public Class<Boolean> type() {
-			return Boolean.class;
+		public TypeSpec type() {
+			return TypeSpec.BOOLEAN;
 		}
 	}
 
@@ -187,9 +188,38 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 
 		@Override
-		public Class<Date> type() {
-			return Date.class;
+		public TypeSpec type() {
+			return TypeSpec.DATE;
+		}
+	}
+	
+
+	public static class ObjectLiteral<T> extends GenericLiteral<T> {
+		private static final long serialVersionUID = -9087887733634147019L;
+
+		private TypeSpec typeSpec;
+		
+		public ObjectLiteral(TypeSpec typeSpec, T value) {
+			super(value);
+			this.typeSpec = typeSpec;
+		}
+
+		@Override
+		public TypeSpec type() {
+			return typeSpec;
 		}
 		
+		/**
+		 * @param typeSpec the typeSpec to set
+		 */
+		public void setType(TypeSpec type) {
+			this.typeSpec = type;
+		}
+		
+		@Override
+		public String toString() {
+			return "'" + value + "'";
+		}
 	}
+	
 }

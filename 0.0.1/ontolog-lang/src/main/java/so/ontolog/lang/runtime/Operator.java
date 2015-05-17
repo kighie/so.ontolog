@@ -16,6 +16,8 @@ package so.ontolog.lang.runtime;
 
 import java.io.Serializable;
 
+import so.ontolog.data.type.TypeSpec;
+
 
 
 
@@ -28,7 +30,7 @@ public interface Operator<T> extends Serializable {
 	
 	String token();
 	
-	Class<? extends T> type();
+	TypeSpec type();
 	
 	public interface Unary<T, OP> extends Operator<T> {
 		T eval(OP val);

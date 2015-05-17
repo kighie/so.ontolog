@@ -14,6 +14,9 @@
  */
 package so.ontolog.lang.runtime;
 
+import so.ontolog.data.type.TypeKind;
+import so.ontolog.data.type.TypeSpec;
+
 /**
  * <pre></pre>
  * @author Ikchan Kwon
@@ -21,8 +24,10 @@ package so.ontolog.lang.runtime;
  */
 public interface Function<T> extends Gettable<T>{
 	
+	public static TypeSpec FUNCTION_TYPE = new TypeSpec(Function.class, TypeKind.Executable);
+	
 	String name();
 	
-	Class<?>[] argTypes();
+	TypeSpec[] argTypes();
 	
 }

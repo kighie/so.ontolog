@@ -15,11 +15,6 @@
 package so.ontolog.lang.ast;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.expr.BinaryExpr;
-import so.ontolog.lang.ast.expr.LiteralExpr;
-import so.ontolog.lang.ast.expr.TernaryExpr;
-import so.ontolog.lang.ast.expr.UnaryExpr;
-import so.ontolog.lang.ast.expr.VariableExpr;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -29,6 +24,8 @@ import so.ontolog.lang.runtime.QName;
  */
 public interface ASTFactory {
 
+	CompilationUnit createModule(ASTContext context, ASTToken token);
+	
 	TypeSpec createType(String expr);
 	
 	TypeSpec createType(QName qname);
@@ -37,51 +34,68 @@ public interface ASTFactory {
 	
 	QName createQName(QName parent, String name);
 	
-	UnaryExpr createUnary(ASTToken token, ASTExpr expr);
+	ASTExpr createUnary(ASTToken token, ASTExpr expr);
 
-	BinaryExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right);
+	ASTExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right);
 	
-	TernaryExpr createTernary(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
+	ASTExpr createTernary(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
 
-	VariableExpr createVariable(ASTToken token, QName qname);
+	ASTExpr createLiteral(ASTToken token, String expr);
 	
-	LiteralExpr createLiteral(ASTToken token, String expr);
+	ASTExpr createVariable(ASTContext context, ASTToken token, QName qname);
+	
+	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
+
+	ASTStatement asStatement(ASTContext context, ASTDeclaration decl);
+
+	ASTStatement createEvalStmt(ASTToken token, ASTExpr expr);
 	
 	
 
+	public interface ModuleFactory {
+		CompilationUnit create(ASTContext context, ASTToken token);
+	}
+	
 	/**
 	 *
 	 */
 	public interface UnaryExprFactory {
-		UnaryExpr create(ASTToken token, ASTExpr expr);
+		ASTExpr create(ASTToken token, ASTExpr expr);
 	}
 
 	/**
 	 *
 	 */
 	public interface BinaryExprFactory {
-		BinaryExpr create(ASTToken token, ASTExpr left, ASTExpr right);
+		ASTExpr create(ASTToken token, ASTExpr left, ASTExpr right);
 	}
 
 	/**
 	 *
 	 */
 	public interface TernaryExprFactory {
-		TernaryExpr create(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
+		ASTExpr create(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
 	}
 
 	/**
 	 *
 	 */
 	public interface VariableExprFactory {
-		VariableExpr create(ASTToken token, QName qname);
+		ASTExpr create(ASTContext context, ASTToken token, QName qname);
 	}
 
 	/**
 	 *
 	 */
 	public interface LiteralExprFactory {
-		LiteralExpr create(ASTToken token, String expr);
+		ASTExpr create(ASTToken token, String expr);
+	}
+
+	/**
+	 *
+	 */
+	public interface ParamDeclFactory {
+		ASTDeclaration create(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
 	}
 	
 }

@@ -19,17 +19,21 @@ import java.util.Map;
 
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTContext;
+import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
+import so.ontolog.lang.ast.ASTStatement;
 import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
-import so.ontolog.lang.ast.expr.BinaryExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
-import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
-import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.ast.stmt.DeclarationStatement;
+import so.ontolog.lang.ast.stmt.EvalExprStatement;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.internal.DefaultOperators;
 import so.ontolog.lang.runtime.internal.TypeHelper;
 
 /**
@@ -40,25 +44,31 @@ import so.ontolog.lang.runtime.internal.TypeHelper;
 public class DefaultASTFactory implements ASTFactory {
 
 	private TypeHelper typeHelper;
+	private Map<String, ModuleFactory> moduleFactoryMap;
 	private Map<String, UnaryExprFactory> unaryExprFactoryMap;
 	private Map<String, BinaryExprFactory> binaryExprFactoryMap;
 	private Map<String, TernaryExprFactory> ternaryExprFactoryMap;
 	private Map<String, VariableExprFactory> variableExprFactoryMap;
 	private Map<String, LiteralExprFactory> literalExprFactoryMap;
 	
+	private ParamDeclFactory paramDeclFactory;
+	
 	public void initFactory(){
 		this.typeHelper = initTypeHelper();
+		this.moduleFactoryMap = initModuleFactoryMap();
 		this.unaryExprFactoryMap = initUnaryExprFactories();
 		this.binaryExprFactoryMap = initBinaryExprFactories();
 		this.ternaryExprFactoryMap = initTernaryExprFactories();
 		this.variableExprFactoryMap = initVariableExprFactories();
 		this.literalExprFactoryMap = initLiteralExprFactories();
+		this.paramDeclFactory = initParamDeclFactory();
 	}
 	
 	protected TypeHelper initTypeHelper() {
 		return new TypeHelper();
 	}
 
+	
 	@Override
 	public TypeSpec createType(String typeName) {
 		return typeHelper.getType(typeName);
@@ -80,7 +90,30 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public UnaryExpr createUnary(ASTToken token, ASTExpr expr) {
+	public CompilationUnit createModule(ASTContext context, ASTToken token) {
+		String tokenName = token.getName();
+		ModuleFactory factory = moduleFactoryMap.get(tokenName);
+		
+		if(factory == null){
+			throw new BuildException("Unknown Module type " + tokenName ).setLocation(token);
+		}
+		return factory.create(context, token);
+	}
+
+	protected Map<String, ModuleFactory> initModuleFactoryMap() {
+		Map<String, ModuleFactory> factoryMap = new HashMap<String, ASTFactory.ModuleFactory>();
+		factoryMap.put(GrammarTokens.EXPR_MODULE, new ModuleFactory() {
+			@Override
+			public CompilationUnit create(ASTContext context, ASTToken token) {
+				return new CompilationUnit(context, token);
+			}
+		});
+		
+		return factoryMap;
+	}
+
+	@Override
+	public ASTExpr createUnary(ASTToken token, ASTExpr expr) {
 		String tokenName = token.getName();
 		UnaryExprFactory factory = unaryExprFactoryMap.get(tokenName);
 		
@@ -96,37 +129,37 @@ public class DefaultASTFactory implements ASTFactory {
 		map.put(GrammarTokens.OP_NUM_NEGATION, new UnaryExprFactory() {
 			@Override
 			public UnaryExpr create(ASTToken token, ASTExpr expr) {
-				if(expr.getTypeSpec().getTypeKind() != TypeKind.Number){
+				if(expr.type().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Expression " + expr + " cannot be negated." ).setNode(expr);
 				}
-				return new UnaryExpr(token, expr.getTypeSpec(), expr);
+				return new UnaryExpr(token, DefaultOperators.NEGATE, expr);
 			}
 		});
 
 		map.put(GrammarTokens.OP_NOT, new UnaryExprFactory() {
 			@Override
 			public UnaryExpr create(ASTToken token, ASTExpr expr) {
-				if(expr.getTypeSpec().getTypeKind() != TypeKind.Bool){
+				if(expr.type().getTypeKind() != TypeKind.Bool){
 					throw new BuildException("Expression " + expr + " cannot negated logically." ).setNode(expr);
 				}
-				return new UnaryExpr(token, expr.getTypeSpec(), expr);
+				return new UnaryExpr(token, DefaultOperators.NOT, expr);
 			}
 		});
 		
 		map.put(GrammarTokens.OP_PERCENT, new UnaryExprFactory() {
 			@Override
 			public UnaryExpr create(ASTToken token, ASTExpr expr) {
-				if(expr.getTypeSpec().getTypeKind() != TypeKind.Number){
+				if(expr.type().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Illegal Expression " + expr + "%" ).setNode(expr);
 				}
-				return new UnaryExpr(token, TypeSpec.REAL, expr);
+				return new UnaryExpr(token, DefaultOperators.PERCENT, expr);
 			}
 		});
 		return map;
 	}
 
 	@Override
-	public BinaryExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right) {
+	public ASTExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right) {
 		String tokenName = token.getName();
 		
 		BinaryExprFactory factory = binaryExprFactoryMap.get(tokenName);
@@ -145,7 +178,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public TernaryExpr createTernary(ASTToken token, ASTExpr expr1,
+	public ASTExpr createTernary(ASTToken token, ASTExpr expr1,
 			ASTExpr expr2, ASTExpr expr3) {
 		String tokenName = token.getName();
 		
@@ -164,7 +197,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public VariableExpr createVariable(ASTToken token, QName qname) {
+	public ASTExpr createVariable(ASTContext context, ASTToken token, QName qname) {
 		String tokenName = token.getName();
 		
 		VariableExprFactory factory = variableExprFactoryMap.get(tokenName);
@@ -173,7 +206,7 @@ public class DefaultASTFactory implements ASTFactory {
 			throw new BuildException("Unknown variable token " + tokenName ).setLocation(token);
 		}
 		
-		return factory.create(token, qname);
+		return factory.create(context, token, qname);
 	}
 
 	protected Map<String, VariableExprFactory> initVariableExprFactories() {
@@ -182,7 +215,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public LiteralExpr createLiteral(ASTToken token, String expr) {
+	public ASTExpr createLiteral(ASTToken token, String expr) {
 		String tokenName = token.getName();
 
 		LiteralExprFactory factory = literalExprFactoryMap.get(tokenName);
@@ -241,4 +274,26 @@ public class DefaultASTFactory implements ASTFactory {
 		return map;
 	}
 
+	@Override
+	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 
+			String name, String alias) {
+		return paramDeclFactory.create(context, token, type, name, alias);
+	}
+
+
+	protected ParamDeclFactory initParamDeclFactory() {
+		return new DefaultParamDeclFactory();
+	}
+
+	@Override
+	public ASTStatement asStatement(ASTContext context, ASTDeclaration decl) {
+		return new DeclarationStatement(decl);
+	}
+
+	@Override
+	public ASTStatement createEvalStmt(ASTToken token, ASTExpr expr) {
+		return new EvalExprStatement(token, expr);
+	}
+	
+	
 }

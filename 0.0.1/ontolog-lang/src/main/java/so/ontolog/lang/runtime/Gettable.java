@@ -14,6 +14,8 @@
  */
 package so.ontolog.lang.runtime;
 
+import so.ontolog.data.type.TypeSpec;
+
 /**
  * 
  * @author kighie
@@ -22,7 +24,7 @@ package so.ontolog.lang.runtime;
  */
 public interface Gettable<T> extends Node {
 
-	Class<? extends T> type();
+	TypeSpec type();
 	
 	T get(Context context);
 	

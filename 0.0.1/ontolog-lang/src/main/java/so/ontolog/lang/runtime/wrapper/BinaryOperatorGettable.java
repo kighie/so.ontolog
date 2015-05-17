@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.wrapper;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -45,7 +46,7 @@ public class BinaryOperatorGettable<T, O1, O2> implements Gettable<T> {
 	}
 
 	@Override
-	public Class<? extends T> type() {
+	public TypeSpec type() {
 		return operator.type();
 	}
 	

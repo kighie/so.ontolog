@@ -19,6 +19,7 @@ import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.ast.stmt.EvalExprStatement;
 
 
 /**
@@ -26,16 +27,23 @@ import so.ontolog.lang.ast.expr.VariableExpr;
  * @author Ikchan Kwon
  *
  */
-public interface ASTVisitor {
+public interface ASTVisitor<C> {
 
-	<C> C visit(UnaryExpr unaryExpr, C context);
-
-	<C> C visit(BinaryExpr binaryExpr, C context);
+	C visit(CompilationUnit compilationUnit, C context);
 	
-	<C> C visit(TernaryExpr ternaryExpr, C context);
+	C visit(UnaryExpr unaryExpr, C context);
 
-	<C> C visit(VariableExpr variableExpr, C context);
+	C visit(BinaryExpr binaryExpr, C context);
 	
-	<C> C visit(LiteralExpr variableExpr, C context);
+	C visit(TernaryExpr ternaryExpr, C context);
+
+	C visit(VariableExpr variableExpr, C context);
+	
+	C visit(LiteralExpr expr, C context);
+	
+
+	C visit(ASTDeclaration declStmt, C context);
+	
+	C visit(EvalExprStatement stmt, C context);
 	
 }

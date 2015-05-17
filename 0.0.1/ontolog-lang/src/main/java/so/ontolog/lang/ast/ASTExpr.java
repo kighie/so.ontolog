@@ -39,14 +39,14 @@ public abstract class ASTExpr extends ASTNode {
 	/**
 	 * @param typeSpec the typeSpec to set
 	 */
-	public void setTypeSpec(TypeSpec typeSpec) {
+	public void setType(TypeSpec typeSpec) {
 		this.typeSpec = typeSpec;
 	}
 	
 	/**
 	 * @return the typeSpec
 	 */
-	public TypeSpec getTypeSpec() {
+	public TypeSpec type() {
 		return typeSpec;
 	}
 }

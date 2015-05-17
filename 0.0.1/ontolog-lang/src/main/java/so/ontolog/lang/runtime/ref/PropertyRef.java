@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import so.ontolog.data.binding.metadata.BeanProperty;
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -41,20 +42,20 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 
 	private static final long serialVersionUID = 562819218967483759L;
 
-	protected Class<? extends T> type;
+	protected TypeSpec type;
 	protected final Gettable<P> parentGettable;
 	
 	/**
 	 * @param qname
 	 */
-	public PropertyRef(Class<? extends T> type, QName qname, Gettable<P> parent) {
+	public PropertyRef(TypeSpec type, QName qname, Gettable<P> parent) {
 		super(qname);
 		this.type = type;
 		this.parentGettable = parent;
 	}
 
 	@Override
-	public Class<? extends T> type() {
+	public TypeSpec type() {
 		return type;
 	}
 	
@@ -80,9 +81,8 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		
 		protected final BeanProperty<T> beanProperty;
 		
-		@SuppressWarnings("unchecked")
 		public BeanPropertyRef(QName qname, Gettable<Object> parent, BeanProperty<T> beanProperty) {
-			super((Class<T>)beanProperty.type(), qname, parent);
+			super(beanProperty.typeSpec(), qname, parent);
 			this.beanProperty = beanProperty;
 		}
 		
@@ -117,7 +117,7 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		 * @param qname
 		 * @param parent
 		 */
-		public AbstractElementRef(Class<? extends T> type, QName parentQname,
+		public AbstractElementRef(TypeSpec type, QName parentQname,
 				Gettable<P> parent, Gettable<I> indexer) {
 			super(type, new QName(parentQname, indexer.toString()), parent);
 			this.indexer = indexer;
@@ -139,7 +139,7 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		 * @param parent
 		 * @param indexer
 		 */
-		public ArrayElementRef(Class<? extends T> type, QName parentQname,
+		public ArrayElementRef(TypeSpec type, QName parentQname,
 				Gettable<T[]> parent, Gettable<Number> indexer) {
 			super(type, parentQname, parent, indexer);
 		}
@@ -188,7 +188,7 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		 * @param parent
 		 * @param indexer
 		 */
-		public ListElementRef(Class<? extends T> type, QName parentQname,
+		public ListElementRef(TypeSpec type, QName parentQname,
 				Gettable<List<T>> parent, Gettable<Number> indexer) {
 			super(type, parentQname, parent, indexer);
 		}
@@ -232,7 +232,7 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		 * @param parent
 		 * @param indexer
 		 */
-		public MapEntryRef(Class<? extends T> type, QName parentQname,
+		public MapEntryRef(TypeSpec type, QName parentQname,
 				Gettable<Map> parent, Gettable<Object> indexer) {
 			super(type, parentQname, parent, indexer);
 		}
@@ -277,7 +277,7 @@ public abstract class PropertyRef<T, P> extends GenericRef implements Gettable<T
 		 * @param parent
 		 * @param indexer
 		 */
-		public UnknownTypeElementRef(Class<? extends Object> type,
+		public UnknownTypeElementRef(TypeSpec type,
 				QName parentQname, Gettable<Object> parent,
 				Gettable<Object> indexer) {
 			super(type, parentQname, parent, indexer);

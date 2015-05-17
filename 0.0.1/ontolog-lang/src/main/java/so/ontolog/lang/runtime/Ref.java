@@ -14,6 +14,8 @@
  */
 package so.ontolog.lang.runtime;
 
+import so.ontolog.data.type.TypeSpec;
+
 /**
  * 
  * @author IkChan Kwon
@@ -24,5 +26,5 @@ public interface Ref extends Node {
 	
 	QName qualifiedName();
 
-	Class<?> type();
+	TypeSpec type();
 }

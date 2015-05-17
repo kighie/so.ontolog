@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
 
@@ -41,7 +42,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<BigDecimal> type() { return BigDecimal.class; }
+		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "NEGATE";}
 
@@ -56,7 +57,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<BigDecimal> type() { return BigDecimal.class; }
+		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "PERCENT";}
 
@@ -71,7 +72,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "NOT";}
 
@@ -86,7 +87,7 @@ public class DefaultOperators {
 			}
 			
 			@Override
-			public Class<? extends BigDecimal> type() { return BigDecimal.class; }
+			public TypeSpec type() { return TypeSpec.DECIMAL; }
 			@Override
 			public String token() { return "POW";};
 	};
@@ -100,7 +101,7 @@ public class DefaultOperators {
 			}
 
 			@Override
-			public Class<? extends BigDecimal> type() { return BigDecimal.class; }
+			public TypeSpec type() { return TypeSpec.DECIMAL; }
 			@Override
 			public String token() { return "MULTIFLY";};
 	};
@@ -114,7 +115,7 @@ public class DefaultOperators {
 		}
 
 		@Override
-		public Class<? extends BigDecimal> type() { return BigDecimal.class; }
+		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "DIVIDE";};
 	};
@@ -128,7 +129,7 @@ public class DefaultOperators {
 		}
 
 		@Override
-		public Class<? extends BigDecimal> type() { return BigDecimal.class; }
+		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "ADD";};
 	};
@@ -143,7 +144,7 @@ public class DefaultOperators {
 		}
 
 		@Override
-		public Class<? extends BigDecimal> type() { return BigDecimal.class; }
+		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "SUBTRACT";};
 	};
@@ -158,7 +159,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "EQUALS";}
 
@@ -173,7 +174,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "NOT_EQUALS";}
 
@@ -189,7 +190,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "EQUALS_GT";}
 
@@ -205,7 +206,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "GT";}
 
@@ -220,7 +221,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "EQUALS_LT";}
 
@@ -236,7 +237,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "LT";}
 
@@ -252,7 +253,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "AND";}
 
@@ -268,7 +269,7 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<Boolean> type() { return Boolean.class; }
+		public TypeSpec type() { return TypeSpec.BOOLEAN; }
 		@Override
 		public String token() { return "OR";}
 
@@ -286,9 +287,31 @@ public class DefaultOperators {
 		};
 
 		@Override
-		public Class<String> type() { return String.class; }
+		public TypeSpec type() { return TypeSpec.STRING; }
 		@Override
 		public String token() { return "CONCAT";}
+
+	};
+	
+
+	public static final Binary<String, Object, Number> MULTI_STR = new Binary<String, Object, Number>() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public String eval(Object val1, Number val2) {
+			StringBuilder buf = new StringBuilder();
+			
+			for( int i = val2.intValue(); i>0 ; i--){
+				buf.append(val1);
+			}
+			
+			return buf.toString();
+		};
+
+		@Override
+		public TypeSpec type() { return TypeSpec.STRING; }
+		@Override
+		public String token() { return "MULTI_STR";}
 
 	};
 }

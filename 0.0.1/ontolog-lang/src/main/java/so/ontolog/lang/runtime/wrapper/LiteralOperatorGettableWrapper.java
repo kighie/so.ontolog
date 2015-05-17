@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.wrapper;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Gettable;
 import so.ontolog.lang.runtime.Literal;
@@ -39,11 +40,10 @@ public class LiteralOperatorGettableWrapper<T> implements Literal<T> {
 		this.value = value;
 		this.original = original;
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public Class<? extends T> type() {
-		return (Class<? extends T>)value.getClass();
+	public TypeSpec type() {
+		return original.type();
 	}
 
 	@Override

@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+import so.ontolog.lang.runtime.Node;
+
 /**
  * <pre></pre>
  * @author Ikchan Kwon
@@ -28,8 +30,9 @@ public abstract class ASTNode implements Serializable {
 	
 	@SuppressWarnings("unchecked")
 	protected final List<? extends ASTNode> EMPTY_CHILDREN = Collections.EMPTY_LIST;
-	
+
 	protected ASTToken token;
+	protected Node rtNode;
 	
 	public ASTNode(ASTToken token) {
 		this.token = token;
@@ -58,18 +61,32 @@ public abstract class ASTNode implements Serializable {
 	 * @param context
 	 * @return
 	 */
-	public abstract <C> C accept(ASTVisitor visitor, C context);
+	public abstract <C> C accept(ASTVisitor<C> visitor, C context);
 	
 	public List<? extends ASTNode> children(){
 		return EMPTY_CHILDREN;
 	}
 
 	public abstract void getText(StringBuilder buffer, int depth);
-
-	public String getText(){
+	
+	@Override
+	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		getText(buffer, 0);
 		return buffer.toString();
 	}
 	
+	/**
+	 * @return the rtNode
+	 */
+	public Node getNode() {
+		return rtNode;
+	}
+	
+	/**
+	 * @param rtNode the rtNode to set
+	 */
+	public void setNode(Node rtNode) {
+		this.rtNode = rtNode;
+	}
 }

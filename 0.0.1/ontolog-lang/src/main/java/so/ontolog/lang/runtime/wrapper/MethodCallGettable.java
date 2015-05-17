@@ -15,6 +15,7 @@
 package so.ontolog.lang.runtime.wrapper;
 
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -28,12 +29,12 @@ import so.ontolog.lang.runtime.internal.MethodDelegator;
 public class MethodCallGettable<T> implements Gettable<T> {
 	private static final long serialVersionUID = -3305778909529848422L;
 	
-	protected Class<? extends T> type;
+	protected TypeSpec type;
 	protected final Gettable<?> parentGettable;
 	protected final Gettable<?>[] args;
 	protected final MethodDelegator methodDelegator;
 	
-	public MethodCallGettable(Class<? extends T> type,Gettable<?> parent, 
+	public MethodCallGettable(TypeSpec type,Gettable<?> parent, 
 			MethodDelegator methodDelegator, Gettable<?>[] args) {
 		this.type = type;
 		this.parentGettable = parent;
@@ -43,7 +44,7 @@ public class MethodCallGettable<T> implements Gettable<T> {
 
 	
 	@Override
-	public Class<? extends T> type() {
+	public TypeSpec type() {
 		return type;
 	}
 	

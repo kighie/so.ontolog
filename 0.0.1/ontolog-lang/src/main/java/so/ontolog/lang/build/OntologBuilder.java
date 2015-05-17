@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.build;
 
+import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.Node;
 
 /**
@@ -23,14 +24,12 @@ import so.ontolog.lang.runtime.Node;
  */
 public interface OntologBuilder {
 	
-	BuildContext createBuildContext();
+	Module buildExpr(String expression);
 
-	Node buildExpr(String expression);
+	Module build(String expression);
 
-	Node build(String expression);
+	Module build(OntologSource source);
 
-	Node build(OntologSource source);
-
-	Node build(OntologSource source, BuildContext rootContext);
+	Module build(OntologSource source, BuildContext rootContext);
 	
 }

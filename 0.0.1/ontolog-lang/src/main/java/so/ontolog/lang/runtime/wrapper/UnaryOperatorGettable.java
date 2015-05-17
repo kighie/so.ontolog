@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.wrapper;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
@@ -37,7 +38,7 @@ public class UnaryOperatorGettable<T, O1> implements Gettable<T>{
 	}
 
 	@Override
-	public Class<? extends T> type() {
+	public TypeSpec type() {
 		return operator.type();
 	}
 	

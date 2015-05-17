@@ -41,6 +41,7 @@ public enum TypeKind {
 	Table,
 	Object,
 	Void,
+	Executable,
 	Undefined;
 	
 	boolean isScalar(TypeKind kind){

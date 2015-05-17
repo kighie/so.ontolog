@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.ref;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.Gettable;
@@ -37,8 +38,8 @@ public class BuiltInFunctionRef extends GenericRef implements Gettable<Function>
 	}
 
 	@Override
-	public Class<? extends Function> type() {
-		return Function.class;
+	public TypeSpec type() {
+		return Function.FUNCTION_TYPE;
 	}
 
 	@Override
