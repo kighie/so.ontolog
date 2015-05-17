@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime.wrapper;
+package so.ontolog.lang.runtime.expr;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
@@ -29,14 +29,14 @@ import so.ontolog.lang.runtime.Literal;
  * @author Ikchan Kwon
  *
  */
-public class LiteralOperatorGettableWrapper<T> implements Literal<T> {
+public class LiteralOperatorExprWrapper<T> implements Literal<T> {
 
 	private static final long serialVersionUID = -578411137855807850L;
 	
 	private final T value;
 	private final Gettable<T> original;
 
-	public LiteralOperatorGettableWrapper(T value, Gettable<T> original) {
+	public LiteralOperatorExprWrapper(T value, Gettable<T> original) {
 		this.value = value;
 		this.original = original;
 	}

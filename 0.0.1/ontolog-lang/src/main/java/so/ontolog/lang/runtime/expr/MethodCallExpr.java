@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime.wrapper;
+package so.ontolog.lang.runtime.expr;
 
 
 import so.ontolog.data.type.TypeSpec;
@@ -26,7 +26,7 @@ import so.ontolog.lang.runtime.internal.MethodDelegator;
  * @author Ikchan Kwon
  *
  */
-public class MethodCallGettable<T> implements Gettable<T> {
+public class MethodCallExpr<T> implements Gettable<T> {
 	private static final long serialVersionUID = -3305778909529848422L;
 	
 	protected TypeSpec type;
@@ -34,7 +34,7 @@ public class MethodCallGettable<T> implements Gettable<T> {
 	protected final Gettable<?>[] args;
 	protected final MethodDelegator methodDelegator;
 	
-	public MethodCallGettable(TypeSpec type,Gettable<?> parent, 
+	public MethodCallExpr(TypeSpec type,Gettable<?> parent, 
 			MethodDelegator methodDelegator, Gettable<?>[] args) {
 		this.type = type;
 		this.parentGettable = parent;

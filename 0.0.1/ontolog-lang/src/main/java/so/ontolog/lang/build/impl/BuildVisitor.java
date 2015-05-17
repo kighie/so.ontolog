@@ -38,13 +38,13 @@ import so.ontolog.lang.runtime.Literal;
 import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
+import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
+import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
 import so.ontolog.lang.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.TextLiteral;
 import so.ontolog.lang.runtime.module.ExprModule;
-import so.ontolog.lang.runtime.wrapper.BinaryOperatorGettable;
-import so.ontolog.lang.runtime.wrapper.UnaryOperatorGettable;
 
 /**
  * <pre></pre>
@@ -76,7 +76,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		}
 		
 		Unary<?, ?> operator = unaryExpr.getOperator();
-		UnaryOperatorGettable<?, ?> gettable = new UnaryOperatorGettable(operator, expr);
+		UnaryOperatorExpr<?, ?> gettable = new UnaryOperatorExpr(operator, expr);
 		unaryExpr.setNode(gettable);
 		return context;
 	}
@@ -95,7 +95,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		}
 		Binary<?, ?, ?> operator = binaryExpr.getOperator();
 		
-		BinaryOperatorGettable<?, ?, ?> gettable = new BinaryOperatorGettable(operator, left, right);
+		BinaryOperatorExpr<?, ?, ?> gettable = new BinaryOperatorExpr(operator, left, right);
 		binaryExpr.setNode(gettable);
 		
 		return context;
