@@ -28,6 +28,7 @@ import so.ontolog.lang.runtime.QName;
  */
 public class DefaultParamDeclFactory implements ParamDeclFactory {
 	
+	
 	@Override
 	public ParamDecl create(ASTContext context, ASTToken token,
 			TypeSpec type, String paramName, String alias) {
@@ -39,6 +40,8 @@ public class DefaultParamDeclFactory implements ParamDeclFactory {
 			qname = paramQName;
 		}
 		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
+		
+		// TODO BeanBinder 구현 
 		context.registerDecl(paramDecl);
 		return paramDecl;
 	}

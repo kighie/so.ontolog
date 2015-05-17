@@ -23,19 +23,30 @@ import so.ontolog.data.util.StringArraySet;
  *
  */
 @SuppressWarnings("rawtypes")
-public class BeanMetadata extends FieldMap<BeanProperty>{
+public class BeanMetadata<T> extends FieldMap<BeanProperty>{
 	private static final long serialVersionUID = 8012712582777493688L;
 
-	public BeanMetadata(String[] strArray) {
+	private Class<T> beanClass;
+	
+	public BeanMetadata(Class<T> beanClass, String[] strArray) {
 		super(strArray, BeanProperty.class);
+		this.beanClass = beanClass;
 	}
 	
-	public BeanMetadata(String[] strArray, BeanProperty[] fields) {
+	public BeanMetadata(Class<T> beanClass,String[] strArray, BeanProperty[] fields) {
 		super(strArray, fields);
+		this.beanClass = beanClass;
 	}
 
-	public BeanMetadata(StringArraySet keySet, BeanProperty[] fields) {
+	public BeanMetadata(Class<T> beanClass,StringArraySet keySet, BeanProperty[] fields) {
 		super(keySet, fields);
+		this.beanClass = beanClass;
 	}
 
+	/**
+	 * @return the beanClass
+	 */
+	public Class<T> type() {
+		return beanClass;
+	}
 }

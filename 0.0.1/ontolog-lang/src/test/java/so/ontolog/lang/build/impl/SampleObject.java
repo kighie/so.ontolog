@@ -12,26 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding;
+package so.ontolog.lang.build.impl;
+
+import java.math.BigDecimal;
 
 /**
  * <pre></pre>
  * @author kighie@gmail.com
- *
+ * @since 1.0
  */
-public interface BeanPropertyBinder<T> {
-	
-	Class<T> type();
-	
-	<V> V getValue(T dto, int index);
-	
-	<V> V getValue(T dto, String fieldName);
+public class SampleObject {
 
-	Object[] getValues(T dto);
+	private String propA;
+	private int propB;
 	
-	<V> void setValue(T dto, int index, V value);
+	
+	
+	public String getPropA() {
+		return propA;
+	}
 
-	<V> void setValue(T dto, String fieldName, V value);
-	
-	void setValues(T dto, Object[] values);
+
+
+	public void setPropA(String propA) {
+		this.propA = propA;
+	}
+
+
+
+	public int getPropB() {
+		return propB;
+	}
+
+
+
+	public void setPropB(int propB) {
+		this.propB = propB;
+	}
+
+
+
+	public BigDecimal testMethod(BigDecimal number){
+//		new Exception().printStackTrace();
+		return number.add(new BigDecimal(33));
+	}
 }

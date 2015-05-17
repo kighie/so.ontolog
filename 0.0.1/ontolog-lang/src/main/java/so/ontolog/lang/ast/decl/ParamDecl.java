@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.ast.decl;
 
+import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTToken;
@@ -31,6 +32,7 @@ public class ParamDecl extends ASTDeclaration {
 	private static final long serialVersionUID = 4702206536943488765L;
 	
 	private QName paramName;
+	private BeanBinder<?> beanBinder;
 	
 	/**
 	 * @param token
@@ -40,6 +42,20 @@ public class ParamDecl extends ASTDeclaration {
 	public ParamDecl(ASTToken token, QName qname, TypeSpec typeSpec, QName paramName) {
 		super(token, qname, typeSpec);
 		this.paramName = paramName;
+	}
+	
+	/**
+	 * @param beanBinder the beanBinder to set
+	 */
+	public void setBeanBinder(BeanBinder<?> beanBinder) {
+		this.beanBinder = beanBinder;
+	}
+	
+	/**
+	 * @return the beanBinder
+	 */
+	public BeanBinder<?> getBeanBinder() {
+		return beanBinder;
 	}
 	
 	/**
