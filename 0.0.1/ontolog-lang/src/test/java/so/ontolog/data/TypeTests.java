@@ -39,6 +39,7 @@ public class TypeTests {
 		Type[] types = type.getActualTypeArguments();
 		
 		for(Type t : types){
+			@SuppressWarnings("rawtypes")
 			TypeVariable tv = (TypeVariable)t;
 			System.out.println(Arrays.toString(tv.getBounds()));
 		}

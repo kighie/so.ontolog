@@ -14,11 +14,9 @@
  */
 package so.ontolog.lang.runtime.stmt;
 
-import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.runtime.Context;
-import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Statement;
 
