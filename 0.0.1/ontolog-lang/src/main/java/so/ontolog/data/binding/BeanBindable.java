@@ -14,34 +14,29 @@
  */
 package so.ontolog.data.binding;
 
-import java.io.Serializable;
-
 import so.ontolog.data.binding.metadata.BeanMetadata;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
+ * @author Ikchan Kwon
  *
  */
-public interface BeanBinder<T> extends Serializable {
-	
-	BeanMetadata<T> getMetadata();
-	
-	Class<T> type();
-	
-	<V> V getValue(T bean, int index);
-	
-	<V> V getValue(T bean, String fieldName);
+public interface BeanBindable {
 
-	Object[] getValues(T bean);
+	BeanMetadata<?> getMetadata();
 	
-	<V> void setValue(T bean, int index, V value);
+	<T> T getValue(int index);
+	
+	<T> T getValue(String fieldName);
+	
+	<T> void setValue(int index, T value);
+	
+	<T> void setValue(String fieldName, T value);
+	
+	Object[] getValues();
+	
+	void setValues(Object[] values);
+	
 
-	<V> void setValue(T bean, String fieldName, V value);
-	
-	void setValues(T bean, Object[] values);
-	
-	T newBean();
-	
-	<V> BeanBinder<V> getFieldBinder(String fieldName);
+	BeanBindable getFieldBindable(String fieldName);
 }

@@ -17,8 +17,13 @@ package so.ontolog.data.binding.metadata.factory;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import so.ontolog.data.binding.BindingException;
+import so.ontolog.data.binding.convert.Converter;
+import so.ontolog.data.binding.convert.ConverterMap;
+import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.binding.metadata.BeanProperty;
 
 /**
@@ -26,9 +31,27 @@ import so.ontolog.data.binding.metadata.BeanProperty;
  * @author Ikchan Kwon
  *
  */
-public class DefaultBeanFieldFactory implements BeanPropertyFactory {
+public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
+	private static Logger logger = Logger.getLogger(DefaultBeanPropertyFactory.class.getName());
 	
+	private ConverterMap converterMap;
 	
+	public DefaultBeanPropertyFactory(ConverterMap converterMap) {
+		this.converterMap = converterMap;
+	}
+
+
+	public DefaultBeanPropertyFactory() {
+		this(DefaultConverters.newConverterMap());
+	}
+
+	/**
+	 * @return the converterMap
+	 */
+	public ConverterMap getConverterMap() {
+		return converterMap;
+	}
+
 	@Override
 	public BeanProperty<?> createBeanProperty(Class<?> beanClass, String fieldName){
 		try {
@@ -40,16 +63,34 @@ public class DefaultBeanFieldFactory implements BeanPropertyFactory {
 		
 	}
 
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public BeanProperty<?> createBeanProperty(PropertyDescriptor pd) {
+		Class<?> type = pd.getPropertyType();
+		if(type == null){
+			return null;
+		}
+		
+		if("class".equals( pd.getName() )){
+			return null;
+		}
 		Method getter = pd.getReadMethod();
 		Method setter = pd.getWriteMethod();
-		Class<?> type = pd.getPropertyType();
 		
-		BeanProperty<?> beanField = new BeanProperty(pd.getName(), type);
+
+		Converter<?> converter = converterMap.get(type);
+		
+		if(converter ==null){
+			converter = DefaultConverters.BY_PASS;
+			
+			logger.log(Level.WARNING, "Unknown converter type " + type.getName());
+		}
+		
+		BeanProperty beanField = new BeanProperty(pd.getName(), type, converter);
 		beanField.setGetter(getter);
 		beanField.setSetter(setter);
+		
 		return beanField;
 	}
 	

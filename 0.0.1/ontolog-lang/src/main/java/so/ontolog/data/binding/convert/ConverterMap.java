@@ -12,36 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding;
+package so.ontolog.data.binding.convert;
 
-import java.io.Serializable;
-
-import so.ontolog.data.binding.metadata.BeanMetadata;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
+ * @author Ikchan Kwon
  *
  */
-public interface BeanBinder<T> extends Serializable {
+public class ConverterMap {
+	private Map<Class<?>, Converter<?>> map = new HashMap<Class<?>, Converter<?>>();
 	
-	BeanMetadata<T> getMetadata();
 	
-	Class<T> type();
-	
-	<V> V getValue(T bean, int index);
-	
-	<V> V getValue(T bean, String fieldName);
+	public ConverterMap() {
+	}
 
-	Object[] getValues(T bean);
-	
-	<V> void setValue(T bean, int index, V value);
+	public ConverterMap(Map<Class<?>, Converter<?>> map) {
+		this.map.putAll(map);
+	}
 
-	<V> void setValue(T bean, String fieldName, V value);
+	@SuppressWarnings("unchecked")
+	public <T> Converter<T> get(Class<T> type) {
+		return (Converter<T>)map.get(type);
+	}
 	
-	void setValues(T bean, Object[] values);
+
+	public <T> void register(Class<T> type, Converter<T> converter){
+		map.put(type, converter);
+	}
+
+	public void registerAll(Map<? extends Class<?>, ? extends Converter<?>> m) {
+		map.putAll(m);
+	}
 	
-	T newBean();
 	
-	<V> BeanBinder<V> getFieldBinder(String fieldName);
 }

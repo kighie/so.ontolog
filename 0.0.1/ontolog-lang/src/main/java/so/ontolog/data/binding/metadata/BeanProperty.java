@@ -118,4 +118,13 @@ public class BeanProperty<T> extends AbstractField{
 			}
 		}
 	}
+	
+	@Override
+	public void toString(StringBuilder builder) {
+		builder.append(name).append(" : ");
+		builder.append(typeSpec.getName());
+		
+//		builder.append(", ").append(getter);
+//		builder.append(", ").append(setter);
+	}
 }

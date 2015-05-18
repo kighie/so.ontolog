@@ -48,4 +48,7 @@ public interface Field extends Serializable {
 	 * @return
 	 */
 	TypeKind typeKind();
+	
+	
+	void toString(StringBuilder builder);
 }

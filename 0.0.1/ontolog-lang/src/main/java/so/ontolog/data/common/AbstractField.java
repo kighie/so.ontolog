@@ -60,4 +60,19 @@ public abstract class AbstractField implements Field {
 	public TypeSpec typeSpec() {
 		return typeSpec;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.getClass().getSimpleName()).append("[");
+		toString(builder);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	public void toString(StringBuilder builder) {
+		builder.append(name).append(" : ");
+		builder.append(typeSpec.getName());
+	}
+	
 }

@@ -12,36 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding;
-
-import java.io.Serializable;
-
-import so.ontolog.data.binding.metadata.BeanMetadata;
+package so.ontolog.samples.bean;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
+ * @author Ikchan Kwon
  *
  */
-public interface BeanBinder<T> extends Serializable {
-	
-	BeanMetadata<T> getMetadata();
-	
-	Class<T> type();
-	
-	<V> V getValue(T bean, int index);
-	
-	<V> V getValue(T bean, String fieldName);
+public enum InsuredClCd {
 
-	Object[] getValues(T bean);
-	
-	<V> void setValue(T bean, int index, V value);
-
-	<V> void setValue(T bean, String fieldName, V value);
-	
-	void setValues(T bean, Object[] values);
-	
-	T newBean();
-	
-	<V> BeanBinder<V> getFieldBinder(String fieldName);
+	ONE, TWO, THREE
 }

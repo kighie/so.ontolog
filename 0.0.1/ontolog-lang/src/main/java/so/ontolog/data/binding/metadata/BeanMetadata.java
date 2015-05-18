@@ -14,6 +14,7 @@
  */
 package so.ontolog.data.binding.metadata;
 
+import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.common.FieldMap;
 import so.ontolog.data.util.StringArraySet;
 
@@ -48,5 +49,23 @@ public class BeanMetadata<T> extends FieldMap<BeanProperty>{
 	 */
 	public Class<T> type() {
 		return beanClass;
+	}
+	
+
+	public void toString(StringBuilder builder) {
+		builder.append(beanClass.getSimpleName()).append("[");
+		for(BeanProperty f : this){
+			builder.append("\n\t");
+			f.toString(builder);
+		}
+		builder.append("\n]");
+	}
+
+	public T newBean(){
+		try {
+			return beanClass.newInstance();
+		} catch (Exception e) {
+			throw new BindingException(e);
+		}
 	}
 }

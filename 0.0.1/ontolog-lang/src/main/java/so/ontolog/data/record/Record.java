@@ -27,7 +27,7 @@ import java.util.Set;
  * @author kighie@gmail.com
  *
  */
-public class Record implements Map<String, Object>, Cloneable {
+public class Record implements Map<String, Object>, Cloneable  {
 
 	protected final RecordMetadata metadata;
 	protected Object[] values;

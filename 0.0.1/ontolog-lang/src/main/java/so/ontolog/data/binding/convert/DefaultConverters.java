@@ -576,8 +576,8 @@ public abstract class DefaultConverters {
 		convertersMap = Collections.unmodifiableMap(convertersMap);
 	}
 	
-	public static Map<Class<?>, Converter<?>> getConverters(){
-		return convertersMap;
+	public static ConverterMap newConverterMap(){
+		return new ConverterMap(convertersMap);
 	}
 
 	@SuppressWarnings("unchecked")

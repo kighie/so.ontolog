@@ -103,6 +103,24 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 		return new FieldIterator();
 	}
 
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		toString(builder);;
+		return builder.toString();
+	}
+	
+	public void toString(StringBuilder builder) {
+		builder.append(getClass().getSimpleName()).append("[");
+		for(T f : fields){
+			builder.append("\n\t");
+			f.toString(builder);
+		}
+		builder.append("\n]");
+	}
+
+
 	class FieldIterator implements Iterator<T> {
 		int cursor = -1;
 		
@@ -126,4 +144,6 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 		}
 		
 	}
+	
+	
 }
