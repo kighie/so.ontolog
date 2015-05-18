@@ -14,12 +14,11 @@
  */
 package so.ontolog.data.binding.factory;
 
-import hone.bom.binding.samples.car.CarCoverageInfo;
-
 import org.junit.Test;
 
 import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.binding.metadata.BeanMetadata;
+import so.ontolog.samples.bean.CarCoverageInfo;
 import so.ontolog.samples.bean.CarCovrPremInfo;
 import so.ontolog.samples.bean.CarEntryDsgnInfo;
 import so.ontolog.samples.bean.CarInsuredCarInfo;

@@ -1,10 +1,5 @@
 package so.ontolog.samples.bean;
 
-import hone.bom.binding.samples.car.CarCoverageInfo;
-import hone.bom.binding.samples.car.CarCovrPremInfo;
-import hone.bom.binding.samples.car.CarInsuredCarInfo;
-import hone.bom.binding.samples.car.CarInsuredHumanInfo;
-
 import java.util.List;
 import java.util.Map;
 
