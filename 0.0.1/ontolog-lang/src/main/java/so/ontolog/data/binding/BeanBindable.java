@@ -25,13 +25,13 @@ public interface BeanBindable {
 
 	BeanMetadata<?> getMetadata();
 	
-	<T> T getValue(int index);
+	<V> V getValue(int index);
 	
-	<T> T getValue(String fieldName);
+	<V> V getValue(String fieldName);
 	
-	<T> void setValue(int index, T value);
+	<V> void setValue(int index, V value);
 	
-	<T> void setValue(String fieldName, T value);
+	<V> void setValue(String fieldName, V value);
 	
 	Object[] getValues();
 	
