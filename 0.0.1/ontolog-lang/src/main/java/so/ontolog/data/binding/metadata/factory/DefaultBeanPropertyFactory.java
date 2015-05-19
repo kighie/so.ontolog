@@ -75,16 +75,20 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 		if("class".equals( pd.getName() )){
 			return null;
 		}
+		
 		Method getter = pd.getReadMethod();
 		Method setter = pd.getWriteMethod();
 		
+//		if(getter == null && type == Boolean.class){
+//			pd.
+//		}
 
 		Converter<?> converter = converterMap.get(type);
 		
 		if(converter ==null){
 			converter = DefaultConverters.BY_PASS;
 			
-			logger.log(Level.WARNING, "Unknown converter type " + type.getName());
+			logger.log(Level.INFO, "Unknown converter type " + type.getName());
 		}
 		
 		BeanProperty beanField = new BeanProperty(pd.getName(), type, converter);

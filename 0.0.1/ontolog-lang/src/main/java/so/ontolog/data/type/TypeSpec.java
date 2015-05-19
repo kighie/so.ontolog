@@ -165,6 +165,14 @@ public class TypeSpec implements Serializable {
 	public boolean isSubclassOf(TypeSpec other) {
 		return isSubclassOf(other.baseType);
 	}
+
+	public boolean isSimpleValueType(){
+		return TypeUtils.isSimpleValueType(baseType);
+	}
+
+	public boolean isNumeric(){
+		return this.typeKind == TypeKind.Number;
+	}
 	
 	@Override
 	public String toString() {

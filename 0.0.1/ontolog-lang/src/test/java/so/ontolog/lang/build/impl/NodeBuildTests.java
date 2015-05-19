@@ -20,6 +20,7 @@ import org.junit.Test;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.internal.SimpleContext;
+import so.ontolog.samples.bean.SampleObject;
 import so.ontolog.test.StopWatch;
 
 /**

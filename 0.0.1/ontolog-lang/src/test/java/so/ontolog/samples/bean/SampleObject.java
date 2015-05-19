@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build.impl;
+package so.ontolog.samples.bean;
 
 import java.math.BigDecimal;
 

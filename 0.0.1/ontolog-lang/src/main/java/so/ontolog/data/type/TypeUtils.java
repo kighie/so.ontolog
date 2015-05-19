@@ -16,6 +16,8 @@ package so.ontolog.data.type;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,49 +38,49 @@ import so.ontolog.data.binding.convert.DefaultConverters;
  *
  */
 public final class TypeUtils {
-	private static final Map<Class<?>, TypeKind> simpleTypeMap;
+	private static final Map<Class<?>, TypeKind> defaultTypeKindMap;
 	
 	static {
-		simpleTypeMap = new HashMap<Class<?>, TypeKind>(41);	
+		defaultTypeKindMap = new HashMap<Class<?>, TypeKind>(41);	
 
-		simpleTypeMap.put(Boolean.class, TypeKind.Bool);
-		simpleTypeMap.put(Boolean.TYPE, TypeKind.Bool);
-		simpleTypeMap.put(Byte.class, TypeKind.Byte);
-		simpleTypeMap.put(Byte.TYPE, TypeKind.Byte);
-		simpleTypeMap.put(String.class, TypeKind.Text);
-		simpleTypeMap.put(Character.class, TypeKind.Text);
-		simpleTypeMap.put(Character.TYPE, TypeKind.Text);
+		defaultTypeKindMap.put(Boolean.class, TypeKind.Bool);
+		defaultTypeKindMap.put(Boolean.TYPE, TypeKind.Bool);
+		defaultTypeKindMap.put(Byte.class, TypeKind.Byte);
+		defaultTypeKindMap.put(Byte.TYPE, TypeKind.Byte);
+		defaultTypeKindMap.put(String.class, TypeKind.Text);
+		defaultTypeKindMap.put(Character.class, TypeKind.Text);
+		defaultTypeKindMap.put(Character.TYPE, TypeKind.Text);
 		
-		simpleTypeMap.put(Double.class, TypeKind.Number);
-		simpleTypeMap.put(Double.TYPE, TypeKind.Number);
-		simpleTypeMap.put(Float.class, TypeKind.Number);
-		simpleTypeMap.put(Float.TYPE, TypeKind.Number);
-		simpleTypeMap.put(Integer.class, TypeKind.Number);
-		simpleTypeMap.put(Integer.TYPE, TypeKind.Number);
-		simpleTypeMap.put(Long.class, TypeKind.Number);
-		simpleTypeMap.put(Long.TYPE, TypeKind.Number);
-		simpleTypeMap.put(Short.class, TypeKind.Number);
-		simpleTypeMap.put(Short.TYPE, TypeKind.Number);
-		simpleTypeMap.put(BigDecimal.class, TypeKind.Number);
-		simpleTypeMap.put(BigInteger.class, TypeKind.Number);
-		simpleTypeMap.put(BigInt.class, TypeKind.Number);
-		simpleTypeMap.put(Int.class, TypeKind.Number);
-		simpleTypeMap.put(Real.class, TypeKind.Number);
+		defaultTypeKindMap.put(Double.class, TypeKind.Number);
+		defaultTypeKindMap.put(Double.TYPE, TypeKind.Number);
+		defaultTypeKindMap.put(Float.class, TypeKind.Number);
+		defaultTypeKindMap.put(Float.TYPE, TypeKind.Number);
+		defaultTypeKindMap.put(Integer.class, TypeKind.Number);
+		defaultTypeKindMap.put(Integer.TYPE, TypeKind.Number);
+		defaultTypeKindMap.put(Long.class, TypeKind.Number);
+		defaultTypeKindMap.put(Long.TYPE, TypeKind.Number);
+		defaultTypeKindMap.put(Short.class, TypeKind.Number);
+		defaultTypeKindMap.put(Short.TYPE, TypeKind.Number);
+		defaultTypeKindMap.put(BigDecimal.class, TypeKind.Number);
+		defaultTypeKindMap.put(BigInteger.class, TypeKind.Number);
+		defaultTypeKindMap.put(BigInt.class, TypeKind.Number);
+		defaultTypeKindMap.put(Int.class, TypeKind.Number);
+		defaultTypeKindMap.put(Real.class, TypeKind.Number);
 
-		simpleTypeMap.put(Date.class, TypeKind.Date);
-		simpleTypeMap.put(java.sql.Date.class, TypeKind.Date);
-		simpleTypeMap.put(java.sql.Time.class, TypeKind.Date);
-		simpleTypeMap.put(java.sql.Timestamp.class, TypeKind.Date);
+		defaultTypeKindMap.put(Date.class, TypeKind.Date);
+		defaultTypeKindMap.put(java.sql.Date.class, TypeKind.Date);
+		defaultTypeKindMap.put(java.sql.Time.class, TypeKind.Date);
+		defaultTypeKindMap.put(java.sql.Timestamp.class, TypeKind.Date);
 		
 
-		simpleTypeMap.put(Set.class, TypeKind.Collection);
-		simpleTypeMap.put(Collection.class, TypeKind.Collection);
-		simpleTypeMap.put(List.class, TypeKind.Collection);
-		simpleTypeMap.put(ArrayList.class, TypeKind.Collection);
-		simpleTypeMap.put(LinkedList.class, TypeKind.Collection);
+		defaultTypeKindMap.put(Set.class, TypeKind.Collection);
+		defaultTypeKindMap.put(Collection.class, TypeKind.Collection);
+		defaultTypeKindMap.put(List.class, TypeKind.Collection);
+		defaultTypeKindMap.put(ArrayList.class, TypeKind.Collection);
+		defaultTypeKindMap.put(LinkedList.class, TypeKind.Collection);
 
-		simpleTypeMap.put(Map.class, TypeKind.Map);
-		simpleTypeMap.put(HashMap.class, TypeKind.Map);
+		defaultTypeKindMap.put(Map.class, TypeKind.Map);
+		defaultTypeKindMap.put(HashMap.class, TypeKind.Map);
 	}
 	
 	private static final Map<Class<?>, TypeSpec> typeSpecMap;
@@ -124,12 +127,22 @@ public final class TypeUtils {
 		typeSpecMap.put(HashMap.class, new TypeSpec(HashMap.class, TypeKind.Map));
 	}
 	
+	public static boolean isSimpleValueType(Class<?> clazz) {
+		return clazz.isPrimitive() || clazz.isEnum() ||
+				CharSequence.class.isAssignableFrom(clazz) ||
+				Number.class.isAssignableFrom(clazz) ||
+				Boolean.class.isAssignableFrom(clazz) ||
+				Date.class.isAssignableFrom(clazz) ||
+				clazz.equals(URI.class) || clazz.equals(URL.class) ||
+				clazz.equals(Locale.class) || clazz.equals(Class.class);
+	}
+	
 	
 	public static TypeKind getTypeKind(Class<?> type){
 		if(type == null){
 			return TypeKind.Undefined;
 		}
-		TypeKind kind = simpleTypeMap.get(type);
+		TypeKind kind = defaultTypeKindMap.get(type);
 		
 		if(kind == null){
 			if(type.isArray()){

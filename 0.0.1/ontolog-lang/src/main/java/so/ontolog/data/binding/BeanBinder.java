@@ -44,4 +44,8 @@ public interface BeanBinder<T> extends Serializable {
 	T newBean();
 	
 	<V> BeanBinder<V> getFieldBinder(String fieldName);
+	
+	void print(T bean, StringBuilder builder);
+	
+	void print(T bean, StringBuilder builder, String indent);
 }

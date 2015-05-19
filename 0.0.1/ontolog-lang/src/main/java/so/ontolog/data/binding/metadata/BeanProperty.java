@@ -95,9 +95,9 @@ public class BeanProperty<T> extends AbstractField{
 			} catch (Exception e) {
 				throw new BindingException(e);
 			}
+		} else {
+			throw new BindingException("BeanProperty " + bean.getClass().getName() + "#" + name + " has no getter.");
 		}
-		
-		return defaultValue;
 	}
 	
 	public boolean hasSetter() {
@@ -110,12 +110,17 @@ public class BeanProperty<T> extends AbstractField{
 
 	public void set(Object bean, Object value){
 		if(setter != null){
+			if(value == null){
+				value = defaultValue;
+			}
 			try {
 				T val = converter.convert(value); 
 				setter.invoke(bean, new Object[]{val});
 			} catch (Exception e) {
 				throw new BindingException(e);
 			}
+		} else {
+			throw new BindingException("BeanProperty " + bean.getClass().getName() + "#" + name + " has no setter.");
 		}
 	}
 	
@@ -124,7 +129,7 @@ public class BeanProperty<T> extends AbstractField{
 		builder.append(name).append(" : ");
 		builder.append(typeSpec.getName());
 		
-//		builder.append(", ").append(getter);
-//		builder.append(", ").append(setter);
+		builder.append(", get=").append(hasGetter());
+		builder.append(", set=").append(hasSetter());
 	}
 }
