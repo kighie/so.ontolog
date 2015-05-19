@@ -16,6 +16,7 @@ package so.ontolog.data.binding.factory;
 
 import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.binding.BeanBinderFactory;
+import so.ontolog.data.binding.impl.BeanPrinter;
 import so.ontolog.data.binding.impl.DefaultBeanBinder;
 import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.factory.BeanMetadataFactory;
@@ -38,14 +39,18 @@ public class DefaultBeanBinderFactory extends BeanBinderFactory {
 		return instance;
 	}
 
+	private BeanPrinter printer;
+	
 	@Override
 	protected BeanMetadataFactory initMetadataFactory() {
-		return new DefaultBeanMetadataFactory();
+		DefaultBeanMetadataFactory factory = new DefaultBeanMetadataFactory();
+		printer = new BeanPrinter(factory);
+		return factory;
 	}
 
 	@Override
 	protected <T> BeanBinder<T> createBeanBinder(BeanMetadata<T> metadata) {
-		return new DefaultBeanBinder<T>(metadata, this);
+		return new DefaultBeanBinder<T>(metadata, this, printer);
 	}
 	
 	

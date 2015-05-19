@@ -12,20 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata.factory;
-
-import java.beans.PropertyDescriptor;
-
-import so.ontolog.data.binding.metadata.BeanProperty;
+package so.ontolog.samples.bean;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface BeanPropertyFactory {
+public enum InsuredClCdEnum {
 
-	BeanProperty<?> createBeanProperty(Class<?> beanClass, String fieldName);
-	
-	BeanProperty<?> createBeanProperty(Class<?> beanClass, PropertyDescriptor pd);
+	ONE, TWO, THREE
 }

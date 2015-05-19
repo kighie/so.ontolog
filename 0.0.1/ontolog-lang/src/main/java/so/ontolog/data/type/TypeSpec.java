@@ -80,6 +80,7 @@ public class TypeSpec implements Serializable {
 	public static final TypeSpec LIST = new TypeSpec(List.class, TypeKind.Collection);
 
 	public static final TypeSpec MAP = new TypeSpec(Map.class, TypeKind.Map);
+	
 	public static final TypeSpec RECORD = new TypeSpec(Record.class, TypeKind.Record);
 	public static final TypeSpec TABLE = new TypeSpec(Table.class, TypeKind.Table);
 
@@ -172,6 +173,10 @@ public class TypeSpec implements Serializable {
 
 	public boolean isNumeric(){
 		return this.typeKind == TypeKind.Number;
+	}
+
+	public boolean isText(){
+		return this.typeKind == TypeKind.Text;
 	}
 	
 	@Override

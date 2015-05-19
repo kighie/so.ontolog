@@ -12,20 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.metadata.factory;
+package so.ontolog.data.binding.convert;
 
-import java.beans.PropertyDescriptor;
-
-import so.ontolog.data.binding.metadata.BeanProperty;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface BeanPropertyFactory {
+@SuppressWarnings("rawtypes")
+public class EnumConverter<T extends Enum> implements Converter<T>{
 
-	BeanProperty<?> createBeanProperty(Class<?> beanClass, String fieldName);
+	private Class<T> enumType;
 	
-	BeanProperty<?> createBeanProperty(Class<?> beanClass, PropertyDescriptor pd);
+	public EnumConverter(Class<T> enumType) {
+		super();
+		this.enumType = enumType;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T convert(Object value) {
+		if(value != null){
+			return (T)Enum.valueOf(enumType, value.toString());
+		}
+		return null;
+	}
+
 }

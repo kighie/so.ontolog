@@ -15,6 +15,7 @@
 package so.ontolog.data.binding.metadata;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.convert.Converter;
@@ -35,6 +36,7 @@ public class BeanProperty<T> extends AbstractField{
 	private Method getter;
 	private Method setter;
 	private T defaultValue;
+	private Type[] genericParamTypes;
 	private Converter<? extends T> converter;
 
 	public BeanProperty(String name, Class<T> type) {
@@ -87,6 +89,29 @@ public class BeanProperty<T> extends AbstractField{
 		this.getter = getter;
 	}
 
+	public int getGenericParamTypeCount() {
+		if(genericParamTypes != null){
+			return genericParamTypes.length;
+		}
+		return 0;
+	}
+
+	public Type getGenericParamType(int index) {
+		if(genericParamTypes == null){
+			return null;
+		}
+		return genericParamTypes[index];
+	}
+
+	public Type[] getGenericParamTypes() {
+		return genericParamTypes;
+	}
+
+	public void setGenericParamTypes(Type[] genericParamTypes) {
+		this.genericParamTypes = genericParamTypes;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public T get(Object bean){
 		if(getter != null){

@@ -14,6 +14,7 @@
  */
 package so.ontolog.data.type;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -29,8 +30,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import so.ontolog.data.ReflectionException;
 import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
+import so.ontolog.data.record.Record;
+import so.ontolog.data.table.Table;
 
 /**
  * <pre></pre>
@@ -71,7 +75,9 @@ public final class TypeUtils {
 		defaultTypeKindMap.put(java.sql.Date.class, TypeKind.Date);
 		defaultTypeKindMap.put(java.sql.Time.class, TypeKind.Date);
 		defaultTypeKindMap.put(java.sql.Timestamp.class, TypeKind.Date);
-		
+
+		defaultTypeKindMap.put(Record.class, TypeKind.Record);
+		defaultTypeKindMap.put(Table.class, TypeKind.Table);
 
 		defaultTypeKindMap.put(Set.class, TypeKind.Collection);
 		defaultTypeKindMap.put(Collection.class, TypeKind.Collection);
@@ -117,14 +123,16 @@ public final class TypeUtils {
 		typeSpecMap.put(java.sql.Timestamp.class, TypeSpec.TIMESTAMP);
 		
 
-		typeSpecMap.put(Set.class, TypeSpec.SET);
-		typeSpecMap.put(Collection.class, TypeSpec.COLLECTION);
-		typeSpecMap.put(List.class, TypeSpec.LIST);
-		typeSpecMap.put(ArrayList.class, new TypeSpec(ArrayList.class, TypeKind.Collection) );
-		typeSpecMap.put(LinkedList.class, new TypeSpec(LinkedList.class, TypeKind.Collection) );
+		typeSpecMap.put(Record.class, TypeSpec.RECORD);
+		typeSpecMap.put(Table.class, TypeSpec.TABLE);
 
-		typeSpecMap.put(Map.class, TypeSpec.MAP);
-		typeSpecMap.put(HashMap.class, new TypeSpec(HashMap.class, TypeKind.Map));
+//		typeSpecMap.put(Set.class, TypeSpec.SET);
+//		typeSpecMap.put(Collection.class, TypeSpec.COLLECTION);
+//		typeSpecMap.put(List.class, TypeSpec.LIST);
+//		typeSpecMap.put(ArrayList.class, new TypeSpec(ArrayList.class, TypeKind.Collection) );
+//		typeSpecMap.put(LinkedList.class, new TypeSpec(LinkedList.class, TypeKind.Collection) );
+//		typeSpecMap.put(Map.class, TypeSpec.MAP);
+//		typeSpecMap.put(HashMap.class, new TypeSpec(HashMap.class, TypeKind.Map));
 	}
 	
 	public static boolean isSimpleValueType(Class<?> clazz) {
@@ -174,15 +182,8 @@ public final class TypeUtils {
 			if(kind == TypeKind.Array){
 				TypeSpec compType = getTypeSpec(type.getComponentType());
 				spec = new TypeSpec(type, kind, compType);
-				if(compType.getTypeKind() != TypeKind.Object){
-					typeSpecMap.put(type, spec);
-				}
 			} else {
 				spec = new TypeSpec(type, kind);
-				
-				if(kind != TypeKind.Object){
-					typeSpecMap.put(type, spec);
-				}
 			}
 		}
 		return spec;
@@ -263,5 +264,14 @@ public final class TypeUtils {
 			throw new TypeException("Cannot find Converter for " + to);
 		}
 		return converter.convert(value);
+	}
+	
+	public static Enum<?>[] getEnumValues(Class<? extends Enum<?>> enumClass){
+		try {
+			Method method = TypeKind.class.getMethod("values", new Class[0]);
+			return (Enum<?>[])method.invoke(null, new Object[0]);
+		} catch (Exception e) {
+			throw new ReflectionException(e);
+		}
 	}
 }

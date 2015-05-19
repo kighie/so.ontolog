@@ -15,11 +15,12 @@ public class CarCoverageInfo {
 	private BigDecimal entrAmount;
 
 	
-	private String frYn;
+	private boolean frYn;
 
 	
 	private String entrClCd;
 
+	private InsuredClCdEnum insuredClCd;
 	
 	private List<CarCovrPremInfo> carCovrPremInfos;
 
@@ -68,14 +69,14 @@ public class CarCoverageInfo {
 	/**
 	 * @return the frYn
 	 */
-	public String getFrYn() {
+	public boolean getFrYn() {
 		return frYn;
 	}
 
 	/**
 	 * @param frYn the frYn to set
 	 */
-	public void setFrYn(String frYn) {
+	public void setFrYn(boolean frYn) {
 		this.frYn = frYn;
 	}
 
@@ -112,4 +113,13 @@ public class CarCoverageInfo {
 		return this.carCovrPremInfos.get(index);
 	}
 
+	public InsuredClCdEnum getInsuredClCd() {
+		return insuredClCd;
+	}
+
+	public void setInsuredClCd(InsuredClCdEnum insuredClCd) {
+		this.insuredClCd = insuredClCd;
+	}
+
+	
 }

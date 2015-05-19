@@ -12,48 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.samples.bean;
+package so.ontolog.data.util;
 
-import java.math.BigDecimal;
+import java.lang.reflect.Method;
+
+import so.ontolog.data.ReflectionException;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
- * @since 1.0
+ * @author Ikchan Kwon
+ *
  */
-public class SampleObject {
-
-	private String propA;
-	private int propB;
-	
-	
-	
-	public String getPropA() {
-		return propA;
-	}
-
-
-
-	public void setPropA(String propA) {
-		this.propA = propA;
-	}
-
-
-
-	public int getPropB() {
-		return propB;
-	}
-
-
-
-	public void setPropB(int propB) {
-		this.propB = propB;
-	}
-
-
-
-	public BigDecimal testMethod(BigDecimal number){
-//		new Exception().printStackTrace();
-		return number.add(new BigDecimal(33));
+public class MethodUtils {
+	public static Object invokeStaticMethod(Class<?>beanClass, String methodName, Class<?>[]argTypes, Object[]args){
+		try {
+			Method method = beanClass.getMethod(methodName, argTypes);
+			return method.invoke(null, args);
+		} catch (Exception e) {
+			throw new ReflectionException(e);
+		}
 	}
 }

@@ -16,15 +16,19 @@ package so.ontolog.data.binding.metadata.factory;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.reflect.Type;
 
 import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.ConverterMap;
 import so.ontolog.data.binding.convert.DefaultConverters;
+import so.ontolog.data.binding.convert.EnumConverter;
 import so.ontolog.data.binding.metadata.BeanProperty;
+import so.ontolog.data.type.TypeSpec;
+import so.ontolog.data.type.TypeUtils;
+import so.ontolog.data.util.BeanUtils;
 
 /**
  * <pre></pre>
@@ -32,7 +36,7 @@ import so.ontolog.data.binding.metadata.BeanProperty;
  *
  */
 public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
-	private static Logger logger = Logger.getLogger(DefaultBeanPropertyFactory.class.getName());
+//	private static Logger logger = Logger.getLogger(DefaultBeanPropertyFactory.class.getName());
 	
 	private ConverterMap converterMap;
 	
@@ -56,7 +60,7 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 	public BeanProperty<?> createBeanProperty(Class<?> beanClass, String fieldName){
 		try {
 			PropertyDescriptor pd = new PropertyDescriptor(fieldName, beanClass);
-			return createBeanProperty(pd);
+			return createBeanProperty(beanClass, pd);
 		} catch (IntrospectionException e) {
 			throw new BindingException(e);
 		}
@@ -66,7 +70,7 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public BeanProperty<?> createBeanProperty(PropertyDescriptor pd) {
+	public BeanProperty<?> createBeanProperty(Class<?> beanClass, PropertyDescriptor pd) {
 		Class<?> type = pd.getPropertyType();
 		if(type == null){
 			return null;
@@ -75,28 +79,45 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 		if("class".equals( pd.getName() )){
 			return null;
 		}
-		
+
+		// getter/setter setting 
 		Method getter = pd.getReadMethod();
 		Method setter = pd.getWriteMethod();
 		
-//		if(getter == null && type == Boolean.class){
-//			pd.
-//		}
-
+		if( getter == null && type == Boolean.class){
+			getter = BeanUtils.findGetter(beanClass, pd.getName());
+		}
+		
+		// converter setting 
 		Converter<?> converter = converterMap.get(type);
 		
 		if(converter ==null){
-			converter = DefaultConverters.BY_PASS;
-			
-			logger.log(Level.INFO, "Unknown converter type " + type.getName());
+			if( Enum.class.isAssignableFrom(type)){
+				converter = new EnumConverter(type);
+			} else {
+				converter = DefaultConverters.BY_PASS;
+//				logger.log(Level.INFO, "Unknown converter type " + type.getName());
+			}
 		}
 		
-		BeanProperty beanField = new BeanProperty(pd.getName(), type, converter);
+		TypeSpec typeSpec = TypeUtils.getTypeSpec(type);
+		
+		// Generic type setting
+		Type[] genericParamTypes;
+		
+		if(getter != null){
+			genericParamTypes = BeanUtils.getGenericReternTypes(getter);
+		} else {
+			Field field = BeanUtils.findField(beanClass, pd.getName());
+			genericParamTypes = BeanUtils.getGenericParameterTypes(field);
+		}
+		
+		BeanProperty beanField = new BeanProperty(pd.getName(), typeSpec, converter);
 		beanField.setGetter(getter);
 		beanField.setSetter(setter);
+		beanField.setGenericParamTypes(genericParamTypes);
 		
 		return beanField;
 	}
-	
 	
 }

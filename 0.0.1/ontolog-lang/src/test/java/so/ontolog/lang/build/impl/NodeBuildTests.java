@@ -20,7 +20,7 @@ import org.junit.Test;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.internal.SimpleContext;
-import so.ontolog.samples.bean.SampleObject;
+import so.ontolog.samples.bean.SampleBean;
 import so.ontolog.test.StopWatch;
 
 /**
@@ -72,7 +72,7 @@ public class NodeBuildTests {
 		buildAndRunExpr("[param int a as pa; param real b;] =(3*4.5/(pa+5) - b)", context);
 		buildAndRunExpr("[param int a as pa; param real b;param text c;] =(3*4.5/(pa+5) - b) + ' : ' + c * 3", context);
 		
-		SampleObject sample = new SampleObject();
+		SampleBean sample = new SampleBean();
 		sample.setPropA("SSS");
 		sample.setPropB(234);
 		context.setParameter("sample", sample);

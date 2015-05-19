@@ -24,7 +24,7 @@ public class CarInsuredHumanInfo {
 	
 	private Boolean groupYn;
 
-	private InsuredClCd insuredClCd;
+	private InsuredClCdEnum insuredClCd;
 
 	private String violLawClCd;
 
@@ -195,14 +195,14 @@ public class CarInsuredHumanInfo {
 	/**
 	 * @return the insuredClCd
 	 */
-	public InsuredClCd getInsuredClCd() {
+	public InsuredClCdEnum getInsuredClCd() {
 		return insuredClCd;
 	}
 
 	/**
 	 * @param insuredClCd the insuredClCd to set
 	 */
-	public void setInsuredClCd(InsuredClCd insuredClCd) {
+	public void setInsuredClCd(InsuredClCdEnum insuredClCd) {
 		this.insuredClCd = insuredClCd;
 	}
 

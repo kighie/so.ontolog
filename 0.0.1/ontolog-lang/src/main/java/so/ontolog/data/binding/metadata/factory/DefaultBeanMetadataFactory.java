@@ -30,6 +30,7 @@ import so.ontolog.data.binding.metadata.BeanProperty;
  *
  */
 public class DefaultBeanMetadataFactory implements BeanMetadataFactory {
+	
 	private BeanPropertyFactory propertyFactory;
 	
 
@@ -46,32 +47,15 @@ public class DefaultBeanMetadataFactory implements BeanMetadataFactory {
 
 	@Override
 	public <T> BeanMetadata<T> create(Class<T> beanClass) {
-		BeanInfo beanInfo;
-		
-		try {
-			beanInfo = Introspector.getBeanInfo(beanClass);
-		} catch (IntrospectionException e) {
-			throw new BindingException(e);
-		}
-		
-		PropertyDescriptor[] pdArray = beanInfo.getPropertyDescriptors();
-		
-		LinkedList<BeanProperty<?>> propList = new LinkedList<BeanProperty<?>>();
-		BeanProperty<?> property;
-		
-		for( PropertyDescriptor pd : pdArray ){
-			property = propertyFactory.createBeanProperty(pd);
-			property = checkField(property, pd);
-			if(property != null){
-				propList.add(property);
-			}
-		}
+		LinkedList<BeanProperty<?>> propList = getBeanProperties(beanClass);
 
 		int length = propList.size();
 		BeanProperty<?>[] propertyArray = new BeanProperty<?>[length];
 		String[] fnameArray = new String[length];
 		
 		propList.toArray(propertyArray);
+
+		BeanProperty<?> property;
 		
 		for( int i=0;i<length;i++ ){
 			property = propertyArray[i];
@@ -81,12 +65,60 @@ public class DefaultBeanMetadataFactory implements BeanMetadataFactory {
 		BeanMetadata<T> metadata = new BeanMetadata<T>(beanClass, fnameArray, propertyArray);
 		return metadata;
 	}
-	
-	protected BeanProperty<?> checkField(BeanProperty<?> property, PropertyDescriptor pd){
-		if(property==null){
-			return null;
+
+	/**<pre></pre>
+	 * @param beanClass
+	 * @return
+	 */
+	protected <T> PropertyDescriptor[] getPropertyDescriptors(Class<T> beanClass) {
+		BeanInfo beanInfo;
+		
+		try {
+			beanInfo = Introspector.getBeanInfo(beanClass);
+		} catch (IntrospectionException e) {
+			throw new BindingException(e);
 		}
 		
+		PropertyDescriptor[] pdArray = beanInfo.getPropertyDescriptors();
+		return pdArray;
+	}
+	
+	/**<pre></pre>
+	 * @param beanClass
+	 * @return
+	 */
+	protected <T> LinkedList<BeanProperty<?>> getBeanProperties(
+			Class<T> beanClass) {
+		PropertyDescriptor[] pdArray = getPropertyDescriptors(beanClass);
+		
+		LinkedList<BeanProperty<?>> propList = new LinkedList<BeanProperty<?>>();
+		BeanProperty<?> property;
+		
+		for( PropertyDescriptor pd : pdArray ){
+			property = propertyFactory.createBeanProperty(beanClass, pd);
+			property = checkField(beanClass, property, pd);
+			if(property != null){
+				propList.add(property);
+			}
+		}
+		return propList;
+	}
+
+	protected BeanProperty<?> checkField(Class<?> beanClass, BeanProperty<?> property, PropertyDescriptor pd){
+//		if(property==null){
+//			return null;
+//		}
+//		
+//		if( !property.hasGetter() && property.type() == Boolean.class){
+//			String methodName = makeMethodName("is" , property.name());
+//			try {
+//				Method getter = beanClass.getMethod(methodName, EMPTY_CLASS_ARRAY);
+//				property.setGetter(getter);
+//			} catch (Exception e) {
+//				// Ignore
+//			}
+//			
+//		}
 		return property;
 	}
 }

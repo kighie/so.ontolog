@@ -12,14 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.samples.bean;
+package so.ontolog.data;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public enum InsuredClCd {
+public class ReflectionException extends RuntimeException {
 
-	ONE, TWO, THREE
+	private static final long serialVersionUID = -7741130453061920218L;
+
+	public ReflectionException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public ReflectionException(String message) {
+		super(message);
+	}
+
+	public ReflectionException(Throwable cause) {
+		super(cause);
+	}
+
 }
