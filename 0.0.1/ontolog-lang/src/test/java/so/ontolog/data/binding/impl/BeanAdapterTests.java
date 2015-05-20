@@ -60,7 +60,7 @@ public class BeanAdapterTests {
 		adapter.setValue("carCovrPremInfos", carCovrPremInfos);
 		
 		StringBuilder builder = new StringBuilder();
-		binder.print(bean, builder,"");
+		binder.print(bean, builder);
 		System.out.println(builder);
 	}
 }

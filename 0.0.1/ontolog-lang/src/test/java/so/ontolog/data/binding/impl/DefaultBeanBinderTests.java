@@ -1,7 +1,10 @@
 package so.ontolog.data.binding.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -56,8 +59,18 @@ public class DefaultBeanBinderTests {
 		sampleBean.setPropList2(list2);
 		
 		sampleBean.setPropArray(new int[]{1,23,4,5,53,23,24});
+		
+		Map<String,BigDecimal> propMap = new HashMap<String, BigDecimal>();
+		propMap.put("A", new BigDecimal(3));
+		propMap.put("B", new BigDecimal(4));
+		propMap.put("C", new BigDecimal(5));
+		propMap.put("D", new BigDecimal(6));
+		propMap.put("E", new BigDecimal(7));
+		
+		sampleBean.setPropMap(propMap);
+		
 		StringBuilder builder = new StringBuilder();
-		binder.print(sampleBean, builder,"");
+		binder.print(sampleBean, builder);
 		System.out.println(builder);
 	}
 	
@@ -68,7 +81,7 @@ public class DefaultBeanBinderTests {
 		T bean = filler.fillData(binder.newBean(), binder);
 		
 		StringBuilder builder = new StringBuilder();
-		binder.print(bean, builder,"");
+		binder.print(bean, builder);
 		System.out.println(builder);
 		return bean;
 	}

@@ -14,17 +14,12 @@
  */
 package so.ontolog.data.binding.impl;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Map;
-
 import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.binding.BeanBinderFactory;
 import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.BeanProperty;
 import so.ontolog.data.type.TypeKind;
-import so.ontolog.data.type.TypeSpec;
 
 /**
  * <pre></pre>
@@ -113,125 +108,8 @@ public class DefaultBeanBinder<T> implements BeanBinder<T>{
 	
 	
 	@Override
-	public void print(T bean, StringBuilder builder, String indent) {
-		printer.print(bean, metadata, builder, indent);
-//		builder.append("\n").append(indent).append(metadata.type()).append("{");
-//		
-//		for (BeanProperty<?> property : metadata) {
-//			try {
-//				builder.append("\n").append(indent);
-//				builder.append(" ").append(property.name());
-//				builder.append(": ");
-//
-//				TypeSpec fieldType = property.typeSpec();
-//				
-//				if (fieldType.isSimpleValueType()) {
-//					Object val = property.get(bean);
-//					
-//					if (val == null) {
-//						builder.append("null");
-//					} else if (fieldType.isText()) {
-//						builder.append("\"").append(val).append("\"");
-//					} else {
-//						builder.append(val);
-//					}
-//				} else if (fieldType.getTypeKind() == TypeKind.Collection) {
-//					Collection collection = (Collection)property.get(bean);
-//					if (collection != null) {
-//						builder.append(" ").append(collection.size())
-//								.append(" [");
-//						Type[] genTypes = property.getGenericParamTypes();
-//						if(genTypes != null){
-//							
-//						}
-////						TODO 
-////						Class<?> childtype = bp.getAdditionalTypes()[0];
-////						if (FieldType.Object == BomBindingUtils
-////								.checkFieldType(childtype)) {
-////							DtoPropertyBinderExtend childBinder = (DtoPropertyBinderExtend) registry
-////									.getDtoPropertyBinder(childtype);
-////							for (Object childDto : collection) {
-////								childBinder.printContents(childDto, builder,
-////										indent + "\t\t");
-////							}
-////						} else {
-////							for (Object value : collection) {
-////								builder.append("\n").append(indent);
-////								builder.append("\t\t\"").append(value)
-////										.append("\"");
-////							}
-////						}
-//						builder.append("\n").append(indent).append("\t]");
-//					}
-//				} else if (fieldType.getTypeKind() == TypeKind.Array) {
-//					Object[] array = (Object[])property.get(bean);
-//					if (array != null) {
-//						builder.append(" ").append(array.length).append(" [");
-//						TypeSpec compType = fieldType.getComponentType();
-//						if (!compType.isSimpleValueType()) {
-//							BeanBinder childBinder = factory.createBeanBinder(property.type());
-//							
-//							for (Object child : array) {
-//								childBinder.print(child, builder, indent + "\t\t");
-//							}
-//						} else {
-//							for (Object value : array) {
-//								builder.append("\n").append(indent);
-//								builder.append("\t\t\"").append(value)
-//										.append("\"");
-//							}
-//						}
-//						builder.append("\n").append(indent).append("\t]");
-//					}
-//				} else if (fieldType.getTypeKind() == TypeKind.Map) {
-//					Map map = (Map)property.get(bean);
-//					if (map != null) {
-//						builder.append(" ").append(map.size()).append(" {");
-////						TODO 
-////						Class<?> childtype = bp.getAdditionalTypes()[1];
-////
-////						String[] keyArray = new String[map.size()];
-////						map.keySet().toArray(keyArray);
-////						Arrays.sort(keyArray);
-////
-////						if (FieldType.Object == BomBindingUtils
-////								.checkFieldType(childtype)) {
-////							DtoPropertyBinderExtend childBinder = (DtoPropertyBinderExtend) registry
-////									.getDtoPropertyBinder(childtype);
-////
-////							for (String key : keyArray) {
-////								builder.append("\n").append(indent);
-////								builder.append("\t\t").append(key).append("=");
-////								childBinder.printContents(map.get(key), builder,
-////										indent + "\t\t");
-////							}
-////						} else {
-////							for (String key : keyArray) {
-////								builder.append("\n").append(indent);
-////								builder.append("\t\t").append(key).append("=");
-////								builder.append(map.get(key));
-////							}
-////						}
-//						builder.append("\n").append(indent).append("\t}");
-//					}
-//				} else if (fieldType.getTypeKind() == TypeKind.Object) {
-//					Object child = property.get(bean);
-//					if (child != null) {
-//						BeanBinder childBinder = factory.createBeanBinder(property.type());
-//						childBinder.print(child, builder, indent + "\t");
-//					} else {
-//						builder.append("null");
-//					}
-//				} else {
-//					Object value = property.get(bean);
-//					builder.append(value);
-//				}
-//			} catch (Throwable e) {
-//				builder.append("\nERROR :: ").append(e.toString()).append("\n");
-//			}
-//		}
-//		
-//		builder.append("\n").append(indent).append("}");
+	public void print(T bean, StringBuilder builder) {
+		printer.print(bean, metadata, builder, "");
 	}
 	
 	

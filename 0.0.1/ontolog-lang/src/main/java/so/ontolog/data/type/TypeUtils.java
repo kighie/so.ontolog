@@ -14,7 +14,9 @@
  */
 package so.ontolog.data.type;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -35,6 +37,7 @@ import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.record.Record;
 import so.ontolog.data.table.Table;
+import so.ontolog.data.util.ArrayIterable;
 
 /**
  * <pre></pre>
@@ -134,7 +137,15 @@ public final class TypeUtils {
 //		typeSpecMap.put(Map.class, TypeSpec.MAP);
 //		typeSpecMap.put(HashMap.class, new TypeSpec(HashMap.class, TypeKind.Map));
 	}
-	
+
+	@SuppressWarnings("rawtypes")
+	public static boolean isSimpleValueType(Type type) {
+		if(type instanceof Class){
+			return isSimpleValueType((Class)type);
+		}
+		return false;
+	}
+
 	public static boolean isSimpleValueType(Class<?> clazz) {
 		return clazz.isPrimitive() || clazz.isEnum() ||
 				CharSequence.class.isAssignableFrom(clazz) ||
@@ -274,4 +285,53 @@ public final class TypeUtils {
 			throw new ReflectionException(e);
 		}
 	}
+	
+	
+
+	public static int getArrayLength(Object arrayObject){
+		if(arrayObject.getClass().isArray()){
+			return Array.getLength(arrayObject);
+		}
+		return 0;
+	}
+
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Iterable<?> toArrayIterable(Object arrayObject, TypeSpec componentType){
+		if(componentType.isPrimitive()){
+			Class<?> type = componentType.getBaseType();
+			int arrlength = Array.getLength(arrayObject);
+			Object[] outputArray;
+			
+			if(type == Boolean.TYPE){
+				outputArray = new Boolean[arrlength];
+			} else if(type == Byte.TYPE){
+				outputArray = new Byte[arrlength];
+			} else if(type == Character.TYPE){
+				outputArray = new Character[arrlength];
+			} else if(type == Double.TYPE){
+				outputArray = new Double[arrlength];
+			} else if(type == Float.TYPE){
+				outputArray = new Float[arrlength];
+			} else if(type == Integer.TYPE){
+				outputArray = new Integer[arrlength];
+			} else if(type == Long.TYPE){
+				outputArray = new Long[arrlength];
+			} else if(type == Short.TYPE){
+				outputArray = new Short[arrlength];
+			} else {
+				throw new ReflectionException("Connot cast to primitive type array : " + type);
+			}
+			
+		    for(int i = 0; i < arrlength; ++i){
+		       outputArray[i] = Array.get(arrayObject, i);
+		    }
+		    return new ArrayIterable(outputArray);
+		} else {
+			return new ArrayIterable((Object[])arrayObject);
+		}
+	}
+	
+	
+	
 }

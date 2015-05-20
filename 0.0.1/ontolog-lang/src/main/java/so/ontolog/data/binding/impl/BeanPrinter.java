@@ -68,31 +68,27 @@ public class BeanPrinter {
 	public void printMap(Map<?,?> map, Type keyParamType, Type valueParamType, StringBuilder builder, String indent) {
 
 		builder.append(" ").append(map.size()).append(" {");
-//		TODO 
-//		Class<?> childtype = bp.getAdditionalTypes()[1];
-//
-//		String[] keyArray = new String[map.size()];
-//		map.keySet().toArray(keyArray);
-//		Arrays.sort(keyArray);
-//
-//		if (FieldType.Object == BomBindingUtils
-//				.checkFieldType(childtype)) {
-//			DtoPropertyBinderExtend childBinder = (DtoPropertyBinderExtend) registry
-//					.getDtoPropertyBinder(childtype);
-//
-//			for (String key : keyArray) {
-//				builder.append("\n").append(indent);
-//				builder.append("\t\t").append(key).append("=");
-//				childBinder.printContents(map.get(key), builder,
-//						indent + "\t\t");
-//			}
-//		} else {
-//			for (String key : keyArray) {
-//				builder.append("\n").append(indent);
-//				builder.append("\t\t").append(key).append("=");
-//				builder.append(map.get(key));
-//			}
-//		}
+		
+		if (valueParamType == null || !TypeUtils.isSimpleValueType(valueParamType)) {
+			for (Map.Entry<?, ?> entry : map.entrySet()) {
+				builder.append("\n").append(indent);
+				builder.append("\t\t").append(entry.getKey()).append("=");
+				
+				Object value = entry.getValue();
+				if(value != null){
+					BeanMetadata<?> meta = factory.create(value.getClass());
+					print(value, meta, builder, indent + "\t\t");
+				} else {
+					builder.append("null");
+				}
+			}
+		} else {
+			for (Map.Entry<?, ?> entry : map.entrySet()) {
+				builder.append("\n").append(indent);
+				builder.append("\t").append(entry.getKey()).append("=");
+				builder.append(entry.getValue());
+			}
+		}
 		builder.append("\n").append(indent).append("\t}");
 	}
 	
@@ -103,42 +99,74 @@ public class BeanPrinter {
 		if((genericParamType != null) && genericParamType instanceof Class){
 			elementClass = (Class<?>)genericParamType;
 		}
-		//TODO 
-		//Class<?> childtype = bp.getAdditionalTypes()[0];
-		//if (FieldType.Object == BomBindingUtils
-		//		.checkFieldType(childtype)) {
-		//	DtoPropertyBinderExtend childBinder = (DtoPropertyBinderExtend) registry
-		//			.getDtoPropertyBinder(childtype);
-		//	for (Object childDto : collection) {
-		//		childBinder.printContents(childDto, builder,
-		//				indent + "\t\t");
-		//	}
-		//} else {
-		//	for (Object value : collection) {
-		//		builder.append("\n").append(indent);
-		//		builder.append("\t\t\"").append(value)
-		//				.append("\"");
-		//	}
-		//}
-		builder.append("\n").append(indent).append("\t]");
-	}
-	
-	public void printArray(Object[] array, TypeSpec compType, StringBuilder builder, String indent) {
-		if (array != null) {
-			builder.append(" ").append(array.length).append(" [");
-			if (compType.isSimpleValueType()) {
-				for (Object value : array) {
-					builder.append("\n").append(indent);
-					builder.append("\t\t\"").append(value)
-							.append("\"");
+
+		if (elementClass == null || !TypeUtils.isSimpleValueType(elementClass)) {
+			for (Object value : collection) {
+				if(value != null){
+					if(TypeUtils.isSimpleValueType(value.getClass())){
+						builder.append(value);
+					} else {
+						BeanMetadata<?> meta = factory.create(value.getClass());
+						print(value, meta, builder, indent + "\t");
+					}
+				} else {
+					builder.append("null");
 				}
-			} else {
-				for (Object child : array) {
-					print(child, factory.create(child.getClass()), builder, indent + "\t\t");
+				builder.append("\n").append(indent).append("\t");
+			}
+			builder.append("]");
+		} else {
+			boolean first = true;
+			for (Object value : collection) {
+				if(first){
+					first = false;
+				} else {
+					builder.append(",");
+				}
+				if (value == null) {
+					builder.append("null");
+				} else if (value instanceof CharSequence) {
+					builder.append("\"").append(value).append("\"");
+				} else {
+					builder.append(value);
 				}
 			}
+			builder.append("]");
+		}
+		
+	}
+	
+	public void printArray(Object arrayObj, TypeSpec compType, StringBuilder builder, String indent) {
+		if (arrayObj != null) {
+			Iterable<?> array = TypeUtils.toArrayIterable(arrayObj, compType);
 			
-			builder.append("\n").append(indent).append("\t]");
+			builder.append(" ").append(TypeUtils.getArrayLength(arrayObj)).append(" [");
+			if (compType.isSimpleValueType()) {
+//				builder.append("\n\t").append(indent);
+				boolean first = true;
+				for (Object value : array) {
+					if(first){
+						first = false;
+					} else {
+						builder.append(",");
+					}
+					if (value == null) {
+						builder.append("null");
+					} else if (compType.isText()) {
+						builder.append("\"").append(value).append("\"");
+					} else {
+						builder.append(value);
+					}
+				}
+				builder.append("]");
+			} else {
+				for (Object child : array) {
+					print(child, factory.create(child.getClass()), builder, indent + "\t");
+				}
+				builder.append("\n").append(indent).append("\t]");
+			}
+			
+			
 		}
 		
 	}
@@ -171,8 +199,7 @@ public class BeanPrinter {
 						printCollection(collection, property.getGenericParamType(0), builder, indent+"\t");
 					}
 				} else if (fieldType.getTypeKind() == TypeKind.Array) {
-					Object[] array = (Object[])property.get(bean);
-					printArray(array, fieldType.getComponentType(), builder, indent);
+					printArray(property.get(bean), fieldType.getComponentType(), builder, indent);
 				} else if (fieldType.getTypeKind() == TypeKind.Map) {
 					Map map = (Map)property.get(bean);
 					if (map != null) {
