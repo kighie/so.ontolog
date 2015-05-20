@@ -12,29 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding;
+package so.ontolog.data.binding.impl;
 
-import java.io.Serializable;
-
-import so.ontolog.data.binding.metadata.BeanMetadata;
+import java.util.List;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
+ * @author Ikchan Kwon
  *
  */
-public interface BeanBinder<T> extends Binder<T>, Serializable {
+public class ListPropertyAccessor<V> extends AbstractPropertyAccessor<Integer, V> {
+
+	/**
+	 * @param key
+	 * @param type
+	 */
+	public ListPropertyAccessor(Integer key, Class<V> type) {
+		super(key, type);
+	}
 	
-	BeanMetadata<T> getMetadata();
+	@SuppressWarnings("unchecked")
+	@Override
+	public V get(Object bean) {
+		return ((List<V>)bean).get(key);
+	}
 	
-	
-	Object[] getValues(T bean);
-	
-	void setValues(T bean, Object[] values);
-	
-	T newBean();
-	
-	<V> BeanBinder<V> getFieldBeanBinder(String fieldName);
-	
-	void print(T bean, StringBuilder builder);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	protected void setImpl(Object bean, V value) {
+		((List)bean).set(key, value);
+	}
+
 }

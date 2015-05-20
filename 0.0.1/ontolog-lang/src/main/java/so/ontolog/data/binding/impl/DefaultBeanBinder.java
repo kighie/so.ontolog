@@ -16,9 +16,12 @@ package so.ontolog.data.binding.impl;
 
 import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.binding.BeanBinderFactory;
+import so.ontolog.data.binding.Binder;
 import so.ontolog.data.binding.BindingException;
+import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.BeanProperty;
+import so.ontolog.data.binding.tools.BeanPrinter;
 import so.ontolog.data.type.TypeKind;
 
 /**
@@ -96,9 +99,10 @@ public class DefaultBeanBinder<T> implements BeanBinder<T>{
 		return metadata.newBean();
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V> BeanBinder<V> getFieldBinder(String fieldName) {
+	public <V> BeanBinder<V> getFieldBeanBinder(String fieldName) {
 		BeanProperty<V> prop = (BeanProperty<V>)metadata.get(fieldName);
 		if(prop.typeKind() == TypeKind.Object){
 			return (BeanBinder<V>)factory.createBeanBinder(prop.type());
@@ -107,6 +111,55 @@ public class DefaultBeanBinder<T> implements BeanBinder<T>{
 	}
 	
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V> Binder<V> getFieldBinder(T bean, String fieldName) {
+		BeanProperty<V> prop = (BeanProperty<V>)metadata.get(fieldName);
+		return getFieldBinder(prop);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V> Binder<V> getFieldBinder(T bean, int index) {
+		BeanProperty<V> prop = (BeanProperty<V>)metadata.get(index);
+		return getFieldBinder(prop);
+	}
+
+	/**<pre></pre>
+	 * @param prop
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private <V> Binder<V> getFieldBinder(BeanProperty<V> prop) {
+		TypeKind typeKind = prop.typeKind();
+		
+		if(typeKind == TypeKind.Object){
+			return (BeanBinder<V>)factory.createBeanBinder(prop.type());
+		} else if(typeKind == TypeKind.Map){
+			return (Binder<V>)factory.createMapBinder(prop.type(), prop.getGenericParamType(0), prop.getGenericParamType(1));
+		} else if(typeKind == TypeKind.Collection){
+			return (Binder<V>)factory.createCollectionBinder(prop.type(), prop.getGenericParamType(0));
+		} else if(typeKind == TypeKind.Array){
+			return (Binder<V>)factory.createArrayBinder(prop.typeSpec().getBaseType());
+		}
+		
+		throw new BindingException("Cannot create Binder for " + prop.typeSpec());
+	}
+
+	
+	
+	@Override
+	public PropertyAccessor<?,?> getPropertyAccessor(String fieldName) {
+		return metadata.get(fieldName);
+	}
+
+	@Override
+	public PropertyAccessor<?,?> getPropertyAccessor(int index) {
+		return metadata.get(index);
+	}
+
 	@Override
 	public void print(T bean, StringBuilder builder) {
 		printer.print(bean, metadata, builder, "");

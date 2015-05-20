@@ -4,18 +4,18 @@
 package so.ontolog.data.binding.tools;
 
 import so.ontolog.data.binding.BindingException;
-import so.ontolog.data.binding.metadata.BeanProperty;
+import so.ontolog.data.binding.PropertyAccessor;
 
 /**
  * @author kighie
  *
  */
-public class BeanPropertyChains<T> {
+public class PropertyAccessorChains<T> {
 
-	private BeanPropertyChains<?> parentChain;
-	private BeanProperty<T> beanProperty;
+	private PropertyAccessorChains<?> parentChain;
+	private PropertyAccessor<?,T> beanProperty;
 	
-	public BeanPropertyChains(BeanPropertyChains<?> parentChain, BeanProperty<T> beanProperty) {
+	public PropertyAccessorChains(PropertyAccessorChains<?> parentChain, PropertyAccessor<?,T> beanProperty) {
 		this.parentChain = parentChain;
 		this.beanProperty = beanProperty;
 	}

@@ -297,30 +297,29 @@ public final class TypeUtils {
 
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Iterable<?> toArrayIterable(Object arrayObject, TypeSpec componentType){
+	public static Iterable<?> toArrayIterable(Object arrayObject, Class<?> componentType){
 		if(componentType.isPrimitive()){
-			Class<?> type = componentType.getBaseType();
 			int arrlength = Array.getLength(arrayObject);
 			Object[] outputArray;
 			
-			if(type == Boolean.TYPE){
+			if(componentType == Boolean.TYPE){
 				outputArray = new Boolean[arrlength];
-			} else if(type == Byte.TYPE){
+			} else if(componentType == Byte.TYPE){
 				outputArray = new Byte[arrlength];
-			} else if(type == Character.TYPE){
+			} else if(componentType == Character.TYPE){
 				outputArray = new Character[arrlength];
-			} else if(type == Double.TYPE){
+			} else if(componentType == Double.TYPE){
 				outputArray = new Double[arrlength];
-			} else if(type == Float.TYPE){
+			} else if(componentType == Float.TYPE){
 				outputArray = new Float[arrlength];
-			} else if(type == Integer.TYPE){
+			} else if(componentType == Integer.TYPE){
 				outputArray = new Integer[arrlength];
-			} else if(type == Long.TYPE){
+			} else if(componentType == Long.TYPE){
 				outputArray = new Long[arrlength];
-			} else if(type == Short.TYPE){
+			} else if(componentType == Short.TYPE){
 				outputArray = new Short[arrlength];
 			} else {
-				throw new ReflectionException("Connot cast to primitive type array : " + type);
+				throw new ReflectionException("Connot cast to primitive type array : " + componentType);
 			}
 			
 		    for(int i = 0; i < arrlength; ++i){

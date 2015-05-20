@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import so.ontolog.data.binding.BindingException;
+import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.common.AbstractField;
@@ -29,7 +30,7 @@ import so.ontolog.data.type.TypeUtils;
  * @author Ikchan Kwon
  *
  */
-public class BeanProperty<T> extends AbstractField{
+public class BeanProperty<T> extends AbstractField implements PropertyAccessor<String, T> {
 	private static final long serialVersionUID = -196837514470986311L;
 	public static final Object[] EMPTY_ARGS = new Object[0];
 	
@@ -53,6 +54,13 @@ public class BeanProperty<T> extends AbstractField{
 		initDefault();
 	}
 	
+	/**
+	 * get name
+	 */
+	@Override
+	public String accessKey() {
+		return name;
+	}
 	
 	@SuppressWarnings("incomplete-switch")
 	protected void initDefault(){

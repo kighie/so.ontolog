@@ -15,20 +15,21 @@
 package so.ontolog.data.binding.factory;
 
 import so.ontolog.data.binding.BeanBinder;
-import so.ontolog.data.binding.BeanBinderFactory;
-import so.ontolog.data.binding.impl.BeanPrinter;
 import so.ontolog.data.binding.impl.DefaultBeanBinder;
 import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.factory.BeanMetadataFactory;
+import so.ontolog.data.binding.metadata.factory.BeanPropertyFactory;
 import so.ontolog.data.binding.metadata.factory.CachedBeanMetadataFactory;
 import so.ontolog.data.binding.metadata.factory.DefaultBeanMetadataFactory;
+import so.ontolog.data.binding.metadata.factory.DefaultBeanPropertyFactory;
+import so.ontolog.data.binding.tools.BeanPrinter;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class CachedBeanBinderFactory extends BeanBinderFactory {
+public class CachedBeanBinderFactory extends GenericBeanBinderFactory {
 
 	private static CachedBeanBinderFactory instance;
 	
@@ -43,12 +44,19 @@ public class CachedBeanBinderFactory extends BeanBinderFactory {
 	private BeanPrinter printer;
 	
 	@Override
-	protected BeanMetadataFactory initMetadataFactory() {
-		BeanMetadataFactory factory = new DefaultBeanMetadataFactory();
+	protected BeanMetadataFactory initMetadataFactory(BeanPropertyFactory propertyFactory) {
+		BeanMetadataFactory factory = new DefaultBeanMetadataFactory(propertyFactory);
 		factory = new CachedBeanMetadataFactory(factory);
 		printer = new BeanPrinter(factory);
 		return factory;
 	}
+
+
+	@Override
+	protected BeanPropertyFactory initPropertyFactory() {
+		return new DefaultBeanPropertyFactory();
+	}
+
 	
 	@Override
 	protected <T> BeanBinder<T> createBeanBinder(BeanMetadata<T> metadata) {

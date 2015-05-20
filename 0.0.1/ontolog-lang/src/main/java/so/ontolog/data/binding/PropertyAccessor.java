@@ -14,27 +14,30 @@
  */
 package so.ontolog.data.binding;
 
-import java.io.Serializable;
-
-import so.ontolog.data.binding.metadata.BeanMetadata;
+import so.ontolog.data.binding.convert.Converter;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
+ * @author Ikchan Kwon
  *
  */
-public interface BeanBinder<T> extends Binder<T>, Serializable {
+public interface PropertyAccessor<K,V> {
+
+	/**
+	 * <pre>Key to property access : String or Integer</pre>
+	 * @return
+	 */
+	K accessKey();
 	
-	BeanMetadata<T> getMetadata();
+	/**
+	 * <pre>The type of this field</pre>
+	 * @return
+	 */
+	Class<?> type();
 	
+	void setConverter(Converter<? extends V> converter);
 	
-	Object[] getValues(T bean);
+	V get(Object bean);
 	
-	void setValues(T bean, Object[] values);
-	
-	T newBean();
-	
-	<V> BeanBinder<V> getFieldBeanBinder(String fieldName);
-	
-	void print(T bean, StringBuilder builder);
+	void set(Object bean, Object value);
 }

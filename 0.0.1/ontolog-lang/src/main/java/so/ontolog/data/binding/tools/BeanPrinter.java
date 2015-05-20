@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.binding.impl;
+package so.ontolog.data.binding.tools;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -59,7 +59,22 @@ public class BeanPrinter {
 		} else if(bean instanceof Map){
 			printMap((Map<?,?>)bean, property.getGenericParamType(0),property.getGenericParamType(1),builder, indent);
 		} else if(bean.getClass().isArray()){
-			printArray((Object[])bean, property.typeSpec().getComponentType(), builder, indent);
+			printArray((Object[])bean, bean.getClass().getComponentType(), builder, indent);
+		} else {
+			print(bean, (BeanMetadata<T>)factory.create(bean.getClass()), builder, indent);
+		}	
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> void printProperty(T bean, StringBuilder builder, String indent) {
+		if( TypeUtils.isSimpleValueType(bean.getClass()) ){
+			builder.append(bean);
+		} else if(bean instanceof Collection){
+			printCollection((Collection<?>)bean,null, builder, indent);
+		} else if(bean instanceof Map){
+			printMap((Map<?,?>)bean, null,null,builder, indent);
+		} else if(bean.getClass().isArray()){
+			printArray((Object[])bean, bean.getClass().getComponentType(), builder, indent);
 		} else {
 			print(bean, (BeanMetadata<T>)factory.create(bean.getClass()), builder, indent);
 		}	
@@ -71,12 +86,11 @@ public class BeanPrinter {
 		
 		if (valueParamType == null || !TypeUtils.isSimpleValueType(valueParamType)) {
 			for (Map.Entry<?, ?> entry : map.entrySet()) {
-				builder.append("\t\t").append(entry.getKey()).append("=");
+				builder.append("\t").append(entry.getKey()).append("=");
 				
 				Object value = entry.getValue();
 				if(value != null){
-					BeanMetadata<?> meta = factory.create(value.getClass());
-					print(value, meta, builder, indent + "\t\t");
+					printProperty(value, builder, indent+"\t");
 				} else {
 					builder.append("null");
 				}
@@ -103,12 +117,7 @@ public class BeanPrinter {
 		if (elementClass == null || !TypeUtils.isSimpleValueType(elementClass)) {
 			for (Object value : collection) {
 				if(value != null){
-					if(TypeUtils.isSimpleValueType(value.getClass())){
-						builder.append(value);
-					} else {
-						BeanMetadata<?> meta = factory.create(value.getClass());
-						print(value, meta, builder, indent + "\t");
-					}
+					printProperty(value, builder, indent+"\t");
 				} else {
 					builder.append("null");
 				}
@@ -136,12 +145,12 @@ public class BeanPrinter {
 		
 	}
 	
-	public void printArray(Object arrayObj, TypeSpec compType, StringBuilder builder, String indent) {
+	public void printArray(Object arrayObj, Class<?> compType, StringBuilder builder, String indent) {
 		if (arrayObj != null) {
 			Iterable<?> array = TypeUtils.toArrayIterable(arrayObj, compType);
 			
 			builder.append(" ").append(TypeUtils.getArrayLength(arrayObj)).append(" [");
-			if (compType.isSimpleValueType()) {
+			if (TypeUtils.isSimpleValueType(compType)) {
 //				builder.append("\n\t").append(indent);
 				boolean first = true;
 				for (Object value : array) {
@@ -152,7 +161,7 @@ public class BeanPrinter {
 					}
 					if (value == null) {
 						builder.append("null");
-					} else if (compType.isText()) {
+					} else if (CharSequence.class.isAssignableFrom(compType)) {
 						builder.append("\"").append(value).append("\"");
 					} else {
 						builder.append(value);
@@ -160,15 +169,13 @@ public class BeanPrinter {
 				}
 				builder.append("]");
 			} else {
+				BeanMetadata<?> childMeta = factory.create(compType);
 				for (Object child : array) {
-					print(child, factory.create(child.getClass()), builder, indent + "\t");
+					print(child, childMeta, builder, indent + "\t");
 				}
 				builder.append("\n").append(indent).append("\t]");
 			}
-			
-			
 		}
-		
 	}
 	
 	@SuppressWarnings({ "rawtypes"})
@@ -199,7 +206,7 @@ public class BeanPrinter {
 						printCollection(collection, property.getGenericParamType(0), builder, indent+"\t");
 					}
 				} else if (fieldType.getTypeKind() == TypeKind.Array) {
-					printArray(property.get(bean), fieldType.getComponentType(), builder, indent);
+					printArray(property.get(bean), fieldType.getComponentType().getBaseType(), builder, indent);
 				} else if (fieldType.getTypeKind() == TypeKind.Map) {
 					Map map = (Map)property.get(bean);
 					if (map != null) {

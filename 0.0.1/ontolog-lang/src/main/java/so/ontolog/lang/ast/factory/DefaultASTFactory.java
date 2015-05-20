@@ -214,6 +214,7 @@ public class DefaultASTFactory implements ASTFactory {
 
 	protected Map<String, VariableExprFactory> initVariableExprFactories() {
 		Map<String, VariableExprFactory> map = new HashMap<String, ASTFactory.VariableExprFactory>();
+		
 		map.put(GrammarTokens.VAR, new DefaultVariableExprFactory());
 		
 		return map;

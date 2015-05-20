@@ -83,7 +83,7 @@ public class BeanAdapter<T> implements BeanBindable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public BeanBindable getFieldBindable(String fieldName) {
-		BeanBinder<?> bidner = binder.getFieldBinder(fieldName);
+		BeanBinder<?> bidner = binder.getFieldBeanBinder(fieldName);
 		Object value = binder.getValue(bean, fieldName);
 		
 		return new BeanAdapter(bidner, value);

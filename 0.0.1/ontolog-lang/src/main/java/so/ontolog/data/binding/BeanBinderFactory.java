@@ -14,8 +14,13 @@
  */
 package so.ontolog.data.binding;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Map;
+
 import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.factory.BeanMetadataFactory;
+import so.ontolog.data.binding.metadata.factory.BeanPropertyFactory;
 
 
 /**
@@ -24,11 +29,13 @@ import so.ontolog.data.binding.metadata.factory.BeanMetadataFactory;
  *
  */
 public abstract class BeanBinderFactory {
-	
+
 	private BeanMetadataFactory metadataFactory;
+	private BeanPropertyFactory propertyFactory;
 	
 	protected void initialize(){
-		metadataFactory = initMetadataFactory();
+		propertyFactory = initPropertyFactory();
+		metadataFactory = initMetadataFactory(propertyFactory);
 	}
 
 	public <T>BeanBinder<T> createBeanBinder(Class<T> beanClass){
@@ -39,12 +46,24 @@ public abstract class BeanBinderFactory {
 	public <T>BeanMetadata<T> createBeanMetadata(Class<T> beanClass){
 		return metadataFactory.create(beanClass);
 	}
+
+	public abstract <T> Binder<T[]> createArrayBinder(Class<T> componentType);
+
+	@SuppressWarnings("rawtypes")
+	public abstract Binder<? extends Collection> createCollectionBinder(Class listClass, Type componentType);
+
+	@SuppressWarnings("rawtypes")
+	public abstract Binder<? extends Map> createMapBinder(Class mapClass, Type keyType, Type valueType);
+
+	public abstract PropertyAccessor<?,?> createPropertyAccessor(Class<?> beanClass, String fieldName);
+	
+	public abstract PropertyAccessor<?,?> createPropertyAccessor(Class<?> beanClass, int index);
 	
 	/**
 	 * <pre>create and initialize {@link BeanMetadataFactory} </pre>
 	 * @return
 	 */
-	protected abstract BeanMetadataFactory initMetadataFactory();
+	protected abstract BeanMetadataFactory initMetadataFactory(BeanPropertyFactory propertyFactory);
 
 	/**
 	 * <pre>create {@link BeanBinder} </pre>
@@ -55,8 +74,14 @@ public abstract class BeanBinderFactory {
 	/**
 	 * @return the metadataFactory
 	 */
-	protected BeanMetadataFactory getMetadataFactory() {
+	public BeanMetadataFactory getMetadataFactory( ) {
 		return metadataFactory;
+	}
+
+	protected abstract BeanPropertyFactory initPropertyFactory();
+	
+	public BeanPropertyFactory getPropertyFactory() {
+		return propertyFactory;
 	}
 
 }

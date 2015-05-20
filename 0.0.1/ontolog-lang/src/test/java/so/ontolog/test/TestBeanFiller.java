@@ -70,7 +70,7 @@ public class TestBeanFiller {
 			if(!prop.hasSetter()){
 				if(prop.hasGetter() && prop.typeKind() == TypeKind.Object){
 					value = prop.get(bean);
-					BeanBinder fb = binder.getFieldBinder(prop.name());
+					BeanBinder fb = binder.getFieldBeanBinder(prop.name());
 					fillData(value, fb);
 				}
 				continue;
@@ -91,7 +91,7 @@ public class TestBeanFiller {
 				value = new Date();
 				break;
 			case Object:
-				BeanBinder fb = binder.getFieldBinder(prop.name());
+				BeanBinder fb = binder.getFieldBeanBinder(prop.name());
 				value = fb.newBean();
 				fillData(value, fb);
 				break;
