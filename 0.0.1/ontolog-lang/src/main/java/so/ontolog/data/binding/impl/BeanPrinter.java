@@ -71,7 +71,6 @@ public class BeanPrinter {
 		
 		if (valueParamType == null || !TypeUtils.isSimpleValueType(valueParamType)) {
 			for (Map.Entry<?, ?> entry : map.entrySet()) {
-				builder.append("\n").append(indent);
 				builder.append("\t\t").append(entry.getKey()).append("=");
 				
 				Object value = entry.getValue();
@@ -81,15 +80,16 @@ public class BeanPrinter {
 				} else {
 					builder.append("null");
 				}
+				builder.append("\n").append(indent);
 			}
 		} else {
 			for (Map.Entry<?, ?> entry : map.entrySet()) {
-				builder.append("\n").append(indent);
 				builder.append("\t").append(entry.getKey()).append("=");
 				builder.append(entry.getValue());
+				builder.append("\n").append(indent);
 			}
 		}
-		builder.append("\n").append(indent).append("\t}");
+		builder.append("\t}");
 	}
 	
 	public void printCollection(Collection<?> collection, Type genericParamType, StringBuilder builder, String indent) {
