@@ -84,4 +84,26 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 			super(type,qname);
 		}
 	}
+	
+
+	/**
+	 * TODO 
+	 * @author kighie
+	 *
+	 * @param <T>
+	 */
+	@Deprecated 
+	public static class BeanPropertyRef<T>  extends VariableRef<T> {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 535106876225275853L;
+		
+		/**
+		 * @param qname
+		 */
+		public BeanPropertyRef(TypeSpec type, QName qname) {
+			super(type,qname);
+		}
+	}
 }

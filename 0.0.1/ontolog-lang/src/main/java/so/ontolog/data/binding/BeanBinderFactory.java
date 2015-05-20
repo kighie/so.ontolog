@@ -43,10 +43,14 @@ public abstract class BeanBinderFactory {
 	protected BeanMetadataFactory getMetadataFactory() {
 		return metadataFactory;
 	}
-	
+
 	public <T>BeanBinder<T> createBeanBinder(Class<T> beanClass){
-		BeanMetadata<T> metadata = metadataFactory.create(beanClass);
+		BeanMetadata<T> metadata = createBeanMetadata(beanClass);
 		return createBeanBinder(metadata);
+	}
+
+	public <T>BeanMetadata<T> createBeanMetadata(Class<T> beanClass){
+		return metadataFactory.create(beanClass);
 	}
 
 	/**

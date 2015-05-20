@@ -197,9 +197,12 @@ public class BinaryExprFactoryHelper {
 				return new BinaryExpr(token, operator, left, right);
 			}
 			
-			BinaryExpr expr = new BinaryExpr(token, DefaultOperators.CONCAT, left, right);
-			throw new BuildException(token.getName() 
-					+ " operator must have numeric or string operand.").setNode(expr);
+			BuildException exception = new BuildException(token.getName() 
+					+ " operator must have numeric or string operand.").setNode(
+							new BinaryExpr(token, DefaultOperators.CONCAT, left, right));
+			
+//			exception.printStackTrace();
+			throw exception;
 		}
 	}
 

@@ -71,13 +71,18 @@ public class NodeBuildTests {
 		buildAndRunExpr("[param int a as pa; param real b;] =(3*4.5/(3+5) - 1.3)", context);
 		buildAndRunExpr("[param int a as pa; param real b;] =(3*4.5/(pa+5) - b)", context);
 		buildAndRunExpr("[param int a as pa; param real b;param text c;] =(3*4.5/(pa+5) - b) + ' : ' + c * 3", context);
-		
+	}
+	
+
+	@Test
+	public void buildFormulaWizBeanParam(){
+		SimpleContext context = new SimpleContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("SSS");
 		sample.setPropB(234);
 		context.setParameter("sample", sample);
 		
-		buildAndRunExpr("[param so.ontolog.lang.build.impl.SampleObject sample;] =(sample.propA + sample.propB)", context);
+		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] =(sample.propA + sample.propB)", context);
 		
 	}
 }

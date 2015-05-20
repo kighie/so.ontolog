@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.binding.factory.CachedBeanBinderFactory;
+import so.ontolog.data.binding.tools.BeanAdapter;
 import so.ontolog.samples.bean.CarCoverageInfo;
 import so.ontolog.samples.bean.CarCovrPremInfo;
 import so.ontolog.test.TestBeanFiller;

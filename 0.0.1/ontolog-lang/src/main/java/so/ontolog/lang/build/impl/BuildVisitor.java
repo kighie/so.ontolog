@@ -41,6 +41,7 @@ import so.ontolog.lang.runtime.Gettable;
 import so.ontolog.lang.runtime.Literal;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
+import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Statement;
 import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
 import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
@@ -50,6 +51,7 @@ import so.ontolog.lang.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.TextLiteral;
 import so.ontolog.lang.runtime.module.ExprModule;
 import so.ontolog.lang.runtime.ref.VariableRef;
+import so.ontolog.lang.runtime.ref.VariableRef.BeanPropertyRef;
 import so.ontolog.lang.runtime.stmt.ParamDeclStmt;
 
 /**
@@ -131,7 +133,13 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	@SuppressWarnings("rawtypes")
 	@Override
 	public BuildContext visit(VariableExpr variableExpr, BuildContext context) {
+		QName qname = variableExpr.getQname();
 		VariableRef<?> varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
+		if(qname.getParent() != null){
+			varRef = new BeanPropertyRef(variableExpr.type(), variableExpr.getQname());
+		} else {
+			varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
+		}
 		variableExpr.setNode(varRef);
 		return context;
 	}

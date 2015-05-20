@@ -16,6 +16,7 @@ package so.ontolog.lang.ast.factory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
@@ -29,7 +30,6 @@ import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
-import so.ontolog.lang.ast.expr.VariableExpr;
 import so.ontolog.lang.ast.stmt.DeclarationStatement;
 import so.ontolog.lang.ast.stmt.EvalExprStatement;
 import so.ontolog.lang.build.BuildException;
@@ -43,7 +43,9 @@ import so.ontolog.lang.runtime.internal.TypeHelper;
  *
  */
 public class DefaultASTFactory implements ASTFactory {
-
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(DefaultASTFactory.class.getName());
+	
 	private TypeHelper typeHelper;
 	private Map<String, ModuleFactory> moduleFactoryMap;
 	private Map<String, UnaryExprFactory> unaryExprFactoryMap;
@@ -212,20 +214,7 @@ public class DefaultASTFactory implements ASTFactory {
 
 	protected Map<String, VariableExprFactory> initVariableExprFactories() {
 		Map<String, VariableExprFactory> map = new HashMap<String, ASTFactory.VariableExprFactory>();
-		map.put(GrammarTokens.VAR, new VariableExprFactory() {
-			@Override
-			public ASTExpr create(ASTContext context, ASTToken token, QName qname) {
-				ASTDeclaration decl = context.getDecl(qname);
-				TypeSpec typeSpec;
-				if(decl != null){
-					typeSpec = decl.getType(); 
-				} else {
-					typeSpec = TypeSpec.UNDEFINED;
-				}
-				VariableExpr varExpr = new VariableExpr(token, typeSpec, qname);
-				return varExpr;
-			}
-		});
+		map.put(GrammarTokens.VAR, new DefaultVariableExprFactory());
 		
 		return map;
 	}
