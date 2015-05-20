@@ -14,6 +14,10 @@
  */
 package so.ontolog.lang.build.impl;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,9 +84,20 @@ public class NodeBuildTests {
 		SampleBean sample = new SampleBean();
 		sample.setPropA("SSS");
 		sample.setPropB(234);
+		
+		Map<String,BigDecimal> propMap = new HashMap<String, BigDecimal>();
+		propMap.put("A", new BigDecimal(3));
+		propMap.put("B", new BigDecimal(4));
+		propMap.put("C", new BigDecimal(5));
+		propMap.put("D", new BigDecimal(6));
+		propMap.put("E", new BigDecimal(7));
+		
+		sample.setPropMap(propMap);
+		
 		context.setParameter("sample", sample);
 		
-		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] =(sample.propA + sample.propB)", context);
+		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=(sample.propA + (sample.propB * sample.propMap.A))", context);
 		
 	}
 }
