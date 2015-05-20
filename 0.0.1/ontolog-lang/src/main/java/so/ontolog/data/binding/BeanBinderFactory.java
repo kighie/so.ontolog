@@ -31,19 +31,6 @@ public abstract class BeanBinderFactory {
 		metadataFactory = initMetadataFactory();
 	}
 
-	/**
-	 * <pre>create and initialize {@link BeanMetadataFactory} </pre>
-	 * @return
-	 */
-	protected abstract BeanMetadataFactory initMetadataFactory();
-	
-	/**
-	 * @return the metadataFactory
-	 */
-	protected BeanMetadataFactory getMetadataFactory() {
-		return metadataFactory;
-	}
-
 	public <T>BeanBinder<T> createBeanBinder(Class<T> beanClass){
 		BeanMetadata<T> metadata = createBeanMetadata(beanClass);
 		return createBeanBinder(metadata);
@@ -52,6 +39,12 @@ public abstract class BeanBinderFactory {
 	public <T>BeanMetadata<T> createBeanMetadata(Class<T> beanClass){
 		return metadataFactory.create(beanClass);
 	}
+	
+	/**
+	 * <pre>create and initialize {@link BeanMetadataFactory} </pre>
+	 * @return
+	 */
+	protected abstract BeanMetadataFactory initMetadataFactory();
 
 	/**
 	 * <pre>create {@link BeanBinder} </pre>
@@ -59,4 +52,11 @@ public abstract class BeanBinderFactory {
 	 */
 	protected abstract <T>BeanBinder<T> createBeanBinder(BeanMetadata<T> metadata);
 	
+	/**
+	 * @return the metadataFactory
+	 */
+	protected BeanMetadataFactory getMetadataFactory() {
+		return metadataFactory;
+	}
+
 }
