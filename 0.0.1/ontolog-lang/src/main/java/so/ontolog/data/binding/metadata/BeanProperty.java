@@ -122,6 +122,10 @@ public class BeanProperty<T> extends AbstractField implements PropertyAccessor<S
 	
 	@SuppressWarnings("unchecked")
 	public T get(Object bean){
+		if(bean == null){
+//			return null;
+			throw new BindingException("Get Field '" + name + "' :: Bean is null.");
+		}
 		if(getter != null){
 			try {
 				return (T)getter.invoke(bean, EMPTY_ARGS);

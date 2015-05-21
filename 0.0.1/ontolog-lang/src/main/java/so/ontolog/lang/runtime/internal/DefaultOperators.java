@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import so.ontolog.data.binding.convert.Converter;
+import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
@@ -29,10 +31,17 @@ import so.ontolog.lang.runtime.Operator.Unary;
  */
 public class DefaultOperators {
 
+	private final static Converter<BigDecimal> decimalConverter = DefaultConverters.BIG_DECIMAL;
+	
 	private final static BigDecimal DEC100 = new BigDecimal("100");
 	
 	public static final MathContext DIVIDE_MATH_CONTEXT = new MathContext(10, RoundingMode.HALF_UP);
 
+	private static BigDecimal toDecimal(Number number){
+		return decimalConverter.convert(number);
+	}
+	
+	
 	public static final Unary<BigDecimal,BigDecimal> NEGATE = new Unary<BigDecimal,BigDecimal>() {
 		private static final long serialVersionUID = 1L;
 
@@ -45,7 +54,8 @@ public class DefaultOperators {
 		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "NEGATE";}
-
+		
+		public String toString() { return token(); };
 	};
 
 	public static final Unary<BigDecimal,BigDecimal> PERCENT = new Unary<BigDecimal,BigDecimal>() {
@@ -61,6 +71,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "PERCENT";}
 
+		public String toString() { return token(); };
 	};
 	
 	public static final Unary<Boolean,Boolean> NOT = new Unary<Boolean,Boolean>() {
@@ -76,77 +87,83 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "NOT";}
 
+		public String toString() { return token(); };
 	};
 	
-	public static final Binary<BigDecimal,BigDecimal,BigDecimal> POW = new Binary<BigDecimal,BigDecimal,BigDecimal>() {
+	public static final Binary<BigDecimal, Number, Number> POW = new Binary<BigDecimal, Number, Number>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public BigDecimal eval(BigDecimal val1, BigDecimal val2) {
-				return val1.pow(val2.intValueExact());
+			public BigDecimal eval(Number val1, Number val2) {
+				return toDecimal(val1).pow(val2.intValue());
 			}
 			
 			@Override
 			public TypeSpec type() { return TypeSpec.DECIMAL; }
 			@Override
 			public String token() { return "POW";};
+			public String toString() { return token(); };
 	};
 	
-	public static final Binary<BigDecimal,BigDecimal,BigDecimal> MULTIFLY = new Binary<BigDecimal,BigDecimal,BigDecimal>() {
+	public static final Binary<BigDecimal, Number, Number> MULTIFLY = new Binary<BigDecimal, Number, Number>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public BigDecimal eval(BigDecimal val1, BigDecimal val2) {
-				return val1.multiply(val2);
+			public BigDecimal eval(Number val1, Number val2) {
+				return toDecimal(val1).multiply( toDecimal(val2) );
 			}
 
 			@Override
 			public TypeSpec type() { return TypeSpec.DECIMAL; }
 			@Override
 			public String token() { return "MULTIFLY";};
+			public String toString() { return token(); };
 	};
 	
-	public static final Binary<BigDecimal, BigDecimal, BigDecimal> DIVIDE = new Binary<BigDecimal, BigDecimal, BigDecimal>() {
+	public static final Binary<BigDecimal, Number, Number> DIVIDE = new Binary<BigDecimal, Number, Number>() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public BigDecimal eval(BigDecimal val1, BigDecimal val2) {
-			return val1.divide(val2, DIVIDE_MATH_CONTEXT);
+		public BigDecimal eval(Number val1, Number val2) {
+			return toDecimal(val1).divide(toDecimal(val2), DIVIDE_MATH_CONTEXT);
 		}
 
 		@Override
 		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "DIVIDE";};
+		public String toString() { return token(); };
 	};
 
-	public static final Binary<BigDecimal, BigDecimal, BigDecimal> ADD = new Binary<BigDecimal, BigDecimal, BigDecimal>() {
+	public static final Binary<BigDecimal, Number, Number> ADD = new Binary<BigDecimal, Number, Number>() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public BigDecimal eval(BigDecimal val1, BigDecimal val2) {
-			return val1.add(val2);
+		public BigDecimal eval(Number val1, Number val2) {
+			return toDecimal(val1).add(toDecimal(val2));
 		}
 
 		@Override
 		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "ADD";};
+		public String toString() { return token(); };
 	};
 	
 
-	public static final Binary<BigDecimal, BigDecimal, BigDecimal> SUBTRACT = new Binary<BigDecimal, BigDecimal, BigDecimal>() {
+	public static final Binary<BigDecimal, Number, Number> SUBTRACT = new Binary<BigDecimal, Number, Number>() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public BigDecimal eval(BigDecimal val1, BigDecimal val2) {
-			return val1.subtract(val2);
+		public BigDecimal eval(Number val1, Number val2) {
+			return toDecimal(val1).subtract(toDecimal(val2));
 		}
 
 		@Override
 		public TypeSpec type() { return TypeSpec.DECIMAL; }
 		@Override
 		public String token() { return "SUBTRACT";};
+		public String toString() { return token(); };
 	};
 	
 
@@ -163,6 +180,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "EQUALS";}
 
+		public String toString() { return token(); };
 	};
 
 	public static final Binary<Boolean, Object, Object> NOT_EQUALS = new Binary<Boolean, Object, Object>() {
@@ -178,6 +196,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "NOT_EQUALS";}
 
+		public String toString() { return token(); };
 	};
 
 	public static final Binary<Boolean, Comparable<?>, Comparable<?>> EQUALS_GT = new Binary<Boolean, Comparable<?>, Comparable<?>>() {
@@ -194,6 +213,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "EQUALS_GT";}
 
+		public String toString() { return token(); };
 	};
 
 	public static final Binary<Boolean, Comparable<?>, Comparable<?>> GT = new Binary<Boolean, Comparable<?>, Comparable<?>>() {
@@ -210,6 +230,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "GT";}
 
+		public String toString() { return token(); };
 	};
 	public static final Binary<Boolean, Comparable<?>, Comparable<?>> EQUALS_LT = new Binary<Boolean, Comparable<?>, Comparable<?>>() {
 		private static final long serialVersionUID = 1L;
@@ -225,6 +246,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "EQUALS_LT";}
 
+		public String toString() { return token(); };
 	};
 
 	public static final Binary<Boolean, Comparable<?>, Comparable<?>> LT = new Binary<Boolean, Comparable<?>, Comparable<?>>() {
@@ -241,6 +263,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "LT";}
 
+		public String toString() { return token(); };
 	};
 	
 
@@ -257,6 +280,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "AND";}
 
+		public String toString() { return token(); };
 	};
 	
 
@@ -273,6 +297,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "OR";}
 
+		public String toString() { return token(); };
 	};
 	
 
@@ -291,6 +316,7 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "CONCAT";}
 
+		public String toString() { return token(); };
 	};
 	
 
@@ -313,5 +339,6 @@ public class DefaultOperators {
 		@Override
 		public String token() { return "MULTI_STR";}
 
+		public String toString() { return token(); };
 	};
 }

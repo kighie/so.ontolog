@@ -17,17 +17,18 @@ package so.ontolog.lang.ast.factory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.binding.factory.CachedBeanBinderFactory;
-import so.ontolog.data.binding.metadata.BeanMetadata;
 import so.ontolog.data.binding.metadata.BeanProperty;
+import so.ontolog.data.binding.tools.PropertyAccessorChains;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.VariableExprFactory;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.VariableExpr;
-import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -68,17 +69,22 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	 * @return
 	 */
 	protected VariableExpr createHierachicalVariable(ASTContext context, ASTToken token, QName qname){
-		BeanProperty<?> property = traceBeanProperty(context, qname);
+		PropertyAccessor<?,?> propertyAccessor = getPropertyAccessor(context, qname);
 		
 		TypeSpec typeSpec;
 		
-		if(property != null){
-			typeSpec = property.typeSpec();
+		if(propertyAccessor != null){
+			if( propertyAccessor instanceof BeanProperty){
+				typeSpec = ((BeanProperty<?>)propertyAccessor).typeSpec();
+			} else {
+				typeSpec = TypeUtils.getTypeSpec(propertyAccessor.type());
+			}
 		} else {
 			typeSpec = TypeSpec.UNDEFINED;
 		}
 		
 		VariableExpr varExpr = new VariableExpr(token, typeSpec, qname);
+		varExpr.setPropertyAccessor(propertyAccessor);
 		return varExpr;
 	}
 
@@ -94,28 +100,31 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		return decl;
 	}
 	
-	protected BeanProperty<?> traceBeanProperty(ASTContext context, QName qname) {
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected PropertyAccessor<?,?> getPropertyAccessor(ASTContext context, QName qname) {
 		QName parentName = qname.getParent();
 		if(parentName == null){
 			logger.log(Level.WARNING, "Cannot find Declaration for " + qname);
 			return null;
 		}
+
+		
 		
 		ASTDeclaration decl = context.getDecl(parentName);
 		
-		if(decl == null){
-			return traceBeanProperty(context, parentName);
-		}
+		if(decl != null){
+			TypeSpec typeSpec = decl.getType();
+			return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), qname.getName());
+		} 
 		
-		TypeSpec typeSpec = decl.getType();
-		BeanMetadata<?> metadata = CachedBeanBinderFactory.getInstance().createBeanMetadata(typeSpec.getBaseType());
+
+		PropertyAccessor<?,?> parentAccessor  = getPropertyAccessor(context, parentName);
+
+		PropertyAccessor<?,?> propertyAccessor  =  CachedBeanBinderFactory.getInstance()
+				.createPropertyAccessor(parentAccessor.type(), qname.getName());
 		
-		BeanProperty<?> property = metadata.get(qname.getName());
-		
-		if(property == null){
-			throw new BuildException("Cannot find property '" + qname + "' of bean " + metadata.type().getName());
-		}
-		
-		return property;
+		return new PropertyAccessorChains(parentAccessor, propertyAccessor);
 	}
+	
 }

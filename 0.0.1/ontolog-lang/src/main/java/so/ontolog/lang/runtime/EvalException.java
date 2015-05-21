@@ -49,4 +49,16 @@ public class EvalException extends OntologLangException {
 	public Node getNode() {
 		return node;
 	}
+	
+	@Override
+	public String toString() {
+		if(node != null){
+			StringBuilder buf = new StringBuilder();
+			buf.append(super.toString());
+			buf.append( " :: ").append(node);
+			return buf.toString();
+		} else {
+			return super.toString();
+		}	
+	}
 }

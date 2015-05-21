@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.runtime.ref;
 
+import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
@@ -60,9 +61,6 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		context.setReference(qname, value);
 	}
 
-//	public void setLocal(Context context, T value) {
-//		context.setLocalVar(qname, value);
-//	}
 	
 	/**
 	 * 
@@ -92,18 +90,36 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 	 *
 	 * @param <T>
 	 */
-	@Deprecated 
 	public static class BeanPropertyRef<T>  extends VariableRef<T> {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 535106876225275853L;
+
+		private PropertyAccessor<?,?> propertyAccessor;
 		
 		/**
 		 * @param qname
 		 */
-		public BeanPropertyRef(TypeSpec type, QName qname) {
+		public BeanPropertyRef(TypeSpec type, QName qname, PropertyAccessor<?,?> propertyAccessor) {
 			super(type,qname);
+			setPropertyAccessor(propertyAccessor);
+		}
+
+		public PropertyAccessor<?, ?> getPropertyAccessor() {
+			return propertyAccessor;
+		}
+
+		public void setPropertyAccessor(PropertyAccessor<?, ?> propertyAccessor) {
+			this.propertyAccessor = propertyAccessor;
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public T get(Context context) {
+			Object rootValue = context.getReference(qname.getRoot());
+			
+			return (T)propertyAccessor.get(rootValue);
 		}
 	}
 }

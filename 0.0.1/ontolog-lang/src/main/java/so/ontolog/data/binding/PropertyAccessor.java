@@ -17,9 +17,12 @@ package so.ontolog.data.binding;
 import so.ontolog.data.binding.convert.Converter;
 
 /**
+ * 
  * <pre></pre>
  * @author Ikchan Kwon
  *
+ * @param <K> Key Type
+ * @param <V> Value Type
  */
 public interface PropertyAccessor<K,V> {
 

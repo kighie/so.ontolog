@@ -24,6 +24,7 @@ import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.ASTFactory.BinaryExprFactory;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.BinaryExpr;
+import so.ontolog.lang.ast.expr.VariableExpr;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.Operator;
 import so.ontolog.lang.runtime.internal.DefaultOperators;
@@ -135,10 +136,18 @@ public class BinaryExprFactoryHelper {
 		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
 				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			if(leftTypeKind!=TypeKind.Number){
-				throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(left);
+				if(leftTypeKind==TypeKind.Undefined && left instanceof VariableExpr){
+					((VariableExpr)left).setType(TypeSpec.DECIMAL);
+				} else {
+					throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(left);
+				}
 			}
 			if(rightTypeKind!=TypeKind.Number){
-				throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(right);
+				if(rightTypeKind==TypeKind.Undefined && right instanceof VariableExpr){
+					((VariableExpr)right).setType(TypeSpec.DECIMAL);
+				} else {
+					throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(right);
+				}
 			}
 			
 			String tokenName = token.getName();

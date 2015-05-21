@@ -5,26 +5,38 @@ package so.ontolog.data.binding.tools;
 
 import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.PropertyAccessor;
+import so.ontolog.data.binding.convert.Converter;
 
 /**
  * @author kighie
  *
  */
-public class PropertyAccessorChains<T> {
+public class PropertyAccessorChains<K, V> implements PropertyAccessor<K, V> {
 
-	private PropertyAccessorChains<?> parentChain;
-	private PropertyAccessor<?,T> beanProperty;
+	private PropertyAccessor<?,?> parent;
+	private PropertyAccessor<K,V> propertyAccessor;
 	
-	public PropertyAccessorChains(PropertyAccessorChains<?> parentChain, PropertyAccessor<?,T> beanProperty) {
-		this.parentChain = parentChain;
-		this.beanProperty = beanProperty;
+	public PropertyAccessorChains(PropertyAccessor<?,?> parent, PropertyAccessor<K,V> propertyAccessor) {
+		this.parent = parent;
+		this.propertyAccessor = propertyAccessor;
 	}
 	
-	
-	public T getValue(Object rootBean) {
+	public K accessKey() {
+		return propertyAccessor.accessKey();
+	}
+
+	public Class<?> type() {
+		return propertyAccessor.type();
+	}
+
+	public void setConverter(Converter<? extends V> converter) {
+		propertyAccessor.setConverter(converter);
+	}
+
+	public V get(Object rootBean) {
 		Object bean;
-		if(parentChain != null){
-			bean = parentChain.getValue(rootBean);
+		if(parent != null){
+			bean = parent.get(rootBean);
 		} else {
 			bean = rootBean;
 		}
@@ -33,13 +45,13 @@ public class PropertyAccessorChains<T> {
 			return null;
 		}
 		
-		return beanProperty.get(bean);
+		return propertyAccessor.get(bean);
 	}
 
-	public void setValue(Object rootBean, T value){
+	public void set(Object rootBean, Object value){
 		Object bean;
-		if(parentChain != null){
-			bean = parentChain.getValue(rootBean);
+		if(parent != null){
+			bean = parent.get(rootBean);
 		} else {
 			bean = rootBean;
 		}
@@ -48,6 +60,6 @@ public class PropertyAccessorChains<T> {
 			throw new BindingException("parent bean is null");
 		}
 		
-		beanProperty.set(bean, value);
+		propertyAccessor.set(bean, value);
 	}
 }

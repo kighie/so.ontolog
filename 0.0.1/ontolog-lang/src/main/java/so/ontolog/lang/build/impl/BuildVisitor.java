@@ -130,13 +130,14 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes" , "unchecked" })
 	@Override
 	public BuildContext visit(VariableExpr variableExpr, BuildContext context) {
 		QName qname = variableExpr.getQname();
-		VariableRef<?> varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
+		VariableRef<?> varRef;
 		if(qname.getParent() != null){
-			varRef = new BeanPropertyRef(variableExpr.type(), variableExpr.getQname());
+			varRef = new BeanPropertyRef(variableExpr.type(), variableExpr.getQname(), 
+					variableExpr.getPropertyAccessor());
 		} else {
 			varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
 		}

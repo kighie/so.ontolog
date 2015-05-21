@@ -42,7 +42,7 @@ public abstract class GenericRef implements Ref {
 	
 	@Override
 	public String toString() {
-		return "{Ref:" + qname + "}";
+		return "{" + this.getClass().getSimpleName() + ":" + qname + "}";
 	}
 	
 }

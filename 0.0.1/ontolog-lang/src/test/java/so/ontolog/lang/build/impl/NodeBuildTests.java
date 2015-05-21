@@ -78,13 +78,14 @@ public class NodeBuildTests {
 	}
 	
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void buildFormulaWizBeanParam(){
 		SimpleContext context = new SimpleContext();
 		SampleBean sample = new SampleBean();
-		sample.setPropA("SSS");
-		sample.setPropB(234);
-		
+		sample.setPropA("Text:");
+		sample.setPropB(8);
+
 		Map<String,BigDecimal> propMap = new HashMap<String, BigDecimal>();
 		propMap.put("A", new BigDecimal(3));
 		propMap.put("B", new BigDecimal(4));
@@ -93,11 +94,24 @@ public class NodeBuildTests {
 		propMap.put("E", new BigDecimal(7));
 		
 		sample.setPropMap(propMap);
+
+		HashMap propMap2 = new HashMap();
+		propMap2.put("A", new BigDecimal(2));
+		propMap2.put("B", "STR");
+		propMap2.put("C", new BigDecimal(10));
+		propMap2.put("D", 1);
+		propMap2.put("E", 43);
+		
+		sample.setPropMap2(propMap2);
 		
 		context.setParameter("sample", sample);
-		
+
 		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
-				+ "=(sample.propA + (sample.propB * sample.propMap.A))", context);
-		
+				+ "=(sample.propA * sample.propMap.C + sample.propB * sample.propMap.A)", context);
+
+		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=(sample.propA + sample.propMap2.B) * sample.propMap2.C+ ' , ' + sample.propB * sample.propMap2.A"
+				+ "+ ' , ' + (34/(sample.propMap2.C - sample.propMap.D)", context);
+
 	}
 }

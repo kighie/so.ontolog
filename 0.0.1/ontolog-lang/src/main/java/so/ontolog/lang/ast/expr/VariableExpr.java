@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.ast.expr;
 
+import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
@@ -30,6 +31,8 @@ public class VariableExpr extends ASTSymbol {
 
 	private static final long serialVersionUID = 1892405954432146025L;
 	
+	private PropertyAccessor<?,?> propertyAccessor;
+	
 	/**
 	 * @param token
 	 * @param typeSpec
@@ -38,6 +41,14 @@ public class VariableExpr extends ASTSymbol {
 		super(token, typeSpec, qname);
 	}
 	
+	public PropertyAccessor<?, ?> getPropertyAccessor() {
+		return propertyAccessor;
+	}
+
+	public void setPropertyAccessor(PropertyAccessor<?, ?> propertyAccessor) {
+		this.propertyAccessor = propertyAccessor;
+	}
+
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		return visitor.visit(this, context);

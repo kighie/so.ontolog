@@ -83,7 +83,7 @@ public abstract class GenericBeanBinderFactory extends BeanBinderFactory {
 			throw new BindingException("Simple Value Type cannot be applied PropertyAccessor.");
 		} else if(Collection.class.isAssignableFrom(beanClass)){
 			throw new BindingException("Collection Type cannot be applied named PropertyAccessor .");
-		} else if(Collection.class.isAssignableFrom(beanClass)){
+		} else if(Map.class.isAssignableFrom(beanClass)){
 			return new MapPropertyAccessor(fieldName, null);
 		} else if(beanClass.isArray()){
 			throw new BindingException("Array cannot be applied named PropertyAccessor .");
@@ -99,7 +99,7 @@ public abstract class GenericBeanBinderFactory extends BeanBinderFactory {
 			throw new BindingException("Simple Value Type cannot be applied PropertyAccessor .");
 		} else if(List.class.isAssignableFrom(beanClass)){
 			return new ListPropertyAccessor(index, null);
-		} else if(Collection.class.isAssignableFrom(beanClass)){
+		} else if(Map.class.isAssignableFrom(beanClass)){
 			throw new BindingException("Map Type cannot be applied indexed PropertyAccessor .");
 		} else if(beanClass.isArray()){
 			return new ArrayPropertyAccessor(index, beanClass.getComponentType());
