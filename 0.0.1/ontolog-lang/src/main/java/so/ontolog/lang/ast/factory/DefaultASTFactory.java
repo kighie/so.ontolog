@@ -33,6 +33,7 @@ import so.ontolog.lang.ast.expr.UnaryExpr;
 import so.ontolog.lang.ast.stmt.DeclarationStatement;
 import so.ontolog.lang.ast.stmt.EvalExprStatement;
 import so.ontolog.lang.build.BuildException;
+import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.internal.DefaultOperators;
 import so.ontolog.lang.runtime.internal.TypeHelper;
@@ -92,6 +93,11 @@ public class DefaultASTFactory implements ASTFactory {
 		return new QName(parent, name);
 	}
 
+	@Override
+	public IndexedQName createIndexedQName(QName parent, String index) {
+		return new IndexedQName(parent, index);
+	}
+	
 	@Override
 	public CompilationUnit createModule(ASTContext context, ASTToken token) {
 		String tokenName = token.getName();

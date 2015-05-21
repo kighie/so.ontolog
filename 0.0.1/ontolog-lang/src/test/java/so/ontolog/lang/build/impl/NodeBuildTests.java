@@ -114,4 +114,20 @@ public class NodeBuildTests {
 				+ "+ ' , ' + (34/(sample.propMap2.C - sample.propMap.D)", context);
 
 	}
+	
+
+	@Test
+	public void buildFormulaWizBeanParam2(){
+		SimpleContext context = new SimpleContext();
+		SampleBean sample = new SampleBean();
+		sample.setPropA("Text:");
+		sample.setPropB(8);
+		
+		sample.setPropArray(new int[]{1,2,3,4,5,6} );
+		context.setParameter("sample", sample);
+
+		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=(sample.propArray[3] * sample.propArray[2])", context);
+
+	}
 }

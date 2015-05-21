@@ -29,6 +29,7 @@ import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.VariableExprFactory;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -121,8 +122,16 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 
 		PropertyAccessor<?,?> parentAccessor  = getPropertyAccessor(context, parentName);
 
-		PropertyAccessor<?,?> propertyAccessor  =  CachedBeanBinderFactory.getInstance()
-				.createPropertyAccessor(parentAccessor.type(), qname.getName());
+		PropertyAccessor<?,?> propertyAccessor;
+		
+		if(qname instanceof IndexedQName){
+			propertyAccessor  =  CachedBeanBinderFactory.getInstance()
+					.createPropertyAccessor(parentAccessor.type(), ((IndexedQName)qname).getIndex());
+		} else {
+			propertyAccessor  =  CachedBeanBinderFactory.getInstance()
+					.createPropertyAccessor(parentAccessor.type(), qname.getName());
+		}
+		
 		
 		return new PropertyAccessorChains(parentAccessor, propertyAccessor);
 	}

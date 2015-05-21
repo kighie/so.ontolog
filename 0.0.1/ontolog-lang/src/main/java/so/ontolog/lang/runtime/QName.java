@@ -25,34 +25,19 @@ import java.io.Serializable;
 public class QName implements Serializable {
 	private static final long serialVersionUID = 7111834758219252316L;
 	
-	
-	public final static QName CLOSURE_PREFIX = new QName("closure");
-
-	public static QName getClosureQName(String name){
-		return new QName(CLOSURE_PREFIX, name);
-	}
-	
-
 	public static QName getQName(String name){
 		return new QName(name);
 	}
 	
 	
-	private QName parent;
-	private QName root;
-	private String qname;
-	private String name;
+	protected final QName parent;
+	protected final String name;
+	private final int hashcode;
 	
 	public QName(QName parent, String name){
 		this.name = name;
 		this.parent = parent;
-		if(parent != null){
-			this.root = parent.root;
-			this.qname = toString(".").intern();
-		} else {
-			this.root = this;
-			this.qname = name;
-		}
+		hashcode = getFullName().hashCode();
 	}
 
 	public QName(String name){
@@ -63,7 +48,10 @@ public class QName implements Serializable {
 	 * @return the root
 	 */
 	public QName getRoot() {
-		return root;
+		if(parent != null){
+			return parent.getRoot();
+		}
+		return this;
 	}
 	
 	/**
@@ -83,12 +71,18 @@ public class QName implements Serializable {
 	
 	
 	public String getFullName() {
-		return qname;
+		if(parent != null){
+			StringBuilder buf = new StringBuilder();
+			toString(buf, ".");
+			return buf.toString().intern();
+		} else {
+			return name;
+		}
 	}
 	
 	@Override
 	public int hashCode() {
-		return qname.hashCode();
+		return hashcode;
 	}
 
 	@Override
@@ -96,18 +90,14 @@ public class QName implements Serializable {
 		if( this == obj ){
 			return true;
 		} else if(obj instanceof QName){
-			return this.qname.equals(((QName)obj).qname);
+			return this.hashcode == ((QName)obj).hashcode;
 		} else if (obj instanceof String){
-			return this.qname.equals(obj);
+			return getFullName().equals(obj);
 		}
 		
 		return false;
 	}
 	
-	public boolean equals(QName obj) {
-		return (this.hashCode() == obj.hashCode());
-	}
-
 	public boolean equals(String obj) {
 		return (obj.equals(this));
 	}
@@ -115,17 +105,16 @@ public class QName implements Serializable {
 	
 	@Override
 	public String toString() {
-		return qname;
+		return getFullName();
 	}
 	
-	public String toString(String pathDelimiter) {
-		StringBuilder buf = new StringBuilder();
+	public void toString(StringBuilder buf, String pathDelimiter) {
 		if(parent != null){
-			buf.append(parent).append(pathDelimiter);
+			parent.toString(buf, pathDelimiter);
+			buf.append(pathDelimiter);
 		}
 		
 		buf.append(name);
-		return buf.toString();
 	}
 
 }

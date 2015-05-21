@@ -31,8 +31,10 @@ public interface ASTFactory {
 	TypeSpec createType(QName qname);
 
 	QName createQName(String name);
-	
+
 	QName createQName(QName parent, String name);
+	
+	QName createIndexedQName(QName parent, String index);
 	
 	ASTExpr createUnary(ASTToken token, ASTExpr expr);
 

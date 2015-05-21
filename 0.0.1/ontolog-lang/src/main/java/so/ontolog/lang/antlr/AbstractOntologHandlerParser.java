@@ -111,6 +111,11 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 
+	public QName indexedQname(QName parent, String index) {
+		return factory.createIndexedQName(parent, index);
+	}
+
+
 	public ASTExpr unary(String token, ASTExpr expr) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createUnary(astToken, expr);
