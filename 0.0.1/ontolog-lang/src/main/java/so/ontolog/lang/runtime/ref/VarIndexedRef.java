@@ -69,7 +69,7 @@ public class VarIndexedRef<T> extends AbstractRef implements Gettable<T>, Settab
 			if(parentValue instanceof List){
 				value = ((List)parentValue).get(index.intValue());
 			} else if(parentValue.getClass().isArray()){
-				value = ((Object[])parentValue)[index.intValue()];
+				value = Array.get(parentValue, index.intValue());
 			} else {
 				throw new EvalException(parent + " is not array nor List nor Map.").setNode(this);
 			}

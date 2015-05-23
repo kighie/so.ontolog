@@ -65,7 +65,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		TypeSpec typeSpec;
 		
 		if(varExpr.type().isArray()){
-			typeSpec = varExpr.type();
+			typeSpec = varExpr.type().getComponentType();
 		} else {
 			typeSpec = TypeSpec.UNDEFINED;
 		}

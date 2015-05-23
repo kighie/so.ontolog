@@ -132,6 +132,12 @@ public class TypeSpec implements Serializable {
 		return baseType.getName();
 	}
 
+	/**
+	 * <pre>
+	 * Array element type, List element type, Map value type
+	 * </pre>
+	 * @return
+	 */
 	public TypeSpec getComponentType() {
 		return componentType;
 	}

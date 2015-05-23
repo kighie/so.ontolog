@@ -20,10 +20,8 @@ import java.lang.reflect.Type;
 import so.ontolog.data.binding.BindingException;
 import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.binding.convert.Converter;
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.common.AbstractField;
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.data.type.TypeUtils;
 
 /**
  * <pre></pre>
@@ -39,15 +37,7 @@ public class BeanProperty<T> extends AbstractField implements PropertyAccessor<S
 	private T defaultValue;
 	private Type[] genericParamTypes;
 	private Converter<? extends T> converter;
-
-	public BeanProperty(String name, Class<T> type) {
-		this(name, type, DefaultConverters.getConverter(type));
-	}
-
-	public BeanProperty(String name, Class<T> type, Converter<T> converter) {
-		this(name, TypeUtils.getTypeSpec(type), converter);
-	}
-
+	
 	public BeanProperty(String name, TypeSpec typeSpec, Converter<T> converter) {
 		super(name, typeSpec);
 		this.converter = converter;

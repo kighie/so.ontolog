@@ -100,8 +100,6 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 			}
 		}
 		
-		TypeSpec typeSpec = TypeUtils.getTypeSpec(type);
-		
 		// Generic type setting
 		Type[] genericParamTypes;
 		
@@ -111,6 +109,8 @@ public class DefaultBeanPropertyFactory implements BeanPropertyFactory {
 			Field field = BeanUtils.findField(beanClass, pd.getName());
 			genericParamTypes = BeanUtils.getGenericParameterTypes(field);
 		}
+		
+		TypeSpec typeSpec = TypeUtils.getTypeSpec(type, genericParamTypes);
 		
 		BeanProperty beanField = new BeanProperty(pd.getName(), typeSpec, converter);
 		beanField.setGetter(getter);

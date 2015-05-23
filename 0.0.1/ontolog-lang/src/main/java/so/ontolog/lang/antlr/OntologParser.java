@@ -396,7 +396,7 @@ public class OntologParser extends so.ontolog.lang.antlr.AbstractOntologHandlerP
 		public QName result;
 		public Token IDENT;
 		public Token NUMBER;
-		public QualifiedNameContext qualifiedName;
+		public QualifiedNameContext index;
 		public List<TerminalNode> IDENT() { return getTokens(OntologParser.IDENT); }
 		public TerminalNode IDENT(int i) {
 			return getToken(OntologParser.IDENT, i);
@@ -472,10 +472,10 @@ public class OntologParser extends so.ontolog.lang.antlr.AbstractOntologHandlerP
 					setState(88);
 					match(T__0);
 					setState(89);
-					((QualifiedNameContext)_localctx).qualifiedName = qualifiedName();
+					((QualifiedNameContext)_localctx).index = qualifiedName();
 					setState(90);
 					match(T__1);
-					 ((QualifiedNameContext)_localctx).result =  varQname( _localctx.result, _localctx.result ); 
+					 ((QualifiedNameContext)_localctx).result =  varQname( _localctx.result, ((QualifiedNameContext)_localctx).index.result ); 
 					}
 					}
 					break;

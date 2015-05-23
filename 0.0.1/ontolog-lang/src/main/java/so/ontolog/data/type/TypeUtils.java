@@ -172,6 +172,10 @@ public final class TypeUtils {
 				kind = TypeKind.Collection;
 			} else if(Map.class.isAssignableFrom(type)){
 				kind = TypeKind.Map;
+			} else if(Record.class.isAssignableFrom(type)){
+				kind = TypeKind.Record;
+			} else if(Table.class.isAssignableFrom(type)){
+				kind = TypeKind.Table;
 			} else {
 				kind = TypeKind.Object;
 			}
@@ -197,6 +201,31 @@ public final class TypeUtils {
 				spec = new TypeSpec(type, kind);
 			}
 		}
+		return spec;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static TypeSpec getTypeSpec(Class<?> type, Type[] genericTypes){
+		if(type == null){
+			return TypeSpec.UNDEFINED;
+		}
+		
+		TypeKind kind = getTypeKind(type);
+		
+		TypeSpec compType = null;
+		
+		if( type.isArray()){
+			compType = getTypeSpec(type.getComponentType());
+		} else if(genericTypes != null){
+			if( genericTypes.length == 1){
+				compType = getTypeSpec((Class)genericTypes[0]);
+			} else if( kind == TypeKind.Map && genericTypes.length == 2){
+				compType = getTypeSpec((Class)genericTypes[1]);
+			}
+		}
+		
+		TypeSpec spec = new TypeSpec(type, kind, compType);
+		
 		return spec;
 	}
 	
