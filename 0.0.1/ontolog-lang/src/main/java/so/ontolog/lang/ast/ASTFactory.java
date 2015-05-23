@@ -35,6 +35,8 @@ public interface ASTFactory {
 	QName createQName(QName parent, String name);
 	
 	QName createIndexedQName(QName parent, String index);
+
+	QName createVarQName(QName parent, QName index);
 	
 	ASTExpr createUnary(ASTToken token, ASTExpr expr);
 
@@ -44,7 +46,7 @@ public interface ASTFactory {
 
 	ASTExpr createLiteral(ASTToken token, String expr);
 	
-	ASTExpr createVariable(ASTContext context, ASTToken token, QName qname);
+	ASTSymbol createVariable(ASTContext context, ASTToken token, QName qname);
 	
 	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
 
@@ -83,7 +85,7 @@ public interface ASTFactory {
 	 *
 	 */
 	public interface VariableExprFactory {
-		ASTExpr create(ASTContext context, ASTToken token, QName qname);
+		ASTSymbol create(ASTContext context, ASTToken token, QName qname);
 	}
 
 	/**

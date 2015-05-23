@@ -19,25 +19,24 @@ package so.ontolog.lang.runtime;
  * @author Ikchan Kwon
  *
  */
-public class IndexedQName extends QName {
-	private static final long serialVersionUID = 278186754392088241L;
+public class VarQName extends QName {
+	private static final long serialVersionUID = 5362874983450995326L;
 
-	private int index;
+	private QName index;
 	
 	/**
 	 * @param parent
 	 * @param name
 	 */
-	public IndexedQName(QName parent, String name) {
-		super(parent, "[" + name + "]");
-		index = Integer.valueOf(name);
+	public VarQName(QName parent, QName index) {
+		super(parent, "[" + index.getFullName() + "]");
+		this.index = index;
 	}
 
 	/**
 	 * @return the index
 	 */
-	public int getIndex() {
+	public QName getIndex() {
 		return index;
 	}
-	
 }

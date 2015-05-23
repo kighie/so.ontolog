@@ -20,6 +20,7 @@ import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
 import so.ontolog.lang.ast.ASTStatement;
+import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
@@ -115,6 +116,10 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createIndexedQName(parent, index);
 	}
 
+	public QName varQname(QName parent, QName index) {
+		return factory.createVarQName(parent, index);
+	}
+
 
 	public ASTExpr unary(String token, ASTExpr expr) {
 		ASTToken astToken = createASTToken(token);
@@ -136,12 +141,12 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 
-	public ASTExpr variable(QName qname) {
+	public ASTSymbol variable(QName qname) {
 		ASTToken astToken = createASTToken(GrammarTokens.VAR);
 		return factory.createVariable(current, astToken, qname);
 	}
 
-	public ASTExpr variable(String name) {
+	public ASTSymbol variable(String name) {
 		QName qname = factory.createQName(name);
 		ASTToken astToken = createASTToken(GrammarTokens.VAR);
 		return factory.createVariable(current, astToken, qname);

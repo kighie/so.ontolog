@@ -25,11 +25,13 @@ import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTStatement;
+import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.decl.ParamDecl;
 import so.ontolog.lang.ast.expr.BinaryExpr;
+import so.ontolog.lang.ast.expr.CompositeSymbolExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
@@ -50,8 +52,9 @@ import so.ontolog.lang.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.TextLiteral;
 import so.ontolog.lang.runtime.module.ExprModule;
+import so.ontolog.lang.runtime.ref.VarIndexedRef;
 import so.ontolog.lang.runtime.ref.VariableRef;
-import so.ontolog.lang.runtime.ref.VariableRef.BeanPropertyRef;
+import so.ontolog.lang.runtime.ref.VariableRef.PropertyRef;
 import so.ontolog.lang.runtime.stmt.ParamDeclStmt;
 
 /**
@@ -136,7 +139,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		QName qname = variableExpr.getQname();
 		VariableRef<?> varRef;
 		if(qname.getParent() != null){
-			varRef = new BeanPropertyRef(variableExpr.type(), variableExpr.getQname(), 
+			varRef = new PropertyRef(variableExpr.type(), variableExpr.getQname(), 
 					variableExpr.getPropertyAccessor());
 		} else {
 			varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
@@ -144,7 +147,29 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		variableExpr.setNode(varRef);
 		return context;
 	}
+	
+	@Override
+	public BuildContext visit(ASTSymbol symbol, BuildContext context) {
+		if(symbol instanceof VariableExpr) {
+			return visit((VariableExpr)symbol, context);
+		} else if(symbol instanceof CompositeSymbolExpr) {
+			CompositeSymbolExpr composite = (CompositeSymbolExpr)symbol;
+			return visit(composite, context);
+		} else {
+			throw new BuildException("Unsupported ASTSymbol " + symbol);
+		}
+	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public BuildContext visit(CompositeSymbolExpr variableExpr, BuildContext context) {
+		QName qname = variableExpr.getQname();
+		VariableRef<?> parentRef = (VariableRef)variableExpr.getParent().getNode();
+		VariableRef<?> indexerRef = (VariableRef)variableExpr.getVarIndexer().getNode();
+		VarIndexedRef<?> varRef = new VarIndexedRef(qname, parentRef, indexerRef);
+		variableExpr.setNode(varRef);
+		return context;
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public BuildContext visit(LiteralExpr literalExpr, BuildContext context) {

@@ -27,7 +27,7 @@ import so.ontolog.lang.runtime.Settable;
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<T>{
+public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable<T>{
 	private static final long serialVersionUID = -4458545471076570289L;
 
 	protected final TypeSpec type;
@@ -90,7 +90,7 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 	 *
 	 * @param <T>
 	 */
-	public static class BeanPropertyRef<T>  extends VariableRef<T> {
+	public static class PropertyRef<T>  extends VariableRef<T> {
 		/**
 		 * 
 		 */
@@ -101,7 +101,7 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 		/**
 		 * @param qname
 		 */
-		public BeanPropertyRef(TypeSpec type, QName qname, PropertyAccessor<?,?> propertyAccessor) {
+		public PropertyRef(TypeSpec type, QName qname, PropertyAccessor<?,?> propertyAccessor) {
 			super(type,qname);
 			setPropertyAccessor(propertyAccessor);
 		}
@@ -122,4 +122,5 @@ public class VariableRef<T> extends GenericRef implements Gettable<T>, Settable<
 			return (T)propertyAccessor.get(rootValue);
 		}
 	}
+	
 }

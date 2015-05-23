@@ -26,7 +26,7 @@ import so.ontolog.lang.runtime.QName;
  *
  */
 @SuppressWarnings("rawtypes")
-public class BuiltInFunctionRef extends GenericRef implements Gettable<Function> {
+public class BuiltInFunctionRef extends AbstractRef implements Gettable<Function> {
 	private static final long serialVersionUID = -8146512859266950897L;
 	
 	protected final Function<?> function;

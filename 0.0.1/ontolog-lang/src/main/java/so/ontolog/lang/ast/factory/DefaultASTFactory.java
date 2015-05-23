@@ -25,6 +25,7 @@ import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
 import so.ontolog.lang.ast.ASTStatement;
+import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
@@ -35,6 +36,7 @@ import so.ontolog.lang.ast.stmt.EvalExprStatement;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.VarQName;
 import so.ontolog.lang.runtime.internal.DefaultOperators;
 import so.ontolog.lang.runtime.internal.TypeHelper;
 
@@ -96,6 +98,11 @@ public class DefaultASTFactory implements ASTFactory {
 	@Override
 	public IndexedQName createIndexedQName(QName parent, String index) {
 		return new IndexedQName(parent, index);
+	}
+	
+	@Override
+	public QName createVarQName(QName parent, QName index) {
+		return new VarQName(parent, index);
 	}
 	
 	@Override
@@ -206,7 +213,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public ASTExpr createVariable(ASTContext context, ASTToken token, QName qname) {
+	public ASTSymbol createVariable(ASTContext context, ASTToken token, QName qname) {
 		String tokenName = token.getName();
 		
 		VariableExprFactory factory = variableExprFactoryMap.get(tokenName);

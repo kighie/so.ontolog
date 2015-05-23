@@ -75,6 +75,7 @@ qualifiedName returns [QName result]
 	: IDENT 	{ $result = qname( $IDENT.text); }
 	(	('.' IDENT	{ $result = qname( $result, $IDENT.text); } )
 		| ('[' NUMBER ']'	{ $result = indexedQname( $result, $NUMBER.text); } )
+		| ('[' qualifiedName ']'	{ $result = varQname( $result, $qualifiedName.result ); } )
 	)* 
 	;
 

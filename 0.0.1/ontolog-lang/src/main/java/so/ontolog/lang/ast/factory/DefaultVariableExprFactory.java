@@ -25,12 +25,15 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
-import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.VariableExprFactory;
+import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.expr.CompositeSymbolExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.VarQName;
 
 /**
  * <pre></pre>
@@ -41,14 +44,38 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	private static Logger logger = Logger.getLogger(DefaultVariableExprFactory.class.getName());
 	
 	@Override
-	public ASTExpr create(ASTContext context, ASTToken token, QName qname) {
+	public ASTSymbol create(ASTContext context, ASTToken token, QName qname) {
 		if( qname.getParent() == null){
 			return createSimpleVariable(context, token, qname);
 		} else {
-			return createHierachicalVariable(context, token, qname);
+			if( qname instanceof VarQName){
+				return createCompositeVariable(context, token, (VarQName)qname);
+			} else {
+				return createHierachicalVariable(context, token, qname);
+			}
 		}
 	}
 
+	protected CompositeSymbolExpr createCompositeVariable(ASTContext context, ASTToken token, VarQName qname){
+		QName parentName = qname.getParent();
+		QName indexerName = ((VarQName)qname).getIndex();
+		ASTSymbol varExpr = create(context, token, parentName);
+		ASTSymbol varIndexer = create(context, token, indexerName);
+		
+		TypeSpec typeSpec;
+		
+		if(varExpr.type().isArray()){
+			typeSpec = varExpr.type();
+		} else {
+			typeSpec = TypeSpec.UNDEFINED;
+		}
+		
+		CompositeSymbolExpr composite = new CompositeSymbolExpr(token, typeSpec, qname);
+		composite.setParent(varExpr);
+		composite.setVarIndexer(varIndexer);
+		return composite;
+	}
+	
 	protected VariableExpr createSimpleVariable(ASTContext context, ASTToken token, QName qname){
 		ASTDeclaration decl = context.getDecl(qname);
 		TypeSpec typeSpec;
@@ -89,18 +116,6 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		return varExpr;
 	}
 
-	public ASTDeclaration findRootDeclaration(ASTContext context, QName qname) {
-		ASTDeclaration decl = context.getDecl(qname);
-		if(decl == null){
-			if( qname.getParent() != null){
-				return findRootDeclaration(context, qname.getParent());
-			} else {
-				logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
-			}
-		}
-		return decl;
-	}
-	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected PropertyAccessor<?,?> getPropertyAccessor(ASTContext context, QName qname) {
@@ -121,7 +136,11 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		
 
 		PropertyAccessor<?,?> parentAccessor  = getPropertyAccessor(context, parentName);
-
+		
+		if(parentAccessor == null){
+			throw new BuildException("Cannot find bean reference : " + parentName);
+		}
+		
 		PropertyAccessor<?,?> propertyAccessor;
 		
 		if(qname instanceof IndexedQName){
@@ -134,6 +153,18 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		
 		
 		return new PropertyAccessorChains(parentAccessor, propertyAccessor);
+	}
+
+	protected ASTDeclaration findRootDeclaration(ASTContext context, QName qname) {
+		ASTDeclaration decl = context.getDecl(qname);
+		if(decl == null){
+			if( qname.getParent() != null){
+				return findRootDeclaration(context, qname.getParent());
+			} else {
+				logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
+			}
+		}
+		return decl;
 	}
 	
 }

@@ -39,6 +39,8 @@ public interface ASTVisitor<C> {
 
 	C visit(VariableExpr variableExpr, C context);
 	
+	C visit(ASTSymbol symbol, C context);
+	
 	C visit(LiteralExpr expr, C context);
 	
 

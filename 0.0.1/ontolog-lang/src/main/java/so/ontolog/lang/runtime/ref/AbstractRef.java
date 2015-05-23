@@ -22,7 +22,7 @@ import so.ontolog.lang.runtime.Ref;
  * @author Ikchan Kwon
  *
  */
-public abstract class GenericRef implements Ref {
+public abstract class AbstractRef implements Ref {
 	private static final long serialVersionUID = 8381103642569733743L;
 	
 	protected final QName qname;
@@ -31,7 +31,7 @@ public abstract class GenericRef implements Ref {
 	/**
 	 * @param qname
 	 */
-	public GenericRef(QName qname) {
+	public AbstractRef(QName qname) {
 		this.qname = qname;
 	}
 
