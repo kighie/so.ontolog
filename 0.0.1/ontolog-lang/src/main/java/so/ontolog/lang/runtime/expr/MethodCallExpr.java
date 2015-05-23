@@ -15,11 +15,14 @@
 package so.ontolog.lang.runtime.expr;
 
 
+import java.lang.reflect.Method;
+
+import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.EvalException;
 import so.ontolog.lang.runtime.Gettable;
-import so.ontolog.lang.runtime.internal.MethodDelegator;
+import so.ontolog.lang.runtime.internal.InternalException;
 
 /**
  * <pre></pre>
@@ -32,14 +35,16 @@ public class MethodCallExpr<T> implements Gettable<T> {
 	protected TypeSpec type;
 	protected final Gettable<?> parentGettable;
 	protected final Gettable<?>[] args;
-	protected final MethodDelegator methodDelegator;
+	protected Converter<?>[] converters;
+	protected final Method method;
 	
-	public MethodCallExpr(TypeSpec type,Gettable<?> parent, 
-			MethodDelegator methodDelegator, Gettable<?>[] args) {
+	public MethodCallExpr(TypeSpec type, Gettable<?> parent, 
+			Method method, Converter<?>[] converters, Gettable<?>[] args) {
 		this.type = type;
 		this.parentGettable = parent;
-		this.methodDelegator = methodDelegator;
+		this.method = method;
 		this.args = args;
+		this.converters = converters;
 	}
 
 	
@@ -48,34 +53,41 @@ public class MethodCallExpr<T> implements Gettable<T> {
 		return type;
 	}
 	
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(Context context) {
 		Object[] argArr = new Object[args.length];
 		int i = 0;
 		for(Gettable<?> n : args){
-			argArr[i++] = n.get(context);
+			argArr[i] = converters[i].convert(n.get(context));
+			i++;
 		}
 
 		Object bean = parentGettable.get(context);
 		Object returnValue = null;
 		
 		if(bean != null){
-			returnValue = methodDelegator.eval(bean, argArr);
+			returnValue = eval(bean, argArr);
 		} else {
-			throw new EvalException("Method[" + methodDelegator.getName() + "] has no owner bean.").setNode(this);
+			throw new EvalException("Method[" + method.getName() + "] has no owner bean : " + parentGettable).setNode(this);
 		}
 		return (T) returnValue;
 	}
 	
-
+	@SuppressWarnings("unchecked")
+	protected T eval(Object bean, Object[] args) {
+		try {
+			return (T)method.invoke(bean, args);
+		} catch (Exception e) {
+			throw new InternalException(e);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		buf.append("{methodCall: ");
-		buf.append(methodDelegator.getName()).append("(");
+		buf.append(method.getName()).append("(");
 		for(Gettable<?> a : args){
 			buf.append(a.toString()).append(" ");
 		}

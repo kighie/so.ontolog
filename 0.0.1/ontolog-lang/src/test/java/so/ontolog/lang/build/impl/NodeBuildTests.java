@@ -143,8 +143,65 @@ public class NodeBuildTests {
 		sample.setPropArray(new int[]{1,2,3,4,5,6} );
 		context.setParameter("sample", sample);
 
-		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
-				+ "=(sample.propArray[sample.propB] + sample.propArray[2])", context);
+		Module module = buildAndRunExpr(
+				"[param so.ontolog.samples.bean.SampleBean sample;] "
+						+ "=(sample.propArray[sample.propB] + sample.propArray[2])",
+				context);
 
+		int times = 100;
+		
+		stopwatch.start();
+		Object result = null;
+		for (int i = 0; i < times; i++) {
+			result = module.eval(context);
+		}
+		System.out.println("RUN :: " + times + " times. "+ stopwatch.ellapsedTime()  + "\t" + result );
+		
+
+		stopwatch.start();
+		int sum =0;
+		for (int i = 0; i < times; i++) {
+			sum = sample.getPropArray()[sample.getPropB()] + sample.getPropArray()[2];
+		}
+		System.out.println("RUN :: " + times + " times. "+ stopwatch.ellapsedTime() + "\t" + sum);
 	}
+	
+
+	@Test
+	public void buildFormulaWizMethodCall(){
+
+		SimpleContext context = new SimpleContext();
+		SampleBean sample = new SampleBean();
+		sample.setPropA("Text:");
+		sample.setPropB(3);
+		
+		sample.setPropArray(new int[]{1,2,3,4,5,6} );
+		context.setParameter("sample", sample);
+		context.setParameter("dec1", 30);
+		context.setParameter("dec2", 20);
+		
+		int times = 100;
+		Object result = null;
+		
+		Module module = buildAndRunExpr("[param java.math.BigDecimal dec1;param java.math.BigDecimal dec2;] "
+				+ "=(dec1.add(dec2))", context);
+		
+		stopwatch.start();
+		for (int i = 0; i < times; i++) {
+			result = module.eval(context);
+		}
+		System.out.println("RUN :: " + times + " times. "+ stopwatch.ellapsedTime()  + "\t" + result );
+		
+		module = buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=(sample.testIntMethod( sample.propArray[3] * sample.propB))", context);
+		
+
+		stopwatch.start();
+		for (int i = 0; i < times; i++) {
+			result = module.eval(context);
+		}
+		System.out.println("RUN :: " + times + " times. "+ stopwatch.ellapsedTime()  + "\t" + result );
+		
+	}
+	
 }

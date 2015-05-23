@@ -141,13 +141,6 @@ public class SampleBean {
 
 
 
-	public BigDecimal testMethod(BigDecimal number){
-//		new Exception().printStackTrace();
-		return number.add(new BigDecimal(33));
-	}
-
-
-
 	public int[] getPropArray() {
 		return propArray;
 	}
@@ -158,5 +151,11 @@ public class SampleBean {
 		this.propArray = propArray;
 	}
 	
-	
+
+
+	public int testIntMethod(int number){
+		return number * 33;
+	}
+
+
 }

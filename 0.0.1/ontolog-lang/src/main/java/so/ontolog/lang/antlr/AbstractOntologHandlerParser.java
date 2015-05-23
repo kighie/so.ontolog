@@ -1,6 +1,7 @@
 package so.ontolog.lang.antlr;
 
 import java.util.BitSet;
+import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
@@ -159,6 +160,12 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 	
+
+	public ASTExpr call(String token, ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
+		ASTToken astToken = createASTToken(token);
+		return factory.createCall(current, astToken, beanSymbol, name, args);
+	}
+
 
 	public ASTDeclaration createParamDecl(String token,QName typeName,
 			String name, String alias) {

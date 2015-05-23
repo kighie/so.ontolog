@@ -26,13 +26,13 @@ import so.ontolog.lang.runtime.QName;
  *
  */
 @SuppressWarnings("rawtypes")
-public class BuiltInFunctionRef extends AbstractRef implements Gettable<Function> {
+public class FunctionRef extends AbstractRef implements Gettable<Function> {
 	private static final long serialVersionUID = -8146512859266950897L;
 	
 	protected final Function<?> function;
 	
 	
-	public BuiltInFunctionRef(QName qname, Function<?> function) {
+	public FunctionRef(QName qname, Function<?> function) {
 		super(qname);
 		this.function = function;
 	}
@@ -47,4 +47,10 @@ public class BuiltInFunctionRef extends AbstractRef implements Gettable<Function
 		return function;
 	}
 	
+	/**
+	 * @return the function
+	 */
+	public Function<?> getFunction() {
+		return function;
+	}
 }

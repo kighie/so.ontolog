@@ -15,6 +15,7 @@
 package so.ontolog.lang.ast.factory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -56,6 +57,7 @@ public class DefaultASTFactory implements ASTFactory {
 	private Map<String, TernaryExprFactory> ternaryExprFactoryMap;
 	private Map<String, VariableExprFactory> variableExprFactoryMap;
 	private Map<String, LiteralExprFactory> literalExprFactoryMap;
+	private Map<String, CallExprFactory> callExprFactoryMap;
 	
 	private ParamDeclFactory paramDeclFactory;
 	
@@ -65,8 +67,9 @@ public class DefaultASTFactory implements ASTFactory {
 		this.unaryExprFactoryMap = initUnaryExprFactories();
 		this.binaryExprFactoryMap = initBinaryExprFactories();
 		this.ternaryExprFactoryMap = initTernaryExprFactories();
-		this.variableExprFactoryMap = initVariableExprFactories();
 		this.literalExprFactoryMap = initLiteralExprFactories();
+		this.variableExprFactoryMap = initVariableExprFactories();
+		this.callExprFactoryMap = initCallExprFactories();
 		this.paramDeclFactory = initParamDeclFactory();
 	}
 	
@@ -292,7 +295,41 @@ public class DefaultASTFactory implements ASTFactory {
 		
 		return map;
 	}
+	
+	@Override
+	public ASTExpr createCall(ASTContext context, ASTToken token,
+			ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
+		String tokenName = token.getName();
 
+		CallExprFactory factory = callExprFactoryMap.get(tokenName);
+		
+		if(factory == null){
+			throw new BuildException("Unknown call token " + tokenName ).setLocation(token);
+		}
+		
+		return factory.create(context, token, beanSymbol, name, args);
+	}
+	
+	/**<pre></pre>
+	 * @return
+	 */
+	protected Map<String, CallExprFactory> initCallExprFactories() {
+		Map<String, CallExprFactory> map = new HashMap<String, ASTFactory.CallExprFactory>();
+
+		map.put(GrammarTokens.METHOD_CALL, new MetodCallExprFactory());
+		map.put(GrammarTokens.FUNC_CALL, new FunctionCallExprFactory());
+		
+		return map;
+	}
+
+	
+
+	@Override
+	public ASTStatement asStatement(ASTContext context, ASTDeclaration decl) {
+		return new DeclarationStatement(decl);
+	}
+	
+	
 	@Override
 	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 
 			String name, String alias) {
@@ -302,11 +339,6 @@ public class DefaultASTFactory implements ASTFactory {
 
 	protected ParamDeclFactory initParamDeclFactory() {
 		return new DefaultParamDeclFactory();
-	}
-
-	@Override
-	public ASTStatement asStatement(ASTContext context, ASTDeclaration decl) {
-		return new DeclarationStatement(decl);
 	}
 
 	@Override

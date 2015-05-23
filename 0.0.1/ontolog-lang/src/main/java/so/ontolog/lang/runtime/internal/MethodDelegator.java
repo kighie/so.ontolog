@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
  * @author Ikchan Kwon
  *
  */
+@Deprecated
 public class MethodDelegator {
 
 	public static final Object[] EMPTY_ARRAY = new Object[0];

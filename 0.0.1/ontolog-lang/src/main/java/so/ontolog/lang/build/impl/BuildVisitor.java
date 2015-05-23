@@ -14,7 +14,9 @@
  */
 package so.ontolog.lang.build.impl;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +33,7 @@ import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.decl.ParamDecl;
 import so.ontolog.lang.ast.expr.BinaryExpr;
+import so.ontolog.lang.ast.expr.CallExpr;
 import so.ontolog.lang.ast.expr.CompositeSymbolExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
@@ -46,6 +49,7 @@ import so.ontolog.lang.runtime.Operator.Unary;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Statement;
 import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
+import so.ontolog.lang.runtime.expr.MethodCallExpr;
 import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
 import so.ontolog.lang.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.NumberLiteral;
@@ -133,6 +137,30 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return null;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public BuildContext visit(LiteralExpr literalExpr, BuildContext context) {
+		TypeSpec type = literalExpr.type();
+		Literal<?> literal;
+		switch(type.getTypeKind()){
+		case Number:
+			literal = new NumberLiteral(new BigDecimal(literalExpr.getExpr()));
+			break;
+		case Text:
+			literal = new TextLiteral(literalExpr.getExpr());
+			break;
+		case Bool:
+			literal = new BooleanLiteral( DefaultConverters.BOOL.convert(literalExpr.getExpr()) );
+			break;
+		default:
+			Converter<?> converter = TypeUtils.getConverter(type);
+			Object value = converter.convert(literalExpr.getExpr());
+			literal = new ObjectLiteral(type, value);
+		}
+		literalExpr.setNode(literal);
+		return context;
+	}
+
 	@SuppressWarnings({ "rawtypes" , "unchecked" })
 	@Override
 	public BuildContext visit(VariableExpr variableExpr, BuildContext context) {
@@ -172,28 +200,29 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public BuildContext visit(LiteralExpr literalExpr, BuildContext context) {
-		TypeSpec type = literalExpr.type();
-		Literal<?> literal;
-		switch(type.getTypeKind()){
-		case Number:
-			literal = new NumberLiteral(new BigDecimal(literalExpr.getExpr()));
-			break;
-		case Text:
-			literal = new TextLiteral(literalExpr.getExpr());
-			break;
-		case Bool:
-			literal = new BooleanLiteral( DefaultConverters.BOOL.convert(literalExpr.getExpr()) );
-			break;
-		default:
-			Converter<?> converter = TypeUtils.getConverter(type);
-			Object value = converter.convert(literalExpr.getExpr());
-			literal = new ObjectLiteral(type, value);
+	public BuildContext visit(CallExpr expr, BuildContext context) {
+		Gettable<?> beanGettable = (expr.getBeanRef() != null) ? (Gettable<?>)expr.getBeanRef().getNode() : null;
+		Method method = expr.getMethod();
+		List<ASTExpr> argTypes = expr.getArgs();
+		int length = argTypes.size();
+		Gettable<?>[] argGettableArr = new Gettable<?>[argTypes.size()];
+		Converter<?>[] converters = new Converter<?>[argTypes.size()];
+		Class<?>[]paramTypeArray = method.getParameterTypes();
+		
+		for(int i=0;i<length;i++){
+			argGettableArr[i] = (Gettable<?>)argTypes.get(i).getNode();
+			converters[i] = DefaultConverters.getConverter(paramTypeArray[i]);
 		}
-		literalExpr.setNode(literal);
+		
+		
+		MethodCallExpr<?> methodCall = new MethodCallExpr(expr.type(), 
+				beanGettable, method, converters, argGettableArr);
+		
+		expr.setNode(methodCall);
 		return context;
 	}
-
+	
+	
 	@Override
 	public BuildContext visit(ASTDeclaration declStmt, BuildContext context) {
 		String tokenName = declStmt.getToken().getName();

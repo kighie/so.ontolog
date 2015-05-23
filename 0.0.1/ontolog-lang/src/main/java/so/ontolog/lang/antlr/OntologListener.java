@@ -47,6 +47,36 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitExpression(OntologParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#funcCallExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCallExp(OntologParser.FuncCallExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#funcCallExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCallExp(OntologParser.FuncCallExpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#methodCallExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodCallExp(OntologParser.MethodCallExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#methodCallExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodCallExp(OntologParser.MethodCallExpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#arguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterArguments(OntologParser.ArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#arguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitArguments(OntologParser.ArgumentsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#literalTerm}.
 	 * @param ctx the parse tree
 	 */

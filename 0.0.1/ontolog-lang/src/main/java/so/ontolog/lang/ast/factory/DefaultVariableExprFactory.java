@@ -18,9 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import so.ontolog.data.binding.PropertyAccessor;
-import so.ontolog.data.binding.factory.CachedBeanBinderFactory;
 import so.ontolog.data.binding.metadata.BeanProperty;
-import so.ontolog.data.binding.tools.PropertyAccessorChains;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTContext;
@@ -30,8 +28,7 @@ import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.CompositeSymbolExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
-import so.ontolog.lang.build.BuildException;
-import so.ontolog.lang.runtime.IndexedQName;
+import so.ontolog.lang.ast.util.ASTUtils;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.VarQName;
 
@@ -97,7 +94,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	 * @return
 	 */
 	protected VariableExpr createHierachicalVariable(ASTContext context, ASTToken token, QName qname){
-		PropertyAccessor<?,?> propertyAccessor = getPropertyAccessor(context, qname);
+		PropertyAccessor<?,?> propertyAccessor = ASTUtils.getPropertyAccessor(context, qname);
 		
 		TypeSpec typeSpec;
 		
@@ -117,54 +114,4 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	}
 
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected PropertyAccessor<?,?> getPropertyAccessor(ASTContext context, QName qname) {
-		QName parentName = qname.getParent();
-		if(parentName == null){
-			logger.log(Level.WARNING, "Cannot find Declaration for " + qname);
-			return null;
-		}
-
-		
-		
-		ASTDeclaration decl = context.getDecl(parentName);
-		
-		if(decl != null){
-			TypeSpec typeSpec = decl.getType();
-			return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), qname.getName());
-		} 
-		
-
-		PropertyAccessor<?,?> parentAccessor  = getPropertyAccessor(context, parentName);
-		
-		if(parentAccessor == null){
-			throw new BuildException("Cannot find bean reference : " + parentName);
-		}
-		
-		PropertyAccessor<?,?> propertyAccessor;
-		
-		if(qname instanceof IndexedQName){
-			propertyAccessor  =  CachedBeanBinderFactory.getInstance()
-					.createPropertyAccessor(parentAccessor.type(), ((IndexedQName)qname).getIndex());
-		} else {
-			propertyAccessor  =  CachedBeanBinderFactory.getInstance()
-					.createPropertyAccessor(parentAccessor.type(), qname.getName());
-		}
-		
-		
-		return new PropertyAccessorChains(parentAccessor, propertyAccessor);
-	}
-
-	protected ASTDeclaration findRootDeclaration(ASTContext context, QName qname) {
-		ASTDeclaration decl = context.getDecl(qname);
-		if(decl == null){
-			if( qname.getParent() != null){
-				return findRootDeclaration(context, qname.getParent());
-			} else {
-				logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
-			}
-		}
-		return decl;
-	}
-	
 }

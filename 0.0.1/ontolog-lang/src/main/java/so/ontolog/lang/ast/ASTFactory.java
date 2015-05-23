@@ -14,6 +14,8 @@
  */
 package so.ontolog.lang.ast;
 
+import java.util.List;
+
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.runtime.QName;
 
@@ -48,6 +50,17 @@ public interface ASTFactory {
 	
 	ASTSymbol createVariable(ASTContext context, ASTToken token, QName qname);
 	
+	/**<pre></pre>
+	 * @param current
+	 * @param astToken
+	 * @param beanSymbol
+	 * @param name
+	 * @param args
+	 * @return
+	 */
+	ASTExpr createCall(ASTContext context, ASTToken token,
+			ASTSymbol beanSymbol, String name, List<ASTExpr> args);
+	
 	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
 
 	ASTStatement asStatement(ASTContext context, ASTDeclaration decl);
@@ -55,7 +68,6 @@ public interface ASTFactory {
 	ASTStatement createEvalStmt(ASTToken token, ASTExpr expr);
 	
 	
-
 	public interface ModuleFactory {
 		CompilationUnit create(ASTContext context, ASTToken token);
 	}
@@ -101,5 +113,9 @@ public interface ASTFactory {
 	public interface ParamDeclFactory {
 		ASTDeclaration create(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
 	}
-	
+
+	public interface CallExprFactory {
+		ASTSymbol create(ASTContext context, ASTToken token, ASTSymbol beanRef, String name, List<ASTExpr> args);
+	}
+
 }

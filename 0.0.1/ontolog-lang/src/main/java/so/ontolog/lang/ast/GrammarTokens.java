@@ -33,6 +33,7 @@ public interface GrammarTokens {
 	String LIT_DATE 		= "LIT_DATE";
 	String LIT_STRING 		= "LIT_STRING";
 	String LIT_NULL 		= "LIT_NULL";
+	
 	String OP_NUM_NEGATION 	= "OP_NUM_NEGATION";
 	String OP_PERCENT 		= "OP_PERCENT";
 	String OP_MINUS 		= "OP_MINUS";
@@ -51,8 +52,9 @@ public interface GrammarTokens {
 	String OP_LT 			= "OP_LT";
 	String OP_GT	 		= "OP_GT";
 	String OP_TERNARY	 	= "OP_TERNARY";
-	String IDENT 			= "IDENT";
-	String REF				= "REF";
+
+	String VAR				= "VAR";
+	
 	String METHOD_CALL		= "METHOD_CALL";
 	String FUNC_CALL		= "FUNC_CALL";
 
@@ -77,7 +79,6 @@ public interface GrammarTokens {
 	 * Declaration
 	 */
 	
-	String VAR				= "VAR";
 	String SIMPLE_MAP		= "SIMPLE_MAP";
 	String VAR_DECL			= "VAR_DECL";
 	String ARG_DECL			= "ARG_DECL";

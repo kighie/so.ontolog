@@ -70,9 +70,6 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 	 * @param <T>
 	 */
 	public static class ArgDeclRef<T>  extends VariableRef<T> {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 535106876225275853L;
 		
 		/**
@@ -91,9 +88,6 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 	 * @param <T>
 	 */
 	public static class PropertyRef<T>  extends VariableRef<T> {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 535106876225275853L;
 
 		private PropertyAccessor<?,?> propertyAccessor;

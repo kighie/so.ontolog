@@ -84,4 +84,17 @@ public class ASTBuildTests {
 		buildExpr("[param int a as pa; param real b;] =(3*4.5/(3+5) - 1.3)");
 //		testAst("[param int a as pa; param real b;] =(3*4.5/(pa+5) - b)");
 	}
+	
+
+	@Test
+	public void buildFormulaWizMethodCall(){
+
+		buildExpr("[param java.math.BigDecimal dec1;param java.math.BigDecimal dec2;] "
+				+ "=(dec1.add(dec2))");
+		
+		buildExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=(sample.testIntMethod( sample.propArray[3] * sample.propB))");
+		
+	}
+	
 }

@@ -57,9 +57,33 @@ expression returns [ASTExpr result]
 	: 
 	(
 	operatorExpression { $result = $operatorExpression.result ; }
-//	| funcCallExp { $result =  $funcCallExp.result ; }
-//	| methodCallExp { $result =  $methodCallExp.result ; }
+	| funcCallExp { $result =  $funcCallExp.result ; }
+	| methodCallExp { $result =  $methodCallExp.result ; }
 	) 
+	;
+
+funcCallExp returns [ASTExpr result]
+	: 
+	(IDENT '(' ')'  { $result = call(FUNC_CALL, null, $IDENT.text, null) ;} )
+	| (IDENT '(' arguments ')'  { $result = call(FUNC_CALL, null, $IDENT.text, $arguments.argList) ;} )
+	;
+
+methodCallExp returns [ASTExpr result]
+	: 
+	(
+		( qualifiedName'.' IDENT '(' ')'	
+			{ $result = call(METHOD_CALL, variable( $qualifiedName.result), $IDENT.text, null) ; }
+		)
+		| ( qualifiedName'.' IDENT '(' arguments ')' 
+			{ $result = call(METHOD_CALL, variable( $qualifiedName.result), $IDENT.text, $arguments.argList) ; }
+		)
+	)
+	;
+
+arguments  returns [List<ASTExpr> argList]
+	: { $argList = new LinkedList<ASTExpr>(); }
+		(arg2 = expression { $argList.add($arg2.result); })
+		(',' arg2 = expression { $argList.add($arg2.result); } )*
 	;
 
 
