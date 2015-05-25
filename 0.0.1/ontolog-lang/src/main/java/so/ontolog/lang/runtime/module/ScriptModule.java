@@ -12,36 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.runtime.module;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.Block;
+import so.ontolog.lang.runtime.Module;
+import so.ontolog.lang.runtime.stmt.AbstractBlock;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTContext {
+public class ScriptModule extends AbstractBlock implements Module, Block {
+	private static final long serialVersionUID = 9136169609070446603L;
 
-	ASTContext parent();
-	
-	ASTContext root();
-	
-
-	ASTDeclaration getFuncDecl(QName qname);
-
-	void registerFuncDecl(ASTDeclaration symbol);
-	
-	
-	ASTDeclaration getVarDecl(QName qname);
-
-	void registerVarDecl(ASTDeclaration symbol);
-	
-	Function<?> getBuiltInFunction(QName qname);
-
-	TypeSpec getType(QName qname);
-	
-	void registerType(QName qname, TypeSpec typeSpec);
 }

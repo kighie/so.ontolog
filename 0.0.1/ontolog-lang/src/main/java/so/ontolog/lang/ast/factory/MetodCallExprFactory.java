@@ -23,13 +23,13 @@ import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTContext;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.CallExprFactory;
 import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.expr.ASTMethodCallExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
-import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -56,7 +56,7 @@ public class MetodCallExprFactory implements CallExprFactory {
 		Method method = getMethod(beanClz, name, argTypeArray);
 
 		if(method == null){
-			throw new BuildException("Cannot find method : " + name + Arrays.toString(argTypeArray));
+			throw new ASTException("Cannot find method : " + name + Arrays.toString(argTypeArray));
 		}
 		
 		TypeSpec typeSpec = TypeUtils.getTypeSpec(method.getReturnType());

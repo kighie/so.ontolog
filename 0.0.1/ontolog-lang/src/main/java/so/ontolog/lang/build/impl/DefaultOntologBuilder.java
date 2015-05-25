@@ -24,6 +24,7 @@ import org.antlr.v4.runtime.TokenStream;
 import so.ontolog.lang.antlr.OntologLexer;
 import so.ontolog.lang.antlr.OntologParser;
 import so.ontolog.lang.antlr.OntologParser.OntologExpressionContext;
+import so.ontolog.lang.antlr.OntologParser.OntologScriptContext;
 import so.ontolog.lang.ast.ASTFactory;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.CompilationUnit;
@@ -143,7 +144,7 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		return ctx.result;
 	}
 
-	protected Module buildExpr(CompilationUnit ast) {
+	protected Module build(CompilationUnit ast) {
 		RootBuildContext context = new RootBuildContext(ast);
 		ast.accept(visitor, context);
 		return context.getModule();
@@ -152,19 +153,27 @@ public class DefaultOntologBuilder implements OntologBuilder {
 	@Override
 	public Module buildExpr(String expression) {
 		CompilationUnit astNode = buildExprAST(expression);
-		return buildExpr(astNode);
+		return build(astNode);
 	}
 	
 	@Override
 	public Module build(String expression) {
-		// TODO Auto-generated method stub
-		return null;
+		StackTraceElement e = new Exception().getStackTrace()[0];
+		return build(new OntologSource(e.toString(), expression));
 	}
 
 	@Override
 	public Module build(OntologSource source) {
-		// TODO Auto-generated method stub
-		return null;
+		CompilationUnit astNode = buildAST(source);
+		return build(astNode);
 	}
-	
+
+
+	protected CompilationUnit buildAST(OntologSource source) {
+		OntologParser parser = createParser(source.getSourceString());
+		OntologScriptContext ctx = parser.ontologScript();
+		
+		return ctx.result;
+	}
+
 }

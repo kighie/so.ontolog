@@ -12,36 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.runtime.stmt;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.runtime.Context;
+import so.ontolog.lang.runtime.Gettable;
+import so.ontolog.lang.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTContext {
+public class ReturnStatement implements Statement {
 
-	ASTContext parent();
+	private static final long serialVersionUID = -5704993347965467661L;
 	
-	ASTContext root();
+	private Gettable<?> gettable;
 	
+	
+	public ReturnStatement(Gettable<?> gettable) {
+		this.gettable = gettable;
+	}
 
-	ASTDeclaration getFuncDecl(QName qname);
 
-	void registerFuncDecl(ASTDeclaration symbol);
-	
-	
-	ASTDeclaration getVarDecl(QName qname);
+	@Override
+	public Object eval(Context context) {
+		return gettable.get(context);
+	}
 
-	void registerVarDecl(ASTDeclaration symbol);
-	
-	Function<?> getBuiltInFunction(QName qname);
-
-	TypeSpec getType(QName qname);
-	
-	void registerType(QName qname, TypeSpec typeSpec);
 }

@@ -12,36 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.build.impl;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.QName;
+import org.junit.Test;
+
+import so.ontolog.lang.runtime.internal.SimpleContext;
+import so.ontolog.samples.bean.SampleBean;
+
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTContext {
-
-	ASTContext parent();
+public class ScriptBuildTests extends ScriptTests{
 	
-	ASTContext root();
-	
-
-	ASTDeclaration getFuncDecl(QName qname);
-
-	void registerFuncDecl(ASTDeclaration symbol);
-	
-	
-	ASTDeclaration getVarDecl(QName qname);
-
-	void registerVarDecl(ASTDeclaration symbol);
-	
-	Function<?> getBuiltInFunction(QName qname);
-
-	TypeSpec getType(QName qname);
-	
-	void registerType(QName qname, TypeSpec typeSpec);
+	@Test
+	public void scriptBasic(){
+		SimpleContext context = new SimpleContext();
+		SampleBean sample = new SampleBean();
+		sample.setPropA("Text:");
+		sample.setPropB(3);
+		
+		sample.setPropArray(new int[]{1,2,3,4,5,6} );
+		context.setParameter("sample", sample);
+		context.setParameter("dec1", 30);
+		context.setParameter("dec2", 20);
+		
+		buildAndRun("so/ontolog/lang/build/impl/ScriptBasic.ol", context);
+	}
 }

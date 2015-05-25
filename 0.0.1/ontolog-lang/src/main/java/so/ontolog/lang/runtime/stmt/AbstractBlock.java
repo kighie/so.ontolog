@@ -12,28 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build.impl;
+package so.ontolog.lang.runtime.stmt;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.LinkedList;
+import java.util.List;
 
-import so.ontolog.lang.SourcePosition;
-import so.ontolog.lang.ast.SyntaxErrorHandler;
-import so.ontolog.lang.build.BuildException;
+import so.ontolog.lang.runtime.Block;
+import so.ontolog.lang.runtime.Context;
+import so.ontolog.lang.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class DefaultSyntaxErrorHandler implements SyntaxErrorHandler {
-	private static Logger logger = Logger.getLogger("SyntaxErrorHandler");
+public class AbstractBlock implements Block {
+
+	private static final long serialVersionUID = -8149269987642137932L;
+
+	protected final List<Statement> statementList = new LinkedList<Statement>();
 	
 	@Override
-	public void syntaxError(String message, Object offendingSymbol,
-			SourcePosition location, Exception cause) {
-		logger.log(Level.SEVERE, message, cause);
-		throw new BuildException(message, cause).setLocation(location);
+	public void append(Statement node) {
+		statementList.add(node);
 	}
-
+	
+	@Override
+	public Object eval(Context context) {
+		Object rtn;
+		
+		for( Statement s : statementList ){
+			rtn = s.eval(context);
+			if(rtn!=null){
+				return rtn;
+			}
+		}
+		return null;
+	}
 }

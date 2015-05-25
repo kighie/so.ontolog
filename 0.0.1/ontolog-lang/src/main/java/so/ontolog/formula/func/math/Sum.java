@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.func.math;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 
 import so.ontolog.lang.runtime.Context;
@@ -37,12 +38,27 @@ public class Sum extends AbstractMathFunction<BigDecimal>{
 	public BigDecimal eval(Context context, Gettable<?>[] args) {
 		int length = args.length;
 		
-		BigDecimal sum = convertDecimal(args[0].get(context));
+		BigDecimal sum = add(BigDecimal.ZERO, args[0].get(context));
 		
 		for(int i = 1; i<length;i++){
 			sum = sum.add(convertDecimal(args[i].get(context)));
 		}
 		return sum;
 	}
-
+	
+	private BigDecimal add(BigDecimal sum, Object value){
+		if(value == null){
+			return sum;
+		}
+		if(value.getClass().isArray()){
+			int length = Array.getLength(value);
+			for(int i=0;i<length;i++){
+				sum = sum.add(convertDecimal(Array.get(value, i)));
+			}
+			
+		} else {
+			sum = sum.add(convertDecimal(value));
+		}
+		return sum;
+	}
 }

@@ -12,36 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast;
+package so.ontolog.lang.runtime.func;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.OntologLangException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTContext {
+public class AssertException extends OntologLangException {
 
-	ASTContext parent();
-	
-	ASTContext root();
-	
+	private static final long serialVersionUID = -1076026248248029330L;
 
-	ASTDeclaration getFuncDecl(QName qname);
+	public AssertException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-	void registerFuncDecl(ASTDeclaration symbol);
-	
-	
-	ASTDeclaration getVarDecl(QName qname);
+	public AssertException(String message) {
+		super(message);
+	}
 
-	void registerVarDecl(ASTDeclaration symbol);
-	
-	Function<?> getBuiltInFunction(QName qname);
+	public AssertException(Throwable cause) {
+		super(cause);
+	}
 
-	TypeSpec getType(QName qname);
-	
-	void registerType(QName qname, TypeSpec typeSpec);
 }

@@ -78,7 +78,19 @@ public class OntologSource {
 		return sourcePath;
 	}
 	
+	@Override
+	public String toString() {
+		if(sourcePath != null){
+			return "Ontolog source:" + sourcePath;
+		} else {
+			return "Ontolog source:" + sourceString;
+		}
+	}
 
+	public static OntologSource newSource(ClassLoader classLoader , String sourcePath){
+		InputStream stream = classLoader.getResourceAsStream(sourcePath);
+		return newSource(sourcePath, stream, "utf-8");
+	}
 	public static OntologSource newSource(String sourcePath, File file){
 		FileReader reader = null;
 		

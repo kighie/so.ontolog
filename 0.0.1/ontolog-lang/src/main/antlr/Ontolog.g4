@@ -27,8 +27,10 @@ options {
 	import java.util.List;
 	import java.util.LinkedList;
 	
-	import so.ontolog.lang.runtime.*;
+	import so.ontolog.data.type.TypeSpec;
+	import so.ontolog.lang.runtime.QName;
 	import so.ontolog.lang.ast.*;
+	import so.ontolog.lang.ast.stmt.ASTIf;
 	import so.ontolog.lang.build.*;
 }
 
@@ -43,22 +45,111 @@ ontologExpression returns [CompilationUnit result]
 	)
 	;
 
+ontologScript returns [CompilationUnit result]
+	: { $result = createModule(SCRIPT_MODULE); }
+		importStatement*
+		paramDecl[$result]*
+		blockContents[$result]
+		EOF
+	  { endScope();}
+	;
+
+
+/***************************************************
+ * Script Statements  
+ *************************************************** */
+importStatement
+	: (
+		('importJava' qualifiedName END_OF_STMT { importJava($qualifiedName.result); } )
+		| ('import' pathExpr  
+			{ String alias = null; }
+			( IDENT {	alias = $IDENT.text; })
+			END_OF_STMT 
+			{ importModule($pathExpr.path, alias); } 
+		)
+	)
+	;
+
+methodCallStatement  returns [ASTStatement result]
+	: methodCallExp  { $result = asStatement($methodCallExp.result); }
+	END_OF_STMT
+	;
+	
+functionCallStatement  returns [ASTStatement result]
+	: funcCallExp  { $result = asStatement($funcCallExp.result); } 
+	END_OF_STMT
+	;
+
+returnStatement  returns [ASTStatement result]
+	: 'return' expression 
+	END_OF_STMT
+	 { $result = returnStatement($expression.result); } 
+	;
+
+
+ifStatement returns [ASTIf result]
+	: 	
+	'if' { beginScope(); } 
+		'(' logicalExpression ')' 
+		{
+			$result = ifStatement(IF, $logicalExpression.result); 
+		}
+		'{'  blockContents[$result] '}'
+	( 'elseif' '(' logicalExpression ')'
+		{
+			ASTBlock elseIfStmt = $result.createElseIf(createASTToken(ELSEIF), $logicalExpression.result);
+		} 
+		'{' blockContents[elseIfStmt] '}'
+	)*
+	( 'else' 
+		{
+			ASTBlock elseStmt = $result.checkOutElse(createASTToken(ELSE));
+		}
+		'{' blockContents[elseStmt] '}'
+		
+	)?
+		{	endScope(); }
+	;
+
+
+blockContents [ASTBlock stmtHolder]
+	: 
+	(
+		variableDecl	{ $stmtHolder.append($variableDecl.result); }
+		| methodCallStatement	{ $stmtHolder.append($methodCallStatement.result); }
+		| functionCallStatement	{ $stmtHolder.append($functionCallStatement.result); }
+	)*
+	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
+	;
+
+/***************************************************
+ * Declarations  
+ *************************************************** */
 paramDecl [CompilationUnit module] 
 	: 'param' 
 		{ String alias = null; }
 		type = qualifiedName 
 		name = IDENT
 		('as' IDENT  { alias = $IDENT.text; })?
-		{ $module.append( asStatement( createParamDecl(PARAM_DECL, $type.result, $name.text, alias) ) ); }
+		{ $module.append( asStatement( paramDecl(PARAM_DECL, $type.result, $name.text, alias) ) ); }
 		';'
 	;
+ 
+variableDecl returns [ASTStatement result]
+	: { ASTExpr valueExpr = null; }
+	typeExpr IDENT 
+	( '=' expression {	valueExpr = $expression.result;  })?
+	END_OF_STMT
+	{	$result = asStatement(variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,valueExpr )); }
+	;
 
+/***************************************************
+ * EXPRESSIONS  
+ *************************************************** */
 expression returns [ASTExpr result]
 	: 
 	(
 	operatorExpression { $result = $operatorExpression.result ; }
-	| funcCallExp { $result =  $funcCallExp.result ; }
-	| methodCallExp { $result =  $methodCallExp.result ; }
 	) 
 	;
 
@@ -94,7 +185,24 @@ literalTerm  returns [ASTExpr result]
 	| NULL				{ $result = literal( LIT_NULL, null); }
 	;
 
-
+pathExpr returns [String path] 
+	:{ StringBuilder builder = new StringBuilder(); boolean isArray = false;}
+	IDENT 	{ builder.append( $IDENT.text); }
+	(
+		('.' IDENT	{ builder.append(".").append( $IDENT.text); } )
+		| ('/' IDENT	{ builder.append("/").append( $IDENT.text); } )
+	)*
+	{ $path = builder.toString(); }
+	;
+	
+typeExpr returns [TypeSpec result]
+	: { StringBuilder builder = new StringBuilder(); boolean isArray = false;}
+	IDENT 	{ builder.append( $IDENT.text); }
+	('.' IDENT	{ builder.append(".").append( $IDENT.text); } )*
+	('[' ']' 	{ isArray = true; })?
+	{ $result = (isArray ? arrayType(builder.toString()) : type(builder.toString()) ); }
+	;
+	
 qualifiedName returns [QName result]
 	: IDENT 	{ $result = qname( $IDENT.text); }
 	(	('.' IDENT	{ $result = qname( $result, $IDENT.text); } )
@@ -108,6 +216,8 @@ formulaTerm returns [ASTExpr result]
 	: literalTerm 		{ $result = $literalTerm.result; }
 	| IDENT				{ $result = variable( $IDENT.text); }
 	| qualifiedName		{ $result = variable( $qualifiedName.result) ; }
+	| funcCallExp { $result =  $funcCallExp.result ; }
+	| methodCallExp { $result =  $methodCallExp.result ; }
 	;
 
 
@@ -160,7 +270,7 @@ additiveExpression returns [ASTExpr result]
 comparison returns [ASTExpr result]
 	: additiveExpression  { $result = $additiveExpression.result;  }
 	( 
-		'='  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
+		'=='  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
 		|'is'  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
 		|'!=' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
 		|'<>' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
@@ -191,18 +301,19 @@ logicalExpression returns [ASTExpr result]
 	;
     
 ternaryExpression returns [ASTExpr result]
-	: logicalExpression { $result = $logicalExpression.result;  }
-	(
+	: 	op1 = logicalExpression 
 		'?'
 		( op2 = operatorExpression  )
 		':'
 		( op3 = operatorExpression )
-		{$result = ternary(OP_TERNARY, $result, $op2.result, $op3.result); }
-	)
+		{$result = ternary(OP_TERNARY, $op1.result, $op2.result, $op3.result); }
 	;
     
 operatorExpression returns [ASTExpr result]
-	: logicalExpression { $result = $logicalExpression.result;  }
+	: (
+		logicalExpression { $result = $logicalExpression.result;  }
+		| ternaryExpression { $result = $ternaryExpression.result;  }
+		)
 	;
     
 
@@ -221,6 +332,8 @@ fragment LETTER
     	| '\u3130'..'\u318F'
         | '\u1100'..'\u11FF'
     ;
+
+END_OF_STMT : ';' ;
 
 NUMBER : DIGIT+ ('.' DIGIT+)? ;
 

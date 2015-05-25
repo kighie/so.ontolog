@@ -17,6 +17,7 @@ package so.ontolog.lang.runtime.stmt;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.runtime.Context;
+import so.ontolog.lang.runtime.Gettable;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Statement;
 
@@ -25,35 +26,37 @@ import so.ontolog.lang.runtime.Statement;
  * @author Ikchan Kwon
  *
  */
-public class ParamDeclStmt implements Statement {
-	private static final long serialVersionUID = 987017160320384316L;
+public class VariableDeclStatement implements Statement {
+	private static final long serialVersionUID = -4365066019694115923L;
 	
-
 	protected final QName qname;
 	protected final TypeSpec typeSpec;
-	protected final QName paramName;
+	protected Gettable<?> initialValue;
 	
-	public ParamDeclStmt(QName qname, TypeSpec typeSpec, QName paramName) {
+	public VariableDeclStatement(QName qname, TypeSpec typeSpec) {
 		super();
 		this.qname = qname;
 		this.typeSpec = typeSpec;
-		this.paramName = paramName;
+	}
+
+	public Gettable<?> getInitialValue() {
+		return initialValue;
+	}
+
+	public void setInitialValue(Gettable<?> initialValue) {
+		this.initialValue = initialValue;
 	}
 
 	@Override
 	public Object eval(Context context) {
-		Object value = context.getReference(paramName);
-		if(value != null){
-			if(!typeSpec.isAssignableFrom(value.getClass())){
+		if(initialValue !=null){
+			Object value = initialValue.get(context);
+			
+			if(value != null && !typeSpec.isAssignableFrom(value.getClass())){
 				value = TypeUtils.convert(value, typeSpec);
-//				throw new EvalException("Illegal Parameter type: '" + paramName 
-//						+ "' expected=" + typeSpec.getName()
-//						+ ", given=" + value.getClass().getName());
 			}
-			context.setReference(paramName,null);
 			context.setReference(qname, value);
 		}
 		return null;
 	}
-
 }

@@ -15,6 +15,7 @@
 package so.ontolog.lang.runtime;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -24,9 +25,16 @@ import java.io.Serializable;
  */
 public class QName implements Serializable {
 	private static final long serialVersionUID = 7111834758219252316L;
+	private static final Pattern pattern = Pattern.compile("\\.");
 	
-	public static QName getQName(String name){
-		return new QName(name);
+
+	public static QName parseQName(String fullName){
+		String[] tokens = pattern.split(fullName);
+		QName qname = null;
+		for(String t : tokens){
+			qname = new QName(qname, t);
+		}
+		return qname;
 	}
 	
 	

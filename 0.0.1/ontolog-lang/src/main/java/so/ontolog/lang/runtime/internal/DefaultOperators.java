@@ -307,7 +307,8 @@ public class DefaultOperators {
 		@Override
 		public String eval(Object val1, Object val2) {
 			StringBuilder buf = new StringBuilder();
-			buf.append(val1).append(val2);
+			buf.append(val1);
+			buf.append(val2);
 			return buf.toString();
 		};
 
@@ -341,4 +342,5 @@ public class DefaultOperators {
 
 		public String toString() { return token(); };
 	};
+	
 }

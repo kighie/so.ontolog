@@ -4,8 +4,10 @@ package so.ontolog.lang.antlr;
 	import java.util.List;
 	import java.util.LinkedList;
 	
-	import so.ontolog.lang.runtime.*;
+	import so.ontolog.data.type.TypeSpec;
+	import so.ontolog.lang.runtime.QName;
 	import so.ontolog.lang.ast.*;
+	import so.ontolog.lang.ast.stmt.ASTIf;
 	import so.ontolog.lang.build.*;
 
 import org.antlr.v4.runtime.misc.NotNull;
@@ -27,6 +29,76 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitOntologExpression(OntologParser.OntologExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#ontologScript}.
+	 * @param ctx the parse tree
+	 */
+	void enterOntologScript(OntologParser.OntologScriptContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#ontologScript}.
+	 * @param ctx the parse tree
+	 */
+	void exitOntologScript(OntologParser.OntologScriptContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterImportStatement(OntologParser.ImportStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitImportStatement(OntologParser.ImportStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#methodCallStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodCallStatement(OntologParser.MethodCallStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#methodCallStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodCallStatement(OntologParser.MethodCallStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#functionCallStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCallStatement(OntologParser.FunctionCallStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#functionCallStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCallStatement(OntologParser.FunctionCallStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStatement(OntologParser.ReturnStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStatement(OntologParser.ReturnStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(OntologParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(OntologParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#blockContents}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockContents(OntologParser.BlockContentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#blockContents}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockContents(OntologParser.BlockContentsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#paramDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -36,6 +108,16 @@ public interface OntologListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParamDecl(OntologParser.ParamDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#variableDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableDecl(OntologParser.VariableDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#variableDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableDecl(OntologParser.VariableDeclContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link OntologParser#expression}.
 	 * @param ctx the parse tree
@@ -86,6 +168,26 @@ public interface OntologListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteralTerm(OntologParser.LiteralTermContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#pathExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPathExpr(OntologParser.PathExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#pathExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPathExpr(OntologParser.PathExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#typeExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeExpr(OntologParser.TypeExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#typeExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeExpr(OntologParser.TypeExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link OntologParser#qualifiedName}.
 	 * @param ctx the parse tree

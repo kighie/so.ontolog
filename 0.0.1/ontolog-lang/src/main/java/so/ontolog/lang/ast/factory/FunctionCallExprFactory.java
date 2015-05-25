@@ -19,13 +19,13 @@ import java.util.List;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.CallExprFactory;
 import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.decl.FunctionDecl;
 import so.ontolog.lang.ast.expr.ASTFunctionCallExpr;
-import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
 
@@ -40,7 +40,7 @@ public class FunctionCallExprFactory implements CallExprFactory {
 	@Override
 	public ASTSymbol create(ASTContext context, ASTToken token, ASTSymbol beanRef, String name, List<ASTExpr> args) {
 		if(beanRef != null){
-			throw new BuildException("TODO function Namespace ");
+			throw new ASTException("TODO function Namespace ");
 		}
 		
 		QName qname = new QName(name);
@@ -48,7 +48,7 @@ public class FunctionCallExprFactory implements CallExprFactory {
 		TypeSpec typeSpec;
 		Class<?>[] argTypeArray = null;
 		
-		ASTDeclaration fnDecl = context.getDecl(qname);
+		ASTDeclaration fnDecl = context.getFuncDecl(qname);
 		Function<?> function = null;
 		
 		if(fnDecl != null){

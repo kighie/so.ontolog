@@ -582,7 +582,11 @@ public abstract class DefaultConverters {
 
 	@SuppressWarnings("unchecked")
 	public static <T> Converter<T> getConverter(Class<T> type){
-		return (Converter<T>)convertersMap.get(type);
+		Converter<T> converter = (Converter<T>)convertersMap.get(type);
+		if(converter == null){
+			converter = (Converter<T>)BY_PASS;
+		}
+		return converter;
 	}
 	
 }

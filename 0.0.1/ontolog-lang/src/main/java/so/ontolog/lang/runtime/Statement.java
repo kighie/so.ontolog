@@ -22,6 +22,6 @@ package so.ontolog.lang.runtime;
  */
 public interface Statement extends Node {
 
-	void eval(Context context);
+	Object eval(Context context);
 	
 }

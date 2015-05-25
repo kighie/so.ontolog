@@ -39,5 +39,5 @@ public interface Operator<T> extends Serializable {
 	public interface Binary<T, OP1, OP2> extends Operator<T> {
 		T eval(OP1 val1, OP2 val2);
 	}
-	
+
 }

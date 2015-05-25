@@ -14,34 +14,27 @@
  */
 package so.ontolog.lang.ast;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.runtime.Function;
-import so.ontolog.lang.runtime.QName;
+import so.ontolog.lang.build.BuildException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTContext {
+public class ASTException extends BuildException {
 
-	ASTContext parent();
-	
-	ASTContext root();
-	
+	private static final long serialVersionUID = -2586584890977688419L;
 
-	ASTDeclaration getFuncDecl(QName qname);
+	public ASTException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-	void registerFuncDecl(ASTDeclaration symbol);
-	
-	
-	ASTDeclaration getVarDecl(QName qname);
+	public ASTException(String message) {
+		super(message);
+	}
 
-	void registerVarDecl(ASTDeclaration symbol);
-	
-	Function<?> getBuiltInFunction(QName qname);
+	public ASTException(Throwable cause) {
+		super(cause);
+	}
 
-	TypeSpec getType(QName qname);
-	
-	void registerType(QName qname, TypeSpec typeSpec);
 }

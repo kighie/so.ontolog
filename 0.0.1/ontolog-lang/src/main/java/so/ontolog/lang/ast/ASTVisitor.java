@@ -20,6 +20,9 @@ import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.ast.stmt.ASTCallStatement;
+import so.ontolog.lang.ast.stmt.ASTIf;
+import so.ontolog.lang.ast.stmt.ASTReturnStatement;
 import so.ontolog.lang.ast.stmt.EvalExprStatement;
 
 
@@ -49,6 +52,14 @@ public interface ASTVisitor<C> {
 
 	C visit(ASTDeclaration declStmt, C context);
 	
+
 	C visit(EvalExprStatement stmt, C context);
+	
+	C visit(ASTCallStatement stmt, C context);
+
+	C visit(ASTReturnStatement stmt, C context);
+	
+
+	C visit(ASTIf stmt, C context);
 	
 }

@@ -15,7 +15,6 @@
 package so.ontolog.lang.runtime.func;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.FormulaException;
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.Gettable;
@@ -48,11 +47,15 @@ public class Assert implements Function<Void> {
 	@Override
 	public Void eval(Context context, Gettable<?>[] args) {
 		if( !(Boolean)args[0].get(context) ){
-			String message = null;
+			StringBuilder messageBuf = new StringBuilder();
+			
 			if(args.length > 1){
-				message = (String)args[1].get(context);
+				messageBuf.append( (String)args[1].get(context) );
+				messageBuf.append("\n");
 			}
-			throw new FormulaException(message);
+			
+			messageBuf.append(args.toString());
+			throw new AssertException(messageBuf.toString());
 		}
 		return null;
 	}

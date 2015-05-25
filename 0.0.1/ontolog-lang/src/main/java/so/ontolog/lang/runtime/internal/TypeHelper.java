@@ -83,5 +83,10 @@ public class TypeHelper {
 		}
 		return type;
 	}
-	
+
+	public TypeSpec getArrayType(String typeName) {
+		TypeSpec type = getType(typeName);
+		type = TypeUtils.getArrayTypeSpec(type);
+		return type;
+	}
 }

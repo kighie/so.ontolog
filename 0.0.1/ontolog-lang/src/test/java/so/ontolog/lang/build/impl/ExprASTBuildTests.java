@@ -14,47 +14,16 @@
  */
 package so.ontolog.lang.build.impl;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import so.ontolog.lang.ast.CompilationUnit;
-import so.ontolog.lang.runtime.Node;
-import so.ontolog.test.StopWatch;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ASTBuildTests {
+public class ExprASTBuildTests extends ExpressionTests {
 
-	private DefaultOntologBuilder builder = new DefaultOntologBuilder();
-	private StopWatch stopwatch = new StopWatch();
 	
-	@Before
-	public void setUp(){
-		builder.initialize();
-	}
-
-	private CompilationUnit buildAst(String expression){
-		stopwatch.start();
-		CompilationUnit ast = builder.buildExprAST(expression);
-		System.out.println("AST :: " + stopwatch.ellapsedTime() + "\t" + expression);
-		System.out.println(ast);
-		return ast;
-	}
-
-	private Node buildExpr(CompilationUnit moduleAst){
-		stopwatch.start();
-		Node node = builder.buildExpr(moduleAst);
-		System.out.println("EXPR :: " + stopwatch.ellapsedTime());
-		return node;
-	}
-
-	private Node buildExpr(String expression){
-		CompilationUnit moduleAst = buildAst(expression);
-		return buildExpr(moduleAst);
-	}
 
 	@Test
 	public void buildFormulaAst(){
@@ -105,5 +74,13 @@ public class ASTBuildTests {
 		
 		buildExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
 				+ "=sum( sample.testIntMethod( sample.propArray[3] * sample.propB), 5, 7) ");
+	}
+	
+
+	@Test
+	public void buildTernary(){
+
+		buildExpr("= (1 < 3) ? 100 : 300");
+		
 	}
 }

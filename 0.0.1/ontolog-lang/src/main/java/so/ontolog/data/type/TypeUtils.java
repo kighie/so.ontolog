@@ -183,7 +183,17 @@ public final class TypeUtils {
 		return kind;
 	}
 	
-
+	public static TypeSpec getArrayTypeSpec(TypeSpec componentType){
+		if(componentType == null){
+			throw new ReflectionException("componentType is null");
+		}
+		
+		Class<?> baseType = Array.newInstance(componentType.getBaseType(), 0).getClass();
+		TypeSpec spec = new TypeSpec(baseType, TypeKind.Array, componentType);
+		
+		return spec;
+	}
+	
 	public static TypeSpec getTypeSpec(Class<?> type){
 		if(type == null){
 			return TypeSpec.UNDEFINED;

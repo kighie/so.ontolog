@@ -12,72 +12,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast.expr;
+package so.ontolog.lang.ast.decl;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.util.TextUtils;
+import so.ontolog.lang.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class TernaryExpr extends ASTExpr {
+public class VariableDecl extends ASTDeclaration {
 
-	private static final long serialVersionUID = -5755226002106875177L;
-	protected ASTExpr expr1;
-	protected ASTExpr expr2;
-	protected ASTExpr expr3;
+	private static final long serialVersionUID = -5739860630818499547L;
 
-	public TernaryExpr(ASTToken token, TypeSpec typeSpec, ASTExpr expr1,
-			ASTExpr expr2, ASTExpr expr3) {
-		super(token, typeSpec);
-		this.expr1 = expr1;
-		this.expr2 = expr2;
-		this.expr3 = expr3;
-	}
-
-	/**
-	 * @return the left
-	 */
-	public ASTExpr getExpr1() {
-		return expr1;
-	}
+	private ASTExpr valueExpr;
 	
 	/**
-	 * @return the right
+	 * @param token
+	 * @param qname
+	 * @param typeSpec
 	 */
-	public ASTExpr getExpr2() {
-		return expr2;
+	public VariableDecl(ASTToken token, QName qname, TypeSpec typeSpec) {
+		super(token, qname, typeSpec);
 	}
-	
-	public ASTExpr getExpr3() {
-		return expr3;
+
+	public ASTExpr getValueExpr() {
+		return valueExpr;
+	}
+
+	public void setValueExpr(ASTExpr valueExpr) {
+		this.valueExpr = valueExpr;
 	}
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		expr1.accept(visitor, context);
-		expr2.accept(visitor, context);
-		expr3.accept(visitor, context);
+		if(valueExpr != null){
+			valueExpr.accept(visitor, context);
+		}
+		
 		return visitor.visit(this, context);
 	}
-	
+
 	@Override
 	public void getText(StringBuilder buffer, int depth) {
 		if(depth>0){
 			buffer.append("\n").append(TextUtils.getIndent(depth));
 		}
-		buffer.append("(");
-		buffer.append(token.getName()).append(" ");
-		expr1.getText(buffer, depth+1);
-		buffer.append(" ? ");
-		expr2.getText(buffer, depth+1);
-		buffer.append(" : ");
-		expr3.getText(buffer, depth+1);
+		
+		buffer.append("(").append(token.getName()).append(" ");
+		buffer.append(typeSpec.getName()).append(" ").append(qname);
+		if(valueExpr != null){
+			valueExpr.getText(buffer, depth+1);
+		}
 		buffer.append(")");
 	}
+	
 }

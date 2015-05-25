@@ -18,44 +18,19 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import so.ontolog.lang.runtime.Context;
 import so.ontolog.lang.runtime.Module;
 import so.ontolog.lang.runtime.internal.SimpleContext;
 import so.ontolog.samples.bean.SampleBean;
-import so.ontolog.test.StopWatch;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class NodeBuildTests {
-
-	private DefaultOntologBuilder builder = new DefaultOntologBuilder();
-	private StopWatch stopwatch = new StopWatch();
-	
-	@Before
-	public void setUp(){
-		builder.initialize();
-	}
-
-	private Module buildExpr(String expression){
-		stopwatch.start();
-		Module node = builder.buildExpr(expression);
-		System.out.println("BUILD :: " + stopwatch.ellapsedTime() +"\t" + expression);
-		return node;
-	}
-
-	private Module buildAndRunExpr(String expression, Context context){
-		Module node = buildExpr(expression);
-		stopwatch.start();
-		Object rtn = node.eval(context);
-		System.out.println("RUN :: " + stopwatch.ellapsedTime() +"\t" + rtn);
-		return node;
-	}
+public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildFormula(){
@@ -224,4 +199,11 @@ public class NodeBuildTests {
 		
 	}
 
+	@Test
+	public void buildTernary(){
+		SimpleContext context = new SimpleContext();
+		
+		buildAndRunExpr("= (1 < 3) ? 100 : 300", context);
+		
+	}
 }

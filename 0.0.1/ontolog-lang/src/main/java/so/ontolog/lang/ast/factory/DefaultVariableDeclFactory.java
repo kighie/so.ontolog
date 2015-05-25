@@ -16,9 +16,11 @@ package so.ontolog.lang.ast.factory;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTContext;
-import so.ontolog.lang.ast.ASTFactory.ParamDeclFactory;
+import so.ontolog.lang.ast.ASTDeclaration;
+import so.ontolog.lang.ast.ASTExpr;
+import so.ontolog.lang.ast.ASTFactory.VariableDeclFactory;
 import so.ontolog.lang.ast.ASTToken;
-import so.ontolog.lang.ast.decl.ParamDecl;
+import so.ontolog.lang.ast.decl.VariableDecl;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -26,22 +28,14 @@ import so.ontolog.lang.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class DefaultParamDeclFactory implements ParamDeclFactory {
-	
-	
+public class DefaultVariableDeclFactory implements VariableDeclFactory {
+
 	@Override
-	public ParamDecl create(ASTContext context, ASTToken token,
-			TypeSpec type, String paramName, String alias) {
-		QName qname;
-		QName paramQName = new QName(paramName);
-		if(alias != null){
-			qname = new QName(alias);
-		} else {
-			qname = paramQName;
-		}
-		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
-		
-		return paramDecl;
+	public ASTDeclaration create(ASTContext context, ASTToken token,
+			TypeSpec typeSpec, String name, ASTExpr valueExpr) {
+		VariableDecl varDecl = new VariableDecl(token, new QName(name), typeSpec);
+		varDecl.setValueExpr(valueExpr);
+		return varDecl;
 	}
 
 }

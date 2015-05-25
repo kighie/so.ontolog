@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
 import so.ontolog.lang.ast.ASTStatement;
@@ -28,7 +29,7 @@ import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.SyntaxErrorHandler;
 import so.ontolog.lang.ast.context.RootASTContext;
 import so.ontolog.lang.ast.context.ScopeASTContext;
-import so.ontolog.lang.build.BuildException;
+import so.ontolog.lang.ast.stmt.ASTIf;
 import so.ontolog.lang.runtime.QName;
 
 public abstract class AbstractOntologHandlerParser extends Parser implements GrammarTokens, ANTLRErrorListener {
@@ -78,7 +79,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 
 	public ASTContext endScope(){
 		if(current == null){
-			throw new BuildException("Excess root scope.").setLocation(createASTToken());
+			throw new ASTException("Excess root scope.").setLocation(createASTToken());
 		}
 		
 		ASTContext prevCtx = current.parent();
@@ -94,31 +95,38 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 
 
 	public TypeSpec type(String expr) {
-		return factory.createType(expr);
+		return factory.createType(current, expr);
 	}
 
-
-	public TypeSpec type(QName qname) {
-		return factory.createType(qname);
+	public TypeSpec arrayType(String expr) {
+		return factory.createArrayType(current, expr);
 	}
 
 
 	public QName qname(String name) {
-		return factory.createQName(name);
+		return factory.createQName(current, name);
 	}
 
 
 	public QName qname(QName parent, String name) {
-		return factory.createQName(parent, name);
+		return factory.createQName(current, parent, name);
 	}
 
 
 	public QName indexedQname(QName parent, String index) {
-		return factory.createIndexedQName(parent, index);
+		return factory.createIndexedQName(current, parent, index);
 	}
 
 	public QName varQname(QName parent, QName index) {
-		return factory.createVarQName(parent, index);
+		return factory.createVarQName(current, parent, index);
+	}
+
+	public void importJava(QName qname) {
+		factory.importJava(current, qname);
+	}
+
+	public void importModule(String path, String alias) {
+		factory.importModule(current, path, alias);
 	}
 
 
@@ -148,7 +156,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 	public ASTSymbol variable(String name) {
-		QName qname = factory.createQName(name);
+		QName qname = factory.createQName(current, name);
 		ASTToken astToken = createASTToken(GrammarTokens.VAR);
 		return factory.createVariable(current, astToken, qname);
 	}
@@ -167,16 +175,35 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	}
 
 
-	public ASTDeclaration createParamDecl(String token,QName typeName,
+	public ASTDeclaration paramDecl(String token, QName typeName,
 			String name, String alias) {
 		ASTToken astToken = createASTToken(token);
-		TypeSpec type = type(typeName);
+		TypeSpec type = factory.createType(current, typeName);
 		return factory.createParamDecl(current, astToken, type, name, alias);
+	}
+
+	public ASTDeclaration variableDecl(String token, TypeSpec type,
+			String name, ASTExpr value) {
+		ASTToken astToken = createASTToken(token);
+		return factory.createVariableDecl(current, astToken, type, name, value);
 	}
 
 
 	public ASTStatement asStatement(ASTDeclaration decl) {
 		return factory.asStatement(current, decl);
+	}
+
+	public ASTStatement asStatement(ASTExpr callExpr) {
+		return factory.asStatement(current, callExpr);
+	}
+
+	public ASTStatement returnStatement(ASTExpr expr) {
+		return factory.createReturnStatement(current, expr);
+	}
+
+	public ASTIf ifStatement(String token, ASTExpr condition) {
+		ASTToken astToken = createASTToken(token);
+		return (ASTIf)factory.createIfStmt(current, astToken, condition);
 	}
 
 

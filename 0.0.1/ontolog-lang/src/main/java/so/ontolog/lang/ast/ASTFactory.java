@@ -28,17 +28,23 @@ public interface ASTFactory {
 
 	CompilationUnit createModule(ASTContext context, ASTToken token);
 	
-	TypeSpec createType(String expr);
+	TypeSpec createType(ASTContext context, String typeName);
 	
-	TypeSpec createType(QName qname);
+	TypeSpec createType(ASTContext context, QName qname);
 
-	QName createQName(String name);
-
-	QName createQName(QName parent, String name);
+	TypeSpec createArrayType(ASTContext context, String typeName);
 	
-	QName createIndexedQName(QName parent, String index);
+	QName createQName(ASTContext context, String name);
 
-	QName createVarQName(QName parent, QName index);
+	QName createQName(ASTContext context, QName parent, String name);
+	
+	QName createIndexedQName(ASTContext context, QName parent, String index);
+
+	QName createVarQName(ASTContext context, QName parent, QName index);
+
+	void importJava(ASTContext context, QName qname);
+	
+	void importModule(ASTContext context, String path, String alias);
 	
 	ASTExpr createUnary(ASTContext context, ASTToken token, ASTExpr expr);
 
@@ -60,13 +66,21 @@ public interface ASTFactory {
 	 */
 	ASTExpr createCall(ASTContext context, ASTToken token,
 			ASTSymbol beanSymbol, String name, List<ASTExpr> args);
-	
-	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
 
 	ASTStatement asStatement(ASTContext context, ASTDeclaration decl);
 
-	ASTStatement createEvalStmt(ASTToken token, ASTExpr expr);
+	ASTStatement asStatement(ASTContext context, ASTExpr callExpr);
+
+	ASTStatement createReturnStatement(ASTContext context, ASTExpr callExpr);
 	
+	ASTDeclaration createVariableDecl(ASTContext context, ASTToken token, TypeSpec type, String name, ASTExpr value);
+	
+	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
+
+	ASTStatement createEvalStmt(ASTToken token, ASTExpr expr);
+
+	ASTBlock createIfStmt(ASTContext context, ASTToken token, ASTExpr condition);
+
 	
 	public interface ModuleFactory {
 		CompilationUnit create(ASTContext context, ASTToken token);
@@ -112,6 +126,11 @@ public interface ASTFactory {
 	 */
 	public interface ParamDeclFactory {
 		ASTDeclaration create(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
+	}
+
+	public interface VariableDeclFactory {
+		ASTDeclaration create(ASTContext context,
+				ASTToken token, TypeSpec type, String name, ASTExpr value);
 	}
 
 	public interface CallExprFactory {

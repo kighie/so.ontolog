@@ -74,7 +74,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	}
 	
 	protected VariableExpr createSimpleVariable(ASTContext context, ASTToken token, QName qname){
-		ASTDeclaration decl = context.getDecl(qname);
+		ASTDeclaration decl = context.getVarDecl(qname);
 		TypeSpec typeSpec;
 		if(decl != null){
 			typeSpec = decl.getType(); 

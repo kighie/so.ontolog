@@ -17,6 +17,8 @@ package so.ontolog.lang.ast.context;
 import java.util.HashMap;
 import java.util.Map;
 
+import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
@@ -30,8 +32,9 @@ import so.ontolog.repository.OntologRepository;
 public class RootASTContext extends ScopeASTContext {
 
 	private OntologRepository<QName> repository;
-	
+
 	private Map<QName, QName> namespaceMap = new HashMap<QName, QName>();
+	private Map<QName, TypeSpec> typeMap = new HashMap<QName, TypeSpec>();
 	
 	public RootASTContext(OntologRepository<QName> repository) {
 		super(null);
@@ -39,10 +42,19 @@ public class RootASTContext extends ScopeASTContext {
 	}
 	
 	@Override
-	protected ASTDeclaration askParent(QName qname) {
+	public ASTContext root() {
+		return this;
+	}
+	
+	@Override
+	protected ASTDeclaration askParentVar(QName qname) {
 		return null;
 	}
 	
+	@Override
+	protected ASTDeclaration askParentFunc(QName qname) {
+		return null;
+	}
 
 	@Override
 	public Function<?> getBuiltInFunction(QName qname) {
@@ -55,5 +67,14 @@ public class RootASTContext extends ScopeASTContext {
 		return repository.getUnique(qname, Function.class);
 	}
 	
-	
+	@Override
+	public TypeSpec getType(QName qname) {
+		return typeMap.get(qname);
+	}
+
+	@Override
+	public void registerType(QName qname, TypeSpec value) {
+		typeMap.put(qname, value);
+	}
+
 }

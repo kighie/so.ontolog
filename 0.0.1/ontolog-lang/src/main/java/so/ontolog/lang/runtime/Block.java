@@ -20,10 +20,8 @@ package so.ontolog.lang.runtime;
  * @date 2012. 10. 11.
  * @since	1.0
  */
-public interface Block extends Node {
+public interface Block extends Statement {
 	
 	void append(Statement node);
-	
-	void eval(Context context);
 	
 }

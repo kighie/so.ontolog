@@ -17,6 +17,7 @@ package so.ontolog.lang.ast.context;
 import java.util.HashMap;
 import java.util.Map;
 
+import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
 import so.ontolog.lang.runtime.Function;
@@ -29,7 +30,8 @@ import so.ontolog.lang.runtime.QName;
  */
 public class ScopeASTContext implements ASTContext {
 	private ASTContext parent;
-	private Map<QName, ASTDeclaration> symbolTable = new HashMap<QName, ASTDeclaration>();
+	private Map<QName, ASTDeclaration> varTable = new HashMap<QName, ASTDeclaration>();
+	private Map<QName, ASTDeclaration> funcTable = new HashMap<QName, ASTDeclaration>();
 	
 	public ScopeASTContext(ASTContext parent) {
 		this.parent = parent;
@@ -39,31 +41,66 @@ public class ScopeASTContext implements ASTContext {
 	public ASTContext parent() {
 		return parent;
 	}
-
+	
 	@Override
-	public ASTDeclaration getDecl(QName qname) {
-		ASTDeclaration symbol = symbolTable.get(qname);
+	public ASTContext root() {
+		return parent.root();
+	}
+	
+	@Override
+	public ASTDeclaration getVarDecl(QName qname) {
+		ASTDeclaration symbol = varTable.get(qname);
 		if(symbol == null){
-			symbol = askParent(qname);
+			symbol = askParentVar(qname);
 		}
 		return symbol;
 	}
 
-	protected ASTDeclaration askParent(QName qname) {
-		return parent.getDecl(qname);
+	protected ASTDeclaration askParentVar(QName qname) {
+		return parent.getVarDecl(qname);
 	}
 
 	@Override
-	public void registerDecl(ASTDeclaration symbol) {
-		symbolTable.put(symbol.getQname(), symbol);
+	public void registerVarDecl(ASTDeclaration symbol) {
+		varTable.put(symbol.getQname(), symbol);
 	}
 	
+	
+	
+	@Override
+	public ASTDeclaration getFuncDecl(QName qname) {
+		ASTDeclaration symbol = funcTable.get(qname);
+		if(symbol == null){
+			symbol = askParentFunc(qname);
+		}
+		return symbol;
+	}
+
+	protected ASTDeclaration askParentFunc(QName qname) {
+		return parent.getFuncDecl(qname);
+	}
+
+	@Override
+	public void registerFuncDecl(ASTDeclaration symbol) {
+		funcTable.put(symbol.getQname(), symbol);
+	}
+
 	@Override
 	public Function<?> getBuiltInFunction(QName qname) {
 		return parent.getBuiltInFunction(qname);
 	}
 	
+	@Override
+	public TypeSpec getType(QName qname) {
+		return parent.getType(qname);
+	}
+	
+	@Override
+	public void registerType(QName qname, TypeSpec typeSpec) {
+		parent.registerType(qname, typeSpec);
+	}
+	
 	protected void clear(){
-		symbolTable.clear();
+		varTable.clear();
 	}
 }

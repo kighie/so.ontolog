@@ -21,8 +21,10 @@ import java.util.logging.Logger;
 
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.ast.ASTBlock;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory;
 import so.ontolog.lang.ast.ASTStatement;
@@ -30,11 +32,15 @@ import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
+import so.ontolog.lang.ast.expr.ASTCallExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
+import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
+import so.ontolog.lang.ast.stmt.ASTCallStatement;
+import so.ontolog.lang.ast.stmt.ASTIf;
+import so.ontolog.lang.ast.stmt.ASTReturnStatement;
 import so.ontolog.lang.ast.stmt.DeclarationStatement;
 import so.ontolog.lang.ast.stmt.EvalExprStatement;
-import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.VarQName;
@@ -60,6 +66,8 @@ public class DefaultASTFactory implements ASTFactory {
 	private Map<String, CallExprFactory> callExprFactoryMap;
 	
 	private ParamDeclFactory paramDeclFactory;
+	private VariableDeclFactory variableDeclFactory;
+	
 	
 	public void initFactory(){
 		this.typeHelper = initTypeHelper();
@@ -70,7 +78,9 @@ public class DefaultASTFactory implements ASTFactory {
 		this.literalExprFactoryMap = initLiteralExprFactories();
 		this.variableExprFactoryMap = initVariableExprFactories();
 		this.callExprFactoryMap = initCallExprFactories();
+		
 		this.paramDeclFactory = initParamDeclFactory();
+		this.variableDeclFactory = initVariableDeclFactory();
 	}
 	
 	protected TypeHelper initTypeHelper() {
@@ -79,42 +89,71 @@ public class DefaultASTFactory implements ASTFactory {
 
 	
 	@Override
-	public TypeSpec createType(String typeName) {
-		return typeHelper.getType(typeName);
+	public TypeSpec createType(ASTContext context, String typeFullName) {
+		QName qname = QName.parseQName(typeFullName);
+		return createType(context, qname);
 	}
 
 	@Override
-	public TypeSpec createType(QName qname) {
-		return typeHelper.getType(qname.getFullName());
+	public TypeSpec createType(ASTContext context, QName qname) {
+		TypeSpec typeSpec = context.getType(qname);
+		if(typeSpec == null){
+			typeSpec = typeHelper.getType(qname.getFullName());
+			context.registerType(qname, typeSpec);
+		}
+		return typeSpec;
 	}
 
 	@Override
-	public QName createQName(String name) {
-		return QName.getQName(name);
+	public TypeSpec createArrayType(ASTContext context, String typeFullName) {
+		return typeHelper.getArrayType(typeFullName);
+	}
+	
+	@Override
+	public QName createQName(ASTContext context, String name) {
+		return new QName(name);
 	}
 
 	@Override
-	public QName createQName(QName parent, String name) {
+	public QName createQName(ASTContext context, QName parent, String name) {
 		return new QName(parent, name);
 	}
 
 	@Override
-	public IndexedQName createIndexedQName(QName parent, String index) {
+	public IndexedQName createIndexedQName(ASTContext context, QName parent, String index) {
 		return new IndexedQName(parent, index);
 	}
 	
 	@Override
-	public QName createVarQName(QName parent, QName index) {
+	public QName createVarQName(ASTContext context, QName parent, QName index) {
 		return new VarQName(parent, index);
 	}
 	
+	
+	
+	@Override
+	public void importJava(ASTContext context, QName qname) {
+		TypeSpec typeSpec = typeHelper.getType(qname.getFullName());
+		
+		context.registerType(qname, typeSpec);
+		
+		if(qname.getParent() !=null){
+			context.registerType(new QName(qname.getName()), typeSpec);
+		}
+	}
+
+	@Override
+	public void importModule(ASTContext context, String path, String alias) {
+		// TODO Auto-generated method stub
+	}
+
 	@Override
 	public CompilationUnit createModule(ASTContext context, ASTToken token) {
 		String tokenName = token.getName();
 		ModuleFactory factory = moduleFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown Module type " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown Module type " + tokenName ).setLocation(token);
 		}
 		return factory.create(context, token);
 	}
@@ -122,6 +161,13 @@ public class DefaultASTFactory implements ASTFactory {
 	protected Map<String, ModuleFactory> initModuleFactoryMap() {
 		Map<String, ModuleFactory> factoryMap = new HashMap<String, ASTFactory.ModuleFactory>();
 		factoryMap.put(GrammarTokens.EXPR_MODULE, new ModuleFactory() {
+			@Override
+			public CompilationUnit create(ASTContext context, ASTToken token) {
+				return new CompilationUnit(context, token);
+			}
+		});
+		
+		factoryMap.put(GrammarTokens.SCRIPT_MODULE, new ModuleFactory() {
 			@Override
 			public CompilationUnit create(ASTContext context, ASTToken token) {
 				return new CompilationUnit(context, token);
@@ -137,7 +183,7 @@ public class DefaultASTFactory implements ASTFactory {
 		UnaryExprFactory factory = unaryExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown Unary Operation " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown Unary Operation " + tokenName ).setLocation(token);
 		}
 		return factory.create(context, token, expr);
 	}
@@ -149,7 +195,7 @@ public class DefaultASTFactory implements ASTFactory {
 			@Override
 			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Number){
-					throw new BuildException("Expression " + expr + " cannot be negated." ).setNode(expr);
+					throw new ASTException("Expression " + expr + " cannot be negated." ).setNode(expr);
 				}
 				return new UnaryExpr(token, DefaultOperators.NEGATE, expr);
 			}
@@ -159,7 +205,7 @@ public class DefaultASTFactory implements ASTFactory {
 			@Override
 			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Bool){
-					throw new BuildException("Expression " + expr + " cannot negated logically." ).setNode(expr);
+					throw new ASTException("Expression " + expr + " cannot negated logically." ).setNode(expr);
 				}
 				return new UnaryExpr(token, DefaultOperators.NOT, expr);
 			}
@@ -169,7 +215,7 @@ public class DefaultASTFactory implements ASTFactory {
 			@Override
 			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Number){
-					throw new BuildException("Illegal Expression " + expr + "%" ).setNode(expr);
+					throw new ASTException("Illegal Expression " + expr + "%" ).setNode(expr);
 				}
 				return new UnaryExpr(token, DefaultOperators.PERCENT, expr);
 			}
@@ -184,7 +230,7 @@ public class DefaultASTFactory implements ASTFactory {
 		BinaryExprFactory factory = binaryExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown Binary Operation " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown Binary Operation " + tokenName ).setLocation(token);
 		}
 		
 		return factory.create(context, token, left, right);
@@ -204,7 +250,7 @@ public class DefaultASTFactory implements ASTFactory {
 		TernaryExprFactory factory = ternaryExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown Ternary Operation " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown Ternary Operation " + tokenName ).setLocation(token);
 		}
 		
 		return factory.create(context, token, expr1, expr2, expr3);
@@ -212,6 +258,15 @@ public class DefaultASTFactory implements ASTFactory {
 
 	protected Map<String, TernaryExprFactory> initTernaryExprFactories() {
 		Map<String, TernaryExprFactory> map = new HashMap<String, ASTFactory.TernaryExprFactory>();
+		map.put(GrammarTokens.OP_TERNARY, new TernaryExprFactory() {
+			@Override
+			public ASTExpr create(ASTContext context, ASTToken token, ASTExpr expr1,
+					ASTExpr expr2, ASTExpr expr3) {
+				TypeSpec typeSpec = (expr2.type() != null) ? expr2.type() : expr3.type();
+				TernaryExpr expr = new TernaryExpr(token, typeSpec, expr1, expr2, expr3);
+				return expr;
+			}
+		});
 		return map;
 	}
 
@@ -222,7 +277,7 @@ public class DefaultASTFactory implements ASTFactory {
 		VariableExprFactory factory = variableExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown variable token " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown variable token " + tokenName ).setLocation(token);
 		}
 		
 		return factory.create(context, token, qname);
@@ -243,7 +298,7 @@ public class DefaultASTFactory implements ASTFactory {
 		LiteralExprFactory factory = literalExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown literal token " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown literal token " + tokenName ).setLocation(token);
 		}
 		
 		return factory.create(token, expr);
@@ -304,7 +359,7 @@ public class DefaultASTFactory implements ASTFactory {
 		CallExprFactory factory = callExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
-			throw new BuildException("Unknown call token " + tokenName ).setLocation(token);
+			throw new ASTException("Unknown call token " + tokenName ).setLocation(token);
 		}
 		
 		return factory.create(context, token, beanSymbol, name, args);
@@ -322,23 +377,58 @@ public class DefaultASTFactory implements ASTFactory {
 		return map;
 	}
 
-	
 
+	@Override
+	public ASTStatement asStatement(ASTContext context, ASTExpr callExpr) {
+		if(callExpr instanceof ASTCallExpr){
+			return new ASTCallStatement((ASTCallExpr)callExpr);
+		}
+		
+		throw new ASTException(" asStatement(.., ASTExpr) must be applied to ASTCallExpr : " 
+				+ callExpr.getToken() + "\n" + callExpr);
+	}
+	
+	@Override
+	public ASTStatement createReturnStatement(ASTContext context,
+			ASTExpr expr) {
+		return new ASTReturnStatement(expr);
+	}
+	
 	@Override
 	public ASTStatement asStatement(ASTContext context, ASTDeclaration decl) {
 		return new DeclarationStatement(decl);
 	}
 	
+	@Override
+	public ASTBlock createIfStmt(ASTContext context, ASTToken token,
+			ASTExpr condition) {
+		ASTIf ifstmt = new ASTIf(token, condition);
+		return ifstmt;
+	}
 	
 	@Override
 	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 
 			String name, String alias) {
-		return paramDeclFactory.create(context, token, type, name, alias);
+		ASTDeclaration paramDecl = paramDeclFactory.create(context, token, type, name, alias);
+		context.registerVarDecl(paramDecl);
+		return paramDecl;
 	}
-
 
 	protected ParamDeclFactory initParamDeclFactory() {
 		return new DefaultParamDeclFactory();
+	}
+
+
+	@Override
+	public ASTDeclaration createVariableDecl(ASTContext context,
+			ASTToken token, TypeSpec type, String name, ASTExpr value) {
+		ASTDeclaration varDecl = variableDeclFactory.create(context, token, type, name, value);
+		context.registerVarDecl(varDecl);
+		return varDecl;
+	}
+
+	protected VariableDeclFactory initVariableDeclFactory() {
+		return new DefaultVariableDeclFactory();
 	}
 
 	@Override

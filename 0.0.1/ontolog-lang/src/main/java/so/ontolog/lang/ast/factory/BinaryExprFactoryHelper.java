@@ -20,10 +20,11 @@ import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.lang.ast.ASTContext;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.ast.ASTExpr;
-import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.ASTFactory.BinaryExprFactory;
 import so.ontolog.lang.ast.ASTToken;
+import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.expr.BinaryExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
 import so.ontolog.lang.build.BuildException;
@@ -81,10 +82,10 @@ public class BinaryExprFactoryHelper {
 		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
 				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			if(leftTypeKind!=TypeKind.Bool){
-				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(left);
+				throw new ASTException(token.getName() + " operator must have boolean operand.").setNode(left);
 			}
 			if(rightTypeKind!=TypeKind.Bool){
-				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(right);
+				throw new ASTException(token.getName() + " operator must have boolean operand.").setNode(right);
 			}
 			
 			String tokenName = token.getName();
@@ -96,7 +97,7 @@ public class BinaryExprFactoryHelper {
 			} else if(GrammarTokens.OP_OR.equals(tokenName) ){
 				operator = DefaultOperators.OR;
 			} else {
-				throw new BuildException("Unknown logical expression " + tokenName).setLocation(token);
+				throw new ASTException("Unknown logical expression " + tokenName).setLocation(token);
 			}
 			
 			return new BinaryExpr(token, operator, left, right);
@@ -125,7 +126,7 @@ public class BinaryExprFactoryHelper {
 			} else if(GrammarTokens.OP_EQ_LT.equals(tokenName) ){
 				operator = DefaultOperators.EQUALS_LT;
 			} else {
-				throw new BuildException("Unknown compare expression " + tokenName).setLocation(token);
+				throw new ASTException("Unknown compare expression " + tokenName).setLocation(token);
 			}
 			
 			return new BinaryExpr(token, operator, left, right);
@@ -140,14 +141,14 @@ public class BinaryExprFactoryHelper {
 				if(leftTypeKind==TypeKind.Undefined && left instanceof VariableExpr){
 					((VariableExpr)left).setType(TypeSpec.DECIMAL);
 				} else {
-					throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(left);
+					throw new ASTException(token.getName() + " operator must have numeric operand.").setNode(left);
 				}
 			}
 			if(rightTypeKind!=TypeKind.Number){
 				if(rightTypeKind==TypeKind.Undefined && right instanceof VariableExpr){
 					((VariableExpr)right).setType(TypeSpec.DECIMAL);
 				} else {
-					throw new BuildException(token.getName() + " operator must have numeric operand.").setNode(right);
+					throw new ASTException(token.getName() + " operator must have numeric operand.").setNode(right);
 				}
 			}
 			
@@ -162,7 +163,7 @@ public class BinaryExprFactoryHelper {
 			} else if(GrammarTokens.OP_POW.equals(tokenName) ){
 				operator = DefaultOperators.POW;
 			} else {
-				throw new BuildException("Unknown number operator " + tokenName).setLocation(token);
+				throw new ASTException("Unknown number operator " + tokenName).setLocation(token);
 			}
 			
 			return new BinaryExpr(token, operator, left, right);
@@ -184,7 +185,7 @@ public class BinaryExprFactoryHelper {
 				} else if(GrammarTokens.OP_MULTI.equals(tokenName) ){
 					operator = DefaultOperators.MULTI_STR;
 				} else {
-					throw new BuildException("Unknown string operator " + tokenName).setLocation(token);
+					throw new ASTException("Unknown string operator " + tokenName).setLocation(token);
 				}
 				
 				return new BinaryExpr(token, operator, left, right);
@@ -194,12 +195,12 @@ public class BinaryExprFactoryHelper {
 				} else if(GrammarTokens.OP_MULTI.equals(tokenName) ){
 					operator = DefaultOperators.MULTIFLY;
 				} else {
-					throw new BuildException("Unknown number operator " + tokenName).setLocation(token);
+					throw new ASTException("Unknown number operator " + tokenName).setLocation(token);
 				}
 				return new BinaryExpr(token, operator, left, right);
 			}
 			
-			BuildException exception = new BuildException(token.getName() 
+			BuildException exception = new ASTException(token.getName() 
 					+ " operator must have numeric or string operand.").setNode(
 							new BinaryExpr(token, DefaultOperators.CONCAT, left, right));
 			

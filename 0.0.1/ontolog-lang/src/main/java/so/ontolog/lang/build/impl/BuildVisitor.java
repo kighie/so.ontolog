@@ -32,6 +32,7 @@ import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.decl.ParamDecl;
+import so.ontolog.lang.ast.decl.VariableDecl;
 import so.ontolog.lang.ast.expr.ASTCallExpr;
 import so.ontolog.lang.ast.expr.ASTFunctionCallExpr;
 import so.ontolog.lang.ast.expr.ASTMethodCallExpr;
@@ -41,6 +42,9 @@ import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
+import so.ontolog.lang.ast.stmt.ASTCallStatement;
+import so.ontolog.lang.ast.stmt.ASTIf;
+import so.ontolog.lang.ast.stmt.ASTReturnStatement;
 import so.ontolog.lang.ast.stmt.EvalExprStatement;
 import so.ontolog.lang.build.BuildContext;
 import so.ontolog.lang.build.BuildException;
@@ -54,16 +58,21 @@ import so.ontolog.lang.runtime.Statement;
 import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
 import so.ontolog.lang.runtime.expr.FunctionCallExpr;
 import so.ontolog.lang.runtime.expr.MethodCallExpr;
+import so.ontolog.lang.runtime.expr.TernaryOperatorExpr;
 import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
 import so.ontolog.lang.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.lang.runtime.internal.GenericLiteral.TextLiteral;
 import so.ontolog.lang.runtime.module.ExprModule;
+import so.ontolog.lang.runtime.module.ScriptModule;
 import so.ontolog.lang.runtime.ref.VarIndexedRef;
 import so.ontolog.lang.runtime.ref.VariableRef;
 import so.ontolog.lang.runtime.ref.VariableRef.PropertyRef;
+import so.ontolog.lang.runtime.stmt.GettablStatementWrapper;
 import so.ontolog.lang.runtime.stmt.ParamDeclStmt;
+import so.ontolog.lang.runtime.stmt.ReturnStatement;
+import so.ontolog.lang.runtime.stmt.VariableDeclStatement;
 
 /**
  * <pre></pre>
@@ -91,6 +100,17 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 				} else {
 					throw new BuildException("Illegal statment : " + s.getToken().getName()).setNode(s);
 				}
+			}
+			
+			context.setModule(module);
+			return context;
+		} else if(GrammarTokens.SCRIPT_MODULE.equals(token)) {
+			ScriptModule module = new ScriptModule();
+			
+			for(ASTStatement s : compilationUnit.children() ){
+				Node node = s.getNode();
+				Statement statement = (Statement)node;
+				module.append(statement);
 			}
 			
 			context.setModule(module);
@@ -135,10 +155,15 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return context;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public BuildContext visit(TernaryExpr ternaryExpr, BuildContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		TernaryOperatorExpr<?> expr = new TernaryOperatorExpr(ternaryExpr.type(), 
+				(Gettable<Boolean>)ternaryExpr.getExpr1().getNode(), 
+				(Gettable<?>)ternaryExpr.getExpr2().getNode(), 
+				(Gettable<?>)ternaryExpr.getExpr3().getNode());
+		ternaryExpr.setNode(expr);
+		return context;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -155,6 +180,10 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			break;
 		case Bool:
 			literal = new BooleanLiteral( DefaultConverters.BOOL.convert(literalExpr.getExpr()) );
+			break;
+		case Void:
+		case Undefined:
+			literal = new ObjectLiteral(type, null);
 			break;
 		default:
 			Converter<?> converter = TypeUtils.getConverter(type);
@@ -281,13 +310,45 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			ParamDecl paramDecl = (ParamDecl)declStmt;
 			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.getQname(), paramDecl.getType(), paramDecl.getParamName());
 			declStmt.setNode(stmt);
+		} else if(GrammarTokens.VAR_DECL.equals(tokenName)){
+			VariableDecl varDecl = (VariableDecl)declStmt;
+			VariableDeclStatement stmt = new VariableDeclStatement(varDecl.getQname(), varDecl.getType());
+
+			ASTExpr valueExpr = varDecl.getValueExpr();
+			if(valueExpr != null){
+				stmt.setInitialValue((Gettable<?>)valueExpr.getNode());
+			}
+			
+			declStmt.setNode(stmt);
 		} else {
 			throw new BuildException("Unknown Declaration token : " + tokenName).setNode(declStmt);
 		}
 		
 		return context;
 	}
-
+	
+	@Override
+	public BuildContext visit(ASTCallStatement stmt, BuildContext context) {
+		Gettable<?> gettable = (Gettable<?>)stmt.getCallExpr().getNode();
+		if(gettable == null){
+			throw new BuildException("Exec node is null : " + stmt);
+		}
+		GettablStatementWrapper stmtWrapper = new GettablStatementWrapper(gettable);
+		stmt.setNode(stmtWrapper);
+		return context;
+	}
+	
+	@Override
+	public BuildContext visit(ASTReturnStatement stmt, BuildContext context) {
+		Gettable<?> gettable = (Gettable<?>)stmt.getExpr().getNode();
+		if(gettable == null){
+			throw new BuildException("Exec node is null : " + stmt);
+		}
+		ReturnStatement rtnStmt = new ReturnStatement(gettable);
+		stmt.setNode(rtnStmt);
+		return context;
+	}
+	
 	@Override
 	public BuildContext visit(EvalExprStatement stmt, BuildContext context) {
 		ASTExpr expr = stmt.getExpression();
@@ -297,5 +358,10 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		logger.log(Level.INFO, "EvalExprStatement::" + expr);
 		return context;
 	}
-
+	
+	@Override
+	public BuildContext visit(ASTIf stmt, BuildContext context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

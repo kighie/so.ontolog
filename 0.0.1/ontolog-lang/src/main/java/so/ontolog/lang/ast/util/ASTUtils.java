@@ -23,7 +23,7 @@ import so.ontolog.data.binding.tools.PropertyAccessorChains;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
-import so.ontolog.lang.build.BuildException;
+import so.ontolog.lang.ast.ASTException;
 import so.ontolog.lang.runtime.IndexedQName;
 import so.ontolog.lang.runtime.QName;
 
@@ -36,11 +36,11 @@ public class ASTUtils {
 
 	private static Logger logger = Logger.getLogger(ASTUtils.class.getName());
 	
-	public static  ASTDeclaration findDeclaration(ASTContext context, QName qname) {
-		ASTDeclaration decl = context.getDecl(qname);
+	public static  ASTDeclaration findVarDeclaration(ASTContext context, QName qname) {
+		ASTDeclaration decl = context.getVarDecl(qname);
 		if(decl == null){
 			if( qname.getParent() != null){
-				return findDeclaration(context, qname.getParent());
+				return findVarDeclaration(context, qname.getParent());
 			} else {
 				logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
 			}
@@ -57,7 +57,7 @@ public class ASTUtils {
 			return null;
 		}
 		
-		ASTDeclaration decl = context.getDecl(parentName);
+		ASTDeclaration decl = context.getVarDecl(parentName);
 		
 		if(decl != null){
 			TypeSpec typeSpec = decl.getType();
@@ -68,7 +68,7 @@ public class ASTUtils {
 		PropertyAccessor<?,?> parentAccessor  = getPropertyAccessor(context, parentName);
 		
 		if(parentAccessor == null){
-			throw new BuildException("Cannot find bean reference : " + parentName);
+			throw new ASTException("Cannot find bean reference : " + parentName);
 		}
 		
 		PropertyAccessor<?,?> propertyAccessor;

@@ -12,13 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.ast.factory;
+package so.ontolog.lang;
 
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.lang.ast.ASTContext;
-import so.ontolog.lang.ast.ASTFactory.ParamDeclFactory;
-import so.ontolog.lang.ast.ASTToken;
-import so.ontolog.lang.ast.decl.ParamDecl;
+import org.junit.Test;
+
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -26,22 +23,15 @@ import so.ontolog.lang.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class DefaultParamDeclFactory implements ParamDeclFactory {
-	
-	
-	@Override
-	public ParamDecl create(ASTContext context, ASTToken token,
-			TypeSpec type, String paramName, String alias) {
-		QName qname;
-		QName paramQName = new QName(paramName);
-		if(alias != null){
-			qname = new QName(alias);
-		} else {
-			qname = paramQName;
-		}
-		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
-		
-		return paramDecl;
-	}
+public class LangTests {
 
+	@Test
+	public void testQname(){
+		QName qname = QName.parseQName("a.b.c.d");
+		System.out.println(qname);
+		
+
+		qname = QName.parseQName("a");
+		System.out.println(qname);
+	}
 }
