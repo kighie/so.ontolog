@@ -12,27 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.runtime;
+package so.ontolog.lang.runtime.func;
 
-import java.io.Serializable;
-
-import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.lang.runtime.Context;
+import so.ontolog.lang.runtime.Function;
+import so.ontolog.lang.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface Function<T> extends Serializable {
-	
-	public static TypeSpec FUNCTION_TYPE = new TypeSpec(Function.class, TypeKind.Executable);
-	
-	String name();
+public class Println implements Function<Void>{
 
-	TypeSpec returnType();
+	private static final long serialVersionUID = 8178856096467737639L;
+
+	private Class<?>[] argTypes = new Class[]{Object.class};
 	
-	Class<?>[] argTypes();
+	@Override
+	public TypeSpec returnType() {
+		return TypeSpec.VOID;
+	}
+
+	@Override
+	public String name() {
+		return "println";
+	}
 	
-	T eval(Context context, Gettable<?>[]args);
+	@Override
+	public Class<?>[] argTypes() {
+		return argTypes;
+	}
+
+	@Override
+	public Void eval(Context context, Gettable<?>[] args) {
+		System.out.println(args[0].get(context));
+		return null;
+	}
 }

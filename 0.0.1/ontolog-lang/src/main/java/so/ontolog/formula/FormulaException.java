@@ -12,21 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
+package so.ontolog.formula;
 
-import so.ontolog.lang.runtime.Module;
+import so.ontolog.lang.OntologLangException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface OntologBuilder {
-	
-	Module buildExpr(String expression);
+public class FormulaException extends OntologLangException {
 
-	Module build(String expression);
+	private static final long serialVersionUID = -6503663827943562820L;
 
-	Module build(OntologSource source);
+	public FormulaException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public FormulaException(String message) {
+		super(message);
+	}
+
+	public FormulaException(Throwable cause) {
+		super(cause);
+	}
 
 }

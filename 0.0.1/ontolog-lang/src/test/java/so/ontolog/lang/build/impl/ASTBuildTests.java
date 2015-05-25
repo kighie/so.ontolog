@@ -96,5 +96,14 @@ public class ASTBuildTests {
 				+ "=(sample.testIntMethod( sample.propArray[3] * sample.propB))");
 		
 	}
-	
+
+	@Test
+	public void buildFormulaWizFuncCall(){
+
+		buildExpr("[param java.math.BigDecimal dec1;param java.math.BigDecimal dec2;] "
+				+ "=sum(dec1,dec2,3,5)");
+		
+		buildExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=sum( sample.testIntMethod( sample.propArray[3] * sample.propB), 5, 7) ");
+	}
 }

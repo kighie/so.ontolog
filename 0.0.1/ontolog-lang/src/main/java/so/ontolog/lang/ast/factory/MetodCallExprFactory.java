@@ -27,7 +27,7 @@ import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.ASTFactory.CallExprFactory;
 import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
-import so.ontolog.lang.ast.expr.CallExpr;
+import so.ontolog.lang.ast.expr.ASTMethodCallExpr;
 import so.ontolog.lang.ast.expr.VariableExpr;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.QName;
@@ -49,6 +49,7 @@ public class MetodCallExprFactory implements CallExprFactory {
 		for(ASTExpr e : args){
 			list.add( e.type().getBaseType() );
 		}
+		
 		Class<?>[]argTypeArray = new Class<?>[list.size()];
 		list.toArray(argTypeArray);
 		
@@ -60,9 +61,10 @@ public class MetodCallExprFactory implements CallExprFactory {
 		
 		TypeSpec typeSpec = TypeUtils.getTypeSpec(method.getReturnType());
 		
-		CallExpr callExpr = new CallExpr(token, typeSpec, new QName(name), method, args);
+		ASTMethodCallExpr callExpr = new ASTMethodCallExpr(token, typeSpec, new QName(name), method, args);
 		callExpr.setBeanRef((VariableExpr) beanRef);
-		callExpr.setArgTypeArray(argTypeArray);
+		
+		callExpr.setRequiredParamTypes(method.getParameterTypes());
 		return callExpr;
 	}
 	

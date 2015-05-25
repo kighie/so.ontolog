@@ -12,21 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
-
-import so.ontolog.lang.runtime.Module;
+package so.ontolog.repository;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface OntologBuilder {
-	
-	Module buildExpr(String expression);
+public class OntologRepositoryException extends RuntimeException {
 
-	Module build(String expression);
+	private static final long serialVersionUID = 3220800071782177997L;
 
-	Module build(OntologSource source);
+	public OntologRepositoryException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public OntologRepositoryException(String message) {
+		super(message);
+	}
+
+	public OntologRepositoryException(Throwable cause) {
+		super(cause);
+	}
 
 }

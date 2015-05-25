@@ -203,5 +203,25 @@ public class NodeBuildTests {
 		System.out.println("RUN :: " + times + " times. "+ stopwatch.ellapsedTime()  + "\t" + result );
 		
 	}
-	
+
+	@Test
+	public void buildFormulaWizFuncCall(){
+		SimpleContext context = new SimpleContext();
+		SampleBean sample = new SampleBean();
+		sample.setPropA("Text:");
+		sample.setPropB(3);
+		
+		sample.setPropArray(new int[]{1,2,3,4,5,6} );
+		context.setParameter("sample", sample);
+		context.setParameter("dec1", 30);
+		context.setParameter("dec2", 20);
+		
+		buildAndRunExpr("[param java.math.BigDecimal dec1;param java.math.BigDecimal dec2;] "
+				+ "=sum(dec1,dec2,3,5)", context);
+		
+		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
+				+ "=sum( sample.testIntMethod( sample.propArray[3] * sample.propB), 5, 7) ", context);
+		
+	}
+
 }

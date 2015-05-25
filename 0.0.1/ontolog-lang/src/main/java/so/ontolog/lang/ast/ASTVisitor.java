@@ -14,8 +14,8 @@
  */
 package so.ontolog.lang.ast;
 
+import so.ontolog.lang.ast.expr.ASTCallExpr;
 import so.ontolog.lang.ast.expr.BinaryExpr;
-import so.ontolog.lang.ast.expr.CallExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
 import so.ontolog.lang.ast.expr.UnaryExpr;
@@ -44,7 +44,8 @@ public interface ASTVisitor<C> {
 	
 	C visit(LiteralExpr expr, C context);
 
-	C visit(CallExpr expr, C context);
+	C visit(ASTCallExpr expr, C context);
+	
 
 	C visit(ASTDeclaration declStmt, C context);
 	

@@ -45,6 +45,8 @@ public class TypeSpec implements Serializable {
 		private static final long serialVersionUID = 6989212413512268013L;
 	}
 
+	public static final TypeSpec VOID = new TypeSpec(Void.class, TypeKind.Void);
+	
 	public static final TypeSpec BOOLEAN = new TypeSpec(Boolean.class, TypeKind.Bool);
 	public static final TypeSpec BOOLEAN_PRIM = new TypeSpec(Boolean.TYPE, TypeKind.Bool);
 	public static final TypeSpec BYTE = new TypeSpec(Byte.class, TypeKind.Byte);

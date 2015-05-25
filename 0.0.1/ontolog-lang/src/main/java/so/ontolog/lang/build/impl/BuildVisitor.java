@@ -32,8 +32,10 @@ import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.CompilationUnit;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.decl.ParamDecl;
+import so.ontolog.lang.ast.expr.ASTCallExpr;
+import so.ontolog.lang.ast.expr.ASTFunctionCallExpr;
+import so.ontolog.lang.ast.expr.ASTMethodCallExpr;
 import so.ontolog.lang.ast.expr.BinaryExpr;
-import so.ontolog.lang.ast.expr.CallExpr;
 import so.ontolog.lang.ast.expr.CompositeSymbolExpr;
 import so.ontolog.lang.ast.expr.LiteralExpr;
 import so.ontolog.lang.ast.expr.TernaryExpr;
@@ -44,11 +46,13 @@ import so.ontolog.lang.build.BuildContext;
 import so.ontolog.lang.build.BuildException;
 import so.ontolog.lang.runtime.Gettable;
 import so.ontolog.lang.runtime.Literal;
+import so.ontolog.lang.runtime.Node;
 import so.ontolog.lang.runtime.Operator.Binary;
 import so.ontolog.lang.runtime.Operator.Unary;
 import so.ontolog.lang.runtime.QName;
 import so.ontolog.lang.runtime.Statement;
 import so.ontolog.lang.runtime.expr.BinaryOperatorExpr;
+import so.ontolog.lang.runtime.expr.FunctionCallExpr;
 import so.ontolog.lang.runtime.expr.MethodCallExpr;
 import so.ontolog.lang.runtime.expr.UnaryOperatorExpr;
 import so.ontolog.lang.runtime.internal.GenericLiteral.BooleanLiteral;
@@ -198,28 +202,74 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return context;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public BuildContext visit(CallExpr expr, BuildContext context) {
-		Gettable<?> beanGettable = (expr.getBeanRef() != null) ? (Gettable<?>)expr.getBeanRef().getNode() : null;
-		Method method = expr.getMethod();
+	public BuildContext visit(ASTCallExpr expr, BuildContext context) {
 		List<ASTExpr> argTypes = expr.getArgs();
+
 		int length = argTypes.size();
-		Gettable<?>[] argGettableArr = new Gettable<?>[argTypes.size()];
-		Converter<?>[] converters = new Converter<?>[argTypes.size()];
-		Class<?>[]paramTypeArray = method.getParameterTypes();
+		Gettable<?>[] argGettableArr = new Gettable<?>[length];
 		
 		for(int i=0;i<length;i++){
 			argGettableArr[i] = (Gettable<?>)argTypes.get(i).getNode();
-			converters[i] = DefaultConverters.getConverter(paramTypeArray[i]);
 		}
 		
 		
-		MethodCallExpr<?> methodCall = new MethodCallExpr(expr.type(), 
-				beanGettable, method, converters, argGettableArr);
 		
-		expr.setNode(methodCall);
+		Node node = null;
+		if(expr instanceof ASTMethodCallExpr){
+			node = makeMethodCallExpr((ASTMethodCallExpr)expr, argGettableArr);
+		} else if(expr instanceof ASTFunctionCallExpr){
+			node = makeFunctionCallExpr((ASTFunctionCallExpr)expr, argGettableArr);
+		} else {
+			throw new BuildException("Unknown visit type : " + expr);
+		}
+		
+		expr.setNode(node);
 		return context;
+	}
+
+	/**<pre></pre>
+	 * @param expr
+	 * @param argGettableArr
+	 * @param converters
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected MethodCallExpr<?> makeMethodCallExpr(ASTMethodCallExpr expr,
+			Gettable<?>[] argGettableArr) {
+		Class<?>[]paramTypeArray = expr.getRequiredParamTypes();
+		int length = argGettableArr.length;
+		
+		Converter<?>[] converters = new Converter<?>[length];
+		
+		if(length > paramTypeArray.length) {
+			int i=0;
+			for(;i<paramTypeArray.length;i++){
+				converters[i] = DefaultConverters.getConverter(paramTypeArray[i]);
+			}
+			Converter<?> lastConv = converters[paramTypeArray.length-1];
+			
+			for(;i<length;i++){
+				converters[i] = lastConv;
+			}
+		} else {
+			for(int i=0;i<length;i++){
+				converters[i] = DefaultConverters.getConverter(paramTypeArray[i]);
+			}
+		}
+		
+		Gettable<?> beanGettable = (expr.getBeanRef() != null) ? (Gettable<?>)expr.getBeanRef().getNode() : null;
+		Method method = expr.getMethod();
+		MethodCallExpr<?> methodCall = new MethodCallExpr(expr.type(), beanGettable, method, converters, argGettableArr);
+		return methodCall;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected FunctionCallExpr<?> makeFunctionCallExpr(ASTFunctionCallExpr expr,
+			Gettable<?>[] argGettableArr) {
+		
+		FunctionCallExpr<?> funcCall = new FunctionCallExpr(expr.getFunction(), argGettableArr);
+		return funcCall;
 	}
 	
 	

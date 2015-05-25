@@ -14,6 +14,7 @@
  */
 package so.ontolog.lang.ast;
 
+import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -29,4 +30,5 @@ public interface ASTContext {
 
 	void registerDecl(ASTDeclaration symbol);
 	
+	Function<?> getBuiltInFunction(QName qname);
 }

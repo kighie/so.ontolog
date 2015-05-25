@@ -12,21 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
-
-import so.ontolog.lang.runtime.Module;
+package so.ontolog.repository;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
+ * @param <V>
  */
-public interface OntologBuilder {
+public interface ComponentRepository<K, V> {
+	Class<V> type();
 	
-	Module buildExpr(String expression);
-
-	Module build(String expression);
-
-	Module build(OntologSource source);
-
+	boolean support(Class<?> type);
+	
+	V get(K qname);
+	
+	void register(K qname, Object obj);
 }

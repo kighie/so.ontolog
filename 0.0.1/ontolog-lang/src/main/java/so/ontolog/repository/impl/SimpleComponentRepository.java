@@ -12,21 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
+package so.ontolog.repository.impl;
 
-import so.ontolog.lang.runtime.Module;
+import java.util.HashMap;
+import java.util.Map;
+
+import so.ontolog.repository.ComponentRepository;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface OntologBuilder {
+public class SimpleComponentRepository<K, T> implements ComponentRepository<K, T> {
+	private Map<K, T> map = new HashMap<K, T>();
+	private Class<T> type;
 	
-	Module buildExpr(String expression);
+	
+	public SimpleComponentRepository(Class<T> type) {
+		this.type = type;
+	}
 
-	Module build(String expression);
-
-	Module build(OntologSource source);
-
+	public Class<T> type(){
+		return type;
+	}
+	
+	public boolean support(Class<?> type){
+		return this.type.isAssignableFrom(type);
+	}
+	
+	public T get(K qname){
+		return map.get(qname);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void register(K qname, Object obj){
+		map.put(qname, (T)obj);
+	}
 }

@@ -14,15 +14,14 @@
  */
 package so.ontolog.lang.ast.expr;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.lang.ast.ASTExpr;
-import so.ontolog.lang.ast.ASTSymbol;
 import so.ontolog.lang.ast.ASTToken;
 import so.ontolog.lang.ast.ASTVisitor;
 import so.ontolog.lang.ast.util.TextUtils;
+import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -30,60 +29,33 @@ import so.ontolog.lang.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class CallExpr extends ASTSymbol {
+public class ASTFunctionCallExpr extends ASTCallExpr {
 
-	private static final long serialVersionUID = -976688139106286789L;
-	
-	private Method method;
-	private List<ASTExpr> args;
-	private Class<?>[]argTypeArray;
-	private VariableExpr beanRef;
-	
+	private static final long serialVersionUID = 8559481988681950984L;
+
+	private Function<?> function;
 	
 	/**
 	 * @param token
 	 * @param typeSpec
 	 * @param qname
-	 * @param method
 	 * @param args
 	 */
-	public CallExpr(ASTToken token, TypeSpec typeSpec, QName qname,
-			Method method, List<ASTExpr> args) {
-		super(token, typeSpec, qname);
-		this.method = method;
-		this.args = args;
+	public ASTFunctionCallExpr(ASTToken token, TypeSpec typeSpec, QName qname,
+			List<ASTExpr> args) {
+		super(token, typeSpec, qname, args);
 	}
 	
-	public Method getMethod() {
-		return method;
+	public Function<?> getFunction() {
+		return function;
 	}
 
-	public List<ASTExpr> getArgs() {
-		return args;
-	}
-	
-	public VariableExpr getBeanRef() {
-		return beanRef;
-	}
-
-	public void setBeanRef(VariableExpr beanRef) {
-		this.beanRef = beanRef;
-	}
-
-	public Class<?>[] getArgTypeArray() {
-		return argTypeArray;
-	}
-
-	public void setArgTypeArray(Class<?>[] argTypeArray) {
-		this.argTypeArray = argTypeArray;
+	public void setFunction(Function<?> function) {
+		this.function = function;
 	}
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		if(beanRef != null){
-			beanRef.accept(visitor, context);
-		}
-		
 		for(ASTExpr e : args){
 			e.accept(visitor, context);
 		}
@@ -98,10 +70,7 @@ public class CallExpr extends ASTSymbol {
 		}
 		buffer.append("(");
 		buffer.append(token.getName()).append(" ");
-		if(beanRef != null){
-			beanRef.getText(buffer, depth+1);
-		}
-		buffer.append("::").append(method);
+		buffer.append("::").append(qname);
 		buffer.append(" ");
 		
 		for( ASTExpr e : args ){

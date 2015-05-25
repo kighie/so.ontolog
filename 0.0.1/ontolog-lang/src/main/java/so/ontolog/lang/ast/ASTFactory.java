@@ -40,11 +40,11 @@ public interface ASTFactory {
 
 	QName createVarQName(QName parent, QName index);
 	
-	ASTExpr createUnary(ASTToken token, ASTExpr expr);
+	ASTExpr createUnary(ASTContext context, ASTToken token, ASTExpr expr);
 
-	ASTExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right);
+	ASTExpr createBinary(ASTContext context, ASTToken token, ASTExpr left, ASTExpr right);
 	
-	ASTExpr createTernary(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
+	ASTExpr createTernary(ASTContext context, ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
 
 	ASTExpr createLiteral(ASTToken token, String expr);
 	
@@ -76,21 +76,21 @@ public interface ASTFactory {
 	 *
 	 */
 	public interface UnaryExprFactory {
-		ASTExpr create(ASTToken token, ASTExpr expr);
+		ASTExpr create(ASTContext context, ASTToken token, ASTExpr expr);
 	}
 
 	/**
 	 *
 	 */
 	public interface BinaryExprFactory {
-		ASTExpr create(ASTToken token, ASTExpr left, ASTExpr right);
+		ASTExpr create(ASTContext context, ASTToken token, ASTExpr left, ASTExpr right);
 	}
 
 	/**
 	 *
 	 */
 	public interface TernaryExprFactory {
-		ASTExpr create(ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
+		ASTExpr create(ASTContext context, ASTToken token, ASTExpr expr1, ASTExpr expr2, ASTExpr expr3);
 	}
 
 	/**
@@ -115,6 +115,15 @@ public interface ASTFactory {
 	}
 
 	public interface CallExprFactory {
+		/**
+		 * <pre></pre>
+		 * @param context
+		 * @param token
+		 * @param beanRef
+		 * @param name
+		 * @param args
+		 * @return
+		 */
 		ASTSymbol create(ASTContext context, ASTToken token, ASTSymbol beanRef, String name, List<ASTExpr> args);
 	}
 

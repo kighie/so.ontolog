@@ -19,6 +19,7 @@ import java.util.Map;
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
+import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTExpr;
 import so.ontolog.lang.ast.GrammarTokens;
 import so.ontolog.lang.ast.ASTFactory.BinaryExprFactory;
@@ -64,21 +65,21 @@ public class BinaryExprFactoryHelper {
 
 	public static abstract class AbstractBinaryExprFactory implements BinaryExprFactory {
 		@Override
-		public final BinaryExpr create(ASTToken token, ASTExpr left, ASTExpr right) {
+		public final BinaryExpr create(ASTContext context, ASTToken token, ASTExpr left, ASTExpr right) {
 			TypeKind leftTypeKind = left.type().getTypeKind();
 			TypeKind rightTypeKind = right.type().getTypeKind();
-			return createImpl(token, leftTypeKind, left, rightTypeKind, right);
+			return createImpl(context, token, leftTypeKind, left, rightTypeKind, right);
 		}
 		
-		protected abstract BinaryExpr createImpl(ASTToken token, 
-				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right);
+		protected abstract BinaryExpr createImpl(ASTContext context, 
+				ASTToken token, TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right);
 	}
 	
 
 	public static class LogicalExprFactory extends AbstractBinaryExprFactory {
 		@Override
-		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
-				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
+		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
+				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			if(leftTypeKind!=TypeKind.Bool){
 				throw new BuildException(token.getName() + " operator must have boolean operand.").setNode(left);
 			}
@@ -105,8 +106,8 @@ public class BinaryExprFactoryHelper {
 	
 	public static class CompareExprFactory extends AbstractBinaryExprFactory {
 		@Override
-		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
-				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
+		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
+				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			String tokenName = token.getName();
 			
 			Operator.Binary<?, ?, ?> operator;
@@ -133,8 +134,8 @@ public class BinaryExprFactoryHelper {
 	
 	public static class NumberExprFactory extends AbstractBinaryExprFactory {
 		@Override
-		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
-				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
+		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
+				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			if(leftTypeKind!=TypeKind.Number){
 				if(leftTypeKind==TypeKind.Undefined && left instanceof VariableExpr){
 					((VariableExpr)left).setType(TypeSpec.DECIMAL);
@@ -167,19 +168,11 @@ public class BinaryExprFactoryHelper {
 			return new BinaryExpr(token, operator, left, right);
 		}
 	}
-//	NumberExprFactory numberFac = new NumberExprFactory();
-//	map.put(GrammarTokens.OP_MINUS , numberFac);
-//	map.put(GrammarTokens.OP_DIVIDE , numberFac);
-//	map.put(GrammarTokens.OP_POW , numberFac);
-//	
-//	NumberStringExprFactory numStrFac = new NumberStringExprFactory();
-//	map.put(GrammarTokens.OP_PLUS , numStrFac);
-//	map.put(GrammarTokens.OP_MULTI , numStrFac);
 	
 	public static class NumberStringExprFactory extends AbstractBinaryExprFactory {
 		@Override
-		protected BinaryExpr createImpl(ASTToken token, TypeKind leftTypeKind,
-				ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
+		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
+				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 
 			String tokenName = token.getName();
 			

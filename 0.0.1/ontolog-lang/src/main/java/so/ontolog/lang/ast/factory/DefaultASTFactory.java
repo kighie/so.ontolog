@@ -132,14 +132,14 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public ASTExpr createUnary(ASTToken token, ASTExpr expr) {
+	public ASTExpr createUnary(ASTContext context, ASTToken token, ASTExpr expr) {
 		String tokenName = token.getName();
 		UnaryExprFactory factory = unaryExprFactoryMap.get(tokenName);
 		
 		if(factory == null){
 			throw new BuildException("Unknown Unary Operation " + tokenName ).setLocation(token);
 		}
-		return factory.create(token, expr);
+		return factory.create(context, token, expr);
 	}
 
 	protected  Map<String, UnaryExprFactory> initUnaryExprFactories() {
@@ -147,7 +147,7 @@ public class DefaultASTFactory implements ASTFactory {
 		
 		map.put(GrammarTokens.OP_NUM_NEGATION, new UnaryExprFactory() {
 			@Override
-			public UnaryExpr create(ASTToken token, ASTExpr expr) {
+			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Expression " + expr + " cannot be negated." ).setNode(expr);
 				}
@@ -157,7 +157,7 @@ public class DefaultASTFactory implements ASTFactory {
 
 		map.put(GrammarTokens.OP_NOT, new UnaryExprFactory() {
 			@Override
-			public UnaryExpr create(ASTToken token, ASTExpr expr) {
+			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Bool){
 					throw new BuildException("Expression " + expr + " cannot negated logically." ).setNode(expr);
 				}
@@ -167,7 +167,7 @@ public class DefaultASTFactory implements ASTFactory {
 		
 		map.put(GrammarTokens.OP_PERCENT, new UnaryExprFactory() {
 			@Override
-			public UnaryExpr create(ASTToken token, ASTExpr expr) {
+			public UnaryExpr create(ASTContext context, ASTToken token, ASTExpr expr) {
 				if(expr.type().getTypeKind() != TypeKind.Number){
 					throw new BuildException("Illegal Expression " + expr + "%" ).setNode(expr);
 				}
@@ -178,7 +178,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public ASTExpr createBinary(ASTToken token, ASTExpr left, ASTExpr right) {
+	public ASTExpr createBinary(ASTContext context, ASTToken token, ASTExpr left, ASTExpr right) {
 		String tokenName = token.getName();
 		
 		BinaryExprFactory factory = binaryExprFactoryMap.get(tokenName);
@@ -187,7 +187,7 @@ public class DefaultASTFactory implements ASTFactory {
 			throw new BuildException("Unknown Binary Operation " + tokenName ).setLocation(token);
 		}
 		
-		return factory.create(token, left, right);
+		return factory.create(context, token, left, right);
 	}
 
 	protected Map<String, BinaryExprFactory> initBinaryExprFactories() {
@@ -197,7 +197,7 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 
 	@Override
-	public ASTExpr createTernary(ASTToken token, ASTExpr expr1,
+	public ASTExpr createTernary(ASTContext context, ASTToken token, ASTExpr expr1,
 			ASTExpr expr2, ASTExpr expr3) {
 		String tokenName = token.getName();
 		
@@ -207,7 +207,7 @@ public class DefaultASTFactory implements ASTFactory {
 			throw new BuildException("Unknown Ternary Operation " + tokenName ).setLocation(token);
 		}
 		
-		return factory.create(token, expr1, expr2, expr3);
+		return factory.create(context, token, expr1, expr2, expr3);
 	}
 
 	protected Map<String, TernaryExprFactory> initTernaryExprFactories() {

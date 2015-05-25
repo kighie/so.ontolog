@@ -12,21 +12,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.lang.build;
+package so.ontolog.formula.func.math;
 
-import so.ontolog.lang.runtime.Module;
+import java.math.BigDecimal;
+
+import so.ontolog.lang.runtime.Context;
+import so.ontolog.lang.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface OntologBuilder {
+public class Sum extends AbstractMathFunction<BigDecimal>{
+
+	private static final long serialVersionUID = 8933978837906265660L;
 	
-	Module buildExpr(String expression);
-
-	Module build(String expression);
-
-	Module build(OntologSource source);
+	@Override
+	public String name() {
+		return "sum";
+	}
+	
+	@Override
+	public BigDecimal eval(Context context, Gettable<?>[] args) {
+		int length = args.length;
+		
+		BigDecimal sum = convertDecimal(args[0].get(context));
+		
+		for(int i = 1; i<length;i++){
+			sum = sum.add(convertDecimal(args[i].get(context)));
+		}
+		return sum;
+	}
 
 }

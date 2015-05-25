@@ -124,21 +124,21 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 
 	public ASTExpr unary(String token, ASTExpr expr) {
 		ASTToken astToken = createASTToken(token);
-		return factory.createUnary(astToken, expr);
+		return factory.createUnary(current, astToken, expr);
 	}
 
 
 	public ASTExpr binary(String token, ASTExpr left,
 			ASTExpr right) {
 		ASTToken astToken = createASTToken(token);
-		return factory.createBinary(astToken, left, right);
+		return factory.createBinary(current, astToken, left, right);
 	}
 
 
 	public ASTExpr ternary(String token, ASTExpr expr1,
 			ASTExpr expr2, ASTExpr expr3) {
 		ASTToken astToken = createASTToken(token);
-		return factory.createTernary(astToken, expr1, expr2, expr3);
+		return factory.createTernary(current, astToken, expr1, expr2, expr3);
 	}
 
 

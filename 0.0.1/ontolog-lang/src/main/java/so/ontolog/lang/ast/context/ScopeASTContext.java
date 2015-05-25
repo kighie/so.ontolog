@@ -19,6 +19,7 @@ import java.util.Map;
 
 import so.ontolog.lang.ast.ASTContext;
 import so.ontolog.lang.ast.ASTDeclaration;
+import so.ontolog.lang.runtime.Function;
 import so.ontolog.lang.runtime.QName;
 
 /**
@@ -55,6 +56,11 @@ public class ScopeASTContext implements ASTContext {
 	@Override
 	public void registerDecl(ASTDeclaration symbol) {
 		symbolTable.put(symbol.getQname(), symbol);
+	}
+	
+	@Override
+	public Function<?> getBuiltInFunction(QName qname) {
+		return parent.getBuiltInFunction(qname);
 	}
 	
 	protected void clear(){
