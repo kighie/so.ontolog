@@ -27,8 +27,7 @@ import so.ontolog.samples.bean.SampleBean;
  */
 public class ScriptBuildTests extends ScriptTests{
 	
-	@Test
-	public void scriptBasic(){
+	SimpleContext createSimpleContext(){
 		SimpleContext context = new SimpleContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
@@ -38,7 +37,25 @@ public class ScriptBuildTests extends ScriptTests{
 		context.setParameter("sample", sample);
 		context.setParameter("dec1", 30);
 		context.setParameter("dec2", 20);
-		
+		return context;
+	}
+	
+	@Test
+	public void scriptBasic(){
+		SimpleContext context = createSimpleContext();
 		buildAndRun("so/ontolog/formula/build/impl/ScriptBasic.ol", context);
 	}
+
+	@Test
+	public void scriptIf(){
+		SimpleContext context = createSimpleContext();
+		buildAndRun("so/ontolog/formula/build/impl/if.ol", context);
+	}
+
+	@Test
+	public void scriptFor(){
+		SimpleContext context = createSimpleContext();
+		buildAndRun("so/ontolog/formula/build/impl/for.ol", context);
+	}
+
 }

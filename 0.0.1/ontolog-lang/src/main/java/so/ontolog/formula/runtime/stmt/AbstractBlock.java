@@ -39,6 +39,10 @@ public class AbstractBlock implements Block {
 	
 	@Override
 	public Object eval(Context context) {
+		return evalChildren(context);
+	}
+	
+	protected Object evalChildren(Context context){
 		Object rtn;
 		
 		for( Statement s : statementList ){

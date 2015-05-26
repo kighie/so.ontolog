@@ -28,4 +28,14 @@ public class ScriptASTBuildTests extends ScriptTests{
 	public void scriptBasic(){
 		buildAst("so/ontolog/formula/build/impl/ScriptBasic.ol");
 	}
+
+	@Test
+	public void scriptIf(){
+		buildAst("so/ontolog/formula/build/impl/if.ol");
+	}
+	
+	@Test
+	public void scriptFor(){
+		buildAst("so/ontolog/formula/build/impl/for.ol");
+	}
 }

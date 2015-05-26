@@ -51,6 +51,18 @@ public class OntologBaseListener implements OntologListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBlockContents(OntologParser.BlockContentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlockContents(OntologParser.BlockContentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterImportStatement(OntologParser.ImportStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -106,18 +118,6 @@ public class OntologBaseListener implements OntologListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfStatement(OntologParser.IfStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlockContents(OntologParser.BlockContentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlockContents(OntologParser.BlockContentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

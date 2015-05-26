@@ -70,6 +70,7 @@ import so.ontolog.formula.runtime.ref.VarIndexedRef;
 import so.ontolog.formula.runtime.ref.VariableRef;
 import so.ontolog.formula.runtime.ref.VariableRef.PropertyRef;
 import so.ontolog.formula.runtime.stmt.GettablStatementWrapper;
+import so.ontolog.formula.runtime.stmt.IfStatement;
 import so.ontolog.formula.runtime.stmt.ParamDeclStmt;
 import so.ontolog.formula.runtime.stmt.ReturnStatement;
 import so.ontolog.formula.runtime.stmt.VariableDeclStatement;
@@ -358,10 +359,53 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		logger.log(Level.INFO, "EvalExprStatement::" + expr);
 		return context;
 	}
-	
+
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public BuildContext visit(ASTIfStatement stmt, BuildContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		Gettable<Boolean> condition = (Gettable<Boolean>)stmt.getCondition().getNode();
+		IfStatement ifStmt = new IfStatement(condition);
+
+		for(ASTStatement c : stmt.children() ){
+			ifStmt.append((Statement)c.getNode());
+		}
+
+		for(ASTIfStatement.ElseIf ei : stmt.getElseifStmts() ){
+			ifStmt.appendElseIf((IfStatement.ElseIf)ei.getNode());
+		}
+		
+		ASTIfStatement.Else elseStmt = stmt.getElseStmt();
+		if(elseStmt != null){
+			ifStmt.setElseStmt((IfStatement.Else)elseStmt.getNode());
+		}
+		
+		stmt.setNode(ifStmt);
+		return context;
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public BuildContext visit(ASTIfStatement.ElseIf stmt, BuildContext context) {
+		Gettable<Boolean> condition = (Gettable<Boolean>)stmt.getCondition().getNode();
+		IfStatement.ElseIf elseIf = new IfStatement.ElseIf(condition);
+
+		for(ASTStatement c : stmt.children() ){
+			elseIf.append((Statement)c.getNode());
+		}
+
+		stmt.setNode(elseIf);
+		return context;
+	}
+	
+	@Override
+	public BuildContext visit(ASTIfStatement.Else stmt, BuildContext context) {
+		IfStatement.Else elseStmt = new IfStatement.Else();
+
+		for(ASTStatement c : stmt.children() ){
+			elseStmt.append((Statement)c.getNode());
+		}
+
+		stmt.setNode(elseStmt);
+		return context;
 	}
 }

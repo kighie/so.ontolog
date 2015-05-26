@@ -39,6 +39,16 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitOntologScript(OntologParser.OntologScriptContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#blockContents}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockContents(OntologParser.BlockContentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#blockContents}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockContents(OntologParser.BlockContentsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#importStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -88,16 +98,6 @@ public interface OntologListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfStatement(OntologParser.IfStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link OntologParser#blockContents}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlockContents(OntologParser.BlockContentsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link OntologParser#blockContents}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlockContents(OntologParser.BlockContentsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link OntologParser#paramDecl}.
 	 * @param ctx the parse tree

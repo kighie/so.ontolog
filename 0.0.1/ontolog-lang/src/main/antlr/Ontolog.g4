@@ -20,7 +20,7 @@ options {
 	superClass = so.ontolog.formula.antlr.AbstractOntologHandlerParser;
 }
 
-// generate target dir : ./src/mai/antlr
+// generate target dir : ./src/main/antlr
 // use command line option : -package so.ontolog.formula.antlr
 
 @parser::header {
@@ -52,6 +52,19 @@ ontologScript returns [CompilationUnit result]
 		blockContents[$result]
 		EOF
 	  { endScope();}
+	;
+
+
+
+blockContents [ASTBlock stmtHolder]
+	: 
+	(
+		variableDecl	{ $stmtHolder.append($variableDecl.result); }
+		| methodCallStatement	{ $stmtHolder.append($methodCallStatement.result); }
+		| functionCallStatement	{ $stmtHolder.append($functionCallStatement.result); }
+		| ifStatement { $stmtHolder.append($ifStatement.result); }
+	)*
+	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
 
 
@@ -89,15 +102,15 @@ returnStatement  returns [ASTStatement result]
 
 ifStatement returns [ASTIfStatement result]
 	: 	
-	'if' { beginScope(); } 
+		'if' { beginScope(); } 
 		'(' logicalExpression ')' 
 		{
 			$result = ifStatement(IF, $logicalExpression.result); 
 		}
 		'{'  blockContents[$result] '}'
 		{	endScope(); }
-	( 	
-		'elseif' '(' logicalExpression ')' { beginScope(); } 
+	( 	'else' 'if' { beginScope(); } 
+		'(' logicalExpression ')' 
 		{ ASTBlock elseIfStmt = $result.createElseIf(createASTToken(ELSEIF), $logicalExpression.result); } 
 		'{' blockContents[elseIfStmt] '}'
 		{	endScope(); }
@@ -108,17 +121,6 @@ ifStatement returns [ASTIfStatement result]
 		{	endScope(); }
 	)?
 		
-	;
-
-
-blockContents [ASTBlock stmtHolder]
-	: 
-	(
-		variableDecl	{ $stmtHolder.append($variableDecl.result); }
-		| methodCallStatement	{ $stmtHolder.append($methodCallStatement.result); }
-		| functionCallStatement	{ $stmtHolder.append($functionCallStatement.result); }
-	)*
-	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
 
 /***************************************************

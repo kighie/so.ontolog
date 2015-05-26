@@ -61,5 +61,8 @@ public interface ASTVisitor<C> {
 	
 
 	C visit(ASTIfStatement stmt, C context);
+
+	C visit(ASTIfStatement.ElseIf stmt, C context);
 	
+	C visit(ASTIfStatement.Else stmt, C context);
 }

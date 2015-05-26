@@ -14,10 +14,14 @@
  */
 package so.ontolog.formula.ast.stmt;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.util.TextUtils;
 
 /**
  * <pre></pre>
@@ -29,6 +33,8 @@ public class ASTIfStatement extends ASTBlock {
 	private static final long serialVersionUID = 5387617533039143375L;
 
 	private ASTExpr condition;
+	private List<ElseIf> elseifStmts = new LinkedList<ASTIfStatement.ElseIf>();
+	private Else elseStmt;
 	
 	/**
 	 * @param position
@@ -38,28 +44,64 @@ public class ASTIfStatement extends ASTBlock {
 		this.condition = condition;
 	}
 	
+	/**
+	 * @return the condition
+	 */
+	public ASTExpr getCondition() {
+		return condition;
+	}
+	
+	public List<ElseIf> getElseifStmts() {
+		return elseifStmts;
+	}
+
+	public Else getElseStmt() {
+		return elseStmt;
+	}
+
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		condition.accept(visitor, context);
 		acceptChildren(visitor, context);
+		
+		for(ElseIf elseif : elseifStmts){
+			elseif.accept(visitor, context);
+		}
+		if(elseStmt != null){
+			elseStmt.accept(visitor, context);
+		}
 		return visitor.visit(this, context);
 	}
 	
 	@Override
 	public void getText(StringBuilder buffer, int depth) {
-		// TODO Auto-generated method stub
+		buffer.append("\n").append(TextUtils.getIndent(depth));
+		buffer.append("if(").append(condition).append("){");
+		getChildrenText(buffer, depth+1);
+		buffer.append(TextUtils.getIndent(depth)).append("}");
+		for(ElseIf elseif : elseifStmts){
+			elseif.getText(buffer, depth);
+		}
+		
+		if(elseStmt != null){
+			elseStmt.getText(buffer, depth);
+		}
+		
 	}
 	
 
 	public ASTBlock createElseIf(ASTToken token, ASTExpr condition) {
-		return null;
+		ElseIf elseif = new ElseIf(token, condition);
+		elseifStmts.add(elseif);
+		return elseif;
 	}
 
 	public ASTBlock checkOutElse(ASTToken token) {
-		return null;
+		elseStmt = new Else(token);
+		return elseStmt;
 	}
 
-	public class ElseIf extends ASTBlock {
+	public static class ElseIf extends ASTBlock {
 
 		private static final long serialVersionUID = -5448070513540107933L;
 
@@ -72,18 +114,31 @@ public class ASTIfStatement extends ASTBlock {
 			super(token);
 			this.condition = condition;
 		}
+
+		/**
+		 * @return the condition
+		 */
+		public ASTExpr getCondition() {
+			return condition;
+		}
 		
 		@Override
 		public <C> C accept(ASTVisitor<C> visitor, C context) {
 			condition.accept(visitor, context);
 			acceptChildren(visitor, context);
-//			return visitor.visit(this, context);
-			return null;
+			return visitor.visit(this, context);
 		}
 		
+		@Override
+		public void getText(StringBuilder buffer, int depth) {
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+			buffer.append("else if(").append(condition).append("){");
+			getChildrenText(buffer, depth);
+			buffer.append(TextUtils.getIndent(depth)).append("}");
+		}
 	}
 	
-	public class Else extends ASTBlock {
+	public static class Else extends ASTBlock {
 		private static final long serialVersionUID = -9037814467321550962L;
 
 		/**
@@ -96,9 +151,15 @@ public class ASTIfStatement extends ASTBlock {
 		@Override
 		public <C> C accept(ASTVisitor<C> visitor, C context) {
 			acceptChildren(visitor, context);
-//			return visitor.visit(this, context);
-			return null;
+			return visitor.visit(this, context);
 		}
-		
+
+		@Override
+		public void getText(StringBuilder buffer, int depth) {
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+			buffer.append("else {");
+			getChildrenText(buffer, depth);
+			buffer.append(TextUtils.getIndent(depth)).append("}");
+		}
 	}
 }
