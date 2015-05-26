@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.runtime.func;
+package so.ontolog.formula.func.basic;
 
 import so.ontolog.formula.OntologLangException;
 

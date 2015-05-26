@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.runtime.func;
+package so.ontolog.formula.func.basic;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.runtime.Context;
@@ -24,11 +24,10 @@ import so.ontolog.formula.runtime.Gettable;
  * @author Ikchan Kwon
  *
  */
-public class Println implements Function<Void>{
-
-	private static final long serialVersionUID = 8178856096467737639L;
-
-	private Class<?>[] argTypes = new Class[]{Object.class};
+public class Assert implements Function<Void> {
+	private static final long serialVersionUID = -458377548437081670L;
+	
+	private Class<?>[] argTypes = new Class[]{Boolean.class, String.class };
 	
 	@Override
 	public TypeSpec returnType() {
@@ -37,7 +36,7 @@ public class Println implements Function<Void>{
 
 	@Override
 	public String name() {
-		return "println";
+		return "assert";
 	}
 	
 	@Override
@@ -47,7 +46,17 @@ public class Println implements Function<Void>{
 
 	@Override
 	public Void eval(Context context, Gettable<?>[] args) {
-		System.out.println(args[0].get(context));
+		if( !(Boolean)args[0].get(context) ){
+			StringBuilder messageBuf = new StringBuilder();
+			
+			if(args.length > 1){
+				messageBuf.append( (String)args[1].get(context) );
+				messageBuf.append("\n");
+			}
+			
+			messageBuf.append(args.toString());
+			throw new AssertException(messageBuf.toString());
+		}
 		return null;
 	}
 }
