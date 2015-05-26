@@ -20,6 +20,11 @@
 		<artifactId>antlr4-runtime</artifactId>
 		<version>4.5</version>
 	</dependency> 
+	<dependency>
+		<groupId>com.esotericsoftware.reflectasm</groupId>
+		<artifactId>reflectasm</artifactId>
+		<version>1.08</version>
+	</dependency>
 	
     <dependency>
       <groupId>junit</groupId>
