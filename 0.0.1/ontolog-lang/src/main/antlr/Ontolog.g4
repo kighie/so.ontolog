@@ -17,21 +17,21 @@ grammar Ontolog;
 
 options {
 	language = Java;
-	superClass = so.ontolog.lang.antlr.AbstractOntologHandlerParser;
+	superClass = so.ontolog.formula.antlr.AbstractOntologHandlerParser;
 }
 
 // generate target dir : ./src/mai/antlr
-// use command line option : -package so.ontolog.lang.antlr
+// use command line option : -package so.ontolog.formula.antlr
 
 @parser::header {
 	import java.util.List;
 	import java.util.LinkedList;
 	
 	import so.ontolog.data.type.TypeSpec;
-	import so.ontolog.lang.runtime.QName;
-	import so.ontolog.lang.ast.*;
-	import so.ontolog.lang.ast.stmt.ASTIf;
-	import so.ontolog.lang.build.*;
+	import so.ontolog.formula.runtime.QName;
+	import so.ontolog.formula.ast.*;
+	import so.ontolog.formula.ast.stmt.ASTIfStatement;
+	import so.ontolog.formula.build.*;
 }
 
 
@@ -87,7 +87,7 @@ returnStatement  returns [ASTStatement result]
 	;
 
 
-ifStatement returns [ASTIf result]
+ifStatement returns [ASTIfStatement result]
 	: 	
 	'if' { beginScope(); } 
 		'(' logicalExpression ')' 
@@ -95,20 +95,19 @@ ifStatement returns [ASTIf result]
 			$result = ifStatement(IF, $logicalExpression.result); 
 		}
 		'{'  blockContents[$result] '}'
-	( 'elseif' '(' logicalExpression ')'
-		{
-			ASTBlock elseIfStmt = $result.createElseIf(createASTToken(ELSEIF), $logicalExpression.result);
-		} 
-		'{' blockContents[elseIfStmt] '}'
-	)*
-	( 'else' 
-		{
-			ASTBlock elseStmt = $result.checkOutElse(createASTToken(ELSE));
-		}
-		'{' blockContents[elseStmt] '}'
-		
-	)?
 		{	endScope(); }
+	( 	
+		'elseif' '(' logicalExpression ')' { beginScope(); } 
+		{ ASTBlock elseIfStmt = $result.createElseIf(createASTToken(ELSEIF), $logicalExpression.result); } 
+		'{' blockContents[elseIfStmt] '}'
+		{	endScope(); }
+	)*
+	( 'else' { beginScope(); } 
+		{ ASTBlock elseStmt = $result.checkOutElse(createASTToken(ELSE)); }
+		'{' blockContents[elseStmt] '}'
+		{	endScope(); }
+	)?
+		
 	;
 
 

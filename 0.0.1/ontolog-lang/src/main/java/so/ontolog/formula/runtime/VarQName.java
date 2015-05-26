@@ -12,28 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
-
+package so.ontolog.formula.runtime;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public class VarQName extends QName {
+	private static final long serialVersionUID = 5362874983450995326L;
 
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+	private QName index;
+	
+	/**
+	 * @param parent
+	 * @param name
+	 */
+	public VarQName(QName parent, QName index) {
+		super(parent, "[" + index.getFullName() + "]");
+		this.index = index;
 	}
 
-	public FormulaException(String message) {
-		super(message);
+	/**
+	 * @return the index
+	 */
+	public QName getIndex() {
+		return index;
 	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
 }

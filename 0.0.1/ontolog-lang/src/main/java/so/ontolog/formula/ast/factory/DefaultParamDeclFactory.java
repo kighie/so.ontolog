@@ -12,36 +12,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.ast.factory;
 
-import java.math.BigDecimal;
-
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.ast.ASTContext;
+import so.ontolog.formula.ast.ASTToken;
+import so.ontolog.formula.ast.ASTFactory.ParamDeclFactory;
+import so.ontolog.formula.ast.decl.ParamDecl;
+import so.ontolog.formula.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
-
-	private static final long serialVersionUID = -8711825160593697940L;
+public class DefaultParamDeclFactory implements ParamDeclFactory {
 	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
 	
 	@Override
-	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+	public ParamDecl create(ASTContext context, ASTToken token,
+			TypeSpec type, String paramName, String alias) {
+		QName qname;
+		QName paramQName = new QName(paramName);
+		if(alias != null){
+			qname = new QName(alias);
+		} else {
+			qname = paramQName;
+		}
+		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
+		
+		return paramDecl;
 	}
 
-	@Override
-	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
-	}
-
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
-	}
 }

@@ -17,8 +17,8 @@ package so.ontolog.formula.func.math;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 
-import so.ontolog.lang.runtime.Context;
-import so.ontolog.lang.runtime.Gettable;
+import so.ontolog.formula.runtime.Context;
+import so.ontolog.formula.runtime.Gettable;
 
 /**
  * <pre></pre>

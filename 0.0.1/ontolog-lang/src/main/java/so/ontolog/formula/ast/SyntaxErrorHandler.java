@@ -12,28 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
+package so.ontolog.formula.ast;
 
+import so.ontolog.formula.SourcePosition;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
-
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+public interface SyntaxErrorHandler {
+	void syntaxError( String message, Object offendingSymbol, SourcePosition location, Exception cause); 
 }

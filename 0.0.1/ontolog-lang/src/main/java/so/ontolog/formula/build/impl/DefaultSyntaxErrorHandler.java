@@ -12,36 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.build.impl;
 
-import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import so.ontolog.data.binding.convert.DefaultConverters;
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.SourcePosition;
+import so.ontolog.formula.ast.SyntaxErrorHandler;
+import so.ontolog.formula.build.BuildException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
-
-	private static final long serialVersionUID = -8711825160593697940L;
-	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+public class DefaultSyntaxErrorHandler implements SyntaxErrorHandler {
+	private static Logger logger = Logger.getLogger("SyntaxErrorHandler");
 	
 	@Override
-	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+	public void syntaxError(String message, Object offendingSymbol,
+			SourcePosition location, Exception cause) {
+		logger.log(Level.SEVERE, message, cause);
+		throw new BuildException(message, cause).setLocation(location);
 	}
 
-	@Override
-	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
-	}
-
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
-	}
 }

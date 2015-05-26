@@ -12,36 +12,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.runtime.ref;
 
-import java.math.BigDecimal;
-
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.runtime.Gettable;
+import so.ontolog.formula.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
-
-	private static final long serialVersionUID = -8711825160593697940L;
+@SuppressWarnings("rawtypes")
+public class FunctionRef extends AbstractRef implements Gettable<Function> {
+	private static final long serialVersionUID = -8146512859266950897L;
 	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+	protected final Function<?> function;
 	
-	@Override
-	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+	
+	public FunctionRef(QName qname, Function<?> function) {
+		super(qname);
+		this.function = function;
 	}
 
 	@Override
-	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
+	public TypeSpec type() {
+		return Function.FUNCTION_TYPE;
 	}
 
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
+	@Override
+	public Function<?> get(Context context) {
+		return function;
+	}
+	
+	/**
+	 * @return the function
+	 */
+	public Function<?> getFunction() {
+		return function;
 	}
 }

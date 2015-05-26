@@ -12,36 +12,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.runtime.func;
 
-import java.math.BigDecimal;
-
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
-
-	private static final long serialVersionUID = -8711825160593697940L;
+public class Assert implements Function<Void> {
+	private static final long serialVersionUID = -458377548437081670L;
 	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+	private Class<?>[] argTypes = new Class[]{Boolean.class, String.class };
 	
 	@Override
 	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+		return TypeSpec.VOID;
 	}
 
 	@Override
+	public String name() {
+		return "assert";
+	}
+	
+	@Override
 	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
+		return argTypes;
 	}
 
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
+	@Override
+	public Void eval(Context context, Gettable<?>[] args) {
+		if( !(Boolean)args[0].get(context) ){
+			StringBuilder messageBuf = new StringBuilder();
+			
+			if(args.length > 1){
+				messageBuf.append( (String)args[1].get(context) );
+				messageBuf.append("\n");
+			}
+			
+			messageBuf.append(args.toString());
+			throw new AssertException(messageBuf.toString());
+		}
+		return null;
 	}
 }

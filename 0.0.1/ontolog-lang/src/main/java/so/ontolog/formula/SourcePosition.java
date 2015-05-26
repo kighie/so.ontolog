@@ -14,26 +14,21 @@
  */
 package so.ontolog.formula;
 
-
 /**
- * <pre></pre>
- * @author Ikchan Kwon
- *
+ * <pre>
+ * Interface of all source location indicator class
+ * </pre>
+ * @author kighie@gmail.com
+ * @since 1.0
  */
-public class FormulaException extends OntologLangException {
-
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+public interface SourcePosition {
+	int getLine();
+	
+	int getCharPositionInLine();
+	
+	int getStartIndex();
+	
+	int getEndIndex();
+	
+	String getName();
 }

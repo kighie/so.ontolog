@@ -12,7 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
+package so.ontolog.formula.build.impl;
+
+import org.junit.Test;
 
 
 /**
@@ -20,20 +22,10 @@ package so.ontolog.formula;
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
-
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+public class ScriptASTBuildTests extends ScriptTests{
+	
+	@Test
+	public void scriptBasic(){
+		buildAst("so/ontolog/formula/build/impl/ScriptBasic.ol");
 	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
 }

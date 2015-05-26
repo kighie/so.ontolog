@@ -12,28 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
-
+package so.ontolog.formula.runtime;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public interface Module extends Node {
 
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+	Object eval(Context context);
 }

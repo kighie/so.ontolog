@@ -12,27 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
+package so.ontolog.formula.ast;
 
+import so.ontolog.formula.build.BuildException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public class ASTException extends BuildException {
 
-	private static final long serialVersionUID = -6503663827943562820L;
+	private static final long serialVersionUID = -2586584890977688419L;
 
-	public FormulaException(String message, Throwable cause) {
+	public ASTException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public FormulaException(String message) {
+	public ASTException(String message) {
 		super(message);
 	}
 
-	public FormulaException(Throwable cause) {
+	public ASTException(Throwable cause) {
 		super(cause);
 	}
 

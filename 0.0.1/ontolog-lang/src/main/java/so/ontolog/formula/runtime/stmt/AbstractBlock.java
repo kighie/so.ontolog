@@ -12,36 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.runtime.stmt;
 
-import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
-import so.ontolog.data.binding.convert.DefaultConverters;
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.runtime.Block;
+import so.ontolog.formula.runtime.Context;
+import so.ontolog.formula.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
+public class AbstractBlock implements Block {
 
-	private static final long serialVersionUID = -8711825160593697940L;
-	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+	private static final long serialVersionUID = -8149269987642137932L;
+
+	protected final List<Statement> statementList = new LinkedList<Statement>();
 	
 	@Override
-	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+	public void append(Statement node) {
+		statementList.add(node);
 	}
-
+	
 	@Override
-	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
-	}
-
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
+	public Object eval(Context context) {
+		Object rtn;
+		
+		for( Statement s : statementList ){
+			rtn = s.eval(context);
+			if(rtn!=null){
+				return rtn;
+			}
+		}
+		return null;
 	}
 }

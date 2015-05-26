@@ -12,28 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
-
+package so.ontolog.formula.ast;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public abstract class ASTStatement extends ASTNode {
 
-	private static final long serialVersionUID = -6503663827943562820L;
+	private static final long serialVersionUID = 7123673043495834373L;
 
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+	public ASTStatement(ASTToken position) {
+		super(position);
 	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+	
 }

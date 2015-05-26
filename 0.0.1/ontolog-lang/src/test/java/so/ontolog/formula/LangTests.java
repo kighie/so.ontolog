@@ -14,26 +14,24 @@
  */
 package so.ontolog.formula;
 
+import org.junit.Test;
+
+import so.ontolog.formula.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public class LangTests {
 
-	private static final long serialVersionUID = -6503663827943562820L;
+	@Test
+	public void testQname(){
+		QName qname = QName.parseQName("a.b.c.d");
+		System.out.println(qname);
+		
 
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+		qname = QName.parseQName("a");
+		System.out.println(qname);
 	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
 }

@@ -12,28 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
-
+package so.ontolog.formula.ast.util;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public class TextUtils {
 
-	private static final long serialVersionUID = -6503663827943562820L;
 
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+	private static String[] INDENTS = new String[]{"", "\t", "\t\t", "\t\t\t", "\t\t\t\t", "\t\t\t\t\t", "\t\t\t\t\t\t", 
+		"\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t\t", "\t\t\t\t\t\t\t\t\t\t\t\t"};
+
+	public static String getIndent(int depth){
+		return INDENTS[depth];
 	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
 }

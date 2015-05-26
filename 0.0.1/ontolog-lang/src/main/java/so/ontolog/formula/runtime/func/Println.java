@@ -12,36 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.runtime.func;
 
-import java.math.BigDecimal;
-
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
+public class Println implements Function<Void>{
 
-	private static final long serialVersionUID = -8711825160593697940L;
-	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+	private static final long serialVersionUID = 8178856096467737639L;
+
+	private Class<?>[] argTypes = new Class[]{Object.class};
 	
 	@Override
 	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
+		return TypeSpec.VOID;
 	}
 
 	@Override
+	public String name() {
+		return "println";
+	}
+	
+	@Override
 	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
+		return argTypes;
 	}
 
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
+	@Override
+	public Void eval(Context context, Gettable<?>[] args) {
+		System.out.println(args[0].get(context));
+		return null;
 	}
 }

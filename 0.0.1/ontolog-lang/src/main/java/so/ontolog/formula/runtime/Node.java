@@ -12,28 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
+package so.ontolog.formula.runtime;
 
+import java.io.Serializable;
 
 /**
- * <pre></pre>
- * @author Ikchan Kwon
+ * <pre>
+ * Common markup interface of all Node classes.
+ * </pre>
+ * @author kighie@gmail.com
  *
  */
-public class FormulaException extends OntologLangException {
-
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+public interface Node extends Serializable {
+	
 }

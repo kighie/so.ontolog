@@ -12,28 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
+package so.ontolog.formula.runtime.util;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import so.ontolog.formula.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public final class NodeCollections {
 
-	private static final long serialVersionUID = -6503663827943562820L;
-
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public FormulaException(String message) {
-		super(message);
-	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
-	}
-
+	@SuppressWarnings("unchecked")
+	public static final List<Gettable<?>> EMPTY_GETTABLES = Collections.EMPTY_LIST;
+	
+	public static final Iterator<Gettable<?>> EMPTY_GETTABLE_ITERATOR = EMPTY_GETTABLES.iterator();
 }

@@ -12,28 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula;
-
+package so.ontolog.formula.ast;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class FormulaException extends OntologLangException {
+public class CompilationUnit extends ASTBlock {
 
-	private static final long serialVersionUID = -6503663827943562820L;
+	private static final long serialVersionUID = -3772387129534484495L;
 
-	public FormulaException(String message, Throwable cause) {
-		super(message, cause);
+	protected final ASTContext context;
+	
+	/**
+	 * @param token
+	 */
+	public CompilationUnit(ASTContext context, ASTToken token) {
+		super(token);
+		this.context = context;
 	}
 
-	public FormulaException(String message) {
-		super(message);
+	/**
+	 * @return the context
+	 */
+	public ASTContext getContext() {
+		return context;
 	}
-
-	public FormulaException(Throwable cause) {
-		super(cause);
+	
+	@Override
+	public <C> C accept(ASTVisitor<C> visitor, C context) {
+		acceptChildren(visitor, context);
+		visitor.visit(this, context);
+		if(context != null){
+			
+		}
+		return context;
 	}
-
+	
 }

@@ -12,36 +12,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.math;
+package so.ontolog.formula.ast;
 
-import java.math.BigDecimal;
-
-import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.runtime.Function;
+import so.ontolog.formula.runtime.QName;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractMathFunction<T extends Number>  implements Function<T> {
+public interface ASTContext {
 
-	private static final long serialVersionUID = -8711825160593697940L;
+	ASTContext parent();
 	
-	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+	ASTContext root();
 	
-	@Override
-	public TypeSpec returnType() {
-		return TypeSpec.DECIMAL;
-	}
 
-	@Override
-	public Class<?>[] argTypes() {
-		return SINGLE_DECIMAL_ARGS;
-	}
+	ASTDeclaration getFuncDecl(QName qname);
 
-	BigDecimal convertDecimal(Object value){
-		return DefaultConverters.BIG_DECIMAL.convert(value);
-	}
+	void registerFuncDecl(ASTDeclaration symbol);
+	
+	
+	ASTDeclaration getVarDecl(QName qname);
+
+	void registerVarDecl(ASTDeclaration symbol);
+	
+	Function<?> getBuiltInFunction(QName qname);
+
+	TypeSpec getType(QName qname);
+	
+	void registerType(QName qname, TypeSpec typeSpec);
 }
