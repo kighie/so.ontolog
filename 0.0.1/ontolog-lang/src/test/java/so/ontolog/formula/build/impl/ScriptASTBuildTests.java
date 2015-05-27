@@ -36,6 +36,6 @@ public class ScriptASTBuildTests extends ScriptTests{
 	
 	@Test
 	public void scriptFor(){
-		buildAst("so/ontolog/formula/build/impl/for.ol");
+		buildAst("so/ontolog/formula/build/impl/foreach.ol");
 	}
 }

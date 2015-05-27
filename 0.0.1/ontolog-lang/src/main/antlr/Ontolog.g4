@@ -30,6 +30,7 @@ options {
 	import so.ontolog.data.type.TypeSpec;
 	import so.ontolog.formula.runtime.QName;
 	import so.ontolog.formula.ast.*;
+	import so.ontolog.formula.ast.util.*;
 	import so.ontolog.formula.ast.stmt.ASTIfStatement;
 	import so.ontolog.formula.build.*;
 }
@@ -63,6 +64,7 @@ blockContents [ASTBlock stmtHolder]
 		| methodCallStatement	{ $stmtHolder.append($methodCallStatement.result); }
 		| functionCallStatement	{ $stmtHolder.append($functionCallStatement.result); }
 		| ifStatement { $stmtHolder.append($ifStatement.result); }
+		| foreachStatement { $stmtHolder.append($foreachStatement.result); }
 	)*
 	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
@@ -94,9 +96,11 @@ functionCallStatement  returns [ASTStatement result]
 	;
 
 returnStatement  returns [ASTStatement result]
-	: 'return' expression 
-	END_OF_STMT
-	 { $result = returnStatement($expression.result); } 
+	: 
+	(
+		( 'return' expression  END_OF_STMT { $result = returnStatement($expression.result); } )
+		| ( 'return' END_OF_STMT { $result = returnStatement(null); } )
+	)
 	;
 
 
@@ -120,8 +124,38 @@ ifStatement returns [ASTIfStatement result]
 		'{' blockContents[elseStmt] '}'
 		{	endScope(); }
 	)?
-		
 	;
+
+foreachStatement returns [ASTBlock result]
+	: 'foreach'  {	beginScope(); }
+		'(' loopCondition  ')' 
+		{ 	$result = foreachStatement(FOREACH, $loopCondition.result);  }
+		'{' blockContents[$result] '}'
+		END_OF_STMT?
+		{	endScope(); }
+	;
+	
+	
+loopCondition 	returns [ASTExpr result]
+	: typeExpr IDENT 
+//	{ 
+//		Ref varRef = declare(ScriptTokens.VAR_DECL, $typeExpr.result ,$IDENT.text); 
+//		$condition = (LoopConditionStatement)statement(ScriptTokens.LOOP_COND_DECL, varRef);
+//	}
+//	
+//	: { ASTExpr valueExpr = null; }
+//	typeExpr IDENT 
+//	( '=' expression {	valueExpr = $expression.result;  })?
+//	END_OF_STMT
+//	{	$result = asStatement(variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,valueExpr )); }
+	
+	'in' iterableTerm
+//	{	
+//		$condition.setIteratorRef($iterableTerm.result);
+//	}
+	;
+
+
 
 /***************************************************
  * Declarations  
@@ -212,13 +246,36 @@ qualifiedName returns [QName result]
 	)* 
 	;
 
-
+array   returns [ASTExpr result]
+	: '['	{ List<ASTExpr> elements = new LinkedList<ASTExpr>(); }
+		( 
+			( formulaTerm 		{ elements.add($formulaTerm.result); } )
+			| ( from=NUMBER ':' to=NUMBER  { Range.setRange(elements, $from.text, $to.text) ; } )
+		)
+		(','
+			( formulaTerm 		{ elements.add($formulaTerm.result); } )
+			| ( from=NUMBER ':' to=NUMBER  { Range.setRange(elements, $from.text, $to.text) ; } ) 
+		)* 	
+	  ']'
+	  {	$result = array(elements); }
+	;
+	
+/** iterableTerm used in loop condition */
+iterableTerm returns [ASTExpr result]
+	: IDENT				{ $result = variable( $IDENT.text); }
+	| qualifiedName		{ $result = variable( $qualifiedName.result) ; }
+	| funcCallExp		{ $result = $funcCallExp.result; }
+	| methodCallExp		{ $result = $methodCallExp.result; }
+	| array 			{ $result = $array.result; }
+	;
+	
 formulaTerm returns [ASTExpr result]
 	: literalTerm 		{ $result = $literalTerm.result; }
 	| IDENT				{ $result = variable( $IDENT.text); }
 	| qualifiedName		{ $result = variable( $qualifiedName.result) ; }
 	| funcCallExp { $result =  $funcCallExp.result ; }
 	| methodCallExp { $result =  $methodCallExp.result ; }
+	| array { $result =  $array.result ; }
 	;
 
 

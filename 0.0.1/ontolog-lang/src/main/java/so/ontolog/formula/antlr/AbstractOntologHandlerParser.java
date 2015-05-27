@@ -29,6 +29,7 @@ import so.ontolog.formula.ast.GrammarTokens;
 import so.ontolog.formula.ast.SyntaxErrorHandler;
 import so.ontolog.formula.ast.context.RootASTContext;
 import so.ontolog.formula.ast.context.ScopeASTContext;
+import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.runtime.QName;
 
@@ -167,7 +168,10 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createLiteral(astToken, expr);
 	}
 
-	
+	public ASTExpr array(List<ASTExpr> elements) {
+		ASTToken astToken = createASTToken(GrammarTokens.ARRAY_EL);
+		return factory.createArray(astToken, elements);
+	}
 
 	public ASTExpr call(String token, ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
 		ASTToken astToken = createASTToken(token);
@@ -204,6 +208,11 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 	public ASTIfStatement ifStatement(String token, ASTExpr condition) {
 		ASTToken astToken = createASTToken(token);
 		return (ASTIfStatement)factory.createIfStmt(current, astToken, condition);
+	}
+
+	public ASTForeachStatement foreachStatement(String token, ASTExpr condition) {
+		ASTToken astToken = createASTToken(token);
+		return (ASTForeachStatement)factory.createForeachStatement(current, astToken, condition);
 	}
 
 

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
@@ -33,10 +34,12 @@ import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
+import so.ontolog.formula.ast.expr.ArrayExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
+import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.DeclarationStatement;
@@ -351,6 +354,16 @@ public class DefaultASTFactory implements ASTFactory {
 		return map;
 	}
 	
+	
+	@Override
+	public ASTExpr createArray(ASTToken token, List<ASTExpr> elements) {
+		TypeSpec typeSpec = TypeUtils.getArrayTypeSpec(TypeSpec.UNDEFINED);
+		
+		ArrayExpr arrayExpr = new ArrayExpr(token, typeSpec, elements);
+		return arrayExpr;
+	}
+	
+	
 	@Override
 	public ASTExpr createCall(ASTContext context, ASTToken token,
 			ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
@@ -404,6 +417,13 @@ public class DefaultASTFactory implements ASTFactory {
 			ASTExpr condition) {
 		ASTIfStatement ifstmt = new ASTIfStatement(token, condition);
 		return ifstmt;
+	}
+	
+	@Override
+	public ASTBlock createForeachStatement(ASTContext context, ASTToken token,
+			ASTExpr condition) {
+		ASTForeachStatement foreachStmt = new ASTForeachStatement(token, condition);
+		return foreachStmt;
 	}
 	
 	@Override

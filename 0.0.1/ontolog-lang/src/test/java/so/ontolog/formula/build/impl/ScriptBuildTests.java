@@ -55,7 +55,7 @@ public class ScriptBuildTests extends ScriptTests{
 	@Test
 	public void scriptFor(){
 		SimpleContext context = createSimpleContext();
-		buildAndRun("so/ontolog/formula/build/impl/for.ol", context);
+		buildAndRun("so/ontolog/formula/build/impl/foreach.ol", context);
 	}
 
 }

@@ -54,6 +54,8 @@ public interface ASTFactory {
 
 	ASTExpr createLiteral(ASTToken token, String expr);
 	
+	ASTExpr createArray(ASTToken token, List<ASTExpr> elements);
+	
 	ASTSymbol createVariable(ASTContext context, ASTToken token, QName qname);
 	
 	/**<pre></pre>
@@ -81,6 +83,8 @@ public interface ASTFactory {
 
 	ASTBlock createIfStmt(ASTContext context, ASTToken token, ASTExpr condition);
 
+	ASTBlock createForeachStatement(ASTContext context, ASTToken token, ASTExpr condition);
+	
 	
 	public interface ModuleFactory {
 		CompilationUnit create(ASTContext context, ASTToken token);
