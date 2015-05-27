@@ -39,6 +39,13 @@ public class VariableDeclStatement implements Statement {
 		this.typeSpec = typeSpec;
 	}
 
+	/**
+	 * @return the qname
+	 */
+	public QName getQName() {
+		return qname;
+	}
+	
 	public Gettable<?> getInitialValue() {
 		return initialValue;
 	}

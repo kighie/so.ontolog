@@ -162,6 +162,14 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createVariable(current, astToken, qname);
 	}
 
+	
+
+	public ASTExpr loopCondition(ASTDeclaration varDecl, ASTExpr iteratorExpr) {
+		ASTToken astToken = createASTToken(GrammarTokens.LOOP_COND_DECL);
+		return factory.createLoopCondition(current, astToken, varDecl,
+				iteratorExpr);
+	}
+
 
 	public ASTExpr literal(String token, String expr) {
 		ASTToken astToken = createASTToken(token);

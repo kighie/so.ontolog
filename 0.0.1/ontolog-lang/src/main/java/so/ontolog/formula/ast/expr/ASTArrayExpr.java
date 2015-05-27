@@ -7,7 +7,7 @@ import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 
-public class ArrayExpr extends ASTExpr {
+public class ASTArrayExpr extends ASTExpr {
 
 	/**
 	 * 
@@ -16,15 +16,24 @@ public class ArrayExpr extends ASTExpr {
 
 	private List<ASTExpr> elements;
 	
-	public ArrayExpr(ASTToken token, TypeSpec typeSpec, List<ASTExpr> elements) {
+	public ASTArrayExpr(ASTToken token, TypeSpec typeSpec, List<ASTExpr> elements) {
 		super(token, typeSpec);
 		this.elements = elements;
 	}
 
+	/**
+	 * @return the elements
+	 */
+	public List<ASTExpr> getElements() {
+		return elements;
+	}
+	
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		// TODO Auto-generated method stub
-		return null;
+		for(ASTExpr e:elements){
+			e.accept(visitor, context);
+		}
+		return visitor.visit(this, context);
 	}
 
 	@Override

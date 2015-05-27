@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
@@ -33,8 +32,10 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
+import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.expr.ASTArrayExpr;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
-import so.ontolog.formula.ast.expr.ArrayExpr;
+import so.ontolog.formula.ast.expr.ASTLoopCondition;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
@@ -293,7 +294,7 @@ public class DefaultASTFactory implements ASTFactory {
 		
 		return map;
 	}
-
+	
 	@Override
 	public ASTExpr createLiteral(ASTToken token, String expr) {
 		String tokenName = token.getName();
@@ -357,9 +358,8 @@ public class DefaultASTFactory implements ASTFactory {
 	
 	@Override
 	public ASTExpr createArray(ASTToken token, List<ASTExpr> elements) {
-		TypeSpec typeSpec = TypeUtils.getArrayTypeSpec(TypeSpec.UNDEFINED);
-		
-		ArrayExpr arrayExpr = new ArrayExpr(token, typeSpec, elements);
+		TypeSpec typeSpec = new TypeSpec(List.class, TypeKind.Collection);
+		ASTArrayExpr arrayExpr = new ASTArrayExpr(token, typeSpec, elements);
 		return arrayExpr;
 	}
 	
@@ -422,9 +422,18 @@ public class DefaultASTFactory implements ASTFactory {
 	@Override
 	public ASTBlock createForeachStatement(ASTContext context, ASTToken token,
 			ASTExpr condition) {
-		ASTForeachStatement foreachStmt = new ASTForeachStatement(token, condition);
+		ASTForeachStatement foreachStmt = new ASTForeachStatement(token, (ASTLoopCondition)condition);
 		return foreachStmt;
 	}
+	
+
+	@Override
+	public ASTExpr createLoopCondition(ASTContext context, ASTToken token,
+			ASTDeclaration varDecl, ASTExpr iteratorExpr) {
+		ASTLoopCondition condition = new ASTLoopCondition(token, (VariableDecl)varDecl, iteratorExpr);
+		return condition;
+	}
+	
 	
 	@Override
 	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 

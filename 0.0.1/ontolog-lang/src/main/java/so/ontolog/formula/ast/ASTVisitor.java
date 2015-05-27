@@ -14,13 +14,16 @@
  */
 package so.ontolog.formula.ast;
 
+import so.ontolog.formula.ast.expr.ASTArrayExpr;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
+import so.ontolog.formula.ast.expr.ASTLoopCondition;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.expr.BinaryExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
-import so.ontolog.formula.ast.expr.VariableExpr;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
+import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
@@ -41,13 +44,18 @@ public interface ASTVisitor<C> {
 	
 	C visit(TernaryExpr ternaryExpr, C context);
 
-	C visit(VariableExpr variableExpr, C context);
+	C visit(ASTVariableExpr variableExpr, C context);
 	
 	C visit(ASTSymbol symbol, C context);
 	
 	C visit(LiteralExpr expr, C context);
 
+	C visit(ASTArrayExpr expr, C context);
+	
 	C visit(ASTCallExpr expr, C context);
+
+	
+	
 	
 
 	C visit(ASTDeclaration declStmt, C context);
@@ -65,4 +73,8 @@ public interface ASTVisitor<C> {
 	C visit(ASTIfStatement.ElseIf stmt, C context);
 	
 	C visit(ASTIfStatement.Else stmt, C context);
+	
+	C visit(ASTForeachStatement expr, C context);
+	
+	C visit(ASTLoopCondition expr, C context);
 }

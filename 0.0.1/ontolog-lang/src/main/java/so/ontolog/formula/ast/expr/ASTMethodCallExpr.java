@@ -32,7 +32,7 @@ import so.ontolog.formula.runtime.QName;
 public class ASTMethodCallExpr extends ASTCallExpr {
 	private static final long serialVersionUID = -3814046753998279120L;
 	private Method method;
-	private VariableExpr beanRef;
+	private ASTVariableExpr beanRef;
 	
 	
 	/**
@@ -52,11 +52,11 @@ public class ASTMethodCallExpr extends ASTCallExpr {
 		return method;
 	}
 
-	public VariableExpr getBeanRef() {
+	public ASTVariableExpr getBeanRef() {
 		return beanRef;
 	}
 
-	public void setBeanRef(VariableExpr beanRef) {
+	public void setBeanRef(ASTVariableExpr beanRef) {
 		this.beanRef = beanRef;
 	}
 

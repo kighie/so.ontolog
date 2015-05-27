@@ -16,6 +16,7 @@ package so.ontolog.formula.build.impl;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,16 +34,19 @@ import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
 import so.ontolog.formula.ast.decl.ParamDecl;
 import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.expr.ASTArrayExpr;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
+import so.ontolog.formula.ast.expr.ASTLoopCondition;
 import so.ontolog.formula.ast.expr.ASTMethodCallExpr;
 import so.ontolog.formula.ast.expr.BinaryExpr;
 import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
-import so.ontolog.formula.ast.expr.VariableExpr;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
+import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
@@ -51,12 +55,14 @@ import so.ontolog.formula.build.BuildException;
 import so.ontolog.formula.runtime.Gettable;
 import so.ontolog.formula.runtime.Literal;
 import so.ontolog.formula.runtime.Node;
-import so.ontolog.formula.runtime.QName;
-import so.ontolog.formula.runtime.Statement;
 import so.ontolog.formula.runtime.Operator.Binary;
 import so.ontolog.formula.runtime.Operator.Unary;
+import so.ontolog.formula.runtime.QName;
+import so.ontolog.formula.runtime.Statement;
+import so.ontolog.formula.runtime.expr.ArrayExpr;
 import so.ontolog.formula.runtime.expr.BinaryOperatorExpr;
 import so.ontolog.formula.runtime.expr.FunctionCallExpr;
+import so.ontolog.formula.runtime.expr.LoopCondition;
 import so.ontolog.formula.runtime.expr.MethodCallExpr;
 import so.ontolog.formula.runtime.expr.TernaryOperatorExpr;
 import so.ontolog.formula.runtime.expr.UnaryOperatorExpr;
@@ -69,6 +75,7 @@ import so.ontolog.formula.runtime.module.ScriptModule;
 import so.ontolog.formula.runtime.ref.VarIndexedRef;
 import so.ontolog.formula.runtime.ref.VariableRef;
 import so.ontolog.formula.runtime.ref.VariableRef.PropertyRef;
+import so.ontolog.formula.runtime.stmt.ForeachStatement;
 import so.ontolog.formula.runtime.stmt.GettablStatementWrapper;
 import so.ontolog.formula.runtime.stmt.IfStatement;
 import so.ontolog.formula.runtime.stmt.ParamDeclStmt;
@@ -194,10 +201,23 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		literalExpr.setNode(literal);
 		return context;
 	}
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public BuildContext visit(ASTArrayExpr expr, BuildContext context) {
+		List<Gettable<?>>elements = new LinkedList<Gettable<?>>();
+		
+		for(ASTExpr e : expr.getElements()){
+			elements.add( (Gettable<?>)e.getNode() );
+		}
+		ArrayExpr<?> arrayAxpr = new ArrayExpr(expr.type(), elements);
+		expr.setNode(arrayAxpr);
+		return context;
+	}
+	
 	@SuppressWarnings({ "rawtypes" , "unchecked" })
 	@Override
-	public BuildContext visit(VariableExpr variableExpr, BuildContext context) {
+	public BuildContext visit(ASTVariableExpr variableExpr, BuildContext context) {
 		QName qname = variableExpr.getQname();
 		VariableRef<?> varRef;
 		if(qname.getParent() != null){
@@ -212,8 +232,8 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	
 	@Override
 	public BuildContext visit(ASTSymbol symbol, BuildContext context) {
-		if(symbol instanceof VariableExpr) {
-			return visit((VariableExpr)symbol, context);
+		if(symbol instanceof ASTVariableExpr) {
+			return visit((ASTVariableExpr)symbol, context);
 		} else if(symbol instanceof CompositeSymbolExpr) {
 			CompositeSymbolExpr composite = (CompositeSymbolExpr)symbol;
 			return visit(composite, context);
@@ -408,4 +428,27 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		stmt.setNode(elseStmt);
 		return context;
 	}
+
+	@Override
+	public BuildContext visit(ASTForeachStatement stmt, BuildContext context) {
+		ForeachStatement foreachStmt = new ForeachStatement((LoopCondition)stmt.getCondition().getNode());
+		
+		for(ASTStatement c : stmt.children() ){
+			foreachStmt.append((Statement)c.getNode());
+		}
+		
+		stmt.setNode(foreachStmt);
+		return context;
+	}
+
+	@Override
+	public BuildContext visit(ASTLoopCondition expr, BuildContext context) {
+		LoopCondition condition = new LoopCondition(
+				(VariableDeclStatement)expr.getVarDelc().getNode(), 
+				(Gettable<?>)expr.getIteratorExpr().getNode());
+		expr.setNode(condition);
+		return context;
+	}
+	
+	
 }

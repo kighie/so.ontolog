@@ -26,7 +26,7 @@ import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.GrammarTokens;
 import so.ontolog.formula.ast.ASTFactory.BinaryExprFactory;
 import so.ontolog.formula.ast.expr.BinaryExpr;
-import so.ontolog.formula.ast.expr.VariableExpr;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.build.BuildException;
 import so.ontolog.formula.runtime.Operator;
 import so.ontolog.formula.runtime.internal.DefaultOperators;
@@ -138,15 +138,15 @@ public class BinaryExprFactoryHelper {
 		protected BinaryExpr createImpl(ASTContext context, ASTToken token,
 				TypeKind leftTypeKind, ASTExpr left, TypeKind rightTypeKind, ASTExpr right) {
 			if(leftTypeKind!=TypeKind.Number){
-				if(leftTypeKind==TypeKind.Undefined && left instanceof VariableExpr){
-					((VariableExpr)left).setType(TypeSpec.DECIMAL);
+				if(leftTypeKind==TypeKind.Undefined && left instanceof ASTVariableExpr){
+					((ASTVariableExpr)left).setType(TypeSpec.DECIMAL);
 				} else {
 					throw new ASTException(token.getName() + " operator must have numeric operand.").setNode(left);
 				}
 			}
 			if(rightTypeKind!=TypeKind.Number){
-				if(rightTypeKind==TypeKind.Undefined && right instanceof VariableExpr){
-					((VariableExpr)right).setType(TypeSpec.DECIMAL);
+				if(rightTypeKind==TypeKind.Undefined && right instanceof ASTVariableExpr){
+					((ASTVariableExpr)right).setType(TypeSpec.DECIMAL);
 				} else {
 					throw new ASTException(token.getName() + " operator must have numeric operand.").setNode(right);
 				}

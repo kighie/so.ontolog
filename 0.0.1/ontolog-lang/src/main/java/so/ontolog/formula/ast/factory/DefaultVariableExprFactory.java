@@ -27,7 +27,7 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.VariableExprFactory;
 import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
-import so.ontolog.formula.ast.expr.VariableExpr;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.util.ASTUtils;
 import so.ontolog.formula.runtime.QName;
 import so.ontolog.formula.runtime.VarQName;
@@ -73,7 +73,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		return composite;
 	}
 	
-	protected VariableExpr createSimpleVariable(ASTContext context, ASTToken token, QName qname){
+	protected ASTVariableExpr createSimpleVariable(ASTContext context, ASTToken token, QName qname){
 		ASTDeclaration decl = context.getVarDecl(qname);
 		TypeSpec typeSpec;
 		if(decl != null){
@@ -82,7 +82,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 			logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
 			typeSpec = TypeSpec.UNDEFINED;
 		}
-		VariableExpr varExpr = new VariableExpr(token, typeSpec, qname);
+		ASTVariableExpr varExpr = new ASTVariableExpr(token, typeSpec, qname);
 		return varExpr;
 	}
 
@@ -93,7 +93,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 	 * @param qname
 	 * @return
 	 */
-	protected VariableExpr createHierachicalVariable(ASTContext context, ASTToken token, QName qname){
+	protected ASTVariableExpr createHierachicalVariable(ASTContext context, ASTToken token, QName qname){
 		PropertyAccessor<?,?> propertyAccessor = ASTUtils.getPropertyAccessor(context, qname);
 		
 		TypeSpec typeSpec;
@@ -108,7 +108,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 			typeSpec = TypeSpec.UNDEFINED;
 		}
 		
-		VariableExpr varExpr = new VariableExpr(token, typeSpec, qname);
+		ASTVariableExpr varExpr = new ASTVariableExpr(token, typeSpec, qname);
 		varExpr.setPropertyAccessor(propertyAccessor);
 		return varExpr;
 	}

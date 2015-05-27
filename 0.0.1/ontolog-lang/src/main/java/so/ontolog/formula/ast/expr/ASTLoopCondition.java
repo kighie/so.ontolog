@@ -14,56 +14,56 @@
  */
 package so.ontolog.formula.ast.expr;
 
-import so.ontolog.data.binding.PropertyAccessor;
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTSymbol;
+import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
-import so.ontolog.formula.ast.util.TextUtils;
-import so.ontolog.formula.runtime.QName;
+import so.ontolog.formula.ast.decl.VariableDecl;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class VariableExpr extends ASTSymbol {
+public class ASTLoopCondition extends ASTExpr {
 
-	private static final long serialVersionUID = 1892405954432146025L;
-	
-	private PropertyAccessor<?,?> propertyAccessor;
+	private static final long serialVersionUID = -2944616438543779976L;
+
+	private final VariableDecl varDelc;
+	private final ASTExpr iteratorExpr;
 	
 	/**
 	 * @param token
 	 * @param typeSpec
 	 */
-	public VariableExpr(ASTToken token, TypeSpec typeSpec, QName qname) {
-		super(token, typeSpec, qname);
+	public ASTLoopCondition(ASTToken token, VariableDecl varDelc, ASTExpr iteratorExpr) {
+		super(token, varDelc.getType());
+		this.varDelc = varDelc;
+		this.iteratorExpr = iteratorExpr;
 	}
 	
-	public PropertyAccessor<?, ?> getPropertyAccessor() {
-		return propertyAccessor;
+	
+	public VariableDecl getVarDelc() {
+		return varDelc;
 	}
 
-	public void setPropertyAccessor(PropertyAccessor<?, ?> propertyAccessor) {
-		this.propertyAccessor = propertyAccessor;
+
+	public ASTExpr getIteratorExpr() {
+		return iteratorExpr;
 	}
+
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
+		varDelc.accept(visitor, context);
+		iteratorExpr.accept(visitor, context);
 		return visitor.visit(this, context);
 	}
-
-	@Override
-	public String toString() {
-		return "(" + token.getName() + " " + qname + ")";
-	}
-
+	
 	@Override
 	public void getText(StringBuilder buffer, int depth) {
-		if(depth>0){
-			buffer.append("\n").append(TextUtils.getIndent(depth));
-		}
-		buffer.append("(").append(token.getName()).append(" ").append(qname).append(")");
+		varDelc.getText(buffer, 0);
+		buffer.append( " in ");
+		iteratorExpr.getText(buffer, 0);
 	}
+
 }

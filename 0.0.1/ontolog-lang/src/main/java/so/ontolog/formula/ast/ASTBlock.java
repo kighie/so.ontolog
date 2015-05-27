@@ -72,7 +72,7 @@ public class ASTBlock extends ASTStatement {
 	
 	protected void getChildrenText(StringBuilder buffer, int depth){
 		if(children != null){
-			int cDepth = depth+1;
+			int cDepth = depth;
 			for(ASTNode c : children){
 				c.getText(buffer, cDepth);
 			}

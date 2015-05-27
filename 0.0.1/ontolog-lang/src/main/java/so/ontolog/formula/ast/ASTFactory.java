@@ -57,6 +57,8 @@ public interface ASTFactory {
 	ASTExpr createArray(ASTToken token, List<ASTExpr> elements);
 	
 	ASTSymbol createVariable(ASTContext context, ASTToken token, QName qname);
+
+	ASTExpr createLoopCondition(ASTContext context, ASTToken token, ASTDeclaration varDecl, ASTExpr iteratorExpr);
 	
 	/**<pre></pre>
 	 * @param current

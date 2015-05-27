@@ -29,7 +29,7 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
 import so.ontolog.formula.ast.expr.ASTMethodCallExpr;
-import so.ontolog.formula.ast.expr.VariableExpr;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.runtime.QName;
 
 /**
@@ -62,7 +62,7 @@ public class MetodCallExprFactory implements CallExprFactory {
 		TypeSpec typeSpec = TypeUtils.getTypeSpec(method.getReturnType());
 		
 		ASTMethodCallExpr callExpr = new ASTMethodCallExpr(token, typeSpec, new QName(name), method, args);
-		callExpr.setBeanRef((VariableExpr) beanRef);
+		callExpr.setBeanRef((ASTVariableExpr) beanRef);
 		
 		callExpr.setRequiredParamTypes(method.getParameterTypes());
 		return callExpr;

@@ -138,21 +138,13 @@ foreachStatement returns [ASTBlock result]
 	
 loopCondition 	returns [ASTExpr result]
 	: typeExpr IDENT 
-//	{ 
-//		Ref varRef = declare(ScriptTokens.VAR_DECL, $typeExpr.result ,$IDENT.text); 
-//		$condition = (LoopConditionStatement)statement(ScriptTokens.LOOP_COND_DECL, varRef);
-//	}
-//	
-//	: { ASTExpr valueExpr = null; }
-//	typeExpr IDENT 
-//	( '=' expression {	valueExpr = $expression.result;  })?
-//	END_OF_STMT
-//	{	$result = asStatement(variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,valueExpr )); }
-	
+		{ 
+			ASTDeclaration varDecl = variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,null );
+		}
 	'in' iterableTerm
-//	{	
-//		$condition.setIteratorRef($iterableTerm.result);
-//	}
+		{	
+			$result = loopCondition(varDecl, $iterableTerm.result);
+		}
 	;
 
 
