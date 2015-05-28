@@ -6,7 +6,7 @@ param java.math.BigDecimal dec2;
 number a = 35;
 number b = 43;
 
-foreach(number n in [1:100]) {
+foreach(number n in [1:b^2]) {
 	println("for1:: " + n + " ->" + (n * a / b) );
 }
 

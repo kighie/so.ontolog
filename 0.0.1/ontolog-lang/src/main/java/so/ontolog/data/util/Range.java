@@ -12,31 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.ast.util;
+package so.ontolog.data.util;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Iterator;
-import java.util.List;
-
-import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTExpr;
-import so.ontolog.formula.ast.ASTToken;
-import so.ontolog.formula.ast.expr.LiteralExpr;
 
 /**
  * <pre></pre>
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class Range implements Serializable , Iterable<BigDecimal> {
+public class Range implements Serializable , Iterable<Integer> {
 	private static final long serialVersionUID = 1L;
 
 	public static final Range ZERO_RANGE = new Range(0,0);
 	
 	private final int from;
 	private final int to;
-	private BigDecimal[] decimals;
 	
 	/**
 	 * @param from
@@ -48,12 +41,6 @@ public class Range implements Serializable , Iterable<BigDecimal> {
 		}
 		this.from = from;
 		this.to = to;
-		
-		decimals = new BigDecimal[to-from];
-		int index = 0;
-		for(int i =from;i<to;i++){
-			decimals[index++] = new BigDecimal(i);
-		}
 	}
 
 	public static Range create(String from, String to){
@@ -67,27 +54,7 @@ public class Range implements Serializable , Iterable<BigDecimal> {
 		}
 	}
 
-	public static void setRange(List<ASTExpr> list, String from, String to){
-		
-		try {
-			int fromInt = Integer.parseInt(from);
-			int toInt = Integer.parseInt(to);
-			
-			setRange(list, fromInt, toInt);
-		} catch (NumberFormatException e) {
-			throw new NumberFormatException("Range must be integer to integer. " + e.getMessage());
-		}
-	}
 	
-	public static void setRange(List<ASTExpr> list, int from, int to){
-		if(from>to){
-			throw new RuntimeException("Range to("+to+") must be greater than from("+from+").");
-		}
-		
-		for(int i=from ; i < to ; i++){
-			list.add(new LiteralExpr(new ASTToken(0,0), TypeSpec.INT, Integer.toString(i)));
-		}
-	}
 	
 	public int from() {
 		return from;
@@ -96,16 +63,9 @@ public class Range implements Serializable , Iterable<BigDecimal> {
 	public int to() {
 		return to;
 	}
-	
-	/**
-	 * @return the decimals
-	 */
-	public BigDecimal[] getDecimals() {
-		return decimals;
-	}
 
-	public Iterator<BigDecimal> iterator() {
-		return new DecimalIterator();
+	public Iterator<Integer> iterator() {
+		return new IntegerIterator();
 	}
 	
 	public int distance(){
@@ -116,18 +76,46 @@ public class Range implements Serializable , Iterable<BigDecimal> {
 	public String toString() {
 		return from + ":" + to;
 	}
-	
-	class DecimalIterator implements Iterator<BigDecimal> {
+
+	class IntegerIterator implements Iterator<Integer> {
 		int index = 0;
+		
+		public IntegerIterator() {
+			index = from;
+		}
 		
 		@Override
 		public boolean hasNext() {
-			return index<decimals.length;
+			return index<to;
+		}
+		
+		@Override
+		public Integer next() {
+			return index++;
+		}
+
+		@Override
+		public void remove() {
+			//DO NOTHING
+		}
+		
+	}
+
+	class DecimalIterator implements Iterator<BigDecimal> {
+		int index = 0;
+		
+		public DecimalIterator() {
+			index = from;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return index<to;
 		}
 		
 		@Override
 		public BigDecimal next() {
-			return decimals[index++];
+			return new BigDecimal(index++);
 		}
 
 		@Override

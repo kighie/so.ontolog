@@ -39,12 +39,12 @@ import so.ontolog.formula.ast.expr.ASTCallExpr;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
 import so.ontolog.formula.ast.expr.ASTLoopCondition;
 import so.ontolog.formula.ast.expr.ASTMethodCallExpr;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.expr.BinaryExpr;
 import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
-import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
@@ -205,12 +205,22 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public BuildContext visit(ASTArrayExpr expr, BuildContext context) {
-		List<Gettable<?>>elements = new LinkedList<Gettable<?>>();
+		ArrayExpr<?> arrayAxpr = null;
 		
-		for(ASTExpr e : expr.getElements()){
-			elements.add( (Gettable<?>)e.getNode() );
+		if(expr.getElements() != null){
+			List<Gettable<?>>elements = new LinkedList<Gettable<?>>();
+			
+			for(ASTExpr e : expr.getElements()){
+				elements.add( (Gettable<?>)e.getNode() );
+			}
+			arrayAxpr = new ArrayExpr(expr.type(), elements);
+		} else if(expr.getFrom()!= null && expr.getTo()!=null){
+			arrayAxpr = new ArrayExpr(expr.type(), null);
+			arrayAxpr.setFrom((Gettable)expr.getFrom().getNode());
+			arrayAxpr.setTo((Gettable)expr.getTo().getNode());
+		} else {
+			throw new BuildException("Illegal array expression : " + this.toString());
 		}
-		ArrayExpr<?> arrayAxpr = new ArrayExpr(expr.type(), elements);
 		expr.setNode(arrayAxpr);
 		return context;
 	}

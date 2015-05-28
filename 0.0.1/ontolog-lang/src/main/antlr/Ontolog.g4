@@ -32,6 +32,7 @@ options {
 	import so.ontolog.formula.ast.*;
 	import so.ontolog.formula.ast.util.*;
 	import so.ontolog.formula.ast.stmt.ASTIfStatement;
+	import so.ontolog.formula.ast.expr.ASTArrayExpr;
 	import so.ontolog.formula.build.*;
 }
 
@@ -239,19 +240,25 @@ qualifiedName returns [QName result]
 	;
 
 array   returns [ASTExpr result]
-	: '['	{ List<ASTExpr> elements = new LinkedList<ASTExpr>(); }
-		( 
+	:  	( '['
+			{ List<ASTExpr> elements = new LinkedList<ASTExpr>(); }
 			( formulaTerm 		{ elements.add($formulaTerm.result); } )
-			| ( from=NUMBER ':' to=NUMBER  { Range.setRange(elements, $from.text, $to.text) ; } )
+			(',' formulaTerm 		{ elements.add($formulaTerm.result); } )* 
+			']'
+			{	$result = array(elements); }
 		)
-		(','
-			( formulaTerm 		{ elements.add($formulaTerm.result); } )
-			| ( from=NUMBER ':' to=NUMBER  { Range.setRange(elements, $from.text, $to.text) ; } ) 
-		)* 	
-	  ']'
-	  {	$result = array(elements); }
+		| ( '[' from=expression ':' to=expression  ']'
+				{ 
+					$result = array(null);
+					ASTArrayExpr arrayExpr = (ASTArrayExpr)$result;
+					arrayExpr.setFrom($from.result);
+					arrayExpr.setTo($to.result);
+				} 
+		)
+	  
+	  
 	;
-	
+
 /** iterableTerm used in loop condition */
 iterableTerm returns [ASTExpr result]
 	: IDENT				{ $result = variable( $IDENT.text); }

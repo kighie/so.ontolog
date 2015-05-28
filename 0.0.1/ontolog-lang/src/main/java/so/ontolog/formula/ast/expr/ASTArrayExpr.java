@@ -9,12 +9,11 @@ import so.ontolog.formula.ast.ASTVisitor;
 
 public class ASTArrayExpr extends ASTExpr {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8219380940499923076L;
 
 	private List<ASTExpr> elements;
+	private ASTExpr from;
+	private ASTExpr to;
 	
 	public ASTArrayExpr(ASTToken token, TypeSpec typeSpec, List<ASTExpr> elements) {
 		super(token, typeSpec);
@@ -28,11 +27,34 @@ public class ASTArrayExpr extends ASTExpr {
 		return elements;
 	}
 	
+	
+	public ASTExpr getFrom() {
+		return from;
+	}
+
+	public void setFrom(ASTExpr from) {
+		this.from = from;
+	}
+
+	public ASTExpr getTo() {
+		return to;
+	}
+
+	public void setTo(ASTExpr to) {
+		this.to = to;
+	}
+
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		for(ASTExpr e:elements){
-			e.accept(visitor, context);
+		if( elements != null){
+			for(ASTExpr e:elements){
+				e.accept(visitor, context);
+			}
 		}
+		
+		from.accept(visitor, context);
+		to.accept(visitor, context);
+		
 		return visitor.visit(this, context);
 	}
 
