@@ -12,36 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.build.impl;
+package so.ontolog.formula.runtime.stmt;
 
-import org.junit.Test;
-
+import so.ontolog.formula.runtime.Context;
+import so.ontolog.formula.runtime.Gettable;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ScriptASTBuildTests extends ScriptTests{
+public class WhileStatement extends AbstractBlock {
+
+	private static final long serialVersionUID = -6974427512817908933L;
 	
-	@Test
-	public void scriptBasic(){
-		buildAst("so/ontolog/formula/build/impl/ScriptBasic.ol");
+	private final Gettable<Boolean> loopCondition;
+	
+	
+	public WhileStatement(Gettable<Boolean> loopCondition) {
+		super();
+		this.loopCondition = loopCondition;
 	}
 
-	@Test
-	public void scriptIf(){
-		buildAst("so/ontolog/formula/build/impl/if.ol");
-	}
-	
-	@Test
-	public void scriptFor(){
-		buildAst("so/ontolog/formula/build/impl/foreach.ol");
-	}
-	
 
-	@Test
-	public void scriptWhile(){
-		buildAst("so/ontolog/formula/build/impl/while.ol");
+	
+	@Override
+	public Object eval(Context context) {
+		Object rtn = null;
+		
+		while(loopCondition.get(context)){
+			rtn = eval(context);
+			if(rtn != null){
+				return rtn;
+			}
+		}
+		return rtn;
 	}
+	
 }

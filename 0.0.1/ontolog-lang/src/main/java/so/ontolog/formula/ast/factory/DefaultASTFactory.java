@@ -43,6 +43,7 @@ import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
+import so.ontolog.formula.ast.stmt.ASTWhileStatement;
 import so.ontolog.formula.ast.stmt.DeclarationStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 import so.ontolog.formula.runtime.IndexedQName;
@@ -420,10 +421,22 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 	
 	@Override
-	public ASTBlock createForeachStatement(ASTContext context, ASTToken token,
+	public ASTBlock createLoopStatement(ASTContext context, ASTToken token,
 			ASTExpr condition) {
-		ASTForeachStatement foreachStmt = new ASTForeachStatement(token, (ASTLoopCondition)condition);
-		return foreachStmt;
+		ASTBlock loopStmt = null;
+		
+		if(GrammarTokens.FOREACH.equals( token.getName()) ){
+			loopStmt = new ASTForeachStatement(token, (ASTLoopCondition)condition);
+		} else if(GrammarTokens.WHILE.equals( token.getName()) ){
+			if( condition.type().getTypeKind() != TypeKind.Bool ){
+				throw new ASTException("While statement needs boolean condition.").setNode(condition);
+			}
+			loopStmt = new ASTWhileStatement(token, condition);
+		} else {
+			throw new ASTException("Unknown loop statement : " + token.getName() ).setLocation(token);
+		}
+		
+		return loopStmt;
 	}
 	
 

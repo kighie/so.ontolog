@@ -85,7 +85,7 @@ public interface ASTFactory {
 
 	ASTBlock createIfStmt(ASTContext context, ASTToken token, ASTExpr condition);
 
-	ASTBlock createForeachStatement(ASTContext context, ASTToken token, ASTExpr condition);
+	ASTBlock createLoopStatement(ASTContext context, ASTToken token, ASTExpr condition);
 	
 	
 	public interface ModuleFactory {

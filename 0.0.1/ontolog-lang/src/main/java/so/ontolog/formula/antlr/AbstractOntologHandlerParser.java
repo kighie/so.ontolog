@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTException;
@@ -29,7 +30,6 @@ import so.ontolog.formula.ast.GrammarTokens;
 import so.ontolog.formula.ast.SyntaxErrorHandler;
 import so.ontolog.formula.ast.context.RootASTContext;
 import so.ontolog.formula.ast.context.ScopeASTContext;
-import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.runtime.QName;
 
@@ -218,9 +218,9 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return (ASTIfStatement)factory.createIfStmt(current, astToken, condition);
 	}
 
-	public ASTForeachStatement foreachStatement(String token, ASTExpr condition) {
+	public ASTBlock loopStatement(String token, ASTExpr condition) {
 		ASTToken astToken = createASTToken(token);
-		return (ASTForeachStatement)factory.createForeachStatement(current, astToken, condition);
+		return factory.createLoopStatement(current, astToken, condition);
 	}
 
 

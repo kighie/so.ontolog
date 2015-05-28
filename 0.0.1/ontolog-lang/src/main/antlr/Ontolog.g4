@@ -66,6 +66,7 @@ blockContents [ASTBlock stmtHolder]
 		| functionCallStatement	{ $stmtHolder.append($functionCallStatement.result); }
 		| ifStatement { $stmtHolder.append($ifStatement.result); }
 		| foreachStatement { $stmtHolder.append($foreachStatement.result); }
+		| whileStatement { $stmtHolder.append($whileStatement.result); }
 	)*
 	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
@@ -130,16 +131,7 @@ ifStatement returns [ASTIfStatement result]
 foreachStatement returns [ASTBlock result]
 	: 'foreach'  {	beginScope(); }
 		'(' loopCondition  ')' 
-		{ 	$result = foreachStatement(FOREACH, $loopCondition.result);  }
-		'{' blockContents[$result] '}'
-		END_OF_STMT?
-		{	endScope(); }
-	;
-	
-whileStatement returns [ASTBlock result]
-	: 'while'  {	beginScope(); }
-		'(' logicalExpression  ')' 
-		{ 	$result = foreachStatement(FOREACH, $logicalExpression.result);  }
+		{ 	$result = loopStatement(FOREACH, $loopCondition.result);  }
 		'{' blockContents[$result] '}'
 		END_OF_STMT?
 		{	endScope(); }
@@ -158,6 +150,15 @@ loopCondition 	returns [ASTExpr result]
 	;
 
 
+whileStatement returns [ASTBlock result]
+	: 'while'  { beginScope(); }
+		'(' logicalExpression  ')' 
+		{ 	$result = loopStatement(WHILE, $logicalExpression.result);  }
+		'{' blockContents[$result] '}'
+		END_OF_STMT?
+		{	endScope(); }
+	;
+	
 
 /***************************************************
  * Declarations  

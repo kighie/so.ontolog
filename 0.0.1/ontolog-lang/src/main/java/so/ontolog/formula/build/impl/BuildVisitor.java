@@ -49,6 +49,7 @@ import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
+import so.ontolog.formula.ast.stmt.ASTWhileStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 import so.ontolog.formula.build.BuildContext;
 import so.ontolog.formula.build.BuildException;
@@ -81,6 +82,7 @@ import so.ontolog.formula.runtime.stmt.IfStatement;
 import so.ontolog.formula.runtime.stmt.ParamDeclStmt;
 import so.ontolog.formula.runtime.stmt.ReturnStatement;
 import so.ontolog.formula.runtime.stmt.VariableDeclStatement;
+import so.ontolog.formula.runtime.stmt.WhileStatement;
 
 /**
  * <pre></pre>
@@ -460,5 +462,12 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return context;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public BuildContext visit(ASTWhileStatement expr, BuildContext context) {
+		WhileStatement whileStmt = new WhileStatement((Gettable<Boolean>)expr.getCondition().getNode());
+		expr.setNode(whileStmt);
+		return context;
+	}
 	
 }

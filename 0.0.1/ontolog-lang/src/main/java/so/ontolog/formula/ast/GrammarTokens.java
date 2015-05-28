@@ -66,6 +66,7 @@ public interface GrammarTokens {
 	String ELSEIF 			= "ELSEIF";
 	String ELSE 			= "ELSE";
 	String FOREACH			= "FOREACH";
+	String WHILE			= "WHILE";
 	String LOOP_COND_DECL		= "LOOP_COND_DECL";
 	String MTHODE_CALL_STMT	= "MTHODE_CALL_STMT";
 	String FUNCTION_CALL_STMT	= "FUNC_CALL_STMT";

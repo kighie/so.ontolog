@@ -44,4 +44,6 @@ public interface ASTContext {
 	TypeSpec getType(QName qname);
 	
 	void registerType(QName qname, TypeSpec typeSpec);
+	
+	
 }

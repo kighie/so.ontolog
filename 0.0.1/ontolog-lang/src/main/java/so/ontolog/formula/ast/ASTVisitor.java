@@ -25,6 +25,7 @@ import so.ontolog.formula.ast.expr.UnaryExpr;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
+import so.ontolog.formula.ast.stmt.ASTWhileStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 
@@ -77,4 +78,7 @@ public interface ASTVisitor<C> {
 	C visit(ASTForeachStatement expr, C context);
 	
 	C visit(ASTLoopCondition expr, C context);
+	
+	C visit(ASTWhileStatement expr, C context);
+	
 }
