@@ -29,40 +29,41 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__36=1, T__35=2, T__34=3, T__33=4, T__32=5, T__31=6, T__30=7, T__29=8, 
-		T__28=9, T__27=10, T__26=11, T__25=12, T__24=13, T__23=14, T__22=15, T__21=16, 
-		T__20=17, T__19=18, T__18=19, T__17=20, T__16=21, T__15=22, T__14=23, 
-		T__13=24, T__12=25, T__11=26, T__10=27, T__9=28, T__8=29, T__7=30, T__6=31, 
-		T__5=32, T__4=33, T__3=34, T__2=35, T__1=36, T__0=37, END_OF_STMT=38, 
-		NUMBER=39, STRING_LITERAL=40, NULL=41, BOOLEAN=42, IDENT=43, WS=44, COMMENT=45, 
-		LINE_COMMENT=46;
+		T__37=1, T__36=2, T__35=3, T__34=4, T__33=5, T__32=6, T__31=7, T__30=8, 
+		T__29=9, T__28=10, T__27=11, T__26=12, T__25=13, T__24=14, T__23=15, T__22=16, 
+		T__21=17, T__20=18, T__19=19, T__18=20, T__17=21, T__16=22, T__15=23, 
+		T__14=24, T__13=25, T__12=26, T__11=27, T__10=28, T__9=29, T__8=30, T__7=31, 
+		T__6=32, T__5=33, T__4=34, T__3=35, T__2=36, T__1=37, T__0=38, END_OF_STMT=39, 
+		NUMBER=40, STRING_LITERAL=41, NULL=42, BOOLEAN=43, IDENT=44, WS=45, COMMENT=46, 
+		LINE_COMMENT=47;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'/'", "'as'", "'foreach'", "'return'", "'importJava'", "'!='", 
-		"'{'", "'}'", "'='", "'^'", "'if'", "'?'", "'<='", "'('", "'is'", "'*'", 
-		"','", "'.'", "'param'", "':'", "'>='", "'['", "'<'", "'=='", "']'", "'>'", 
-		"'or'", "'<>'", "'%'", "'in'", "'else'", "')'", "'and'", "'+'", "'not'", 
-		"'-'", "'import'", "';'", "NUMBER", "STRING_LITERAL", "NULL", "BOOLEAN", 
-		"IDENT", "WS", "COMMENT", "LINE_COMMENT"
+		"'while'", "'{'", "'}'", "'='", "'^'", "'if'", "'?'", "'<='", "'('", "'is'", 
+		"'*'", "','", "'.'", "'param'", "':'", "'>='", "'['", "'<'", "'=='", "']'", 
+		"'>'", "'or'", "'<>'", "'%'", "'in'", "'else'", "')'", "'and'", "'+'", 
+		"'not'", "'-'", "'import'", "';'", "NUMBER", "STRING_LITERAL", "NULL", 
+		"BOOLEAN", "IDENT", "WS", "COMMENT", "LINE_COMMENT"
 	};
 	public static final int
 		RULE_ontologExpression = 0, RULE_ontologScript = 1, RULE_blockContents = 2, 
 		RULE_importStatement = 3, RULE_methodCallStatement = 4, RULE_functionCallStatement = 5, 
 		RULE_returnStatement = 6, RULE_ifStatement = 7, RULE_foreachStatement = 8, 
-		RULE_loopCondition = 9, RULE_paramDecl = 10, RULE_variableDecl = 11, RULE_expression = 12, 
-		RULE_funcCallExp = 13, RULE_methodCallExp = 14, RULE_arguments = 15, RULE_literalTerm = 16, 
-		RULE_pathExpr = 17, RULE_typeExpr = 18, RULE_qualifiedName = 19, RULE_array = 20, 
-		RULE_iterableTerm = 21, RULE_formulaTerm = 22, RULE_unary = 23, RULE_percent = 24, 
-		RULE_exponential = 25, RULE_multiplicative = 26, RULE_additiveExpression = 27, 
-		RULE_comparison = 28, RULE_notExpression = 29, RULE_logicalExpression = 30, 
-		RULE_ternaryExpression = 31, RULE_operatorExpression = 32;
+		RULE_whileStatement = 9, RULE_loopCondition = 10, RULE_paramDecl = 11, 
+		RULE_variableDecl = 12, RULE_expression = 13, RULE_funcCallExp = 14, RULE_methodCallExp = 15, 
+		RULE_arguments = 16, RULE_literalTerm = 17, RULE_pathExpr = 18, RULE_typeExpr = 19, 
+		RULE_qualifiedName = 20, RULE_array = 21, RULE_iterableTerm = 22, RULE_formulaTerm = 23, 
+		RULE_unary = 24, RULE_percent = 25, RULE_exponential = 26, RULE_multiplicative = 27, 
+		RULE_additiveExpression = 28, RULE_comparison = 29, RULE_notExpression = 30, 
+		RULE_logicalExpression = 31, RULE_ternaryExpression = 32, RULE_operatorExpression = 33;
 	public static final String[] ruleNames = {
 		"ontologExpression", "ontologScript", "blockContents", "importStatement", 
 		"methodCallStatement", "functionCallStatement", "returnStatement", "ifStatement", 
-		"foreachStatement", "loopCondition", "paramDecl", "variableDecl", "expression", 
-		"funcCallExp", "methodCallExp", "arguments", "literalTerm", "pathExpr", 
-		"typeExpr", "qualifiedName", "array", "iterableTerm", "formulaTerm", "unary", 
-		"percent", "exponential", "multiplicative", "additiveExpression", "comparison", 
-		"notExpression", "logicalExpression", "ternaryExpression", "operatorExpression"
+		"foreachStatement", "whileStatement", "loopCondition", "paramDecl", "variableDecl", 
+		"expression", "funcCallExp", "methodCallExp", "arguments", "literalTerm", 
+		"pathExpr", "typeExpr", "qualifiedName", "array", "iterableTerm", "formulaTerm", 
+		"unary", "percent", "exponential", "multiplicative", "additiveExpression", 
+		"comparison", "notExpression", "logicalExpression", "ternaryExpression", 
+		"operatorExpression"
 	};
 
 	@Override
@@ -118,37 +119,37 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			enterOuterAlt(_localctx, 1);
 			{
 			 ((OntologExpressionContext)_localctx).result =  createModule(EXPR_MODULE); 
-			setState(75);
+			setState(77);
 			_la = _input.LA(1);
 			if (_la==T__15) {
 				{
-				setState(67); match(T__15);
-				setState(71);
+				setState(69); match(T__15);
+				setState(73);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__18) {
 					{
 					{
-					setState(68); paramDecl(_localctx.result);
+					setState(70); paramDecl(_localctx.result);
 					}
 					}
-					setState(73);
+					setState(75);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(74); match(T__12);
+				setState(76); match(T__12);
 				}
 			}
 
-			setState(77); match(T__28);
-			setState(86);
+			setState(79); match(T__28);
+			setState(88);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
 				{
-				setState(78); match(T__23);
-				setState(79); ((OntologExpressionContext)_localctx).expression = expression();
-				setState(80); match(T__5);
+				setState(80); match(T__23);
+				setState(81); ((OntologExpressionContext)_localctx).expression = expression();
+				setState(82); match(T__5);
 				 _localctx.result.append( createEvalStmt (EVAL_EXPR_STMT, ((OntologExpressionContext)_localctx).expression.result) ) ; 
 				}
 				}
@@ -156,7 +157,7 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case 2:
 				{
 				{
-				setState(83); ((OntologExpressionContext)_localctx).expression = expression();
+				setState(85); ((OntologExpressionContext)_localctx).expression = expression();
 				 _localctx.result.append(createEvalStmt (EVAL_EXPR_STMT, ((OntologExpressionContext)_localctx).expression.result)) ; 
 				}
 				}
@@ -215,34 +216,34 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			enterOuterAlt(_localctx, 1);
 			{
 			 ((OntologScriptContext)_localctx).result =  createModule(SCRIPT_MODULE); 
-			setState(92);
+			setState(94);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__32 || _la==T__0) {
+			while (_la==T__33 || _la==T__0) {
 				{
 				{
-				setState(89); importStatement();
+				setState(91); importStatement();
 				}
 				}
-				setState(94);
+				setState(96);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(98);
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__18) {
 				{
 				{
-				setState(95); paramDecl(_localctx.result);
+				setState(97); paramDecl(_localctx.result);
 				}
 				}
-				setState(100);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(101); blockContents(_localctx.result);
-			setState(102); match(EOF);
+			setState(103); blockContents(_localctx.result);
+			setState(104); match(EOF);
 			 endScope();
 			}
 		}
@@ -321,54 +322,54 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(122);
+			setState(124);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__34) | (1L << T__26) | (1L << IDENT))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__35) | (1L << T__26) | (1L << IDENT))) != 0)) {
 				{
-				setState(120);
+				setState(122);
 				switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 				case 1:
 					{
-					setState(105); ((BlockContentsContext)_localctx).variableDecl = variableDecl();
+					setState(107); ((BlockContentsContext)_localctx).variableDecl = variableDecl();
 					 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).variableDecl.result); 
 					}
 					break;
 				case 2:
 					{
-					setState(108); ((BlockContentsContext)_localctx).methodCallStatement = methodCallStatement();
+					setState(110); ((BlockContentsContext)_localctx).methodCallStatement = methodCallStatement();
 					 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).methodCallStatement.result); 
 					}
 					break;
 				case 3:
 					{
-					setState(111); ((BlockContentsContext)_localctx).functionCallStatement = functionCallStatement();
+					setState(113); ((BlockContentsContext)_localctx).functionCallStatement = functionCallStatement();
 					 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).functionCallStatement.result); 
 					}
 					break;
 				case 4:
 					{
-					setState(114); ((BlockContentsContext)_localctx).ifStatement = ifStatement();
+					setState(116); ((BlockContentsContext)_localctx).ifStatement = ifStatement();
 					 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).ifStatement.result); 
 					}
 					break;
 				case 5:
 					{
-					setState(117); ((BlockContentsContext)_localctx).foreachStatement = foreachStatement();
+					setState(119); ((BlockContentsContext)_localctx).foreachStatement = foreachStatement();
 					 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).foreachStatement.result); 
 					}
 					break;
 				}
 				}
-				setState(124);
+				setState(126);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(128);
+			setState(130);
 			_la = _input.LA(1);
-			if (_la==T__33) {
+			if (_la==T__34) {
 				{
-				setState(125); ((BlockContentsContext)_localctx).returnStatement = returnStatement();
+				setState(127); ((BlockContentsContext)_localctx).returnStatement = returnStatement();
 				 _localctx.stmtHolder.append(((BlockContentsContext)_localctx).returnStatement.result); 
 				}
 			}
@@ -418,14 +419,14 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144);
+			setState(146);
 			switch (_input.LA(1)) {
-			case T__32:
+			case T__33:
 				{
 				{
-				setState(130); match(T__32);
-				setState(131); ((ImportStatementContext)_localctx).qualifiedName = qualifiedName();
-				setState(132); match(END_OF_STMT);
+				setState(132); match(T__33);
+				setState(133); ((ImportStatementContext)_localctx).qualifiedName = qualifiedName();
+				setState(134); match(END_OF_STMT);
 				 importJava(((ImportStatementContext)_localctx).qualifiedName.result); 
 				}
 				}
@@ -433,14 +434,14 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case T__0:
 				{
 				{
-				setState(135); match(T__0);
-				setState(136); ((ImportStatementContext)_localctx).pathExpr = pathExpr();
+				setState(137); match(T__0);
+				setState(138); ((ImportStatementContext)_localctx).pathExpr = pathExpr();
 				 String alias = null; 
 				{
-				setState(138); ((ImportStatementContext)_localctx).IDENT = match(IDENT);
+				setState(140); ((ImportStatementContext)_localctx).IDENT = match(IDENT);
 					alias = (((ImportStatementContext)_localctx).IDENT!=null?((ImportStatementContext)_localctx).IDENT.getText():null); 
 				}
-				setState(141); match(END_OF_STMT);
+				setState(143); match(END_OF_STMT);
 				 importModule(((ImportStatementContext)_localctx).pathExpr.path, alias); 
 				}
 				}
@@ -488,9 +489,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(146); ((MethodCallStatementContext)_localctx).methodCallExp = methodCallExp();
+			setState(148); ((MethodCallStatementContext)_localctx).methodCallExp = methodCallExp();
 			 ((MethodCallStatementContext)_localctx).result =  asStatement(((MethodCallStatementContext)_localctx).methodCallExp.result); 
-			setState(148); match(END_OF_STMT);
+			setState(150); match(END_OF_STMT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -531,9 +532,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(150); ((FunctionCallStatementContext)_localctx).funcCallExp = funcCallExp();
+			setState(152); ((FunctionCallStatementContext)_localctx).funcCallExp = funcCallExp();
 			 ((FunctionCallStatementContext)_localctx).result =  asStatement(((FunctionCallStatementContext)_localctx).funcCallExp.result); 
-			setState(152); match(END_OF_STMT);
+			setState(154); match(END_OF_STMT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -574,14 +575,14 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(162);
+			setState(164);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				{
 				{
-				setState(154); match(T__33);
-				setState(155); ((ReturnStatementContext)_localctx).expression = expression();
-				setState(156); match(END_OF_STMT);
+				setState(156); match(T__34);
+				setState(157); ((ReturnStatementContext)_localctx).expression = expression();
+				setState(158); match(END_OF_STMT);
 				 ((ReturnStatementContext)_localctx).result =  returnStatement(((ReturnStatementContext)_localctx).expression.result); 
 				}
 				}
@@ -589,8 +590,8 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case 2:
 				{
 				{
-				setState(159); match(T__33);
-				setState(160); match(END_OF_STMT);
+				setState(161); match(T__34);
+				setState(162); match(END_OF_STMT);
 				 ((ReturnStatementContext)_localctx).result =  returnStatement(null); 
 				}
 				}
@@ -646,53 +647,53 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(164); match(T__26);
+			setState(166); match(T__26);
 			 beginScope(); 
-			setState(166); match(T__23);
-			setState(167); ((IfStatementContext)_localctx).logicalExpression = logicalExpression();
-			setState(168); match(T__5);
+			setState(168); match(T__23);
+			setState(169); ((IfStatementContext)_localctx).logicalExpression = logicalExpression();
+			setState(170); match(T__5);
 
 						((IfStatementContext)_localctx).result =  ifStatement(IF, ((IfStatementContext)_localctx).logicalExpression.result); 
 					
-			setState(170); match(T__30);
-			setState(171); blockContents(_localctx.result);
-			setState(172); match(T__29);
+			setState(172); match(T__30);
+			setState(173); blockContents(_localctx.result);
+			setState(174); match(T__29);
 				endScope(); 
-			setState(188);
+			setState(190);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(174); match(T__6);
-					setState(175); match(T__26);
+					setState(176); match(T__6);
+					setState(177); match(T__26);
 					 beginScope(); 
-					setState(177); match(T__23);
-					setState(178); ((IfStatementContext)_localctx).logicalExpression = logicalExpression();
-					setState(179); match(T__5);
+					setState(179); match(T__23);
+					setState(180); ((IfStatementContext)_localctx).logicalExpression = logicalExpression();
+					setState(181); match(T__5);
 					 ASTBlock elseIfStmt = _localctx.result.createElseIf(createASTToken(ELSEIF), ((IfStatementContext)_localctx).logicalExpression.result); 
-					setState(181); match(T__30);
-					setState(182); blockContents(elseIfStmt);
-					setState(183); match(T__29);
+					setState(183); match(T__30);
+					setState(184); blockContents(elseIfStmt);
+					setState(185); match(T__29);
 						endScope(); 
 					}
 					} 
 				}
-				setState(190);
+				setState(192);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
 			}
-			setState(199);
+			setState(201);
 			_la = _input.LA(1);
 			if (_la==T__6) {
 				{
-				setState(191); match(T__6);
+				setState(193); match(T__6);
 				 beginScope(); 
 				 ASTBlock elseStmt = _localctx.result.checkOutElse(createASTToken(ELSE)); 
-				setState(194); match(T__30);
-				setState(195); blockContents(elseStmt);
-				setState(196); match(T__29);
+				setState(196); match(T__30);
+				setState(197); blockContents(elseStmt);
+				setState(198); match(T__29);
 					endScope(); 
 				}
 			}
@@ -741,20 +742,82 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(201); match(T__34);
+			setState(203); match(T__35);
 				beginScope(); 
-			setState(203); match(T__23);
-			setState(204); ((ForeachStatementContext)_localctx).loopCondition = loopCondition();
-			setState(205); match(T__5);
+			setState(205); match(T__23);
+			setState(206); ((ForeachStatementContext)_localctx).loopCondition = loopCondition();
+			setState(207); match(T__5);
 			 	((ForeachStatementContext)_localctx).result =  foreachStatement(FOREACH, ((ForeachStatementContext)_localctx).loopCondition.result);  
-			setState(207); match(T__30);
-			setState(208); blockContents(_localctx.result);
-			setState(209); match(T__29);
-			setState(211);
+			setState(209); match(T__30);
+			setState(210); blockContents(_localctx.result);
+			setState(211); match(T__29);
+			setState(213);
 			_la = _input.LA(1);
 			if (_la==END_OF_STMT) {
 				{
-				setState(210); match(END_OF_STMT);
+				setState(212); match(END_OF_STMT);
+				}
+			}
+
+				endScope(); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class WhileStatementContext extends ParserRuleContext {
+		public ASTBlock result;
+		public LogicalExpressionContext logicalExpression;
+		public TerminalNode END_OF_STMT() { return getToken(OntologParser.END_OF_STMT, 0); }
+		public BlockContentsContext blockContents() {
+			return getRuleContext(BlockContentsContext.class,0);
+		}
+		public LogicalExpressionContext logicalExpression() {
+			return getRuleContext(LogicalExpressionContext.class,0);
+		}
+		public WhileStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_whileStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof OntologListener ) ((OntologListener)listener).enterWhileStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof OntologListener ) ((OntologListener)listener).exitWhileStatement(this);
+		}
+	}
+
+	public final WhileStatementContext whileStatement() throws RecognitionException {
+		WhileStatementContext _localctx = new WhileStatementContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_whileStatement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(217); match(T__31);
+				beginScope(); 
+			setState(219); match(T__23);
+			setState(220); ((WhileStatementContext)_localctx).logicalExpression = logicalExpression();
+			setState(221); match(T__5);
+			 	((WhileStatementContext)_localctx).result =  foreachStatement(FOREACH, ((WhileStatementContext)_localctx).logicalExpression.result);  
+			setState(223); match(T__30);
+			setState(224); blockContents(_localctx.result);
+			setState(225); match(T__29);
+			setState(227);
+			_la = _input.LA(1);
+			if (_la==END_OF_STMT) {
+				{
+				setState(226); match(END_OF_STMT);
 				}
 			}
 
@@ -800,17 +863,17 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final LoopConditionContext loopCondition() throws RecognitionException {
 		LoopConditionContext _localctx = new LoopConditionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_loopCondition);
+		enterRule(_localctx, 20, RULE_loopCondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215); ((LoopConditionContext)_localctx).typeExpr = typeExpr();
-			setState(216); ((LoopConditionContext)_localctx).IDENT = match(IDENT);
+			setState(231); ((LoopConditionContext)_localctx).typeExpr = typeExpr();
+			setState(232); ((LoopConditionContext)_localctx).IDENT = match(IDENT);
 			 
 						ASTDeclaration varDecl = variableDecl(VAR_DECL, ((LoopConditionContext)_localctx).typeExpr.result, (((LoopConditionContext)_localctx).IDENT!=null?((LoopConditionContext)_localctx).IDENT.getText():null),null );
 					
-			setState(218); match(T__7);
-			setState(219); ((LoopConditionContext)_localctx).iterableTerm = iterableTerm();
+			setState(234); match(T__7);
+			setState(235); ((LoopConditionContext)_localctx).iterableTerm = iterableTerm();
 				
 						((LoopConditionContext)_localctx).result =  loopCondition(varDecl, ((LoopConditionContext)_localctx).iterableTerm.result);
 					
@@ -857,27 +920,27 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ParamDeclContext paramDecl(CompilationUnit module) throws RecognitionException {
 		ParamDeclContext _localctx = new ParamDeclContext(_ctx, getState(), module);
-		enterRule(_localctx, 20, RULE_paramDecl);
+		enterRule(_localctx, 22, RULE_paramDecl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(222); match(T__18);
+			setState(238); match(T__18);
 			 String alias = null; 
-			setState(224); ((ParamDeclContext)_localctx).type = qualifiedName();
-			setState(225); ((ParamDeclContext)_localctx).name = match(IDENT);
-			setState(229);
+			setState(240); ((ParamDeclContext)_localctx).type = qualifiedName();
+			setState(241); ((ParamDeclContext)_localctx).name = match(IDENT);
+			setState(245);
 			_la = _input.LA(1);
-			if (_la==T__35) {
+			if (_la==T__36) {
 				{
-				setState(226); match(T__35);
-				setState(227); ((ParamDeclContext)_localctx).IDENT = match(IDENT);
+				setState(242); match(T__36);
+				setState(243); ((ParamDeclContext)_localctx).IDENT = match(IDENT);
 				 alias = (((ParamDeclContext)_localctx).IDENT!=null?((ParamDeclContext)_localctx).IDENT.getText():null); 
 				}
 			}
 
 			 _localctx.module.append( asStatement( paramDecl(PARAM_DECL, ((ParamDeclContext)_localctx).type.result, (((ParamDeclContext)_localctx).name!=null?((ParamDeclContext)_localctx).name.getText():null), alias) ) ); 
-			setState(232); match(END_OF_STMT);
+			setState(248); match(END_OF_STMT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -920,25 +983,25 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final VariableDeclContext variableDecl() throws RecognitionException {
 		VariableDeclContext _localctx = new VariableDeclContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_variableDecl);
+		enterRule(_localctx, 24, RULE_variableDecl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			 ASTExpr valueExpr = null; 
-			setState(235); ((VariableDeclContext)_localctx).typeExpr = typeExpr();
-			setState(236); ((VariableDeclContext)_localctx).IDENT = match(IDENT);
-			setState(241);
+			setState(251); ((VariableDeclContext)_localctx).typeExpr = typeExpr();
+			setState(252); ((VariableDeclContext)_localctx).IDENT = match(IDENT);
+			setState(257);
 			_la = _input.LA(1);
 			if (_la==T__28) {
 				{
-				setState(237); match(T__28);
-				setState(238); ((VariableDeclContext)_localctx).expression = expression();
+				setState(253); match(T__28);
+				setState(254); ((VariableDeclContext)_localctx).expression = expression();
 					valueExpr = ((VariableDeclContext)_localctx).expression.result;  
 				}
 			}
 
-			setState(243); match(END_OF_STMT);
+			setState(259); match(END_OF_STMT);
 				((VariableDeclContext)_localctx).result =  asStatement(variableDecl(VAR_DECL, ((VariableDeclContext)_localctx).typeExpr.result, (((VariableDeclContext)_localctx).IDENT!=null?((VariableDeclContext)_localctx).IDENT.getText():null),valueExpr )); 
 			}
 		}
@@ -975,12 +1038,12 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ExpressionContext expression() throws RecognitionException {
 		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_expression);
+		enterRule(_localctx, 26, RULE_expression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(246); ((ExpressionContext)_localctx).operatorExpression = operatorExpression();
+			setState(262); ((ExpressionContext)_localctx).operatorExpression = operatorExpression();
 			 ((ExpressionContext)_localctx).result =  ((ExpressionContext)_localctx).operatorExpression.result ; 
 			}
 			}
@@ -1020,17 +1083,17 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final FuncCallExpContext funcCallExp() throws RecognitionException {
 		FuncCallExpContext _localctx = new FuncCallExpContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_funcCallExp);
+		enterRule(_localctx, 28, RULE_funcCallExp);
 		try {
-			setState(259);
-			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+			setState(275);
+			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
 				{
-				setState(249); ((FuncCallExpContext)_localctx).IDENT = match(IDENT);
-				setState(250); match(T__23);
-				setState(251); match(T__5);
+				setState(265); ((FuncCallExpContext)_localctx).IDENT = match(IDENT);
+				setState(266); match(T__23);
+				setState(267); match(T__5);
 				 ((FuncCallExpContext)_localctx).result =  call(FUNC_CALL, null, (((FuncCallExpContext)_localctx).IDENT!=null?((FuncCallExpContext)_localctx).IDENT.getText():null), null) ;
 				}
 				}
@@ -1039,10 +1102,10 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 				enterOuterAlt(_localctx, 2);
 				{
 				{
-				setState(253); ((FuncCallExpContext)_localctx).IDENT = match(IDENT);
-				setState(254); match(T__23);
-				setState(255); ((FuncCallExpContext)_localctx).arguments = arguments();
-				setState(256); match(T__5);
+				setState(269); ((FuncCallExpContext)_localctx).IDENT = match(IDENT);
+				setState(270); match(T__23);
+				setState(271); ((FuncCallExpContext)_localctx).arguments = arguments();
+				setState(272); match(T__5);
 				 ((FuncCallExpContext)_localctx).result =  call(FUNC_CALL, null, (((FuncCallExpContext)_localctx).IDENT!=null?((FuncCallExpContext)_localctx).IDENT.getText():null), ((FuncCallExpContext)_localctx).arguments.argList) ;
 				}
 				}
@@ -1088,20 +1151,20 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final MethodCallExpContext methodCallExp() throws RecognitionException {
 		MethodCallExpContext _localctx = new MethodCallExpContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_methodCallExp);
+		enterRule(_localctx, 30, RULE_methodCallExp);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(276);
-			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
+			setState(292);
+			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 			case 1:
 				{
 				{
-				setState(261); ((MethodCallExpContext)_localctx).qualifiedName = qualifiedName();
-				setState(262); match(T__19);
-				setState(263); ((MethodCallExpContext)_localctx).IDENT = match(IDENT);
-				setState(264); match(T__23);
-				setState(265); match(T__5);
+				setState(277); ((MethodCallExpContext)_localctx).qualifiedName = qualifiedName();
+				setState(278); match(T__19);
+				setState(279); ((MethodCallExpContext)_localctx).IDENT = match(IDENT);
+				setState(280); match(T__23);
+				setState(281); match(T__5);
 				 ((MethodCallExpContext)_localctx).result =  call(METHOD_CALL, variable( ((MethodCallExpContext)_localctx).qualifiedName.result), (((MethodCallExpContext)_localctx).IDENT!=null?((MethodCallExpContext)_localctx).IDENT.getText():null), null) ; 
 				}
 				}
@@ -1109,12 +1172,12 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case 2:
 				{
 				{
-				setState(268); ((MethodCallExpContext)_localctx).qualifiedName = qualifiedName();
-				setState(269); match(T__19);
-				setState(270); ((MethodCallExpContext)_localctx).IDENT = match(IDENT);
-				setState(271); match(T__23);
-				setState(272); ((MethodCallExpContext)_localctx).arguments = arguments();
-				setState(273); match(T__5);
+				setState(284); ((MethodCallExpContext)_localctx).qualifiedName = qualifiedName();
+				setState(285); match(T__19);
+				setState(286); ((MethodCallExpContext)_localctx).IDENT = match(IDENT);
+				setState(287); match(T__23);
+				setState(288); ((MethodCallExpContext)_localctx).arguments = arguments();
+				setState(289); match(T__5);
 				 ((MethodCallExpContext)_localctx).result =  call(METHOD_CALL, variable( ((MethodCallExpContext)_localctx).qualifiedName.result), (((MethodCallExpContext)_localctx).IDENT!=null?((MethodCallExpContext)_localctx).IDENT.getText():null), ((MethodCallExpContext)_localctx).arguments.argList) ; 
 				}
 				}
@@ -1158,28 +1221,28 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ArgumentsContext arguments() throws RecognitionException {
 		ArgumentsContext _localctx = new ArgumentsContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_arguments);
+		enterRule(_localctx, 32, RULE_arguments);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			 ((ArgumentsContext)_localctx).argList =  new LinkedList<ASTExpr>(); 
 			{
-			setState(279); ((ArgumentsContext)_localctx).arg2 = expression();
+			setState(295); ((ArgumentsContext)_localctx).arg2 = expression();
 			 _localctx.argList.add(((ArgumentsContext)_localctx).arg2.result); 
 			}
-			setState(288);
+			setState(304);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__20) {
 				{
 				{
-				setState(282); match(T__20);
-				setState(283); ((ArgumentsContext)_localctx).arg2 = expression();
+				setState(298); match(T__20);
+				setState(299); ((ArgumentsContext)_localctx).arg2 = expression();
 				 _localctx.argList.add(((ArgumentsContext)_localctx).arg2.result); 
 				}
 				}
-				setState(290);
+				setState(306);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1221,35 +1284,35 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final LiteralTermContext literalTerm() throws RecognitionException {
 		LiteralTermContext _localctx = new LiteralTermContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_literalTerm);
+		enterRule(_localctx, 34, RULE_literalTerm);
 		try {
-			setState(299);
+			setState(315);
 			switch (_input.LA(1)) {
 			case BOOLEAN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(291); ((LiteralTermContext)_localctx).BOOLEAN = match(BOOLEAN);
+				setState(307); ((LiteralTermContext)_localctx).BOOLEAN = match(BOOLEAN);
 				 ((LiteralTermContext)_localctx).result =  literal( LIT_BOOLEAN, (((LiteralTermContext)_localctx).BOOLEAN!=null?((LiteralTermContext)_localctx).BOOLEAN.getText():null)); 
 				}
 				break;
 			case STRING_LITERAL:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(293); ((LiteralTermContext)_localctx).STRING_LITERAL = match(STRING_LITERAL);
+				setState(309); ((LiteralTermContext)_localctx).STRING_LITERAL = match(STRING_LITERAL);
 				 ((LiteralTermContext)_localctx).result =  literal( LIT_STRING,  strip((((LiteralTermContext)_localctx).STRING_LITERAL!=null?((LiteralTermContext)_localctx).STRING_LITERAL.getText():null))); 
 				}
 				break;
 			case NUMBER:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(295); ((LiteralTermContext)_localctx).NUMBER = match(NUMBER);
+				setState(311); ((LiteralTermContext)_localctx).NUMBER = match(NUMBER);
 				 ((LiteralTermContext)_localctx).result =  literal( LIT_NUMBER, (((LiteralTermContext)_localctx).NUMBER!=null?((LiteralTermContext)_localctx).NUMBER.getText():null)); 
 				}
 				break;
 			case NULL:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(297); match(NULL);
+				setState(313); match(NULL);
 				 ((LiteralTermContext)_localctx).result =  literal( LIT_NULL, null); 
 				}
 				break;
@@ -1291,35 +1354,35 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final PathExprContext pathExpr() throws RecognitionException {
 		PathExprContext _localctx = new PathExprContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_pathExpr);
+		enterRule(_localctx, 36, RULE_pathExpr);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			 StringBuilder builder = new StringBuilder(); boolean isArray = false;
-			setState(302); ((PathExprContext)_localctx).IDENT = match(IDENT);
+			setState(318); ((PathExprContext)_localctx).IDENT = match(IDENT);
 			 builder.append( (((PathExprContext)_localctx).IDENT!=null?((PathExprContext)_localctx).IDENT.getText():null)); 
-			setState(312);
+			setState(328);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__36 || _la==T__19) {
+			while (_la==T__37 || _la==T__19) {
 				{
-				setState(310);
+				setState(326);
 				switch (_input.LA(1)) {
 				case T__19:
 					{
 					{
-					setState(304); match(T__19);
-					setState(305); ((PathExprContext)_localctx).IDENT = match(IDENT);
+					setState(320); match(T__19);
+					setState(321); ((PathExprContext)_localctx).IDENT = match(IDENT);
 					 builder.append(".").append( (((PathExprContext)_localctx).IDENT!=null?((PathExprContext)_localctx).IDENT.getText():null)); 
 					}
 					}
 					break;
-				case T__36:
+				case T__37:
 					{
 					{
-					setState(307); match(T__36);
-					setState(308); ((PathExprContext)_localctx).IDENT = match(IDENT);
+					setState(323); match(T__37);
+					setState(324); ((PathExprContext)_localctx).IDENT = match(IDENT);
 					 builder.append("/").append( (((PathExprContext)_localctx).IDENT!=null?((PathExprContext)_localctx).IDENT.getText():null)); 
 					}
 					}
@@ -1328,7 +1391,7 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(314);
+				setState(330);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1369,35 +1432,35 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final TypeExprContext typeExpr() throws RecognitionException {
 		TypeExprContext _localctx = new TypeExprContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_typeExpr);
+		enterRule(_localctx, 38, RULE_typeExpr);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			 StringBuilder builder = new StringBuilder(); boolean isArray = false;
-			setState(318); ((TypeExprContext)_localctx).IDENT = match(IDENT);
+			setState(334); ((TypeExprContext)_localctx).IDENT = match(IDENT);
 			 builder.append( (((TypeExprContext)_localctx).IDENT!=null?((TypeExprContext)_localctx).IDENT.getText():null)); 
-			setState(325);
+			setState(341);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__19) {
 				{
 				{
-				setState(320); match(T__19);
-				setState(321); ((TypeExprContext)_localctx).IDENT = match(IDENT);
+				setState(336); match(T__19);
+				setState(337); ((TypeExprContext)_localctx).IDENT = match(IDENT);
 				 builder.append(".").append( (((TypeExprContext)_localctx).IDENT!=null?((TypeExprContext)_localctx).IDENT.getText():null)); 
 				}
 				}
-				setState(327);
+				setState(343);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(331);
+			setState(347);
 			_la = _input.LA(1);
 			if (_la==T__15) {
 				{
-				setState(328); match(T__15);
-				setState(329); match(T__12);
+				setState(344); match(T__15);
+				setState(345); match(T__12);
 				 isArray = true; 
 				}
 			}
@@ -1451,26 +1514,26 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final QualifiedNameContext qualifiedName() throws RecognitionException {
 		QualifiedNameContext _localctx = new QualifiedNameContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_qualifiedName);
+		enterRule(_localctx, 40, RULE_qualifiedName);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(335); ((QualifiedNameContext)_localctx).IDENT = match(IDENT);
+			setState(351); ((QualifiedNameContext)_localctx).IDENT = match(IDENT);
 			 ((QualifiedNameContext)_localctx).result =  qname( (((QualifiedNameContext)_localctx).IDENT!=null?((QualifiedNameContext)_localctx).IDENT.getText():null)); 
-			setState(351);
+			setState(367);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
-					setState(349);
-					switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
+					setState(365);
+					switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
 					case 1:
 						{
 						{
-						setState(337); match(T__19);
-						setState(338); ((QualifiedNameContext)_localctx).IDENT = match(IDENT);
+						setState(353); match(T__19);
+						setState(354); ((QualifiedNameContext)_localctx).IDENT = match(IDENT);
 						 ((QualifiedNameContext)_localctx).result =  qname( _localctx.result, (((QualifiedNameContext)_localctx).IDENT!=null?((QualifiedNameContext)_localctx).IDENT.getText():null)); 
 						}
 						}
@@ -1478,9 +1541,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					case 2:
 						{
 						{
-						setState(340); match(T__15);
-						setState(341); ((QualifiedNameContext)_localctx).NUMBER = match(NUMBER);
-						setState(342); match(T__12);
+						setState(356); match(T__15);
+						setState(357); ((QualifiedNameContext)_localctx).NUMBER = match(NUMBER);
+						setState(358); match(T__12);
 						 ((QualifiedNameContext)_localctx).result =  indexedQname( _localctx.result, (((QualifiedNameContext)_localctx).NUMBER!=null?((QualifiedNameContext)_localctx).NUMBER.getText():null)); 
 						}
 						}
@@ -1488,9 +1551,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					case 3:
 						{
 						{
-						setState(344); match(T__15);
-						setState(345); ((QualifiedNameContext)_localctx).index = qualifiedName();
-						setState(346); match(T__12);
+						setState(360); match(T__15);
+						setState(361); ((QualifiedNameContext)_localctx).index = qualifiedName();
+						setState(362); match(T__12);
 						 ((QualifiedNameContext)_localctx).result =  varQname( _localctx.result, ((QualifiedNameContext)_localctx).index.result ); 
 						}
 						}
@@ -1498,9 +1561,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					}
 					} 
 				}
-				setState(353);
+				setState(369);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 			}
 			}
 		}
@@ -1548,37 +1611,37 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ArrayContext array() throws RecognitionException {
 		ArrayContext _localctx = new ArrayContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_array);
+		enterRule(_localctx, 42, RULE_array);
 		int _la;
 		try {
-			setState(378);
-			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
+			setState(394);
+			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
 				{
-				setState(354); match(T__15);
+				setState(370); match(T__15);
 				 List<ASTExpr> elements = new LinkedList<ASTExpr>(); 
 				{
-				setState(356); ((ArrayContext)_localctx).formulaTerm = formulaTerm();
+				setState(372); ((ArrayContext)_localctx).formulaTerm = formulaTerm();
 				 elements.add(((ArrayContext)_localctx).formulaTerm.result); 
 				}
-				setState(365);
+				setState(381);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__20) {
 					{
 					{
-					setState(359); match(T__20);
-					setState(360); ((ArrayContext)_localctx).formulaTerm = formulaTerm();
+					setState(375); match(T__20);
+					setState(376); ((ArrayContext)_localctx).formulaTerm = formulaTerm();
 					 elements.add(((ArrayContext)_localctx).formulaTerm.result); 
 					}
 					}
-					setState(367);
+					setState(383);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(368); match(T__12);
+				setState(384); match(T__12);
 					((ArrayContext)_localctx).result =  array(elements); 
 				}
 				}
@@ -1587,11 +1650,11 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 				enterOuterAlt(_localctx, 2);
 				{
 				{
-				setState(371); match(T__15);
-				setState(372); ((ArrayContext)_localctx).from = expression();
-				setState(373); match(T__17);
-				setState(374); ((ArrayContext)_localctx).to = expression();
-				setState(375); match(T__12);
+				setState(387); match(T__15);
+				setState(388); ((ArrayContext)_localctx).from = expression();
+				setState(389); match(T__17);
+				setState(390); ((ArrayContext)_localctx).to = expression();
+				setState(391); match(T__12);
 				 
 									((ArrayContext)_localctx).result =  array(null);
 									ASTArrayExpr arrayExpr = (ASTArrayExpr)_localctx.result;
@@ -1650,42 +1713,42 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final IterableTermContext iterableTerm() throws RecognitionException {
 		IterableTermContext _localctx = new IterableTermContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_iterableTerm);
+		enterRule(_localctx, 44, RULE_iterableTerm);
 		try {
-			setState(394);
-			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
+			setState(410);
+			switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(380); ((IterableTermContext)_localctx).IDENT = match(IDENT);
+				setState(396); ((IterableTermContext)_localctx).IDENT = match(IDENT);
 				 ((IterableTermContext)_localctx).result =  variable( (((IterableTermContext)_localctx).IDENT!=null?((IterableTermContext)_localctx).IDENT.getText():null)); 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(382); ((IterableTermContext)_localctx).qualifiedName = qualifiedName();
+				setState(398); ((IterableTermContext)_localctx).qualifiedName = qualifiedName();
 				 ((IterableTermContext)_localctx).result =  variable( ((IterableTermContext)_localctx).qualifiedName.result) ; 
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(385); ((IterableTermContext)_localctx).funcCallExp = funcCallExp();
+				setState(401); ((IterableTermContext)_localctx).funcCallExp = funcCallExp();
 				 ((IterableTermContext)_localctx).result =  ((IterableTermContext)_localctx).funcCallExp.result; 
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(388); ((IterableTermContext)_localctx).methodCallExp = methodCallExp();
+				setState(404); ((IterableTermContext)_localctx).methodCallExp = methodCallExp();
 				 ((IterableTermContext)_localctx).result =  ((IterableTermContext)_localctx).methodCallExp.result; 
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(391); ((IterableTermContext)_localctx).array = array();
+				setState(407); ((IterableTermContext)_localctx).array = array();
 				 ((IterableTermContext)_localctx).result =  ((IterableTermContext)_localctx).array.result; 
 				}
 				break;
@@ -1742,49 +1805,49 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final FormulaTermContext formulaTerm() throws RecognitionException {
 		FormulaTermContext _localctx = new FormulaTermContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_formulaTerm);
+		enterRule(_localctx, 46, RULE_formulaTerm);
 		try {
-			setState(413);
-			switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
+			setState(429);
+			switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(396); ((FormulaTermContext)_localctx).literalTerm = literalTerm();
+				setState(412); ((FormulaTermContext)_localctx).literalTerm = literalTerm();
 				 ((FormulaTermContext)_localctx).result =  ((FormulaTermContext)_localctx).literalTerm.result; 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(399); ((FormulaTermContext)_localctx).IDENT = match(IDENT);
+				setState(415); ((FormulaTermContext)_localctx).IDENT = match(IDENT);
 				 ((FormulaTermContext)_localctx).result =  variable( (((FormulaTermContext)_localctx).IDENT!=null?((FormulaTermContext)_localctx).IDENT.getText():null)); 
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(401); ((FormulaTermContext)_localctx).qualifiedName = qualifiedName();
+				setState(417); ((FormulaTermContext)_localctx).qualifiedName = qualifiedName();
 				 ((FormulaTermContext)_localctx).result =  variable( ((FormulaTermContext)_localctx).qualifiedName.result) ; 
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(404); ((FormulaTermContext)_localctx).funcCallExp = funcCallExp();
+				setState(420); ((FormulaTermContext)_localctx).funcCallExp = funcCallExp();
 				 ((FormulaTermContext)_localctx).result =   ((FormulaTermContext)_localctx).funcCallExp.result ; 
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(407); ((FormulaTermContext)_localctx).methodCallExp = methodCallExp();
+				setState(423); ((FormulaTermContext)_localctx).methodCallExp = methodCallExp();
 				 ((FormulaTermContext)_localctx).result =   ((FormulaTermContext)_localctx).methodCallExp.result ; 
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(410); ((FormulaTermContext)_localctx).array = array();
+				setState(426); ((FormulaTermContext)_localctx).array = array();
 				 ((FormulaTermContext)_localctx).result =   ((FormulaTermContext)_localctx).array.result ; 
 				}
 				break;
@@ -1827,22 +1890,22 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final UnaryContext unary() throws RecognitionException {
 		UnaryContext _localctx = new UnaryContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_unary);
+		enterRule(_localctx, 48, RULE_unary);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			 boolean negative = false; 
-			setState(418);
+			setState(434);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(416); match(T__1);
+				setState(432); match(T__1);
 				 negative = true; 
 				}
 			}
 
-			setState(428);
+			setState(444);
 			switch (_input.LA(1)) {
 			case T__15:
 			case NUMBER:
@@ -1851,15 +1914,15 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case BOOLEAN:
 			case IDENT:
 				{
-				setState(420); ((UnaryContext)_localctx).formulaTerm = formulaTerm();
+				setState(436); ((UnaryContext)_localctx).formulaTerm = formulaTerm();
 				 ((UnaryContext)_localctx).result =  ((UnaryContext)_localctx).formulaTerm.result;  
 				}
 				break;
 			case T__23:
 				{
-				setState(423); match(T__23);
-				setState(424); ((UnaryContext)_localctx).operatorExpression = operatorExpression();
-				setState(425); match(T__5);
+				setState(439); match(T__23);
+				setState(440); ((UnaryContext)_localctx).operatorExpression = operatorExpression();
+				setState(441); match(T__5);
 				 ((UnaryContext)_localctx).result =  ((UnaryContext)_localctx).operatorExpression.result;  
 				}
 				break;
@@ -1906,18 +1969,18 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final PercentContext percent() throws RecognitionException {
 		PercentContext _localctx = new PercentContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_percent);
+		enterRule(_localctx, 50, RULE_percent);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(432); ((PercentContext)_localctx).unary = unary();
+			setState(448); ((PercentContext)_localctx).unary = unary();
 			 ((PercentContext)_localctx).result =  ((PercentContext)_localctx).unary.result;  
-			setState(436);
+			setState(452);
 			_la = _input.LA(1);
 			if (_la==T__8) {
 				{
-				setState(434); match(T__8);
+				setState(450); match(T__8);
 				((PercentContext)_localctx).result =  unary(OP_PERCENT, _localctx.result); 
 				}
 			}
@@ -1961,25 +2024,25 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ExponentialContext exponential() throws RecognitionException {
 		ExponentialContext _localctx = new ExponentialContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_exponential);
+		enterRule(_localctx, 52, RULE_exponential);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(438); ((ExponentialContext)_localctx).percent = percent();
+			setState(454); ((ExponentialContext)_localctx).percent = percent();
 			 ((ExponentialContext)_localctx).result =  ((ExponentialContext)_localctx).percent.result;  
-			setState(446);
+			setState(462);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__27) {
 				{
 				{
-				setState(440); match(T__27);
-				setState(441); ((ExponentialContext)_localctx).op2 = ((ExponentialContext)_localctx).percent = percent();
+				setState(456); match(T__27);
+				setState(457); ((ExponentialContext)_localctx).op2 = ((ExponentialContext)_localctx).percent = percent();
 				((ExponentialContext)_localctx).result =  binary(OP_POW, _localctx.result, ((ExponentialContext)_localctx).op2.result); 
 				}
 				}
-				setState(448);
+				setState(464);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2022,31 +2085,31 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final MultiplicativeContext multiplicative() throws RecognitionException {
 		MultiplicativeContext _localctx = new MultiplicativeContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_multiplicative);
+		enterRule(_localctx, 54, RULE_multiplicative);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(449); ((MultiplicativeContext)_localctx).exponential = exponential();
+			setState(465); ((MultiplicativeContext)_localctx).exponential = exponential();
 			 ((MultiplicativeContext)_localctx).result =  ((MultiplicativeContext)_localctx).exponential.result;  
-			setState(461);
+			setState(477);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__36 || _la==T__21) {
+			while (_la==T__37 || _la==T__21) {
 				{
-				setState(459);
+				setState(475);
 				switch (_input.LA(1)) {
 				case T__21:
 					{
-					setState(451); match(T__21);
-					setState(452); ((MultiplicativeContext)_localctx).op2 = ((MultiplicativeContext)_localctx).exponential = exponential();
+					setState(467); match(T__21);
+					setState(468); ((MultiplicativeContext)_localctx).op2 = ((MultiplicativeContext)_localctx).exponential = exponential();
 					((MultiplicativeContext)_localctx).result =  binary(OP_MULTI, _localctx.result, ((MultiplicativeContext)_localctx).op2.result); 
 					}
 					break;
-				case T__36:
+				case T__37:
 					{
-					setState(455); match(T__36);
-					setState(456); ((MultiplicativeContext)_localctx).op2 = ((MultiplicativeContext)_localctx).exponential = exponential();
+					setState(471); match(T__37);
+					setState(472); ((MultiplicativeContext)_localctx).op2 = ((MultiplicativeContext)_localctx).exponential = exponential();
 					((MultiplicativeContext)_localctx).result =  binary(OP_DIVIDE, _localctx.result, ((MultiplicativeContext)_localctx).op2.result); 
 					}
 					break;
@@ -2054,7 +2117,7 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(463);
+				setState(479);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2097,31 +2160,31 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final AdditiveExpressionContext additiveExpression() throws RecognitionException {
 		AdditiveExpressionContext _localctx = new AdditiveExpressionContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_additiveExpression);
+		enterRule(_localctx, 56, RULE_additiveExpression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(464); ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
+			setState(480); ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
 			 ((AdditiveExpressionContext)_localctx).result =  ((AdditiveExpressionContext)_localctx).multiplicative.result;  
-			setState(476);
+			setState(492);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__3 || _la==T__1) {
 				{
-				setState(474);
+				setState(490);
 				switch (_input.LA(1)) {
 				case T__3:
 					{
-					setState(466); match(T__3);
-					setState(467); ((AdditiveExpressionContext)_localctx).op2 = ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
+					setState(482); match(T__3);
+					setState(483); ((AdditiveExpressionContext)_localctx).op2 = ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
 					((AdditiveExpressionContext)_localctx).result =  binary(OP_PLUS, _localctx.result, ((AdditiveExpressionContext)_localctx).op2.result); 
 					}
 					break;
 				case T__1:
 					{
-					setState(470); match(T__1);
-					setState(471); ((AdditiveExpressionContext)_localctx).op2 = ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
+					setState(486); match(T__1);
+					setState(487); ((AdditiveExpressionContext)_localctx).op2 = ((AdditiveExpressionContext)_localctx).multiplicative = multiplicative();
 					((AdditiveExpressionContext)_localctx).result =  binary(OP_MINUS, _localctx.result, ((AdditiveExpressionContext)_localctx).op2.result); 
 					}
 					break;
@@ -2129,7 +2192,7 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(478);
+				setState(494);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2172,87 +2235,87 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final ComparisonContext comparison() throws RecognitionException {
 		ComparisonContext _localctx = new ComparisonContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_comparison);
+		enterRule(_localctx, 58, RULE_comparison);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(479); ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+			setState(495); ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 			 ((ComparisonContext)_localctx).result =  ((ComparisonContext)_localctx).additiveExpression.result;  
-			setState(520);
+			setState(536);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__31) | (1L << T__24) | (1L << T__22) | (1L << T__16) | (1L << T__14) | (1L << T__13) | (1L << T__11) | (1L << T__9))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__32) | (1L << T__24) | (1L << T__22) | (1L << T__16) | (1L << T__14) | (1L << T__13) | (1L << T__11) | (1L << T__9))) != 0)) {
 				{
-				setState(518);
-				switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
+				setState(534);
+				switch ( getInterpreter().adaptivePredict(_input,38,_ctx) ) {
 				case 1:
 					{
-					setState(481); match(T__13);
-					setState(482); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(497); match(T__13);
+					setState(498); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_EQ, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 2:
 					{
-					setState(485); match(T__22);
-					setState(486); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(501); match(T__22);
+					setState(502); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_EQ, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 3:
 					{
-					setState(489); match(T__31);
-					setState(490); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(505); match(T__32);
+					setState(506); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_NOT_EQ, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 4:
 					{
-					setState(493); match(T__9);
-					setState(494); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(509); match(T__9);
+					setState(510); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_NOT_EQ, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 5:
 					{
-					setState(497); match(T__22);
-					setState(498); match(T__2);
-					setState(499); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(513); match(T__22);
+					setState(514); match(T__2);
+					setState(515); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_NOT_EQ, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 6:
 					{
-					setState(502); match(T__11);
-					setState(503); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(518); match(T__11);
+					setState(519); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_GT, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 7:
 					{
-					setState(506); match(T__16);
-					setState(507); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(522); match(T__16);
+					setState(523); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_EQ_GT, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 8:
 					{
-					setState(510); match(T__14);
-					setState(511); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(526); match(T__14);
+					setState(527); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_LT, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				case 9:
 					{
-					setState(514); match(T__24);
-					setState(515); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
+					setState(530); match(T__24);
+					setState(531); ((ComparisonContext)_localctx).op2 = ((ComparisonContext)_localctx).additiveExpression = additiveExpression();
 					((ComparisonContext)_localctx).result =  binary(OP_EQ_LT, _localctx.result, ((ComparisonContext)_localctx).op2.result); 
 					}
 					break;
 				}
 				}
-				setState(522);
+				setState(538);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2291,11 +2354,11 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final NotExpressionContext notExpression() throws RecognitionException {
 		NotExpressionContext _localctx = new NotExpressionContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_notExpression);
+		enterRule(_localctx, 60, RULE_notExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(530);
+			setState(546);
 			switch (_input.LA(1)) {
 			case T__23:
 			case T__15:
@@ -2306,14 +2369,14 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 			case BOOLEAN:
 			case IDENT:
 				{
-				setState(523); ((NotExpressionContext)_localctx).comparison = comparison();
+				setState(539); ((NotExpressionContext)_localctx).comparison = comparison();
 				 ((NotExpressionContext)_localctx).result =  ((NotExpressionContext)_localctx).comparison.result;  
 				}
 				break;
 			case T__2:
 				{
-				setState(526); match(T__2);
-				setState(527); ((NotExpressionContext)_localctx).comparison = comparison();
+				setState(542); match(T__2);
+				setState(543); ((NotExpressionContext)_localctx).comparison = comparison();
 				((NotExpressionContext)_localctx).result =  unary(OP_NOT, ((NotExpressionContext)_localctx).comparison.result); 
 				}
 				break;
@@ -2362,32 +2425,32 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final LogicalExpressionContext logicalExpression() throws RecognitionException {
 		LogicalExpressionContext _localctx = new LogicalExpressionContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_logicalExpression);
+		enterRule(_localctx, 62, RULE_logicalExpression);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(532); ((LogicalExpressionContext)_localctx).notExpression = notExpression();
+			setState(548); ((LogicalExpressionContext)_localctx).notExpression = notExpression();
 			 ((LogicalExpressionContext)_localctx).result =  ((LogicalExpressionContext)_localctx).notExpression.result;  
-			setState(544);
+			setState(560);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,41,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,42,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
-					setState(542);
+					setState(558);
 					switch (_input.LA(1)) {
 					case T__4:
 						{
-						setState(534); match(T__4);
-						setState(535); ((LogicalExpressionContext)_localctx).op2 = operatorExpression();
+						setState(550); match(T__4);
+						setState(551); ((LogicalExpressionContext)_localctx).op2 = operatorExpression();
 						((LogicalExpressionContext)_localctx).result =  binary(OP_AND, _localctx.result, ((LogicalExpressionContext)_localctx).op2.result); 
 						}
 						break;
 					case T__10:
 						{
-						setState(538); match(T__10);
-						setState(539); ((LogicalExpressionContext)_localctx).op2 = operatorExpression();
+						setState(554); match(T__10);
+						setState(555); ((LogicalExpressionContext)_localctx).op2 = operatorExpression();
 						((LogicalExpressionContext)_localctx).result =  binary(OP_OR, _localctx.result, ((LogicalExpressionContext)_localctx).op2.result); 
 						}
 						break;
@@ -2396,9 +2459,9 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 					}
 					} 
 				}
-				setState(546);
+				setState(562);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,41,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,42,_ctx);
 			}
 			}
 		}
@@ -2443,18 +2506,18 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final TernaryExpressionContext ternaryExpression() throws RecognitionException {
 		TernaryExpressionContext _localctx = new TernaryExpressionContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_ternaryExpression);
+		enterRule(_localctx, 64, RULE_ternaryExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(547); ((TernaryExpressionContext)_localctx).op1 = logicalExpression();
-			setState(548); match(T__25);
+			setState(563); ((TernaryExpressionContext)_localctx).op1 = logicalExpression();
+			setState(564); match(T__25);
 			{
-			setState(549); ((TernaryExpressionContext)_localctx).op2 = operatorExpression();
+			setState(565); ((TernaryExpressionContext)_localctx).op2 = operatorExpression();
 			}
-			setState(550); match(T__17);
+			setState(566); match(T__17);
 			{
-			setState(551); ((TernaryExpressionContext)_localctx).op3 = operatorExpression();
+			setState(567); ((TernaryExpressionContext)_localctx).op3 = operatorExpression();
 			}
 			((TernaryExpressionContext)_localctx).result =  ternary(OP_TERNARY, ((TernaryExpressionContext)_localctx).op1.result, ((TernaryExpressionContext)_localctx).op2.result, ((TernaryExpressionContext)_localctx).op3.result); 
 			}
@@ -2496,21 +2559,21 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 
 	public final OperatorExpressionContext operatorExpression() throws RecognitionException {
 		OperatorExpressionContext _localctx = new OperatorExpressionContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_operatorExpression);
+		enterRule(_localctx, 66, RULE_operatorExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(560);
-			switch ( getInterpreter().adaptivePredict(_input,42,_ctx) ) {
+			setState(576);
+			switch ( getInterpreter().adaptivePredict(_input,43,_ctx) ) {
 			case 1:
 				{
-				setState(554); ((OperatorExpressionContext)_localctx).logicalExpression = logicalExpression();
+				setState(570); ((OperatorExpressionContext)_localctx).logicalExpression = logicalExpression();
 				 ((OperatorExpressionContext)_localctx).result =  ((OperatorExpressionContext)_localctx).logicalExpression.result;  
 				}
 				break;
 			case 2:
 				{
-				setState(557); ((OperatorExpressionContext)_localctx).ternaryExpression = ternaryExpression();
+				setState(573); ((OperatorExpressionContext)_localctx).ternaryExpression = ternaryExpression();
 				 ((OperatorExpressionContext)_localctx).result =  ((OperatorExpressionContext)_localctx).ternaryExpression.result;  
 				}
 				break;
@@ -2529,208 +2592,214 @@ public class OntologParser extends so.ontolog.formula.antlr.AbstractOntologHandl
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\60\u0235\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\61\u0245\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
-		"\t!\4\"\t\"\3\2\3\2\3\2\7\2H\n\2\f\2\16\2K\13\2\3\2\5\2N\n\2\3\2\3\2\3"+
-		"\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2Y\n\2\3\3\3\3\7\3]\n\3\f\3\16\3`\13\3\3"+
-		"\3\7\3c\n\3\f\3\16\3f\13\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4{\n\4\f\4\16\4~\13\4\3\4\3\4\3\4\5"+
-		"\4\u0083\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5"+
-		"\5\u0093\n\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\3\b\5\b\u00a5\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3"+
-		"\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\t\u00bd\n\t\f\t\16\t\u00c0\13"+
-		"\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00ca\n\t\3\n\3\n\3\n\3\n\3\n\3"+
-		"\n\3\n\3\n\3\n\3\n\5\n\u00d6\n\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13"+
-		"\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u00e8\n\f\3\f\3\f\3\f\3\r\3\r\3"+
-		"\r\3\r\3\r\3\r\3\r\5\r\u00f4\n\r\3\r\3\r\3\r\3\16\3\16\3\16\3\17\3\17"+
-		"\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u0106\n\17\3\20\3\20\3\20"+
-		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u0117"+
-		"\n\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\7\21\u0121\n\21\f\21\16"+
-		"\21\u0124\13\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\5\22\u012e\n\22"+
-		"\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\7\23\u0139\n\23\f\23\16"+
-		"\23\u013c\13\23\3\23\3\23\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u0146\n\24"+
-		"\f\24\16\24\u0149\13\24\3\24\3\24\3\24\5\24\u014e\n\24\3\24\3\24\3\25"+
-		"\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\7\25"+
-		"\u0160\n\25\f\25\16\25\u0163\13\25\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
-		"\3\26\3\26\7\26\u016e\n\26\f\26\16\26\u0171\13\26\3\26\3\26\3\26\3\26"+
-		"\3\26\3\26\3\26\3\26\3\26\3\26\5\26\u017d\n\26\3\27\3\27\3\27\3\27\3\27"+
-		"\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\5\27\u018d\n\27\3\30\3\30"+
-		"\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30"+
-		"\3\30\5\30\u01a0\n\30\3\31\3\31\3\31\5\31\u01a5\n\31\3\31\3\31\3\31\3"+
-		"\31\3\31\3\31\3\31\3\31\5\31\u01af\n\31\3\31\3\31\3\32\3\32\3\32\3\32"+
-		"\5\32\u01b7\n\32\3\33\3\33\3\33\3\33\3\33\3\33\7\33\u01bf\n\33\f\33\16"+
-		"\33\u01c2\13\33\3\34\3\34\3\34\3\34\3\34\3\34\3\34\3\34\3\34\3\34\7\34"+
-		"\u01ce\n\34\f\34\16\34\u01d1\13\34\3\35\3\35\3\35\3\35\3\35\3\35\3\35"+
-		"\3\35\3\35\3\35\7\35\u01dd\n\35\f\35\16\35\u01e0\13\35\3\36\3\36\3\36"+
-		"\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36"+
-		"\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36"+
-		"\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\7\36\u0209\n\36\f\36\16\36\u020c"+
-		"\13\36\3\37\3\37\3\37\3\37\3\37\3\37\3\37\5\37\u0215\n\37\3 \3 \3 \3 "+
-		"\3 \3 \3 \3 \3 \3 \7 \u0221\n \f \16 \u0224\13 \3!\3!\3!\3!\3!\3!\3!\3"+
-		"\"\3\"\3\"\3\"\3\"\3\"\5\"\u0233\n\"\3\"\2\2#\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@B\2\2\u0252\2D\3\2\2\2\4Z\3\2"+
-		"\2\2\6|\3\2\2\2\b\u0092\3\2\2\2\n\u0094\3\2\2\2\f\u0098\3\2\2\2\16\u00a4"+
-		"\3\2\2\2\20\u00a6\3\2\2\2\22\u00cb\3\2\2\2\24\u00d9\3\2\2\2\26\u00e0\3"+
-		"\2\2\2\30\u00ec\3\2\2\2\32\u00f8\3\2\2\2\34\u0105\3\2\2\2\36\u0116\3\2"+
-		"\2\2 \u0118\3\2\2\2\"\u012d\3\2\2\2$\u012f\3\2\2\2&\u013f\3\2\2\2(\u0151"+
-		"\3\2\2\2*\u017c\3\2\2\2,\u018c\3\2\2\2.\u019f\3\2\2\2\60\u01a1\3\2\2\2"+
-		"\62\u01b2\3\2\2\2\64\u01b8\3\2\2\2\66\u01c3\3\2\2\28\u01d2\3\2\2\2:\u01e1"+
-		"\3\2\2\2<\u0214\3\2\2\2>\u0216\3\2\2\2@\u0225\3\2\2\2B\u0232\3\2\2\2D"+
-		"M\b\2\1\2EI\7\30\2\2FH\5\26\f\2GF\3\2\2\2HK\3\2\2\2IG\3\2\2\2IJ\3\2\2"+
-		"\2JL\3\2\2\2KI\3\2\2\2LN\7\33\2\2ME\3\2\2\2MN\3\2\2\2NO\3\2\2\2OX\7\13"+
-		"\2\2PQ\7\20\2\2QR\5\32\16\2RS\7\"\2\2ST\b\2\1\2TY\3\2\2\2UV\5\32\16\2"+
-		"VW\b\2\1\2WY\3\2\2\2XP\3\2\2\2XU\3\2\2\2Y\3\3\2\2\2Z^\b\3\1\2[]\5\b\5"+
-		"\2\\[\3\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_d\3\2\2\2`^\3\2\2\2ac\5\26"+
-		"\f\2ba\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gh\5\6"+
-		"\4\2hi\7\2\2\3ij\b\3\1\2j\5\3\2\2\2kl\5\30\r\2lm\b\4\1\2m{\3\2\2\2no\5"+
-		"\n\6\2op\b\4\1\2p{\3\2\2\2qr\5\f\7\2rs\b\4\1\2s{\3\2\2\2tu\5\20\t\2uv"+
-		"\b\4\1\2v{\3\2\2\2wx\5\22\n\2xy\b\4\1\2y{\3\2\2\2zk\3\2\2\2zn\3\2\2\2"+
-		"zq\3\2\2\2zt\3\2\2\2zw\3\2\2\2{~\3\2\2\2|z\3\2\2\2|}\3\2\2\2}\u0082\3"+
-		"\2\2\2~|\3\2\2\2\177\u0080\5\16\b\2\u0080\u0081\b\4\1\2\u0081\u0083\3"+
-		"\2\2\2\u0082\177\3\2\2\2\u0082\u0083\3\2\2\2\u0083\7\3\2\2\2\u0084\u0085"+
-		"\7\7\2\2\u0085\u0086\5(\25\2\u0086\u0087\7(\2\2\u0087\u0088\b\5\1\2\u0088"+
-		"\u0093\3\2\2\2\u0089\u008a\7\'\2\2\u008a\u008b\5$\23\2\u008b\u008c\b\5"+
-		"\1\2\u008c\u008d\7-\2\2\u008d\u008e\b\5\1\2\u008e\u008f\3\2\2\2\u008f"+
-		"\u0090\7(\2\2\u0090\u0091\b\5\1\2\u0091\u0093\3\2\2\2\u0092\u0084\3\2"+
-		"\2\2\u0092\u0089\3\2\2\2\u0093\t\3\2\2\2\u0094\u0095\5\36\20\2\u0095\u0096"+
-		"\b\6\1\2\u0096\u0097\7(\2\2\u0097\13\3\2\2\2\u0098\u0099\5\34\17\2\u0099"+
-		"\u009a\b\7\1\2\u009a\u009b\7(\2\2\u009b\r\3\2\2\2\u009c\u009d\7\6\2\2"+
-		"\u009d\u009e\5\32\16\2\u009e\u009f\7(\2\2\u009f\u00a0\b\b\1\2\u00a0\u00a5"+
-		"\3\2\2\2\u00a1\u00a2\7\6\2\2\u00a2\u00a3\7(\2\2\u00a3\u00a5\b\b\1\2\u00a4"+
-		"\u009c\3\2\2\2\u00a4\u00a1\3\2\2\2\u00a5\17\3\2\2\2\u00a6\u00a7\7\r\2"+
-		"\2\u00a7\u00a8\b\t\1\2\u00a8\u00a9\7\20\2\2\u00a9\u00aa\5> \2\u00aa\u00ab"+
-		"\7\"\2\2\u00ab\u00ac\b\t\1\2\u00ac\u00ad\7\t\2\2\u00ad\u00ae\5\6\4\2\u00ae"+
-		"\u00af\7\n\2\2\u00af\u00be\b\t\1\2\u00b0\u00b1\7!\2\2\u00b1\u00b2\7\r"+
-		"\2\2\u00b2\u00b3\b\t\1\2\u00b3\u00b4\7\20\2\2\u00b4\u00b5\5> \2\u00b5"+
-		"\u00b6\7\"\2\2\u00b6\u00b7\b\t\1\2\u00b7\u00b8\7\t\2\2\u00b8\u00b9\5\6"+
-		"\4\2\u00b9\u00ba\7\n\2\2\u00ba\u00bb\b\t\1\2\u00bb\u00bd\3\2\2\2\u00bc"+
-		"\u00b0\3\2\2\2\u00bd\u00c0\3\2\2\2\u00be\u00bc\3\2\2\2\u00be\u00bf\3\2"+
-		"\2\2\u00bf\u00c9\3\2\2\2\u00c0\u00be\3\2\2\2\u00c1\u00c2\7!\2\2\u00c2"+
-		"\u00c3\b\t\1\2\u00c3\u00c4\b\t\1\2\u00c4\u00c5\7\t\2\2\u00c5\u00c6\5\6"+
-		"\4\2\u00c6\u00c7\7\n\2\2\u00c7\u00c8\b\t\1\2\u00c8\u00ca\3\2\2\2\u00c9"+
-		"\u00c1\3\2\2\2\u00c9\u00ca\3\2\2\2\u00ca\21\3\2\2\2\u00cb\u00cc\7\5\2"+
-		"\2\u00cc\u00cd\b\n\1\2\u00cd\u00ce\7\20\2\2\u00ce\u00cf\5\24\13\2\u00cf"+
-		"\u00d0\7\"\2\2\u00d0\u00d1\b\n\1\2\u00d1\u00d2\7\t\2\2\u00d2\u00d3\5\6"+
-		"\4\2\u00d3\u00d5\7\n\2\2\u00d4\u00d6\7(\2\2\u00d5\u00d4\3\2\2\2\u00d5"+
-		"\u00d6\3\2\2\2\u00d6\u00d7\3\2\2\2\u00d7\u00d8\b\n\1\2\u00d8\23\3\2\2"+
-		"\2\u00d9\u00da\5&\24\2\u00da\u00db\7-\2\2\u00db\u00dc\b\13\1\2\u00dc\u00dd"+
-		"\7 \2\2\u00dd\u00de\5,\27\2\u00de\u00df\b\13\1\2\u00df\25\3\2\2\2\u00e0"+
-		"\u00e1\7\25\2\2\u00e1\u00e2\b\f\1\2\u00e2\u00e3\5(\25\2\u00e3\u00e7\7"+
-		"-\2\2\u00e4\u00e5\7\4\2\2\u00e5\u00e6\7-\2\2\u00e6\u00e8\b\f\1\2\u00e7"+
-		"\u00e4\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e9\3\2\2\2\u00e9\u00ea\b\f"+
-		"\1\2\u00ea\u00eb\7(\2\2\u00eb\27\3\2\2\2\u00ec\u00ed\b\r\1\2\u00ed\u00ee"+
-		"\5&\24\2\u00ee\u00f3\7-\2\2\u00ef\u00f0\7\13\2\2\u00f0\u00f1\5\32\16\2"+
-		"\u00f1\u00f2\b\r\1\2\u00f2\u00f4\3\2\2\2\u00f3\u00ef\3\2\2\2\u00f3\u00f4"+
-		"\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5\u00f6\7(\2\2\u00f6\u00f7\b\r\1\2\u00f7"+
-		"\31\3\2\2\2\u00f8\u00f9\5B\"\2\u00f9\u00fa\b\16\1\2\u00fa\33\3\2\2\2\u00fb"+
-		"\u00fc\7-\2\2\u00fc\u00fd\7\20\2\2\u00fd\u00fe\7\"\2\2\u00fe\u0106\b\17"+
-		"\1\2\u00ff\u0100\7-\2\2\u0100\u0101\7\20\2\2\u0101\u0102\5 \21\2\u0102"+
-		"\u0103\7\"\2\2\u0103\u0104\b\17\1\2\u0104\u0106\3\2\2\2\u0105\u00fb\3"+
-		"\2\2\2\u0105\u00ff\3\2\2\2\u0106\35\3\2\2\2\u0107\u0108\5(\25\2\u0108"+
-		"\u0109\7\24\2\2\u0109\u010a\7-\2\2\u010a\u010b\7\20\2\2\u010b\u010c\7"+
-		"\"\2\2\u010c\u010d\b\20\1\2\u010d\u0117\3\2\2\2\u010e\u010f\5(\25\2\u010f"+
-		"\u0110\7\24\2\2\u0110\u0111\7-\2\2\u0111\u0112\7\20\2\2\u0112\u0113\5"+
-		" \21\2\u0113\u0114\7\"\2\2\u0114\u0115\b\20\1\2\u0115\u0117\3\2\2\2\u0116"+
-		"\u0107\3\2\2\2\u0116\u010e\3\2\2\2\u0117\37\3\2\2\2\u0118\u0119\b\21\1"+
-		"\2\u0119\u011a\5\32\16\2\u011a\u011b\b\21\1\2\u011b\u0122\3\2\2\2\u011c"+
-		"\u011d\7\23\2\2\u011d\u011e\5\32\16\2\u011e\u011f\b\21\1\2\u011f\u0121"+
-		"\3\2\2\2\u0120\u011c\3\2\2\2\u0121\u0124\3\2\2\2\u0122\u0120\3\2\2\2\u0122"+
-		"\u0123\3\2\2\2\u0123!\3\2\2\2\u0124\u0122\3\2\2\2\u0125\u0126\7,\2\2\u0126"+
-		"\u012e\b\22\1\2\u0127\u0128\7*\2\2\u0128\u012e\b\22\1\2\u0129\u012a\7"+
-		")\2\2\u012a\u012e\b\22\1\2\u012b\u012c\7+\2\2\u012c\u012e\b\22\1\2\u012d"+
-		"\u0125\3\2\2\2\u012d\u0127\3\2\2\2\u012d\u0129\3\2\2\2\u012d\u012b\3\2"+
-		"\2\2\u012e#\3\2\2\2\u012f\u0130\b\23\1\2\u0130\u0131\7-\2\2\u0131\u013a"+
-		"\b\23\1\2\u0132\u0133\7\24\2\2\u0133\u0134\7-\2\2\u0134\u0139\b\23\1\2"+
-		"\u0135\u0136\7\3\2\2\u0136\u0137\7-\2\2\u0137\u0139\b\23\1\2\u0138\u0132"+
-		"\3\2\2\2\u0138\u0135\3\2\2\2\u0139\u013c\3\2\2\2\u013a\u0138\3\2\2\2\u013a"+
-		"\u013b\3\2\2\2\u013b\u013d\3\2\2\2\u013c\u013a\3\2\2\2\u013d\u013e\b\23"+
-		"\1\2\u013e%\3\2\2\2\u013f\u0140\b\24\1\2\u0140\u0141\7-\2\2\u0141\u0147"+
-		"\b\24\1\2\u0142\u0143\7\24\2\2\u0143\u0144\7-\2\2\u0144\u0146\b\24\1\2"+
-		"\u0145\u0142\3\2\2\2\u0146\u0149\3\2\2\2\u0147\u0145\3\2\2\2\u0147\u0148"+
-		"\3\2\2\2\u0148\u014d\3\2\2\2\u0149\u0147\3\2\2\2\u014a\u014b\7\30\2\2"+
-		"\u014b\u014c\7\33\2\2\u014c\u014e\b\24\1\2\u014d\u014a\3\2\2\2\u014d\u014e"+
-		"\3\2\2\2\u014e\u014f\3\2\2\2\u014f\u0150\b\24\1\2\u0150\'\3\2\2\2\u0151"+
-		"\u0152\7-\2\2\u0152\u0161\b\25\1\2\u0153\u0154\7\24\2\2\u0154\u0155\7"+
-		"-\2\2\u0155\u0160\b\25\1\2\u0156\u0157\7\30\2\2\u0157\u0158\7)\2\2\u0158"+
-		"\u0159\7\33\2\2\u0159\u0160\b\25\1\2\u015a\u015b\7\30\2\2\u015b\u015c"+
-		"\5(\25\2\u015c\u015d\7\33\2\2\u015d\u015e\b\25\1\2\u015e\u0160\3\2\2\2"+
-		"\u015f\u0153\3\2\2\2\u015f\u0156\3\2\2\2\u015f\u015a\3\2\2\2\u0160\u0163"+
-		"\3\2\2\2\u0161\u015f\3\2\2\2\u0161\u0162\3\2\2\2\u0162)\3\2\2\2\u0163"+
-		"\u0161\3\2\2\2\u0164\u0165\7\30\2\2\u0165\u0166\b\26\1\2\u0166\u0167\5"+
-		".\30\2\u0167\u0168\b\26\1\2\u0168\u016f\3\2\2\2\u0169\u016a\7\23\2\2\u016a"+
-		"\u016b\5.\30\2\u016b\u016c\b\26\1\2\u016c\u016e\3\2\2\2\u016d\u0169\3"+
-		"\2\2\2\u016e\u0171\3\2\2\2\u016f\u016d\3\2\2\2\u016f\u0170\3\2\2\2\u0170"+
-		"\u0172\3\2\2\2\u0171\u016f\3\2\2\2\u0172\u0173\7\33\2\2\u0173\u0174\b"+
-		"\26\1\2\u0174\u017d\3\2\2\2\u0175\u0176\7\30\2\2\u0176\u0177\5\32\16\2"+
-		"\u0177\u0178\7\26\2\2\u0178\u0179\5\32\16\2\u0179\u017a\7\33\2\2\u017a"+
-		"\u017b\b\26\1\2\u017b\u017d\3\2\2\2\u017c\u0164\3\2\2\2\u017c\u0175\3"+
-		"\2\2\2\u017d+\3\2\2\2\u017e\u017f\7-\2\2\u017f\u018d\b\27\1\2\u0180\u0181"+
-		"\5(\25\2\u0181\u0182\b\27\1\2\u0182\u018d\3\2\2\2\u0183\u0184\5\34\17"+
-		"\2\u0184\u0185\b\27\1\2\u0185\u018d\3\2\2\2\u0186\u0187\5\36\20\2\u0187"+
-		"\u0188\b\27\1\2\u0188\u018d\3\2\2\2\u0189\u018a\5*\26\2\u018a\u018b\b"+
-		"\27\1\2\u018b\u018d\3\2\2\2\u018c\u017e\3\2\2\2\u018c\u0180\3\2\2\2\u018c"+
-		"\u0183\3\2\2\2\u018c\u0186\3\2\2\2\u018c\u0189\3\2\2\2\u018d-\3\2\2\2"+
-		"\u018e\u018f\5\"\22\2\u018f\u0190\b\30\1\2\u0190\u01a0\3\2\2\2\u0191\u0192"+
-		"\7-\2\2\u0192\u01a0\b\30\1\2\u0193\u0194\5(\25\2\u0194\u0195\b\30\1\2"+
-		"\u0195\u01a0\3\2\2\2\u0196\u0197\5\34\17\2\u0197\u0198\b\30\1\2\u0198"+
-		"\u01a0\3\2\2\2\u0199\u019a\5\36\20\2\u019a\u019b\b\30\1\2\u019b\u01a0"+
-		"\3\2\2\2\u019c\u019d\5*\26\2\u019d\u019e\b\30\1\2\u019e\u01a0\3\2\2\2"+
-		"\u019f\u018e\3\2\2\2\u019f\u0191\3\2\2\2\u019f\u0193\3\2\2\2\u019f\u0196"+
-		"\3\2\2\2\u019f\u0199\3\2\2\2\u019f\u019c\3\2\2\2\u01a0/\3\2\2\2\u01a1"+
-		"\u01a4\b\31\1\2\u01a2\u01a3\7&\2\2\u01a3\u01a5\b\31\1\2\u01a4\u01a2\3"+
-		"\2\2\2\u01a4\u01a5\3\2\2\2\u01a5\u01ae\3\2\2\2\u01a6\u01a7\5.\30\2\u01a7"+
-		"\u01a8\b\31\1\2\u01a8\u01af\3\2\2\2\u01a9\u01aa\7\20\2\2\u01aa\u01ab\5"+
-		"B\"\2\u01ab\u01ac\7\"\2\2\u01ac\u01ad\b\31\1\2\u01ad\u01af\3\2\2\2\u01ae"+
-		"\u01a6\3\2\2\2\u01ae\u01a9\3\2\2\2\u01af\u01b0\3\2\2\2\u01b0\u01b1\b\31"+
-		"\1\2\u01b1\61\3\2\2\2\u01b2\u01b3\5\60\31\2\u01b3\u01b6\b\32\1\2\u01b4"+
-		"\u01b5\7\37\2\2\u01b5\u01b7\b\32\1\2\u01b6\u01b4\3\2\2\2\u01b6\u01b7\3"+
-		"\2\2\2\u01b7\63\3\2\2\2\u01b8\u01b9\5\62\32\2\u01b9\u01c0\b\33\1\2\u01ba"+
-		"\u01bb\7\f\2\2\u01bb\u01bc\5\62\32\2\u01bc\u01bd\b\33\1\2\u01bd\u01bf"+
-		"\3\2\2\2\u01be\u01ba\3\2\2\2\u01bf\u01c2\3\2\2\2\u01c0\u01be\3\2\2\2\u01c0"+
-		"\u01c1\3\2\2\2\u01c1\65\3\2\2\2\u01c2\u01c0\3\2\2\2\u01c3\u01c4\5\64\33"+
-		"\2\u01c4\u01cf\b\34\1\2\u01c5\u01c6\7\22\2\2\u01c6\u01c7\5\64\33\2\u01c7"+
-		"\u01c8\b\34\1\2\u01c8\u01ce\3\2\2\2\u01c9\u01ca\7\3\2\2\u01ca\u01cb\5"+
-		"\64\33\2\u01cb\u01cc\b\34\1\2\u01cc\u01ce\3\2\2\2\u01cd\u01c5\3\2\2\2"+
-		"\u01cd\u01c9\3\2\2\2\u01ce\u01d1\3\2\2\2\u01cf\u01cd\3\2\2\2\u01cf\u01d0"+
-		"\3\2\2\2\u01d0\67\3\2\2\2\u01d1\u01cf\3\2\2\2\u01d2\u01d3\5\66\34\2\u01d3"+
-		"\u01de\b\35\1\2\u01d4\u01d5\7$\2\2\u01d5\u01d6\5\66\34\2\u01d6\u01d7\b"+
-		"\35\1\2\u01d7\u01dd\3\2\2\2\u01d8\u01d9\7&\2\2\u01d9\u01da\5\66\34\2\u01da"+
-		"\u01db\b\35\1\2\u01db\u01dd\3\2\2\2\u01dc\u01d4\3\2\2\2\u01dc\u01d8\3"+
-		"\2\2\2\u01dd\u01e0\3\2\2\2\u01de\u01dc\3\2\2\2\u01de\u01df\3\2\2\2\u01df"+
-		"9\3\2\2\2\u01e0\u01de\3\2\2\2\u01e1\u01e2\58\35\2\u01e2\u020a\b\36\1\2"+
-		"\u01e3\u01e4\7\32\2\2\u01e4\u01e5\58\35\2\u01e5\u01e6\b\36\1\2\u01e6\u0209"+
-		"\3\2\2\2\u01e7\u01e8\7\21\2\2\u01e8\u01e9\58\35\2\u01e9\u01ea\b\36\1\2"+
-		"\u01ea\u0209\3\2\2\2\u01eb\u01ec\7\b\2\2\u01ec\u01ed\58\35\2\u01ed\u01ee"+
-		"\b\36\1\2\u01ee\u0209\3\2\2\2\u01ef\u01f0\7\36\2\2\u01f0\u01f1\58\35\2"+
-		"\u01f1\u01f2\b\36\1\2\u01f2\u0209\3\2\2\2\u01f3\u01f4\7\21\2\2\u01f4\u01f5"+
-		"\7%\2\2\u01f5\u01f6\58\35\2\u01f6\u01f7\b\36\1\2\u01f7\u0209\3\2\2\2\u01f8"+
-		"\u01f9\7\34\2\2\u01f9\u01fa\58\35\2\u01fa\u01fb\b\36\1\2\u01fb\u0209\3"+
-		"\2\2\2\u01fc\u01fd\7\27\2\2\u01fd\u01fe\58\35\2\u01fe\u01ff\b\36\1\2\u01ff"+
-		"\u0209\3\2\2\2\u0200\u0201\7\31\2\2\u0201\u0202\58\35\2\u0202\u0203\b"+
-		"\36\1\2\u0203\u0209\3\2\2\2\u0204\u0205\7\17\2\2\u0205\u0206\58\35\2\u0206"+
-		"\u0207\b\36\1\2\u0207\u0209\3\2\2\2\u0208\u01e3\3\2\2\2\u0208\u01e7\3"+
-		"\2\2\2\u0208\u01eb\3\2\2\2\u0208\u01ef\3\2\2\2\u0208\u01f3\3\2\2\2\u0208"+
-		"\u01f8\3\2\2\2\u0208\u01fc\3\2\2\2\u0208\u0200\3\2\2\2\u0208\u0204\3\2"+
-		"\2\2\u0209\u020c\3\2\2\2\u020a\u0208\3\2\2\2\u020a\u020b\3\2\2\2\u020b"+
-		";\3\2\2\2\u020c\u020a\3\2\2\2\u020d\u020e\5:\36\2\u020e\u020f\b\37\1\2"+
-		"\u020f\u0215\3\2\2\2\u0210\u0211\7%\2\2\u0211\u0212\5:\36\2\u0212\u0213"+
-		"\b\37\1\2\u0213\u0215\3\2\2\2\u0214\u020d\3\2\2\2\u0214\u0210\3\2\2\2"+
-		"\u0215=\3\2\2\2\u0216\u0217\5<\37\2\u0217\u0222\b \1\2\u0218\u0219\7#"+
-		"\2\2\u0219\u021a\5B\"\2\u021a\u021b\b \1\2\u021b\u0221\3\2\2\2\u021c\u021d"+
-		"\7\35\2\2\u021d\u021e\5B\"\2\u021e\u021f\b \1\2\u021f\u0221\3\2\2\2\u0220"+
-		"\u0218\3\2\2\2\u0220\u021c\3\2\2\2\u0221\u0224\3\2\2\2\u0222\u0220\3\2"+
-		"\2\2\u0222\u0223\3\2\2\2\u0223?\3\2\2\2\u0224\u0222\3\2\2\2\u0225\u0226"+
-		"\5> \2\u0226\u0227\7\16\2\2\u0227\u0228\5B\"\2\u0228\u0229\7\26\2\2\u0229"+
-		"\u022a\5B\"\2\u022a\u022b\b!\1\2\u022bA\3\2\2\2\u022c\u022d\5> \2\u022d"+
-		"\u022e\b\"\1\2\u022e\u0233\3\2\2\2\u022f\u0230\5@!\2\u0230\u0231\b\"\1"+
-		"\2\u0231\u0233\3\2\2\2\u0232\u022c\3\2\2\2\u0232\u022f\3\2\2\2\u0233C"+
-		"\3\2\2\2-IMX^dz|\u0082\u0092\u00a4\u00be\u00c9\u00d5\u00e7\u00f3\u0105"+
-		"\u0116\u0122\u012d\u0138\u013a\u0147\u014d\u015f\u0161\u016f\u017c\u018c"+
-		"\u019f\u01a4\u01ae\u01b6\u01c0\u01cd\u01cf\u01dc\u01de\u0208\u020a\u0214"+
-		"\u0220\u0222\u0232";
+		"\t!\4\"\t\"\4#\t#\3\2\3\2\3\2\7\2J\n\2\f\2\16\2M\13\2\3\2\5\2P\n\2\3\2"+
+		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2[\n\2\3\3\3\3\7\3_\n\3\f\3\16\3b\13"+
+		"\3\3\3\7\3e\n\3\f\3\16\3h\13\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4}\n\4\f\4\16\4\u0080\13\4\3\4"+
+		"\3\4\3\4\5\4\u0085\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\5\5\u0095\n\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\5\b\u00a7\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t"+
+		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\t\u00bf\n\t\f\t\16"+
+		"\t\u00c2\13\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00cc\n\t\3\n\3\n\3"+
+		"\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u00d8\n\n\3\n\3\n\3\13\3\13\3\13\3"+
+		"\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u00e6\n\13\3\13\3\13\3\f\3\f\3"+
+		"\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u00f8\n\r\3\r\3\r\3"+
+		"\r\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u0104\n\16\3\16\3\16\3\16\3"+
+		"\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u0116"+
+		"\n\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
+		"\3\21\3\21\5\21\u0127\n\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\7\22"+
+		"\u0131\n\22\f\22\16\22\u0134\13\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23"+
+		"\3\23\5\23\u013e\n\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24"+
+		"\u0149\n\24\f\24\16\24\u014c\13\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25"+
+		"\3\25\7\25\u0156\n\25\f\25\16\25\u0159\13\25\3\25\3\25\3\25\5\25\u015e"+
+		"\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\7\26\u0170\n\26\f\26\16\26\u0173\13\26\3\27\3\27\3\27"+
+		"\3\27\3\27\3\27\3\27\3\27\3\27\7\27\u017e\n\27\f\27\16\27\u0181\13\27"+
+		"\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\5\27\u018d\n\27\3\30"+
+		"\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\5\30"+
+		"\u019d\n\30\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31"+
+		"\3\31\3\31\3\31\3\31\3\31\5\31\u01b0\n\31\3\32\3\32\3\32\5\32\u01b5\n"+
+		"\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\5\32\u01bf\n\32\3\32\3\32"+
+		"\3\33\3\33\3\33\3\33\5\33\u01c7\n\33\3\34\3\34\3\34\3\34\3\34\3\34\7\34"+
+		"\u01cf\n\34\f\34\16\34\u01d2\13\34\3\35\3\35\3\35\3\35\3\35\3\35\3\35"+
+		"\3\35\3\35\3\35\7\35\u01de\n\35\f\35\16\35\u01e1\13\35\3\36\3\36\3\36"+
+		"\3\36\3\36\3\36\3\36\3\36\3\36\3\36\7\36\u01ed\n\36\f\36\16\36\u01f0\13"+
+		"\36\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3"+
+		"\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3"+
+		"\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\7\37\u0219"+
+		"\n\37\f\37\16\37\u021c\13\37\3 \3 \3 \3 \3 \3 \3 \5 \u0225\n \3!\3!\3"+
+		"!\3!\3!\3!\3!\3!\3!\3!\7!\u0231\n!\f!\16!\u0234\13!\3\"\3\"\3\"\3\"\3"+
+		"\"\3\"\3\"\3#\3#\3#\3#\3#\3#\5#\u0243\n#\3#\2\2$\2\4\6\b\n\f\16\20\22"+
+		"\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BD\2\2\u0262\2F\3\2\2\2\4"+
+		"\\\3\2\2\2\6~\3\2\2\2\b\u0094\3\2\2\2\n\u0096\3\2\2\2\f\u009a\3\2\2\2"+
+		"\16\u00a6\3\2\2\2\20\u00a8\3\2\2\2\22\u00cd\3\2\2\2\24\u00db\3\2\2\2\26"+
+		"\u00e9\3\2\2\2\30\u00f0\3\2\2\2\32\u00fc\3\2\2\2\34\u0108\3\2\2\2\36\u0115"+
+		"\3\2\2\2 \u0126\3\2\2\2\"\u0128\3\2\2\2$\u013d\3\2\2\2&\u013f\3\2\2\2"+
+		"(\u014f\3\2\2\2*\u0161\3\2\2\2,\u018c\3\2\2\2.\u019c\3\2\2\2\60\u01af"+
+		"\3\2\2\2\62\u01b1\3\2\2\2\64\u01c2\3\2\2\2\66\u01c8\3\2\2\28\u01d3\3\2"+
+		"\2\2:\u01e2\3\2\2\2<\u01f1\3\2\2\2>\u0224\3\2\2\2@\u0226\3\2\2\2B\u0235"+
+		"\3\2\2\2D\u0242\3\2\2\2FO\b\2\1\2GK\7\31\2\2HJ\5\30\r\2IH\3\2\2\2JM\3"+
+		"\2\2\2KI\3\2\2\2KL\3\2\2\2LN\3\2\2\2MK\3\2\2\2NP\7\34\2\2OG\3\2\2\2OP"+
+		"\3\2\2\2PQ\3\2\2\2QZ\7\f\2\2RS\7\21\2\2ST\5\34\17\2TU\7#\2\2UV\b\2\1\2"+
+		"V[\3\2\2\2WX\5\34\17\2XY\b\2\1\2Y[\3\2\2\2ZR\3\2\2\2ZW\3\2\2\2[\3\3\2"+
+		"\2\2\\`\b\3\1\2]_\5\b\5\2^]\3\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2af\3"+
+		"\2\2\2b`\3\2\2\2ce\5\30\r\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi"+
+		"\3\2\2\2hf\3\2\2\2ij\5\6\4\2jk\7\2\2\3kl\b\3\1\2l\5\3\2\2\2mn\5\32\16"+
+		"\2no\b\4\1\2o}\3\2\2\2pq\5\n\6\2qr\b\4\1\2r}\3\2\2\2st\5\f\7\2tu\b\4\1"+
+		"\2u}\3\2\2\2vw\5\20\t\2wx\b\4\1\2x}\3\2\2\2yz\5\22\n\2z{\b\4\1\2{}\3\2"+
+		"\2\2|m\3\2\2\2|p\3\2\2\2|s\3\2\2\2|v\3\2\2\2|y\3\2\2\2}\u0080\3\2\2\2"+
+		"~|\3\2\2\2~\177\3\2\2\2\177\u0084\3\2\2\2\u0080~\3\2\2\2\u0081\u0082\5"+
+		"\16\b\2\u0082\u0083\b\4\1\2\u0083\u0085\3\2\2\2\u0084\u0081\3\2\2\2\u0084"+
+		"\u0085\3\2\2\2\u0085\7\3\2\2\2\u0086\u0087\7\7\2\2\u0087\u0088\5*\26\2"+
+		"\u0088\u0089\7)\2\2\u0089\u008a\b\5\1\2\u008a\u0095\3\2\2\2\u008b\u008c"+
+		"\7(\2\2\u008c\u008d\5&\24\2\u008d\u008e\b\5\1\2\u008e\u008f\7.\2\2\u008f"+
+		"\u0090\b\5\1\2\u0090\u0091\3\2\2\2\u0091\u0092\7)\2\2\u0092\u0093\b\5"+
+		"\1\2\u0093\u0095\3\2\2\2\u0094\u0086\3\2\2\2\u0094\u008b\3\2\2\2\u0095"+
+		"\t\3\2\2\2\u0096\u0097\5 \21\2\u0097\u0098\b\6\1\2\u0098\u0099\7)\2\2"+
+		"\u0099\13\3\2\2\2\u009a\u009b\5\36\20\2\u009b\u009c\b\7\1\2\u009c\u009d"+
+		"\7)\2\2\u009d\r\3\2\2\2\u009e\u009f\7\6\2\2\u009f\u00a0\5\34\17\2\u00a0"+
+		"\u00a1\7)\2\2\u00a1\u00a2\b\b\1\2\u00a2\u00a7\3\2\2\2\u00a3\u00a4\7\6"+
+		"\2\2\u00a4\u00a5\7)\2\2\u00a5\u00a7\b\b\1\2\u00a6\u009e\3\2\2\2\u00a6"+
+		"\u00a3\3\2\2\2\u00a7\17\3\2\2\2\u00a8\u00a9\7\16\2\2\u00a9\u00aa\b\t\1"+
+		"\2\u00aa\u00ab\7\21\2\2\u00ab\u00ac\5@!\2\u00ac\u00ad\7#\2\2\u00ad\u00ae"+
+		"\b\t\1\2\u00ae\u00af\7\n\2\2\u00af\u00b0\5\6\4\2\u00b0\u00b1\7\13\2\2"+
+		"\u00b1\u00c0\b\t\1\2\u00b2\u00b3\7\"\2\2\u00b3\u00b4\7\16\2\2\u00b4\u00b5"+
+		"\b\t\1\2\u00b5\u00b6\7\21\2\2\u00b6\u00b7\5@!\2\u00b7\u00b8\7#\2\2\u00b8"+
+		"\u00b9\b\t\1\2\u00b9\u00ba\7\n\2\2\u00ba\u00bb\5\6\4\2\u00bb\u00bc\7\13"+
+		"\2\2\u00bc\u00bd\b\t\1\2\u00bd\u00bf\3\2\2\2\u00be\u00b2\3\2\2\2\u00bf"+
+		"\u00c2\3\2\2\2\u00c0\u00be\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00cb\3\2"+
+		"\2\2\u00c2\u00c0\3\2\2\2\u00c3\u00c4\7\"\2\2\u00c4\u00c5\b\t\1\2\u00c5"+
+		"\u00c6\b\t\1\2\u00c6\u00c7\7\n\2\2\u00c7\u00c8\5\6\4\2\u00c8\u00c9\7\13"+
+		"\2\2\u00c9\u00ca\b\t\1\2\u00ca\u00cc\3\2\2\2\u00cb\u00c3\3\2\2\2\u00cb"+
+		"\u00cc\3\2\2\2\u00cc\21\3\2\2\2\u00cd\u00ce\7\5\2\2\u00ce\u00cf\b\n\1"+
+		"\2\u00cf\u00d0\7\21\2\2\u00d0\u00d1\5\26\f\2\u00d1\u00d2\7#\2\2\u00d2"+
+		"\u00d3\b\n\1\2\u00d3\u00d4\7\n\2\2\u00d4\u00d5\5\6\4\2\u00d5\u00d7\7\13"+
+		"\2\2\u00d6\u00d8\7)\2\2\u00d7\u00d6\3\2\2\2\u00d7\u00d8\3\2\2\2\u00d8"+
+		"\u00d9\3\2\2\2\u00d9\u00da\b\n\1\2\u00da\23\3\2\2\2\u00db\u00dc\7\t\2"+
+		"\2\u00dc\u00dd\b\13\1\2\u00dd\u00de\7\21\2\2\u00de\u00df\5@!\2\u00df\u00e0"+
+		"\7#\2\2\u00e0\u00e1\b\13\1\2\u00e1\u00e2\7\n\2\2\u00e2\u00e3\5\6\4\2\u00e3"+
+		"\u00e5\7\13\2\2\u00e4\u00e6\7)\2\2\u00e5\u00e4\3\2\2\2\u00e5\u00e6\3\2"+
+		"\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e8\b\13\1\2\u00e8\25\3\2\2\2\u00e9\u00ea"+
+		"\5(\25\2\u00ea\u00eb\7.\2\2\u00eb\u00ec\b\f\1\2\u00ec\u00ed\7!\2\2\u00ed"+
+		"\u00ee\5.\30\2\u00ee\u00ef\b\f\1\2\u00ef\27\3\2\2\2\u00f0\u00f1\7\26\2"+
+		"\2\u00f1\u00f2\b\r\1\2\u00f2\u00f3\5*\26\2\u00f3\u00f7\7.\2\2\u00f4\u00f5"+
+		"\7\4\2\2\u00f5\u00f6\7.\2\2\u00f6\u00f8\b\r\1\2\u00f7\u00f4\3\2\2\2\u00f7"+
+		"\u00f8\3\2\2\2\u00f8\u00f9\3\2\2\2\u00f9\u00fa\b\r\1\2\u00fa\u00fb\7)"+
+		"\2\2\u00fb\31\3\2\2\2\u00fc\u00fd\b\16\1\2\u00fd\u00fe\5(\25\2\u00fe\u0103"+
+		"\7.\2\2\u00ff\u0100\7\f\2\2\u0100\u0101\5\34\17\2\u0101\u0102\b\16\1\2"+
+		"\u0102\u0104\3\2\2\2\u0103\u00ff\3\2\2\2\u0103\u0104\3\2\2\2\u0104\u0105"+
+		"\3\2\2\2\u0105\u0106\7)\2\2\u0106\u0107\b\16\1\2\u0107\33\3\2\2\2\u0108"+
+		"\u0109\5D#\2\u0109\u010a\b\17\1\2\u010a\35\3\2\2\2\u010b\u010c\7.\2\2"+
+		"\u010c\u010d\7\21\2\2\u010d\u010e\7#\2\2\u010e\u0116\b\20\1\2\u010f\u0110"+
+		"\7.\2\2\u0110\u0111\7\21\2\2\u0111\u0112\5\"\22\2\u0112\u0113\7#\2\2\u0113"+
+		"\u0114\b\20\1\2\u0114\u0116\3\2\2\2\u0115\u010b\3\2\2\2\u0115\u010f\3"+
+		"\2\2\2\u0116\37\3\2\2\2\u0117\u0118\5*\26\2\u0118\u0119\7\25\2\2\u0119"+
+		"\u011a\7.\2\2\u011a\u011b\7\21\2\2\u011b\u011c\7#\2\2\u011c\u011d\b\21"+
+		"\1\2\u011d\u0127\3\2\2\2\u011e\u011f\5*\26\2\u011f\u0120\7\25\2\2\u0120"+
+		"\u0121\7.\2\2\u0121\u0122\7\21\2\2\u0122\u0123\5\"\22\2\u0123\u0124\7"+
+		"#\2\2\u0124\u0125\b\21\1\2\u0125\u0127\3\2\2\2\u0126\u0117\3\2\2\2\u0126"+
+		"\u011e\3\2\2\2\u0127!\3\2\2\2\u0128\u0129\b\22\1\2\u0129\u012a\5\34\17"+
+		"\2\u012a\u012b\b\22\1\2\u012b\u0132\3\2\2\2\u012c\u012d\7\24\2\2\u012d"+
+		"\u012e\5\34\17\2\u012e\u012f\b\22\1\2\u012f\u0131\3\2\2\2\u0130\u012c"+
+		"\3\2\2\2\u0131\u0134\3\2\2\2\u0132\u0130\3\2\2\2\u0132\u0133\3\2\2\2\u0133"+
+		"#\3\2\2\2\u0134\u0132\3\2\2\2\u0135\u0136\7-\2\2\u0136\u013e\b\23\1\2"+
+		"\u0137\u0138\7+\2\2\u0138\u013e\b\23\1\2\u0139\u013a\7*\2\2\u013a\u013e"+
+		"\b\23\1\2\u013b\u013c\7,\2\2\u013c\u013e\b\23\1\2\u013d\u0135\3\2\2\2"+
+		"\u013d\u0137\3\2\2\2\u013d\u0139\3\2\2\2\u013d\u013b\3\2\2\2\u013e%\3"+
+		"\2\2\2\u013f\u0140\b\24\1\2\u0140\u0141\7.\2\2\u0141\u014a\b\24\1\2\u0142"+
+		"\u0143\7\25\2\2\u0143\u0144\7.\2\2\u0144\u0149\b\24\1\2\u0145\u0146\7"+
+		"\3\2\2\u0146\u0147\7.\2\2\u0147\u0149\b\24\1\2\u0148\u0142\3\2\2\2\u0148"+
+		"\u0145\3\2\2\2\u0149\u014c\3\2\2\2\u014a\u0148\3\2\2\2\u014a\u014b\3\2"+
+		"\2\2\u014b\u014d\3\2\2\2\u014c\u014a\3\2\2\2\u014d\u014e\b\24\1\2\u014e"+
+		"\'\3\2\2\2\u014f\u0150\b\25\1\2\u0150\u0151\7.\2\2\u0151\u0157\b\25\1"+
+		"\2\u0152\u0153\7\25\2\2\u0153\u0154\7.\2\2\u0154\u0156\b\25\1\2\u0155"+
+		"\u0152\3\2\2\2\u0156\u0159\3\2\2\2\u0157\u0155\3\2\2\2\u0157\u0158\3\2"+
+		"\2\2\u0158\u015d\3\2\2\2\u0159\u0157\3\2\2\2\u015a\u015b\7\31\2\2\u015b"+
+		"\u015c\7\34\2\2\u015c\u015e\b\25\1\2\u015d\u015a\3\2\2\2\u015d\u015e\3"+
+		"\2\2\2\u015e\u015f\3\2\2\2\u015f\u0160\b\25\1\2\u0160)\3\2\2\2\u0161\u0162"+
+		"\7.\2\2\u0162\u0171\b\26\1\2\u0163\u0164\7\25\2\2\u0164\u0165\7.\2\2\u0165"+
+		"\u0170\b\26\1\2\u0166\u0167\7\31\2\2\u0167\u0168\7*\2\2\u0168\u0169\7"+
+		"\34\2\2\u0169\u0170\b\26\1\2\u016a\u016b\7\31\2\2\u016b\u016c\5*\26\2"+
+		"\u016c\u016d\7\34\2\2\u016d\u016e\b\26\1\2\u016e\u0170\3\2\2\2\u016f\u0163"+
+		"\3\2\2\2\u016f\u0166\3\2\2\2\u016f\u016a\3\2\2\2\u0170\u0173\3\2\2\2\u0171"+
+		"\u016f\3\2\2\2\u0171\u0172\3\2\2\2\u0172+\3\2\2\2\u0173\u0171\3\2\2\2"+
+		"\u0174\u0175\7\31\2\2\u0175\u0176\b\27\1\2\u0176\u0177\5\60\31\2\u0177"+
+		"\u0178\b\27\1\2\u0178\u017f\3\2\2\2\u0179\u017a\7\24\2\2\u017a\u017b\5"+
+		"\60\31\2\u017b\u017c\b\27\1\2\u017c\u017e\3\2\2\2\u017d\u0179\3\2\2\2"+
+		"\u017e\u0181\3\2\2\2\u017f\u017d\3\2\2\2\u017f\u0180\3\2\2\2\u0180\u0182"+
+		"\3\2\2\2\u0181\u017f\3\2\2\2\u0182\u0183\7\34\2\2\u0183\u0184\b\27\1\2"+
+		"\u0184\u018d\3\2\2\2\u0185\u0186\7\31\2\2\u0186\u0187\5\34\17\2\u0187"+
+		"\u0188\7\27\2\2\u0188\u0189\5\34\17\2\u0189\u018a\7\34\2\2\u018a\u018b"+
+		"\b\27\1\2\u018b\u018d\3\2\2\2\u018c\u0174\3\2\2\2\u018c\u0185\3\2\2\2"+
+		"\u018d-\3\2\2\2\u018e\u018f\7.\2\2\u018f\u019d\b\30\1\2\u0190\u0191\5"+
+		"*\26\2\u0191\u0192\b\30\1\2\u0192\u019d\3\2\2\2\u0193\u0194\5\36\20\2"+
+		"\u0194\u0195\b\30\1\2\u0195\u019d\3\2\2\2\u0196\u0197\5 \21\2\u0197\u0198"+
+		"\b\30\1\2\u0198\u019d\3\2\2\2\u0199\u019a\5,\27\2\u019a\u019b\b\30\1\2"+
+		"\u019b\u019d\3\2\2\2\u019c\u018e\3\2\2\2\u019c\u0190\3\2\2\2\u019c\u0193"+
+		"\3\2\2\2\u019c\u0196\3\2\2\2\u019c\u0199\3\2\2\2\u019d/\3\2\2\2\u019e"+
+		"\u019f\5$\23\2\u019f\u01a0\b\31\1\2\u01a0\u01b0\3\2\2\2\u01a1\u01a2\7"+
+		".\2\2\u01a2\u01b0\b\31\1\2\u01a3\u01a4\5*\26\2\u01a4\u01a5\b\31\1\2\u01a5"+
+		"\u01b0\3\2\2\2\u01a6\u01a7\5\36\20\2\u01a7\u01a8\b\31\1\2\u01a8\u01b0"+
+		"\3\2\2\2\u01a9\u01aa\5 \21\2\u01aa\u01ab\b\31\1\2\u01ab\u01b0\3\2\2\2"+
+		"\u01ac\u01ad\5,\27\2\u01ad\u01ae\b\31\1\2\u01ae\u01b0\3\2\2\2\u01af\u019e"+
+		"\3\2\2\2\u01af\u01a1\3\2\2\2\u01af\u01a3\3\2\2\2\u01af\u01a6\3\2\2\2\u01af"+
+		"\u01a9\3\2\2\2\u01af\u01ac\3\2\2\2\u01b0\61\3\2\2\2\u01b1\u01b4\b\32\1"+
+		"\2\u01b2\u01b3\7\'\2\2\u01b3\u01b5\b\32\1\2\u01b4\u01b2\3\2\2\2\u01b4"+
+		"\u01b5\3\2\2\2\u01b5\u01be\3\2\2\2\u01b6\u01b7\5\60\31\2\u01b7\u01b8\b"+
+		"\32\1\2\u01b8\u01bf\3\2\2\2\u01b9\u01ba\7\21\2\2\u01ba\u01bb\5D#\2\u01bb"+
+		"\u01bc\7#\2\2\u01bc\u01bd\b\32\1\2\u01bd\u01bf\3\2\2\2\u01be\u01b6\3\2"+
+		"\2\2\u01be\u01b9\3\2\2\2\u01bf\u01c0\3\2\2\2\u01c0\u01c1\b\32\1\2\u01c1"+
+		"\63\3\2\2\2\u01c2\u01c3\5\62\32\2\u01c3\u01c6\b\33\1\2\u01c4\u01c5\7 "+
+		"\2\2\u01c5\u01c7\b\33\1\2\u01c6\u01c4\3\2\2\2\u01c6\u01c7\3\2\2\2\u01c7"+
+		"\65\3\2\2\2\u01c8\u01c9\5\64\33\2\u01c9\u01d0\b\34\1\2\u01ca\u01cb\7\r"+
+		"\2\2\u01cb\u01cc\5\64\33\2\u01cc\u01cd\b\34\1\2\u01cd\u01cf\3\2\2\2\u01ce"+
+		"\u01ca\3\2\2\2\u01cf\u01d2\3\2\2\2\u01d0\u01ce\3\2\2\2\u01d0\u01d1\3\2"+
+		"\2\2\u01d1\67\3\2\2\2\u01d2\u01d0\3\2\2\2\u01d3\u01d4\5\66\34\2\u01d4"+
+		"\u01df\b\35\1\2\u01d5\u01d6\7\23\2\2\u01d6\u01d7\5\66\34\2\u01d7\u01d8"+
+		"\b\35\1\2\u01d8\u01de\3\2\2\2\u01d9\u01da\7\3\2\2\u01da\u01db\5\66\34"+
+		"\2\u01db\u01dc\b\35\1\2\u01dc\u01de\3\2\2\2\u01dd\u01d5\3\2\2\2\u01dd"+
+		"\u01d9\3\2\2\2\u01de\u01e1\3\2\2\2\u01df\u01dd\3\2\2\2\u01df\u01e0\3\2"+
+		"\2\2\u01e09\3\2\2\2\u01e1\u01df\3\2\2\2\u01e2\u01e3\58\35\2\u01e3\u01ee"+
+		"\b\36\1\2\u01e4\u01e5\7%\2\2\u01e5\u01e6\58\35\2\u01e6\u01e7\b\36\1\2"+
+		"\u01e7\u01ed\3\2\2\2\u01e8\u01e9\7\'\2\2\u01e9\u01ea\58\35\2\u01ea\u01eb"+
+		"\b\36\1\2\u01eb\u01ed\3\2\2\2\u01ec\u01e4\3\2\2\2\u01ec\u01e8\3\2\2\2"+
+		"\u01ed\u01f0\3\2\2\2\u01ee\u01ec\3\2\2\2\u01ee\u01ef\3\2\2\2\u01ef;\3"+
+		"\2\2\2\u01f0\u01ee\3\2\2\2\u01f1\u01f2\5:\36\2\u01f2\u021a\b\37\1\2\u01f3"+
+		"\u01f4\7\33\2\2\u01f4\u01f5\5:\36\2\u01f5\u01f6\b\37\1\2\u01f6\u0219\3"+
+		"\2\2\2\u01f7\u01f8\7\22\2\2\u01f8\u01f9\5:\36\2\u01f9\u01fa\b\37\1\2\u01fa"+
+		"\u0219\3\2\2\2\u01fb\u01fc\7\b\2\2\u01fc\u01fd\5:\36\2\u01fd\u01fe\b\37"+
+		"\1\2\u01fe\u0219\3\2\2\2\u01ff\u0200\7\37\2\2\u0200\u0201\5:\36\2\u0201"+
+		"\u0202\b\37\1\2\u0202\u0219\3\2\2\2\u0203\u0204\7\22\2\2\u0204\u0205\7"+
+		"&\2\2\u0205\u0206\5:\36\2\u0206\u0207\b\37\1\2\u0207\u0219\3\2\2\2\u0208"+
+		"\u0209\7\35\2\2\u0209\u020a\5:\36\2\u020a\u020b\b\37\1\2\u020b\u0219\3"+
+		"\2\2\2\u020c\u020d\7\30\2\2\u020d\u020e\5:\36\2\u020e\u020f\b\37\1\2\u020f"+
+		"\u0219\3\2\2\2\u0210\u0211\7\32\2\2\u0211\u0212\5:\36\2\u0212\u0213\b"+
+		"\37\1\2\u0213\u0219\3\2\2\2\u0214\u0215\7\20\2\2\u0215\u0216\5:\36\2\u0216"+
+		"\u0217\b\37\1\2\u0217\u0219\3\2\2\2\u0218\u01f3\3\2\2\2\u0218\u01f7\3"+
+		"\2\2\2\u0218\u01fb\3\2\2\2\u0218\u01ff\3\2\2\2\u0218\u0203\3\2\2\2\u0218"+
+		"\u0208\3\2\2\2\u0218\u020c\3\2\2\2\u0218\u0210\3\2\2\2\u0218\u0214\3\2"+
+		"\2\2\u0219\u021c\3\2\2\2\u021a\u0218\3\2\2\2\u021a\u021b\3\2\2\2\u021b"+
+		"=\3\2\2\2\u021c\u021a\3\2\2\2\u021d\u021e\5<\37\2\u021e\u021f\b \1\2\u021f"+
+		"\u0225\3\2\2\2\u0220\u0221\7&\2\2\u0221\u0222\5<\37\2\u0222\u0223\b \1"+
+		"\2\u0223\u0225\3\2\2\2\u0224\u021d\3\2\2\2\u0224\u0220\3\2\2\2\u0225?"+
+		"\3\2\2\2\u0226\u0227\5> \2\u0227\u0232\b!\1\2\u0228\u0229\7$\2\2\u0229"+
+		"\u022a\5D#\2\u022a\u022b\b!\1\2\u022b\u0231\3\2\2\2\u022c\u022d\7\36\2"+
+		"\2\u022d\u022e\5D#\2\u022e\u022f\b!\1\2\u022f\u0231\3\2\2\2\u0230\u0228"+
+		"\3\2\2\2\u0230\u022c\3\2\2\2\u0231\u0234\3\2\2\2\u0232\u0230\3\2\2\2\u0232"+
+		"\u0233\3\2\2\2\u0233A\3\2\2\2\u0234\u0232\3\2\2\2\u0235\u0236\5@!\2\u0236"+
+		"\u0237\7\17\2\2\u0237\u0238\5D#\2\u0238\u0239\7\27\2\2\u0239\u023a\5D"+
+		"#\2\u023a\u023b\b\"\1\2\u023bC\3\2\2\2\u023c\u023d\5@!\2\u023d\u023e\b"+
+		"#\1\2\u023e\u0243\3\2\2\2\u023f\u0240\5B\"\2\u0240\u0241\b#\1\2\u0241"+
+		"\u0243\3\2\2\2\u0242\u023c\3\2\2\2\u0242\u023f\3\2\2\2\u0243E\3\2\2\2"+
+		".KOZ`f|~\u0084\u0094\u00a6\u00c0\u00cb\u00d7\u00e5\u00f7\u0103\u0115\u0126"+
+		"\u0132\u013d\u0148\u014a\u0157\u015d\u016f\u0171\u017f\u018c\u019c\u01af"+
+		"\u01b4\u01be\u01c6\u01d0\u01dd\u01df\u01ec\u01ee\u0218\u021a\u0224\u0230"+
+		"\u0232\u0242";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

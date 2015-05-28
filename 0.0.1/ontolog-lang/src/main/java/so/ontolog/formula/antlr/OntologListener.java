@@ -271,6 +271,16 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitLogicalExpression(@NotNull OntologParser.LogicalExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStatement(@NotNull OntologParser.WhileStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStatement(@NotNull OntologParser.WhileStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#foreachStatement}.
 	 * @param ctx the parse tree
 	 */

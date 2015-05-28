@@ -136,6 +136,15 @@ foreachStatement returns [ASTBlock result]
 		{	endScope(); }
 	;
 	
+whileStatement returns [ASTBlock result]
+	: 'while'  {	beginScope(); }
+		'(' logicalExpression  ')' 
+		{ 	$result = foreachStatement(FOREACH, $logicalExpression.result);  }
+		'{' blockContents[$result] '}'
+		END_OF_STMT?
+		{	endScope(); }
+	;
+	
 	
 loopCondition 	returns [ASTExpr result]
 	: typeExpr IDENT 

@@ -329,6 +329,18 @@ public class OntologBaseListener implements OntologListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterWhileStatement(@NotNull OntologParser.WhileStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileStatement(@NotNull OntologParser.WhileStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterForeachStatement(@NotNull OntologParser.ForeachStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
