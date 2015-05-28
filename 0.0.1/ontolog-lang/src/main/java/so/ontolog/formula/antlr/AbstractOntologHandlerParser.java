@@ -223,6 +223,13 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createLoopStatement(current, astToken, condition);
 	}
 
+	
+
+	public ASTStatement assignStatement(String token, ASTExpr varExpr, ASTExpr valueExpr) {
+		ASTToken astToken = createASTToken(token);
+		return factory.createAssignStatement(current, astToken, varExpr, valueExpr);
+	}
+
 
 	public ASTStatement createEvalStmt(String token, ASTExpr expr) {
 		ASTToken astToken = createASTToken(token);

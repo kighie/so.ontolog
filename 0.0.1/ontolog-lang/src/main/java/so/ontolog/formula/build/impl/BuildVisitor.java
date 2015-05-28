@@ -45,6 +45,7 @@ import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
+import so.ontolog.formula.ast.stmt.ASTAssignStatement;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
@@ -59,6 +60,7 @@ import so.ontolog.formula.runtime.Node;
 import so.ontolog.formula.runtime.Operator.Binary;
 import so.ontolog.formula.runtime.Operator.Unary;
 import so.ontolog.formula.runtime.QName;
+import so.ontolog.formula.runtime.Settable;
 import so.ontolog.formula.runtime.Statement;
 import so.ontolog.formula.runtime.expr.ArrayExpr;
 import so.ontolog.formula.runtime.expr.BinaryOperatorExpr;
@@ -76,6 +78,7 @@ import so.ontolog.formula.runtime.module.ScriptModule;
 import so.ontolog.formula.runtime.ref.VarIndexedRef;
 import so.ontolog.formula.runtime.ref.VariableRef;
 import so.ontolog.formula.runtime.ref.VariableRef.PropertyRef;
+import so.ontolog.formula.runtime.stmt.AssignStatement;
 import so.ontolog.formula.runtime.stmt.ForeachStatement;
 import so.ontolog.formula.runtime.stmt.GettablStatementWrapper;
 import so.ontolog.formula.runtime.stmt.IfStatement;
@@ -470,4 +473,13 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		return context;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public BuildContext visit(ASTAssignStatement expr, BuildContext context) {
+		AssignStatement assignStmt = new AssignStatement( 
+				(Settable)expr.getVarExpr().getNode(), 
+				(Gettable)expr.getValueExpr().getNode());
+		expr.setNode(assignStmt);
+		return context;
+	}
 }

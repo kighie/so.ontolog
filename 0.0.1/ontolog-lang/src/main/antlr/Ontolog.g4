@@ -67,6 +67,7 @@ blockContents [ASTBlock stmtHolder]
 		| ifStatement { $stmtHolder.append($ifStatement.result); }
 		| foreachStatement { $stmtHolder.append($foreachStatement.result); }
 		| whileStatement { $stmtHolder.append($whileStatement.result); }
+		| assignStatement { $stmtHolder.append($assignStatement.result); }
 	)*
 	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
@@ -158,7 +159,43 @@ whileStatement returns [ASTBlock result]
 		END_OF_STMT?
 		{	endScope(); }
 	;
+
+
+/* *************************************
+ * assign statement
+ *************************************** */
+assignStatement  returns [ASTStatement result]
+	: 
+	(
+		leftAssign 	{ $result = $leftAssign.result ; }
+		| rightAssign { $result = $rightAssign.result ; }
+	)
 	
+	; 
+ 
+leftAssign  returns [ASTStatement result]
+	: { ASTExpr settable = null; }
+	(
+		IDENT 			{ settable = variable( $IDENT.text);}
+		| qualifiedName	{ settable = variable($qualifiedName.result);}
+	) 
+	'=' expression END_OF_STMT
+	{ $result = assignStatement(LEFT_ASSIGN_STMT, settable, $expression.result); }
+	
+	; 
+ 
+rightAssign  returns [ASTStatement result]
+	: { ASTExpr settable = null; } 
+	expression 
+	'->'
+	(
+		IDENT 			{ settable = variable( $IDENT.text);}
+		| qualifiedName	{ settable = variable($qualifiedName.result);}
+	)
+	END_OF_STMT
+	{ $result = assignStatement(RIGHT_ASSIGN_STMT, settable, $expression.result); }
+	; 
+ 
 
 /***************************************************
  * Declarations  

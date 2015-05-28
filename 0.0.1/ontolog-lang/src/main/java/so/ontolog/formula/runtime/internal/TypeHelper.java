@@ -45,16 +45,16 @@ public class TypeHelper {
 		registerType("text", TypeSpec.STRING);
 		registerType("boolean", TypeSpec.BOOLEAN);
 		registerType("date", TypeSpec.DATE);
-		registerType("map", TypeSpec.MAP);
-		registerType("record", TypeSpec.RECORD);
-		registerType("table", TypeSpec.TABLE);
+//		registerType("map", TypeSpec.MAP);
+//		registerType("record", TypeSpec.RECORD);
+//		registerType("table", TypeSpec.TABLE);
 		
 
 		registerType("BigDecimal", TypeSpec.DECIMAL);
 		registerType("String", TypeSpec.STRING);
 		registerType("Boolean", TypeSpec.BOOLEAN);
 		registerType("Date", TypeSpec.DATE);
-		registerType("Map", TypeSpec.MAP);
+//		registerType("Map", TypeSpec.MAP);
 
 		registerType("int", TypeSpec.INT);
 		registerType("Integer", TypeSpec.INT);

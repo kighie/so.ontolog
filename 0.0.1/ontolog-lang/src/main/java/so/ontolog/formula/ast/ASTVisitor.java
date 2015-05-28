@@ -22,11 +22,12 @@ import so.ontolog.formula.ast.expr.BinaryExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
+import so.ontolog.formula.ast.stmt.ASTAssignStatement;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
-import so.ontolog.formula.ast.stmt.ASTWhileStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
+import so.ontolog.formula.ast.stmt.ASTWhileStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 
 
@@ -80,5 +81,8 @@ public interface ASTVisitor<C> {
 	C visit(ASTLoopCondition expr, C context);
 	
 	C visit(ASTWhileStatement expr, C context);
+	
+
+	C visit(ASTAssignStatement expr, C context);
 	
 }

@@ -7,7 +7,7 @@ param so.ontolog.samples.bean.SampleBean sample;
 param java.math.BigDecimal dec1;
 param java.math.BigDecimal dec2;
 
-number a = 11.4;
+BigDecimal a = 11.4;
 int b = 5;
 CarCoverageInfo carCovInfo = null;
 CarCovrPremInfo premInfo;
@@ -23,6 +23,14 @@ println( a + sum(sample.propArray) );
 println( "sample sum ::" + sum(sample.propArray) );
 
 println( "sample divide ::" + (dec1 / dec2) );
+
+(dec1 / dec2) -> a;
+
+println( "a ::" + a );
+
+a = (dec1 / dec2) * 3.3213;
+
+println( "a ::" + a );
 
 //assert( sum(sample.propArray) * 2 == 421 );
 

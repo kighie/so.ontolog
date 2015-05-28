@@ -131,6 +131,36 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitWhileStatement(OntologParser.WhileStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#assignStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignStatement(OntologParser.AssignStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#assignStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignStatement(OntologParser.AssignStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#leftAssign}.
+	 * @param ctx the parse tree
+	 */
+	void enterLeftAssign(OntologParser.LeftAssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#leftAssign}.
+	 * @param ctx the parse tree
+	 */
+	void exitLeftAssign(OntologParser.LeftAssignContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OntologParser#rightAssign}.
+	 * @param ctx the parse tree
+	 */
+	void enterRightAssign(OntologParser.RightAssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#rightAssign}.
+	 * @param ctx the parse tree
+	 */
+	void exitRightAssign(OntologParser.RightAssignContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#paramDecl}.
 	 * @param ctx the parse tree
 	 */

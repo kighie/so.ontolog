@@ -39,6 +39,7 @@ import so.ontolog.formula.ast.expr.ASTLoopCondition;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
+import so.ontolog.formula.ast.stmt.ASTAssignStatement;
 import so.ontolog.formula.ast.stmt.ASTCallStatement;
 import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
@@ -441,6 +442,13 @@ public class DefaultASTFactory implements ASTFactory {
 	
 
 	@Override
+	public ASTStatement createAssignStatement(ASTContext context,
+			ASTToken token, ASTExpr varExpr, ASTExpr valueExpr) {
+		ASTAssignStatement assignStmt = new ASTAssignStatement(token, varExpr, valueExpr);
+		return assignStmt;
+	}
+
+	@Override
 	public ASTExpr createLoopCondition(ASTContext context, ASTToken token,
 			ASTDeclaration varDecl, ASTExpr iteratorExpr) {
 		ASTLoopCondition condition = new ASTLoopCondition(token, (VariableDecl)varDecl, iteratorExpr);
@@ -477,6 +485,5 @@ public class DefaultASTFactory implements ASTFactory {
 	public ASTStatement createEvalStmt(ASTToken token, ASTExpr expr) {
 		return new EvalExprStatement(token, expr);
 	}
-	
-	
+
 }

@@ -126,8 +126,8 @@ public final class TypeUtils {
 		typeSpecMap.put(java.sql.Timestamp.class, TypeSpec.TIMESTAMP);
 		
 
-		typeSpecMap.put(Record.class, TypeSpec.RECORD);
-		typeSpecMap.put(Table.class, TypeSpec.TABLE);
+//		typeSpecMap.put(Record.class, TypeSpec.RECORD);
+//		typeSpecMap.put(Table.class, TypeSpec.TABLE);
 
 //		typeSpecMap.put(Set.class, TypeSpec.SET);
 //		typeSpecMap.put(Collection.class, TypeSpec.COLLECTION);

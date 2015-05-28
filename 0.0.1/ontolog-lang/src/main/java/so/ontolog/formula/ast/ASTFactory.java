@@ -60,6 +60,7 @@ public interface ASTFactory {
 
 	ASTExpr createLoopCondition(ASTContext context, ASTToken token, ASTDeclaration varDecl, ASTExpr iteratorExpr);
 	
+	
 	/**<pre></pre>
 	 * @param current
 	 * @param astToken
@@ -86,6 +87,8 @@ public interface ASTFactory {
 	ASTBlock createIfStmt(ASTContext context, ASTToken token, ASTExpr condition);
 
 	ASTBlock createLoopStatement(ASTContext context, ASTToken token, ASTExpr condition);
+
+	ASTStatement createAssignStatement(ASTContext context, ASTToken token, ASTExpr varExpr, ASTExpr valueExpr);
 	
 	
 	public interface ModuleFactory {
