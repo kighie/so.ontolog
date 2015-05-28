@@ -17,14 +17,7 @@ package so.ontolog.data.type;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import so.ontolog.data.record.Record;
-import so.ontolog.data.table.Table;
 
 /**
  * <pre></pre>

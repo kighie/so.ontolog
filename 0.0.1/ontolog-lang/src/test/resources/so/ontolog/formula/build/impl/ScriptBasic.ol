@@ -7,7 +7,7 @@ param so.ontolog.samples.bean.SampleBean sample;
 param java.math.BigDecimal dec1;
 param java.math.BigDecimal dec2;
 
-BigDecimal a = 11.4;
+number a = 11.4;
 int b = 5;
 CarCoverageInfo carCovInfo = null;
 CarCovrPremInfo premInfo;

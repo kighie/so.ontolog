@@ -54,8 +54,12 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 	@Override
 	public void set(Context context, T value) {
 		if( type != null && value != null){
-			if(!type.isAssignableFrom(value.getClass())){
-				throw new EvalException("Value " + value + " cannot be set to " + qname).setNode(this);
+			if(!type.isAssignableFrom(value.getClass()) ){
+				if(type.isNumeric()){
+					// TODO Type check
+				} else {
+					throw new EvalException("Value " + value + " cannot be set to " + qname).setNode(this);
+				}
 			}
 		}
 		context.setReference(qname, value);
