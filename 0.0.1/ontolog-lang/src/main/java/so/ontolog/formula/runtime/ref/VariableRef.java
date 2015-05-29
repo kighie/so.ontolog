@@ -58,7 +58,7 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 				if(type.isNumeric()){
 					// TODO Type check
 				} else {
-					throw new EvalException("Value " + value + " cannot be set to " + qname).setNode(this);
+					throw new EvalException("Value " + value + " cannot be set to " + qname + "::" + type).setNode(this);
 				}
 			}
 		}

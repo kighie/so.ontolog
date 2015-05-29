@@ -107,6 +107,9 @@ returnStatement  returns [ASTStatement result]
 	;
 
 
+/**************************************** 
+ * Conditional Statement
+ ***************************************/
 ifStatement returns [ASTIfStatement result]
 	: 	
 		'if' { beginScope(); } 
@@ -128,7 +131,10 @@ ifStatement returns [ASTIfStatement result]
 		{	endScope(); }
 	)?
 	;
-
+	
+/**************************************** 
+ * LOOP Statement
+ ***************************************/
 foreachStatement returns [ASTBlock result]
 	: 'foreach'  {	beginScope(); }
 		'(' loopCondition  ')' 
@@ -218,6 +224,18 @@ variableDecl returns [ASTStatement result]
 	{	$result = asStatement(variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,valueExpr )); }
 	;
 
+//TODO
+functionDecl returns [ASTBlock result]
+	: 'function' { TypeSpec returnType = null; }
+		IDENT '(' ')' ( ':' typeExpr { returnType = $typeExpr.result; })?
+		'{'
+		blockContents[$result]
+		'}'
+	;
+
+
+
+
 /***************************************************
  * EXPRESSIONS  
  *************************************************** */
@@ -252,7 +270,29 @@ arguments  returns [List<ASTExpr> argList]
 		(',' arg2 = expression { $argList.add($arg2.result); } )*
 	;
 
-
+//TODO 
+chooseExpr returns [ASTExpr result]
+	: 'case' '(' formulaTerm ')'
+	'{'
+		( chooseWhenExpr ':' expression  END_OF_STMT )*
+	'}'
+	;
+//TODO 
+chooseWhenExpr returns [ASTExpr result]
+	:
+	(
+		'=='  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
+		|'is'  op2 = additiveExpression {$result = binary(OP_EQ, $result, $op2.result); }
+		|'!=' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'<>' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'is' 'not' op2 = additiveExpression {$result = binary(OP_NOT_EQ, $result, $op2.result); }
+		|'>'  op2 = additiveExpression {$result = binary(OP_GT, $result, $op2.result); }
+		|'>=' op2 = additiveExpression {$result = binary(OP_EQ_GT, $result, $op2.result); }
+		|'<'  op2 = additiveExpression {$result = binary(OP_LT, $result, $op2.result); }
+		|'<=' op2 = additiveExpression {$result = binary(OP_EQ_LT, $result, $op2.result); }
+	)
+	;
+	
 literalTerm  returns [ASTExpr result]
 	: BOOLEAN 			{ $result = literal( LIT_BOOLEAN, $BOOLEAN.text); }
 	| STRING_LITERAL	{ $result = literal( LIT_STRING,  strip($STRING_LITERAL.text)); }
@@ -322,6 +362,7 @@ formulaTerm returns [ASTExpr result]
 	| funcCallExp { $result =  $funcCallExp.result ; }
 	| methodCallExp { $result =  $methodCallExp.result ; }
 	| array { $result =  $array.result ; }
+	| chooseExpr { $result =  $chooseExpr.result ; }
 	;
 
 

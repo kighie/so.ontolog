@@ -25,6 +25,7 @@ import so.ontolog.data.binding.convert.Converter;
 import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
+import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTStatement;
@@ -51,6 +52,7 @@ import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.ASTWhileStatement;
+import so.ontolog.formula.ast.stmt.DeclarationStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 import so.ontolog.formula.build.BuildContext;
 import so.ontolog.formula.build.BuildException;
@@ -73,11 +75,13 @@ import so.ontolog.formula.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.TextLiteral;
+import so.ontolog.formula.runtime.internal.SymbolTable;
 import so.ontolog.formula.runtime.module.ExprModule;
 import so.ontolog.formula.runtime.module.ScriptModule;
 import so.ontolog.formula.runtime.ref.VarIndexedRef;
 import so.ontolog.formula.runtime.ref.VariableRef;
 import so.ontolog.formula.runtime.ref.VariableRef.PropertyRef;
+import so.ontolog.formula.runtime.stmt.AbstractBlock;
 import so.ontolog.formula.runtime.stmt.AssignStatement;
 import so.ontolog.formula.runtime.stmt.ForeachStatement;
 import so.ontolog.formula.runtime.stmt.GettablStatementWrapper;
@@ -95,6 +99,25 @@ import so.ontolog.formula.runtime.stmt.WhileStatement;
 public class BuildVisitor implements ASTVisitor<BuildContext>{
 	
 	private static Logger logger = Logger.getLogger(BuildVisitor.class.getName());
+	
+	protected void buildBlock(ASTBlock astBlock, AbstractBlock block){
+		SymbolTable symbolTable = new SymbolTable();
+		
+		for(ASTStatement s : astBlock.children() ){
+			Node node = s.getNode();
+			Statement statement = (Statement)node;
+			block.append(statement);
+			
+			if(s instanceof DeclarationStatement){
+				ASTDeclaration decl = ((DeclarationStatement)s).getDeclaration();
+				if(decl instanceof VariableDecl){
+					symbolTable.register( ((VariableDecl)decl).getQname(), 
+						((VariableDecl)decl).getType());
+				}
+			}
+		}
+		block.setSymbolTable(symbolTable);
+	}
 	
 	@Override
 	public BuildContext visit(CompilationUnit compilationUnit,
@@ -120,11 +143,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		} else if(GrammarTokens.SCRIPT_MODULE.equals(token)) {
 			ScriptModule module = new ScriptModule();
 			
-			for(ASTStatement s : compilationUnit.children() ){
-				Node node = s.getNode();
-				Statement statement = (Statement)node;
-				module.append(statement);
-			}
+			buildBlock(compilationUnit, module);
 			
 			context.setModule(module);
 			return context;
@@ -401,10 +420,9 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		Gettable<Boolean> condition = (Gettable<Boolean>)stmt.getCondition().getNode();
 		IfStatement ifStmt = new IfStatement(condition);
 
-		for(ASTStatement c : stmt.children() ){
-			ifStmt.append((Statement)c.getNode());
-		}
-
+		
+		buildBlock(stmt, ifStmt);
+		
 		for(ASTIfStatement.ElseIf ei : stmt.getElseifStmts() ){
 			ifStmt.appendElseIf((IfStatement.ElseIf)ei.getNode());
 		}
@@ -424,9 +442,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		Gettable<Boolean> condition = (Gettable<Boolean>)stmt.getCondition().getNode();
 		IfStatement.ElseIf elseIf = new IfStatement.ElseIf(condition);
 
-		for(ASTStatement c : stmt.children() ){
-			elseIf.append((Statement)c.getNode());
-		}
+		buildBlock(stmt, elseIf);
 
 		stmt.setNode(elseIf);
 		return context;
@@ -436,9 +452,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	public BuildContext visit(ASTIfStatement.Else stmt, BuildContext context) {
 		IfStatement.Else elseStmt = new IfStatement.Else();
 
-		for(ASTStatement c : stmt.children() ){
-			elseStmt.append((Statement)c.getNode());
-		}
+		buildBlock(stmt, elseStmt);
 
 		stmt.setNode(elseStmt);
 		return context;
@@ -448,9 +462,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	public BuildContext visit(ASTForeachStatement stmt, BuildContext context) {
 		ForeachStatement foreachStmt = new ForeachStatement((LoopCondition)stmt.getCondition().getNode());
 		
-		for(ASTStatement c : stmt.children() ){
-			foreachStmt.append((Statement)c.getNode());
-		}
+		buildBlock(stmt, foreachStmt);
 		
 		stmt.setNode(foreachStmt);
 		return context;
@@ -470,9 +482,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	public BuildContext visit(ASTWhileStatement stmt, BuildContext context) {
 		WhileStatement whileStmt = new WhileStatement((Gettable<Boolean>)stmt.getCondition().getNode());
 
-		for(ASTStatement c : stmt.children() ){
-			whileStmt.append((Statement)c.getNode());
-		}
+		buildBlock(stmt, whileStmt);
 		
 		stmt.setNode(whileStmt);
 		return context;
