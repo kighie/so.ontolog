@@ -38,4 +38,7 @@ number v = (dec1 > dec2) ? sample.propArray[2] : sample.propArray[3];
 
 println( "sample v ::" + v );
 
+
+x = 1;
+
 return v * 2;

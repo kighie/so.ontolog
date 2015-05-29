@@ -467,9 +467,14 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public BuildContext visit(ASTWhileStatement expr, BuildContext context) {
-		WhileStatement whileStmt = new WhileStatement((Gettable<Boolean>)expr.getCondition().getNode());
-		expr.setNode(whileStmt);
+	public BuildContext visit(ASTWhileStatement stmt, BuildContext context) {
+		WhileStatement whileStmt = new WhileStatement((Gettable<Boolean>)stmt.getCondition().getNode());
+
+		for(ASTStatement c : stmt.children() ){
+			whileStmt.append((Statement)c.getNode());
+		}
+		
+		stmt.setNode(whileStmt);
 		return context;
 	}
 	
