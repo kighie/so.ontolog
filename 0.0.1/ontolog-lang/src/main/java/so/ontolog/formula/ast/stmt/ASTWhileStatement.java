@@ -1,12 +1,11 @@
 package so.ontolog.formula.ast.stmt;
 
-import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.util.TextUtils;
 
-public class ASTWhileStatement extends ASTBlock {
+public class ASTWhileStatement extends AbstractASTBlock {
 	
 	private static final long serialVersionUID = 1264595194524814473L;
 	

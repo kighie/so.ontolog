@@ -62,7 +62,7 @@ public class ScopeASTContext implements ASTContext {
 
 	@Override
 	public void registerVarDecl(ASTDeclaration symbol) {
-		varTable.put(symbol.getQname(), symbol);
+		varTable.put(symbol.qname(), symbol);
 	}
 	
 	
@@ -82,7 +82,7 @@ public class ScopeASTContext implements ASTContext {
 
 	@Override
 	public void registerFuncDecl(ASTDeclaration symbol) {
-		funcTable.put(symbol.getQname(), symbol);
+		funcTable.put(symbol.qname(), symbol);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ package so.ontolog.formula.ast.stmt;
 
 import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.AbstractASTNode;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
 
 /**
@@ -23,7 +24,7 @@ import so.ontolog.formula.ast.expr.ASTCallExpr;
  * @author Ikchan Kwon
  *
  */
-public class ASTCallStatement extends ASTStatement {
+public class ASTCallStatement extends AbstractASTNode implements ASTStatement {
 	private static final long serialVersionUID = 6727044409613296208L;
 
 	private ASTCallExpr callExpr;

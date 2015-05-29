@@ -1,12 +1,11 @@
 package so.ontolog.formula.ast.stmt;
 
-import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.expr.ASTLoopCondition;
 import so.ontolog.formula.ast.util.TextUtils;
 
-public class ASTForeachStatement extends ASTBlock {
+public class ASTForeachStatement extends AbstractASTBlock {
 
 	private static final long serialVersionUID = 1962363140133665798L;
 

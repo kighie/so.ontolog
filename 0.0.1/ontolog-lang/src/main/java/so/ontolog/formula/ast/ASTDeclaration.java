@@ -22,24 +22,10 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTDeclaration extends ASTNode {
+public interface ASTDeclaration extends ASTNode {
 
-	private static final long serialVersionUID = -3218930083176435587L;
-	protected final QName qname;
-	protected final TypeSpec typeSpec;
-	
-	public ASTDeclaration(ASTToken token, QName qname, TypeSpec typeSpec) {
-		super(token);
-		this.qname = qname;
-		this.typeSpec = typeSpec;
-	}
-	
-	public QName getQname() {
-		return qname;
-	}
+	QName qname();
 
-	public TypeSpec getType() {
-		return typeSpec;
-	}
+	TypeSpec type();
 	
 }

@@ -60,7 +60,7 @@ public class ASTUtils {
 		ASTDeclaration decl = context.getVarDecl(parentName);
 		
 		if(decl != null){
-			TypeSpec typeSpec = decl.getType();
+			TypeSpec typeSpec = decl.type();
 			return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), qname.getName());
 		} 
 		

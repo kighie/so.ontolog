@@ -16,7 +16,6 @@ package so.ontolog.formula.ast.expr;
 
 import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.util.TextUtils;
@@ -27,7 +26,7 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class ASTVariableExpr extends ASTSymbol {
+public class ASTVariableExpr extends AbstractASTSymbol {
 
 	private static final long serialVersionUID = 1892405954432146025L;
 	

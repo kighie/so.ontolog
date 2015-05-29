@@ -7,7 +7,7 @@ import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 
-public class ASTArrayExpr extends ASTExpr {
+public class ASTArrayExpr extends AbstractASTExpr {
 
 	private static final long serialVersionUID = 8219380940499923076L;
 

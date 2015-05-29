@@ -15,7 +15,6 @@
 package so.ontolog.formula.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.util.TextUtils;
@@ -25,7 +24,7 @@ import so.ontolog.formula.ast.util.TextUtils;
  * @author Ikchan Kwon
  *
  */
-public class LiteralExpr extends ASTExpr {
+public class LiteralExpr extends AbstractASTExpr {
 
 	private static final long serialVersionUID = -6538997135514749338L;
 

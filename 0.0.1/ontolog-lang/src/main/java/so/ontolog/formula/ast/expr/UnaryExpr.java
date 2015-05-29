@@ -26,7 +26,7 @@ import so.ontolog.formula.runtime.Operator.Unary;
  * @author Ikchan Kwon
  *
  */
-public class UnaryExpr extends ASTExpr {
+public class UnaryExpr extends AbstractASTExpr {
 
 	private static final long serialVersionUID = -3046445070714553198L;
 	protected ASTExpr expr;

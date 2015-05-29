@@ -12,23 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.ast;
+package so.ontolog.formula.ast.expr;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.ast.ASTExpr;
+import so.ontolog.formula.ast.ASTToken;
+import so.ontolog.formula.ast.AbstractASTNode;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface ASTExpr extends ASTNode {
+public abstract class AbstractASTExpr extends AbstractASTNode implements ASTExpr {
+	private static final long serialVersionUID = 874891282549239854L;
+
+	protected TypeSpec typeSpec;
+	
+	public AbstractASTExpr(ASTToken token, TypeSpec typeSpec) {
+		super(token);
+		this.typeSpec = typeSpec;
+	}
+	
 	/**
 	 * @param typeSpec the typeSpec to set
 	 */
-	void setType(TypeSpec typeSpec);
+	public void setType(TypeSpec typeSpec) {
+		this.typeSpec = typeSpec;
+	}
 	
 	/**
 	 * @return the typeSpec
 	 */
-	TypeSpec type();
+	public TypeSpec type() {
+		return typeSpec;
+	}
 }

@@ -14,12 +14,14 @@
  */
 package so.ontolog.formula.ast;
 
+import so.ontolog.formula.ast.stmt.AbstractASTBlock;
+
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class CompilationUnit extends ASTBlock {
+public class CompilationUnit extends AbstractASTBlock {
 
 	private static final long serialVersionUID = -3772387129534484495L;
 

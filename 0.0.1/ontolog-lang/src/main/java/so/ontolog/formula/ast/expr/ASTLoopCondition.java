@@ -24,7 +24,7 @@ import so.ontolog.formula.ast.decl.VariableDecl;
  * @author Ikchan Kwon
  *
  */
-public class ASTLoopCondition extends ASTExpr {
+public class ASTLoopCondition extends AbstractASTExpr {
 
 	private static final long serialVersionUID = -2944616438543779976L;
 
@@ -36,7 +36,7 @@ public class ASTLoopCondition extends ASTExpr {
 	 * @param typeSpec
 	 */
 	public ASTLoopCondition(ASTToken token, VariableDecl varDelc, ASTExpr iteratorExpr) {
-		super(token, varDelc.getType());
+		super(token, varDelc.type());
 		this.varDelc = varDelc;
 		this.iteratorExpr = iteratorExpr;
 	}

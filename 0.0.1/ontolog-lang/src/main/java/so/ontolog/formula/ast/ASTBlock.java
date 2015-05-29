@@ -14,68 +14,18 @@
  */
 package so.ontolog.formula.ast;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
+
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ASTBlock extends ASTStatement {
-	private static final long serialVersionUID = -379295710765793638L;
+public interface ASTBlock extends ASTStatement {
 
-	@SuppressWarnings("unchecked")
-	protected final List<ASTStatement> EMPTY_STATEMENT = Collections.EMPTY_LIST;
-	
-	protected List<ASTStatement> children;
-	
-	
-	public ASTBlock(ASTToken position) {
-		super(position);
-	}
-
-	public boolean append(ASTStatement e) {
-		if(children == null){
-			children = new LinkedList<ASTStatement>();
-		}
-		return children.add(e);
-	}
+	boolean append(ASTStatement e);
 	
 	@Override
-	public List<ASTStatement> children() {
-		if(children == null){
-			return EMPTY_STATEMENT;
-		}
-		return children;
-	}
-
-	@Override
-	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		return acceptChildren(visitor, context);
-	}
-	
-	protected <C> C acceptChildren(ASTVisitor<C> visitor, C context) {
-		if(children != null){
-			for(ASTNode c : children){
-				c.accept(visitor, context);
-			}
-		}
-		return context;
-	}
-	
-	@Override
-	public void getText(StringBuilder buffer, int depth) {
-		getChildrenText(buffer, depth);
-	}
-	
-	protected void getChildrenText(StringBuilder buffer, int depth){
-		if(children != null){
-			int cDepth = depth;
-			for(ASTNode c : children){
-				c.getText(buffer, cDepth);
-			}
-		}
-	}
+	List<ASTStatement> children();
 }

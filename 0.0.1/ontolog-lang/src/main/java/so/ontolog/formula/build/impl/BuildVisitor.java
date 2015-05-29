@@ -111,8 +111,8 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			if(s instanceof DeclarationStatement){
 				ASTDeclaration decl = ((DeclarationStatement)s).getDeclaration();
 				if(decl instanceof VariableDecl){
-					symbolTable.register( ((VariableDecl)decl).getQname(), 
-						((VariableDecl)decl).getType());
+					symbolTable.register( ((VariableDecl)decl).qname(), 
+						((VariableDecl)decl).type());
 				}
 			}
 		}
@@ -252,13 +252,13 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	@SuppressWarnings({ "rawtypes" , "unchecked" })
 	@Override
 	public BuildContext visit(ASTVariableExpr variableExpr, BuildContext context) {
-		QName qname = variableExpr.getQname();
+		QName qname = variableExpr.qname();
 		VariableRef<?> varRef;
 		if(qname.getParent() != null){
-			varRef = new PropertyRef(variableExpr.type(), variableExpr.getQname(), 
+			varRef = new PropertyRef(variableExpr.type(), variableExpr.qname(), 
 					variableExpr.getPropertyAccessor());
 		} else {
-			varRef = new VariableRef(variableExpr.type(), variableExpr.getQname());
+			varRef = new VariableRef(variableExpr.type(), variableExpr.qname());
 		}
 		variableExpr.setNode(varRef);
 		return context;
@@ -278,7 +278,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public BuildContext visit(CompositeSymbolExpr variableExpr, BuildContext context) {
-		QName qname = variableExpr.getQname();
+		QName qname = variableExpr.qname();
 		VariableRef<?> parentRef = (VariableRef)variableExpr.getParent().getNode();
 		VariableRef<?> indexerRef = (VariableRef)variableExpr.getVarIndexer().getNode();
 		VarIndexedRef<?> varRef = new VarIndexedRef(qname, parentRef, indexerRef);
@@ -363,11 +363,11 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		
 		if(GrammarTokens.PARAM_DECL.equals(tokenName)){
 			ParamDecl paramDecl = (ParamDecl)declStmt;
-			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.getQname(), paramDecl.getType(), paramDecl.getParamName());
+			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.qname(), paramDecl.type(), paramDecl.getParamName());
 			declStmt.setNode(stmt);
 		} else if(GrammarTokens.VAR_DECL.equals(tokenName)){
 			VariableDecl varDecl = (VariableDecl)declStmt;
-			VariableDeclStatement stmt = new VariableDeclStatement(varDecl.getQname(), varDecl.getType());
+			VariableDeclStatement stmt = new VariableDeclStatement(varDecl.qname(), varDecl.type());
 
 			ASTExpr valueExpr = varDecl.getValueExpr();
 			if(valueExpr != null){

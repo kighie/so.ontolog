@@ -12,8 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.ast;
+package so.ontolog.formula.ast.expr;
 
+import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.ast.ASTSymbol;
+import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.runtime.QName;
 
 /**
@@ -21,9 +24,19 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public interface ASTSymbol extends ASTExpr {
+public abstract class AbstractASTSymbol extends AbstractASTExpr implements ASTSymbol {
+	private static final long serialVersionUID = -4030999049758000792L;
 
-	QName qname();
+	protected final QName qname;
+	
+	public AbstractASTSymbol(ASTToken token, TypeSpec typeSpec, QName qname) {
+		super(token, typeSpec);
+		this.qname = qname;
+	}
+	
+	public QName qname() {
+		return qname;
+	}
 
 	
 }

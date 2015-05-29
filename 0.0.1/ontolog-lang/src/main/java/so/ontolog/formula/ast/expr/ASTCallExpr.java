@@ -18,7 +18,6 @@ import java.util.List;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTExpr;
-import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.runtime.QName;
 
@@ -27,7 +26,7 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTCallExpr extends ASTSymbol {
+public abstract class ASTCallExpr extends AbstractASTSymbol {
 
 	private static final long serialVersionUID = -976688139106286789L;
 	

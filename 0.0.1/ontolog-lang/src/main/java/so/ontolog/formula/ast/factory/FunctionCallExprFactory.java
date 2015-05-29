@@ -52,7 +52,7 @@ public class FunctionCallExprFactory implements CallExprFactory {
 		Function<?> function = null;
 		
 		if(fnDecl != null){
-			typeSpec = fnDecl.getType(); 
+			typeSpec = fnDecl.type(); 
 			argTypeArray = ((FunctionDecl)fnDecl).getParamTypeArray();
 		} else {
 			function = context.getBuiltInFunction(qname);

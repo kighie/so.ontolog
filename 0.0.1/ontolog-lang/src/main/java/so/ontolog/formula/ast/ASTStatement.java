@@ -19,12 +19,7 @@ package so.ontolog.formula.ast;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTStatement extends ASTNode {
+public interface ASTStatement extends ASTNode {
 
-	private static final long serialVersionUID = 7123673043495834373L;
-
-	public ASTStatement(ASTToken position) {
-		super(position);
-	}
 	
 }

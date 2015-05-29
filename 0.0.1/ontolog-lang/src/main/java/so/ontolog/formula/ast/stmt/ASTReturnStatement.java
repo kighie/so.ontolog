@@ -17,13 +17,14 @@ package so.ontolog.formula.ast.stmt;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.AbstractASTNode;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ASTReturnStatement extends ASTStatement {
+public class ASTReturnStatement extends AbstractASTNode implements ASTStatement {
 
 	private static final long serialVersionUID = 7871177162737870777L;
 

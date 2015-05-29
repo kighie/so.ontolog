@@ -77,7 +77,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		ASTDeclaration decl = context.getVarDecl(qname);
 		TypeSpec typeSpec;
 		if(decl != null){
-			typeSpec = decl.getType(); 
+			typeSpec = decl.type(); 
 		} else {
 			logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
 			typeSpec = TypeSpec.UNDEFINED;

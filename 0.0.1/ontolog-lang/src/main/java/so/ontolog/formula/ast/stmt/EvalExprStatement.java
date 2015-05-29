@@ -18,13 +18,14 @@ import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.AbstractASTNode;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class EvalExprStatement extends ASTStatement {
+public class EvalExprStatement extends AbstractASTNode implements ASTStatement {
 
 	private static final long serialVersionUID = -6200531771237460158L;
 	

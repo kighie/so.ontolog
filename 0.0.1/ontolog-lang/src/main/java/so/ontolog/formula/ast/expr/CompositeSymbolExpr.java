@@ -26,7 +26,7 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class CompositeSymbolExpr extends ASTSymbol {
+public class CompositeSymbolExpr extends AbstractASTSymbol {
 
 	private static final long serialVersionUID = -1476125755606003012L;
 

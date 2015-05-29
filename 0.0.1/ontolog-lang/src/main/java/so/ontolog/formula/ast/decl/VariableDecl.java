@@ -15,7 +15,6 @@
 package so.ontolog.formula.ast.decl;
 
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
@@ -27,7 +26,7 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class VariableDecl extends ASTDeclaration {
+public class VariableDecl extends AbstractASTDeclaration {
 
 	private static final long serialVersionUID = -5739860630818499547L;
 

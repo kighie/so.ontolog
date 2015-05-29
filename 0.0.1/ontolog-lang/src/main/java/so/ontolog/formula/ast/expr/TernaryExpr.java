@@ -25,7 +25,7 @@ import so.ontolog.formula.ast.util.TextUtils;
  * @author Ikchan Kwon
  *
  */
-public class TernaryExpr extends ASTExpr {
+public class TernaryExpr extends AbstractASTExpr {
 
 	private static final long serialVersionUID = -5755226002106875177L;
 	protected ASTExpr expr1;

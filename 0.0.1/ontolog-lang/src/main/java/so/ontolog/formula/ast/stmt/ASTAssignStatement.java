@@ -18,6 +18,7 @@ import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.AbstractASTNode;
 import so.ontolog.formula.ast.util.TextUtils;
 
 /**
@@ -25,7 +26,7 @@ import so.ontolog.formula.ast.util.TextUtils;
  * @author Ikchan Kwon
  *
  */
-public class ASTAssignStatement extends ASTStatement {
+public class ASTAssignStatement extends AbstractASTNode implements ASTStatement {
 
 	private static final long serialVersionUID = -3405771545984022318L;
 

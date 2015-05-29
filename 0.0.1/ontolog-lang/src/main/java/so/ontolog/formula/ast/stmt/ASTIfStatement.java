@@ -28,7 +28,7 @@ import so.ontolog.formula.ast.util.TextUtils;
  * @author Ikchan Kwon
  *
  */
-public class ASTIfStatement extends ASTBlock {
+public class ASTIfStatement extends AbstractASTBlock {
 
 	private static final long serialVersionUID = 5387617533039143375L;
 
@@ -101,7 +101,7 @@ public class ASTIfStatement extends ASTBlock {
 		return elseStmt;
 	}
 
-	public static class ElseIf extends ASTBlock {
+	public static class ElseIf extends AbstractASTBlock {
 
 		private static final long serialVersionUID = -5448070513540107933L;
 
@@ -138,7 +138,7 @@ public class ASTIfStatement extends ASTBlock {
 		}
 	}
 	
-	public static class Else extends ASTBlock {
+	public static class Else extends AbstractASTBlock {
 		private static final long serialVersionUID = -9037814467321550962L;
 
 		/**

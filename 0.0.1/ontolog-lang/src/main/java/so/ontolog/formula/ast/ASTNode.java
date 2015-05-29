@@ -15,7 +15,6 @@
 package so.ontolog.formula.ast;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 import so.ontolog.formula.runtime.Node;
@@ -25,36 +24,20 @@ import so.ontolog.formula.runtime.Node;
  * @author Ikchan Kwon
  *
  */
-public abstract class ASTNode implements Serializable {
-	private static final long serialVersionUID = -2448547060134876394L;
-	
-	@SuppressWarnings("unchecked")
-	protected final List<? extends ASTNode> EMPTY_CHILDREN = Collections.EMPTY_LIST;
-
-	protected ASTToken token;
-	protected Node rtNode;
-	
-	public ASTNode(ASTToken token) {
-		this.token = token;
-	}
+public interface ASTNode extends Serializable{
 
 	/**
 	 * @return this node's position
 	 */
-	public ASTToken getToken(){
-		return token;
-	}
+	public abstract ASTToken getToken();
 
 	/**
 	 * set this node's location
 	 * @param position
 	 * @return this node
 	 */
-	public ASTNode setToken(ASTToken token){
-		this.token = token;
-		return this;
-	}
-	
+	public abstract ASTNode setToken(ASTToken token);
+
 	/**
 	 * <pre></pre>
 	 * @param visitor
@@ -62,31 +45,19 @@ public abstract class ASTNode implements Serializable {
 	 * @return
 	 */
 	public abstract <C> C accept(ASTVisitor<C> visitor, C context);
-	
-	public List<? extends ASTNode> children(){
-		return EMPTY_CHILDREN;
-	}
+
+	public abstract List<? extends ASTNode> children();
 
 	public abstract void getText(StringBuilder buffer, int depth);
-	
-	@Override
-	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		getText(buffer, 0);
-		return buffer.toString();
-	}
-	
+
 	/**
 	 * @return the rtNode
 	 */
-	public Node getNode() {
-		return rtNode;
-	}
-	
+	public abstract Node getNode();
+
 	/**
 	 * @param rtNode the rtNode to set
 	 */
-	public void setNode(Node rtNode) {
-		this.rtNode = rtNode;
-	}
+	public abstract void setNode(Node rtNode);
+
 }
