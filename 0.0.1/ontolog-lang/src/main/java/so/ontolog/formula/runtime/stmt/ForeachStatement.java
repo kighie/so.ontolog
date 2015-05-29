@@ -32,14 +32,13 @@ public class ForeachStatement extends AbstractBlock {
 	
 	
 	public ForeachStatement(LoopCondition loopCondition) {
-		super();
 		this.loopCondition = loopCondition;
 	}
 
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Object eval(Context context) {
+	protected Object evalInternal(Context context) {
 		QName qname = loopCondition.getVarDecl().getQName();
 		Object iterable = loopCondition.getIterator().get(context);
 		

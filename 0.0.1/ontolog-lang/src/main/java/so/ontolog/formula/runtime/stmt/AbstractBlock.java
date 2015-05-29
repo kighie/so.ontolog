@@ -20,6 +20,7 @@ import java.util.List;
 import so.ontolog.formula.runtime.Block;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Statement;
+import so.ontolog.formula.runtime.internal.SymbolTable;
 
 /**
  * <pre></pre>
@@ -30,6 +31,7 @@ public class AbstractBlock implements Block {
 
 	private static final long serialVersionUID = -8149269987642137932L;
 
+	protected SymbolTable symbolTable;
 	protected final List<Statement> statementList = new LinkedList<Statement>();
 	
 	@Override
@@ -37,10 +39,27 @@ public class AbstractBlock implements Block {
 		statementList.add(node);
 	}
 	
+	public SymbolTable getSymbolTable() {
+		return symbolTable;
+	}
+	
+	public void setSymbolTable(SymbolTable symbolTable) {
+		this.symbolTable = symbolTable;
+	}
+	
 	@Override
-	public Object eval(Context context) {
+	public final Object eval(Context context) {
+		context = context.down(symbolTable);
+		Object rtn = evalInternal(context);
+		context.up();
+		return rtn;
+	}
+	
+
+	protected Object evalInternal(Context context) {
 		return evalChildren(context);
 	}
+	
 	
 	protected Object evalChildren(Context context){
 		Object rtn;

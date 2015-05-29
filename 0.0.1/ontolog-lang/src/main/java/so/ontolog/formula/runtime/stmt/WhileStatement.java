@@ -37,7 +37,7 @@ public class WhileStatement extends AbstractBlock {
 
 	
 	@Override
-	public Object eval(Context context) {
+	protected Object evalInternal(Context context) {
 		Object rtn = null;
 		while(loopCondition.get(context)){
 			rtn = evalChildren(context);

@@ -25,7 +25,7 @@ import so.ontolog.data.type.TypeKind;
  *
  * @param <T>
  */
-public interface Field extends Serializable {
+public interface Field<K> extends Serializable {
 
 	public static final Class<?> UNDEFINED_TYPE = Undefined.class;
 	public static final Object UNDEFINED_VALUE = Undefined.VALUE;
@@ -35,7 +35,7 @@ public interface Field extends Serializable {
 	 * <pre>The name of this field</pre>
 	 * @return
 	 */
-	String name();
+	K name();
 	
 	/**
 	 * <pre>The type of this field</pre>
@@ -51,4 +51,6 @@ public interface Field extends Serializable {
 	
 	
 	void toString(StringBuilder builder);
+	
+	boolean checkType(Object value);
 }

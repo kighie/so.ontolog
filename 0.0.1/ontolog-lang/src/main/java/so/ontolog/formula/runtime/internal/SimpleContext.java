@@ -27,8 +27,35 @@ import so.ontolog.formula.runtime.QName;
  */
 public class SimpleContext implements Context {
 	private Map<QName, Object> refMap = new HashMap<QName, Object>();
+
+	private Context parent;
+	private Context child;
+	private SymbolTable symbolTable;
+	
+	public SimpleContext() {
+		super();
+	}
+	
+	public SimpleContext(Context parent, SymbolTable symbolTable) {
+		this.parent = parent;
+		this.symbolTable = symbolTable;
+	}
 	
 
+	protected Context getSymbolOwner(QName name) {
+		if(symbolTable != null && symbolTable.contains(name)){
+			return this;
+		}
+		if(parent != null){
+			return ((SimpleContext)parent).getSymbolOwner(name);
+		}
+		return null;
+	}
+	
+	protected void setSymbolTable(SymbolTable symbolTable) {
+		this.symbolTable = symbolTable;
+	}
+	
 	public void setParameter(String name, Object value){
 		setReference(new QName(name), value);
 	}
@@ -36,12 +63,21 @@ public class SimpleContext implements Context {
 	
 	@Override
 	public Object getReference(QName name) {
-		return refMap.get(name);
+		Object ref = refMap.get(name);
+		if(ref == null && parent != null){
+			return parent.getReference(name);
+		}
+		return ref;
 	}
 	
 	@Override
 	public void setReference(QName name, Object value) {
-		refMap.put(name, value);
+		Context owner = getSymbolOwner(name);
+		if(owner != null && owner != this){
+			owner.setReference(name, value);
+		} else {
+			refMap.put(name, value);
+		}
 	}
 	
 	@Override
@@ -49,4 +85,19 @@ public class SimpleContext implements Context {
 		refMap.clear();
 	}
 
+	@Override
+	public Context down(SymbolTable symbolTable) {
+		if(child == null){
+			child = new SimpleContext(this, symbolTable);
+		}
+		((SimpleContext)child).setSymbolTable(symbolTable);
+		return child;
+	}
+	
+	@Override
+	public Context up() {
+		this.clear();
+		symbolTable = null;
+		return parent;
+	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import so.ontolog.data.common.FieldMap;
 import so.ontolog.data.util.StringArraySet;
 
-public class RecordMetadata extends FieldMap<RecordField>{
+public class RecordMetadata extends FieldMap<String, RecordField>{
 	private static final long serialVersionUID = 5299769118204358961L;
 
 	private final String name;

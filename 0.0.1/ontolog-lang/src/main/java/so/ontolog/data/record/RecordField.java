@@ -18,7 +18,7 @@ import so.ontolog.data.common.AbstractField;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 
-public class RecordField extends AbstractField {
+public class RecordField extends AbstractField<String> {
 	private static final long serialVersionUID = 8161179718435161133L;
 
 	public static final int UNDEFINED_LENGTH = -1;

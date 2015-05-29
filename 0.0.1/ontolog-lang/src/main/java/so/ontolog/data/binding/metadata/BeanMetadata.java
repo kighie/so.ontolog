@@ -24,7 +24,7 @@ import so.ontolog.data.util.StringArraySet;
  *
  */
 @SuppressWarnings("rawtypes")
-public class BeanMetadata<T> extends FieldMap<BeanProperty>{
+public class BeanMetadata<T> extends FieldMap<String, BeanProperty>{
 	private static final long serialVersionUID = 8012712582777493688L;
 
 	private Class<T> beanClass;

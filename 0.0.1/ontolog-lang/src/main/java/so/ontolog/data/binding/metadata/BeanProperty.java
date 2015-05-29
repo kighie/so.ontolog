@@ -28,17 +28,17 @@ import so.ontolog.data.type.TypeSpec;
  * @author Ikchan Kwon
  *
  */
-public class BeanProperty<T> extends AbstractField implements PropertyAccessor<String, T> {
+public class BeanProperty<F> extends AbstractField<String> implements PropertyAccessor<String, F> {
 	private static final long serialVersionUID = -196837514470986311L;
 	public static final Object[] EMPTY_ARGS = new Object[0];
 	
 	private Method getter;
 	private Method setter;
-	private T defaultValue;
+	private F defaultValue;
 	private Type[] genericParamTypes;
-	private Converter<? extends T> converter;
+	private Converter<? extends F> converter;
 	
-	public BeanProperty(String name, TypeSpec typeSpec, Converter<T> converter) {
+	public BeanProperty(String name, TypeSpec typeSpec, Converter<F> converter) {
 		super(name, typeSpec);
 		this.converter = converter;
 		initDefault();
@@ -64,18 +64,18 @@ public class BeanProperty<T> extends AbstractField implements PropertyAccessor<S
 		}
 	}
 	
-	public T getDefaultValue() {
+	public F getDefaultValue() {
 		return defaultValue;
 	}
 
-	public void setDefaultValue(T defaultValue) {
+	public void setDefaultValue(F defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 
 	/**
 	 * @param converter the converter to set
 	 */
-	public void setConverter(Converter<? extends T> converter) {
+	public void setConverter(Converter<? extends F> converter) {
 		this.converter = converter;
 	}
 	
@@ -111,14 +111,14 @@ public class BeanProperty<T> extends AbstractField implements PropertyAccessor<S
 	
 	
 	@SuppressWarnings("unchecked")
-	public T get(Object bean){
+	public F get(Object bean){
 		if(bean == null){
 //			return null;
 			throw new BindingException("Get Field '" + name + "' :: Bean is null.");
 		}
 		if(getter != null){
 			try {
-				return (T)getter.invoke(bean, EMPTY_ARGS);
+				return (F)getter.invoke(bean, EMPTY_ARGS);
 			} catch (Exception e) {
 				throw new BindingException(e);
 			}
@@ -141,7 +141,7 @@ public class BeanProperty<T> extends AbstractField implements PropertyAccessor<S
 				value = defaultValue;
 			}
 			try {
-				T val = converter.convert(value); 
+				F val = converter.convert(value); 
 				setter.invoke(bean, new Object[]{val});
 			} catch (Exception e) {
 				throw new BindingException(e);

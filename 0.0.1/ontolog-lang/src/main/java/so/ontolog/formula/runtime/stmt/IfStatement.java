@@ -48,7 +48,7 @@ public class IfStatement extends AbstractBlock {
 	}
 
 	@Override
-	public Object eval(Context context) {
+	protected Object evalInternal(Context context) {
 		if(condition.get(context)){
 			return evalChildren(context);
 		} 
@@ -79,7 +79,7 @@ public class IfStatement extends AbstractBlock {
 		}
 		
 		@Override
-		public Object eval(Context context) {
+		protected Object evalInternal(Context context) {
 			if(condition.get(context)){
 				return evalChildren(context);
 			} 
@@ -90,5 +90,6 @@ public class IfStatement extends AbstractBlock {
 
 	public static class Else extends AbstractBlock {
 		private static final long serialVersionUID = 5725998838593451944L;
+		
 	}
 }

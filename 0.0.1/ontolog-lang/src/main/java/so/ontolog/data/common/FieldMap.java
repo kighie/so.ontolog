@@ -19,30 +19,31 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.Set;
 
-import so.ontolog.data.util.StringArraySet;
+import so.ontolog.data.util.KeyArraySet;
 
 /**
  * <pre></pre>
  * @author kighie@gmail.com
  *
  */
-public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
+@SuppressWarnings("rawtypes")
+public class FieldMap<K, F extends Field> implements Serializable, Iterable<F>{
 	private static final long serialVersionUID = -3120495093411329158L;
 	
-	private final StringArraySet keySet;
-	private final T[] fields;
+	private final KeyArraySet<K> keySet;
+	private final F[] fields;
 
 	@SuppressWarnings("unchecked")
-	protected FieldMap(String[] strArray, Class<T> fieldType) {
-		this.keySet = new StringArraySet(strArray);
-		this.fields = (T[])Array.newInstance(fieldType, strArray.length);
+	protected FieldMap(K[] strArray, Class<F> fieldType) {
+		this.keySet = new KeyArraySet<K>(strArray);
+		this.fields = (F[])Array.newInstance(fieldType, strArray.length);
 	}
 
-	public FieldMap(String[] strArray, T[] fields) {
-		this(new StringArraySet(strArray), fields);
+	public FieldMap(K[] strArray, F[] fields) {
+		this(new KeyArraySet<K>(strArray), fields);
 	}
 	
-	public FieldMap(StringArraySet keySet, T[] fields) {
+	public FieldMap(KeyArraySet<K> keySet, F[] fields) {
 		this.keySet = keySet;
 		this.fields = fields;
 	}
@@ -55,11 +56,11 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 		return keySet.isEmpty();
 	}
 
-	public boolean contains(String key) {
+	public boolean contains(K key) {
 		return keySet.contains(key);
 	}
 
-	public boolean contains(Field field) {
+	public boolean contains(Field<K> field) {
 		int index = keySet.indexOf(field.name());
 		
 		if(index <0){
@@ -69,15 +70,15 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 		return fields[index].equals(field);
 	}
 
-	public String getKey(int index){
+	public K getKey(int index){
 		return keySet.get(index);
 	}
 	
-	public T get(int index){
+	public F get(int index){
 		return fields[index];
 	}
 	
-	public T get(String key) {
+	public F get(K key) {
 		int index = keySet.indexOf(key);
 		if(index < 0){
 			throw new IndexOutOfBoundsException(key + " is not found.");
@@ -85,21 +86,21 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 		return fields[index];
 	}
 
-	public int indexOf(String key){
+	public int indexOf(K key){
 		return keySet.indexOf(key);
 	}
 	
-	public void set(T field) {
-		int index = keySet.indexOf(field.name());
+	public void set(K key, F field) {
+		int index = keySet.indexOf(key);
 		fields[index] = field;
 	}
 	
-	public Set<String> getNames() {
+	public Set<K> getNames() {
 		return keySet;
 	}
 
 	@Override
-	public Iterator<T> iterator() {
+	public Iterator<F> iterator() {
 		return new FieldIterator();
 	}
 
@@ -113,7 +114,7 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 	
 	public void toString(StringBuilder builder) {
 		builder.append(getClass().getSimpleName()).append("[");
-		for(T f : fields){
+		for(F f : fields){
 			builder.append("\n\t");
 			f.toString(builder);
 		}
@@ -121,14 +122,14 @@ public class FieldMap<T extends Field> implements Serializable, Iterable<T>{
 	}
 
 
-	class FieldIterator implements Iterator<T> {
+	class FieldIterator implements Iterator<F> {
 		int cursor = -1;
 		
 		public boolean hasNext(){
 			return (cursor+1) < fields.length;
 		}
 		
-		public T next(){
+		public F next(){
 			if(!hasNext()) {
 				throw new IndexOutOfBoundsException("FieldIterator excess list size.");
 			}

@@ -23,25 +23,25 @@ import so.ontolog.data.type.TypeUtils;
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractField implements Field {
+public abstract class AbstractField<K> implements Field<K> {
 
 	private static final long serialVersionUID = -3899071010486688214L;
 	
 	protected final TypeSpec typeSpec;
-	protected final String name;
+	protected final K name;
 	
 	
-	public AbstractField(String name , Class<?> type) {
+	public AbstractField(K name , Class<?> type) {
 		this(name, TypeUtils.getTypeSpec(type));
 	}
 
-	public AbstractField(String name , TypeSpec typeSpec) {
+	public AbstractField(K name , TypeSpec typeSpec) {
 		this.typeSpec = typeSpec;
 		this.name = name;
 	}
 
 	@Override
-	public String name() {
+	public K name() {
 		return name;
 	}
 
@@ -59,6 +59,19 @@ public abstract class AbstractField implements Field {
 	 */
 	public TypeSpec typeSpec() {
 		return typeSpec;
+	}
+	
+	/**
+	 * if value is null nor type is null, returns true.
+	 * @param value
+	 * @return
+	 */
+	public boolean checkType(Object value){
+		if(value == null || typeSpec == null){
+			return true;
+		}
+		
+		return typeSpec.isAssignableFrom(value.getClass());
 	}
 	
 	@Override

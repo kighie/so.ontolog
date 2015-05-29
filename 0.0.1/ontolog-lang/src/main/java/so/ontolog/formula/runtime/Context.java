@@ -14,6 +14,8 @@
  */
 package so.ontolog.formula.runtime;
 
+import so.ontolog.formula.runtime.internal.SymbolTable;
+
 
 
 
@@ -32,4 +34,7 @@ public interface Context {
 	
 	void clear();
 	
+	Context down(SymbolTable symbolTable);
+	
+	Context up();
 }

@@ -14,7 +14,6 @@
  */
 package so.ontolog.formula.runtime.module;
 
-import so.ontolog.formula.runtime.Block;
 import so.ontolog.formula.runtime.Module;
 import so.ontolog.formula.runtime.stmt.AbstractBlock;
 
@@ -23,7 +22,7 @@ import so.ontolog.formula.runtime.stmt.AbstractBlock;
  * @author Ikchan Kwon
  *
  */
-public class ScriptModule extends AbstractBlock implements Module, Block {
+public class ScriptModule extends AbstractBlock implements Module {
 	private static final long serialVersionUID = 9136169609070446603L;
 
 }
