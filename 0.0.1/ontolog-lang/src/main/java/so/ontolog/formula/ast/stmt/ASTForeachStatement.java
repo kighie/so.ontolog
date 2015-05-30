@@ -14,6 +14,7 @@ public class ASTForeachStatement extends AbstractASTBlock {
 	public ASTForeachStatement(ASTToken position, ASTLoopCondition condition) {
 		super(position);
 		this.condition = condition;
+		addSymbol(condition.getVarDelc());
 	}
 	
 	/**

@@ -45,7 +45,6 @@ import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.ASTWhileStatement;
-import so.ontolog.formula.ast.stmt.DeclarationStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 import so.ontolog.formula.runtime.IndexedQName;
 import so.ontolog.formula.runtime.QName;
@@ -407,11 +406,6 @@ public class DefaultASTFactory implements ASTFactory {
 	public ASTStatement createReturnStatement(ASTContext context,
 			ASTExpr expr) {
 		return new ASTReturnStatement(expr);
-	}
-	
-	@Override
-	public ASTStatement asStatement(ASTContext context, ASTDeclaration decl) {
-		return new DeclarationStatement(decl);
 	}
 	
 	@Override

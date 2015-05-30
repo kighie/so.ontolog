@@ -45,5 +45,9 @@ public interface ASTContext {
 	
 	void registerType(QName qname, TypeSpec typeSpec);
 	
+	ASTErrorHandler getErrorHandler();
 	
+	ASTContext down();
+	
+	ASTContext up();
 }

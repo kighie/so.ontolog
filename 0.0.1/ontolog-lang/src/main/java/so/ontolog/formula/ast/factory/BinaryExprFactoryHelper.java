@@ -204,8 +204,9 @@ public class BinaryExprFactoryHelper {
 					+ " operator must have numeric or string operand.").setNode(
 							new BinaryExpr(token, DefaultOperators.CONCAT, left, right));
 			
-//			exception.printStackTrace();
-			throw exception;
+			context.getErrorHandler().buildError(token, exception);
+			
+			return new BinaryExpr(token, DefaultOperators.CONCAT, left, right);
 		}
 	}
 

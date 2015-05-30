@@ -19,11 +19,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import so.ontolog.formula.ast.ASTBlock;
+import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTNode;
 import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.AbstractASTNode;
+import so.ontolog.formula.runtime.internal.SymbolTable;
 
 /**
  * <pre></pre>
@@ -37,7 +39,7 @@ public abstract class AbstractASTBlock extends AbstractASTNode implements ASTBlo
 	protected final List<ASTStatement> EMPTY_STATEMENT = Collections.EMPTY_LIST;
 	
 	protected List<ASTStatement> children;
-	
+	protected final SymbolTable symbolTable = new SymbolTable();
 	
 	public AbstractASTBlock(ASTToken position) {
 		super(position);
@@ -47,6 +49,11 @@ public abstract class AbstractASTBlock extends AbstractASTNode implements ASTBlo
 		if(children == null){
 			children = new LinkedList<ASTStatement>();
 		}
+		
+		if( e instanceof ASTDeclaration){
+			addSymbol((ASTDeclaration)e);
+		}
+		
 		return children.add(e);
 	}
 	
@@ -57,7 +64,16 @@ public abstract class AbstractASTBlock extends AbstractASTNode implements ASTBlo
 		}
 		return children;
 	}
-
+	
+	@Override
+	public SymbolTable getSymbolTable() {
+		return symbolTable;
+	}
+	
+	protected void addSymbol(ASTDeclaration decl){
+		symbolTable.register(decl.qname(), decl.type());
+	}
+	
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
 		return acceptChildren(visitor, context);

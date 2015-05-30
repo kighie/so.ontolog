@@ -12,28 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.build.impl;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package so.ontolog.formula.ast;
 
 import so.ontolog.formula.SourcePosition;
-import so.ontolog.formula.ast.SyntaxErrorHandler;
-import so.ontolog.formula.build.BuildException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class DefaultSyntaxErrorHandler implements SyntaxErrorHandler {
-	private static Logger logger = Logger.getLogger("SyntaxErrorHandler");
+public interface ASTErrorHandler {
 	
-	@Override
-	public void syntaxError(String message, Object offendingSymbol,
-			SourcePosition location, Exception cause) {
-		logger.log(Level.SEVERE, message, cause);
-		throw new BuildException(message, cause).setLocation(location);
-	}
+	void syntaxError( String message, Object offendingSymbol, SourcePosition location, Exception cause); 
+	
 
+	void buildError(String message, ASTToken token);
+	
+	void buildError(ASTToken token, Exception cause );
+	
+	void buildError(String message, ASTToken token, Exception cause );
+
+	void buildWarning(String message, ASTToken token);
+
+	void buildWarning(ASTException astWaring);
 }

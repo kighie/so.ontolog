@@ -12,15 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.ast;
+package so.ontolog.test;
 
-import so.ontolog.formula.SourcePosition;
+import org.junit.Test;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface SyntaxErrorHandler {
-	void syntaxError( String message, Object offendingSymbol, SourcePosition location, Exception cause); 
+public class ExceptionTests {
+
+	@Test
+	public void stackTrace(){
+		Exception e = new Exception();
+		
+		for( StackTraceElement stackTrace : e.getStackTrace() ){
+			System.out.println(stackTrace);
+		}
+		
+		StackTraceElement ste = new StackTraceElement("TEST", "testMethod", "test.ol", 3);
+		
+		e.setStackTrace(new StackTraceElement[]{ste});
+		
+		e.printStackTrace();
+	}
 }

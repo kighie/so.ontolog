@@ -15,7 +15,6 @@
 package so.ontolog.data.type;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 
 /**
@@ -23,13 +22,13 @@ import java.math.BigInteger;
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class Int extends BigDecimal {
+public class Int extends BigDecimal { //extends OntologNumber<Integer> {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @param val
 	 */
-	public Int(BigInteger val) {
+	public Int(Integer val) {
 		super(val);
 	}
 

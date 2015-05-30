@@ -86,7 +86,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 		buildAndRunExpr("[param so.ontolog.samples.bean.SampleBean sample;] "
 				+ "=(sample.propA + sample.propMap2.B) * sample.propMap2.C+ ' , ' + sample.propB * sample.propMap2.A"
-				+ "+ ' , ' + (34/(sample.propMap2.C - sample.propMap.D)", context);
+				+ "+ ' , ' + (34/(sample.propMap2.C - sample.propMap.D))", context);
 
 	}
 	

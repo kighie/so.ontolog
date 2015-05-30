@@ -14,8 +14,10 @@
  */
 package so.ontolog.formula.build.context;
 
+import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.build.BuildContext;
+import so.ontolog.formula.build.BuildErrorHandler;
 import so.ontolog.formula.runtime.Module;
 
 /**
@@ -23,14 +25,16 @@ import so.ontolog.formula.runtime.Module;
  * @author Ikchan Kwon
  *
  */
-public class RootBuildContext implements BuildContext {
+public class RootBuildContext implements BuildContext, BuildErrorHandler {
 
 	private final CompilationUnit compilationUnit;
 	private Module module;
+	private BuildErrorHandler errorHandler;
 	
-	public RootBuildContext(CompilationUnit compilationUnit) {
+	public RootBuildContext(CompilationUnit compilationUnit, BuildErrorHandler errorHandler) {
 		super();
 		this.compilationUnit = compilationUnit;
+		this.errorHandler = errorHandler;
 	}
 
 	/**
@@ -55,5 +59,11 @@ public class RootBuildContext implements BuildContext {
 		return module;
 	}
 	
-
+	@Override
+	public void compileError(String message, SourcePosition location,
+			Exception cause) {
+		if(errorHandler != null){
+			errorHandler.compileError(message, location, cause);
+		}
+	}
 }

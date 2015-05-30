@@ -12,39 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.data.type;
+package so.ontolog.formula.build;
 
-import java.math.BigDecimal;
-
+import so.ontolog.formula.SourcePosition;
 
 /**
  * <pre></pre>
- * @author kighie@gmail.com
- * @since 1.0
+ * @author Ikchan Kwon
+ *
  */
-public class BigInt extends BigDecimal { //extends OntologNumber<Long> {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @param val
-	 */
-	public BigInt(Long val) {
-		super(val);
-	}
-
-	/**
-	 * @param val
-	 */
-	public BigInt(long val) {
-		super(val);
-	}
-
-	/**
-	 * @param val
-	 */
-	public BigInt(String val) {
-		super(Long.parseLong(val));
-	}
-
-	
+public interface BuildErrorHandler {
+	void compileError( String message, SourcePosition location, Exception cause); 
 }

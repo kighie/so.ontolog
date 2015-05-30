@@ -23,7 +23,7 @@ import java.math.MathContext;
  * @author kighie@gmail.com
  * @since 1.0
  */
-public class Real extends BigDecimal {
+public class Real extends BigDecimal { //extends OntologNumber<BigDecimal> {
 	private static final long serialVersionUID = 1L;
 	
 
@@ -33,7 +33,13 @@ public class Real extends BigDecimal {
 	public static final BigDecimal TWO = BigDecimal.valueOf( 2 );
 	public static final BigDecimal TEN = BigDecimal.TEN;
 	
-	
+	/**
+	 * @param val
+	 */
+	public Real(BigDecimal val) {
+		super(val.toString());
+	}
+
 	/**
 	 * @param val
 	 */
@@ -62,6 +68,41 @@ public class Real extends BigDecimal {
 	public Real(double val, MathContext mc) {
 		super(val, mc);
 	}
+//	/**
+//	 * @param val
+//	 */
+//	public Real(BigDecimal val) {
+//		super(val);
+//	}
+//
+//	/**
+//	 * @param val
+//	 */
+//	public Real(long val) {
+//		super(BigDecimal.valueOf(val));
+//	}
+//
+//	/**
+//	 * @param val
+//	 */
+//	public Real(double val) {
+//		super(BigDecimal.valueOf(val));
+//	}
+//
+//	/**
+//	 * @param val
+//	 */
+//	public Real(String val) {
+//		super(new BigDecimal(val));
+//	}
+//
+//	/**
+//	 * @param val
+//	 * @param mc
+//	 */
+//	public Real(double val, MathContext mc) {
+//		super(new BigDecimal(val, mc));
+//	}
 
 	
 }

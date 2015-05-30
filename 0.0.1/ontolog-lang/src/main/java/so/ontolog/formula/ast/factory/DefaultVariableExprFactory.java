@@ -14,20 +14,17 @@
  */
 package so.ontolog.formula.ast.factory;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import so.ontolog.data.binding.PropertyAccessor;
 import so.ontolog.data.binding.metadata.BeanProperty;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
+import so.ontolog.formula.ast.ASTFactory.VariableExprFactory;
 import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
-import so.ontolog.formula.ast.ASTFactory.VariableExprFactory;
-import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.expr.ASTVariableExpr;
+import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.util.ASTUtils;
 import so.ontolog.formula.runtime.QName;
 import so.ontolog.formula.runtime.VarQName;
@@ -38,7 +35,7 @@ import so.ontolog.formula.runtime.VarQName;
  *
  */
 public class DefaultVariableExprFactory implements VariableExprFactory{
-	private static Logger logger = Logger.getLogger(DefaultVariableExprFactory.class.getName());
+//	private static Logger logger = Logger.getLogger(DefaultVariableExprFactory.class.getName());
 	
 	@Override
 	public ASTSymbol create(ASTContext context, ASTToken token, QName qname) {
@@ -79,7 +76,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		if(decl != null){
 			typeSpec = decl.type(); 
 		} else {
-			logger.log(Level.WARNING, "Cannot find Declararion for " + qname);
+			context.getErrorHandler().buildError("Cannot find Declararion for " + qname, token);
 			typeSpec = TypeSpec.UNDEFINED;
 		}
 		ASTVariableExpr varExpr = new ASTVariableExpr(token, typeSpec, qname);

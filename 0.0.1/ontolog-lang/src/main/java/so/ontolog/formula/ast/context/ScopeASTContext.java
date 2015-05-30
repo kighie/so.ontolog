@@ -20,6 +20,7 @@ import java.util.Map;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
+import so.ontolog.formula.ast.ASTErrorHandler;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
 
@@ -30,6 +31,8 @@ import so.ontolog.formula.runtime.QName;
  */
 public class ScopeASTContext implements ASTContext {
 	private ASTContext parent;
+	private ASTContext child;
+	
 	private Map<QName, ASTDeclaration> varTable = new HashMap<QName, ASTDeclaration>();
 	private Map<QName, ASTDeclaration> funcTable = new HashMap<QName, ASTDeclaration>();
 	
@@ -102,5 +105,29 @@ public class ScopeASTContext implements ASTContext {
 	
 	protected void clear(){
 		varTable.clear();
+	}
+	
+	@Override
+	public ASTErrorHandler getErrorHandler() {
+		if(parent != null){
+			return parent.getErrorHandler();
+		}
+		return null;
+	}
+	
+	@Override
+	public ASTContext down() {
+		if(child == null){
+			child = new ScopeASTContext(this);
+		}
+		
+		return child;
+	}
+	
+	@Override
+	public ASTContext up() {
+		varTable.clear();
+		funcTable.clear();
+		return parent;
 	}
 }

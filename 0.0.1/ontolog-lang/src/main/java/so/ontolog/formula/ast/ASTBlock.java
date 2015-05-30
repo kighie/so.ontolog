@@ -16,6 +16,8 @@ package so.ontolog.formula.ast;
 
 import java.util.List;
 
+import so.ontolog.formula.runtime.internal.SymbolTable;
+
 
 /**
  * <pre></pre>
@@ -28,4 +30,6 @@ public interface ASTBlock extends ASTStatement {
 	
 	@Override
 	List<ASTStatement> children();
+	
+	SymbolTable getSymbolTable();
 }

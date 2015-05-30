@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import so.ontolog.formula.SourcePosition;
@@ -33,7 +34,7 @@ import so.ontolog.formula.SourcePosition;
  * @since 1.0
  */
 public class OntologSource {
-
+	
     private String sourcePath;
     private String sourceString;
     
@@ -68,9 +69,46 @@ public class OntologSource {
 		return sourceString;
 	}
 	
-	public String getText(SourcePosition location){
-		return sourceString.substring(location.getStartIndex(), location.getEndIndex());
+	
+	
+	public String getLine(SourcePosition location){
+		int line = location.getLine();
+		
+		if(line < 0){
+			line = 0;
+		}
+		
+		BufferedReader reader = new BufferedReader(new StringReader(sourceString));
+		int i=1;
+		while(i<line){
+			try { reader.readLine(); } catch (IOException e) { }
+			i++;
+		}
+		String lineStr;
+		try {
+			lineStr = reader.readLine();
+		} catch (IOException e) {
+			lineStr = "";
+		}
+		return lineStr + "\t[line:" + line + "]";
 	}
+	
+	public void getText(SourcePosition location, StringBuilder builder){
+		int start = location.getStartIndex();
+		int end = location.getEndIndex();
+		
+		if(start < 0){
+			start = 0;
+		}
+		
+		if(end<start){
+			end = sourceString.length();
+		}
+		
+		builder.append( sourceString.substring(start, end) ).append("\n");
+		builder.append(getLine(location));
+	}
+	
 	/**
 	 * @return the sourcePath
 	 */
@@ -91,6 +129,7 @@ public class OntologSource {
 		InputStream stream = classLoader.getResourceAsStream(sourcePath);
 		return newSource(sourcePath, stream, "utf-8");
 	}
+	
 	public static OntologSource newSource(String sourcePath, File file){
 		FileReader reader = null;
 		

@@ -72,8 +72,6 @@ public interface ASTFactory {
 	ASTExpr createCall(ASTContext context, ASTToken token,
 			ASTSymbol beanSymbol, String name, List<ASTExpr> args);
 
-	ASTStatement asStatement(ASTContext context, ASTDeclaration decl);
-
 	ASTStatement asStatement(ASTContext context, ASTExpr callExpr);
 
 	ASTStatement createReturnStatement(ASTContext context, ASTExpr callExpr);

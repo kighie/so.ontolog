@@ -52,7 +52,6 @@ import so.ontolog.formula.ast.stmt.ASTForeachStatement;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.ast.stmt.ASTReturnStatement;
 import so.ontolog.formula.ast.stmt.ASTWhileStatement;
-import so.ontolog.formula.ast.stmt.DeclarationStatement;
 import so.ontolog.formula.ast.stmt.EvalExprStatement;
 import so.ontolog.formula.build.BuildContext;
 import so.ontolog.formula.build.BuildException;
@@ -75,7 +74,6 @@ import so.ontolog.formula.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.TextLiteral;
-import so.ontolog.formula.runtime.internal.SymbolTable;
 import so.ontolog.formula.runtime.module.ExprModule;
 import so.ontolog.formula.runtime.module.ScriptModule;
 import so.ontolog.formula.runtime.ref.VarIndexedRef;
@@ -101,22 +99,12 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 	private static Logger logger = Logger.getLogger(BuildVisitor.class.getName());
 	
 	protected void buildBlock(ASTBlock astBlock, AbstractBlock block){
-		SymbolTable symbolTable = new SymbolTable();
-		
 		for(ASTStatement s : astBlock.children() ){
 			Node node = s.getNode();
 			Statement statement = (Statement)node;
 			block.append(statement);
-			
-			if(s instanceof DeclarationStatement){
-				ASTDeclaration decl = ((DeclarationStatement)s).getDeclaration();
-				if(decl instanceof VariableDecl){
-					symbolTable.register( ((VariableDecl)decl).qname(), 
-						((VariableDecl)decl).type());
-				}
-			}
 		}
-		block.setSymbolTable(symbolTable);
+		block.setSymbolTable(astBlock.getSymbolTable());
 	}
 	
 	@Override

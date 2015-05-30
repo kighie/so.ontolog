@@ -16,6 +16,7 @@ package so.ontolog.formula.ast.decl;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTDeclaration;
+import so.ontolog.formula.ast.ASTStatement;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.AbstractASTNode;
 import so.ontolog.formula.runtime.QName;
@@ -25,7 +26,7 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public abstract class AbstractASTDeclaration extends AbstractASTNode implements ASTDeclaration {
+public abstract class AbstractASTDeclaration extends AbstractASTNode implements ASTDeclaration, ASTStatement {
 
 	private static final long serialVersionUID = 4196138416624970290L;
 	

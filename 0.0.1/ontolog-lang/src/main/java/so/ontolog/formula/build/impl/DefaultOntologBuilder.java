@@ -25,13 +25,16 @@ import so.ontolog.formula.antlr.OntologLexer;
 import so.ontolog.formula.antlr.OntologParser;
 import so.ontolog.formula.antlr.OntologParser.OntologExpressionContext;
 import so.ontolog.formula.antlr.OntologParser.OntologScriptContext;
+import so.ontolog.formula.ast.ASTErrorHandler;
+import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTFactory;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.CompilationUnit;
-import so.ontolog.formula.ast.SyntaxErrorHandler;
+import so.ontolog.formula.ast.context.ExceptionUtils;
 import so.ontolog.formula.ast.context.RootASTContext;
 import so.ontolog.formula.ast.factory.DefaultASTFactory;
 import so.ontolog.formula.build.BuildContext;
+import so.ontolog.formula.build.BuildErrorHandler;
 import so.ontolog.formula.build.OntologBuilder;
 import so.ontolog.formula.build.OntologSource;
 import so.ontolog.formula.build.context.RootBuildContext;
@@ -52,7 +55,8 @@ public class DefaultOntologBuilder implements OntologBuilder {
 	private String formulaFuncDescPath = "META-INF/services/so.ontolog.formula.functions.formula";
 	
 	private ASTFactory factory;
-	private SyntaxErrorHandler syntaxErrorHandler;
+	private ASTErrorHandler syntaxErrorHandler;
+	private BuildErrorHandler buildErrorHandler;
 	private ASTVisitor<BuildContext> visitor;
 	private OntologRepository<QName> repository;
 	private boolean inited;
@@ -65,6 +69,7 @@ public class DefaultOntologBuilder implements OntologBuilder {
 			repository = initRepository();
 			factory = initASTFactory();
 			syntaxErrorHandler = initSyntaxErrorHandler();
+			buildErrorHandler = initBuildErrorHandler();
 			visitor = initBuildVisitor();
 			initBuiltinFunctions();
 			inited = true;
@@ -87,9 +92,16 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		return repo;
 	}
 
-	protected SyntaxErrorHandler initSyntaxErrorHandler() {
-		SyntaxErrorHandler syntaxErrorHandler = new DefaultSyntaxErrorHandler();
+	protected ASTErrorHandler initSyntaxErrorHandler() {
+		ASTErrorHandler syntaxErrorHandler = new DefaultErrorHandler();
 		return syntaxErrorHandler;
+	}
+
+	/**<pre></pre>
+	 * @return
+	 */
+	protected BuildErrorHandler initBuildErrorHandler() {
+		return new DefaultErrorHandler();
 	}
 
 	protected void initBuiltinFunctions() {
@@ -118,34 +130,40 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		repository.register(qname, module);
 	}
 	
-	protected RootASTContext createRootASTContext(){
-		RootASTContext astContext = new RootASTContext(repository);
+	protected RootASTContext createRootASTContext(OntologSource source){
+		RootASTContext astContext = new RootASTContext(repository, syntaxErrorHandler, source);
 		return astContext;
 	}
 	
-	protected OntologParser createParser(String expression)  {
-		CharStream input = new ANTLRInputStream(expression);
+	protected OntologParser createParser(OntologSource source)  {
+		CharStream input = new ANTLRInputStream(source.getSourceString());
 		OntologLexer lexer = new OntologLexer(input);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		OntologParser parser = new OntologParser(tokenStream);
 		parser.setASTFactory(factory);
 		parser.setSyntaxErrorHandler(syntaxErrorHandler);
 		
-		parser.setRootContext(createRootASTContext());
+		parser.setRootContext(createRootASTContext(source));
 		return parser;
 	}
 
 
 	protected CompilationUnit buildExprAST(String expression) {
-		OntologParser parser = createParser(expression);
+		OntologParser parser = createParser(new OntologSource(expression));
 //		parser.reset();
 		OntologExpressionContext ctx = parser.ontologExpression();
+
+		RootASTContext context = parser.getRootContext();
 		
+		if(context.hasError()){
+			String message = ExceptionUtils.toString( context.getExceptions() );
+			throw new ASTException(message);
+		}
 		return ctx.result;
 	}
 
 	protected Module build(CompilationUnit ast) {
-		RootBuildContext context = new RootBuildContext(ast);
+		RootBuildContext context = new RootBuildContext(ast, buildErrorHandler);
 		ast.accept(visitor, context);
 		return context.getModule();
 	}
@@ -170,9 +188,14 @@ public class DefaultOntologBuilder implements OntologBuilder {
 
 
 	protected CompilationUnit buildAST(OntologSource source) {
-		OntologParser parser = createParser(source.getSourceString());
+		OntologParser parser = createParser(source);
 		OntologScriptContext ctx = parser.ontologScript();
+		RootASTContext context = parser.getRootContext();
 		
+		if(context.hasError()){
+			String message = ExceptionUtils.toString( context.getExceptions() );
+			throw new ASTException(message);
+		}
 		return ctx.result;
 	}
 

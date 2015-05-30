@@ -19,6 +19,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTBlock;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
+import so.ontolog.formula.ast.ASTErrorHandler;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTFactory;
@@ -27,16 +28,14 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
-import so.ontolog.formula.ast.SyntaxErrorHandler;
 import so.ontolog.formula.ast.context.RootASTContext;
-import so.ontolog.formula.ast.context.ScopeASTContext;
 import so.ontolog.formula.ast.stmt.ASTIfStatement;
 import so.ontolog.formula.runtime.QName;
 
 public abstract class AbstractOntologHandlerParser extends Parser implements GrammarTokens, ANTLRErrorListener {
 	
 	private ASTFactory factory;
-	private SyntaxErrorHandler syntaxErrorHandler;
+	private ASTErrorHandler syntaxErrorHandler;
 	private RootASTContext rootContext;
 	private ASTContext current;
 	
@@ -49,7 +48,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
   		this.factory = factory;
   	}
   	
-  	public void setSyntaxErrorHandler(SyntaxErrorHandler syntaxErrorHandler) {
+  	public void setSyntaxErrorHandler(ASTErrorHandler syntaxErrorHandler) {
 		this.syntaxErrorHandler = syntaxErrorHandler;
 		addErrorListener(this);
 	}
@@ -72,8 +71,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		if(current == null){
 			current = rootContext;
 		} else {
-			ScopeASTContext newCtx = new ScopeASTContext(current);
-			current = newCtx;
+			current = current.down();
 		}
 		return current;
 	}
@@ -83,8 +81,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 			throw new ASTException("Excess root scope.").setLocation(createASTToken());
 		}
 		
-		ASTContext prevCtx = current.parent();
-		current = prevCtx;
+		current = current.up();
 		return current;
 	}
 	
@@ -202,7 +199,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 
 
 	public ASTStatement asStatement(ASTDeclaration decl) {
-		return factory.asStatement(current, decl);
+		return (ASTStatement)decl;
 	}
 
 	public ASTStatement asStatement(ASTExpr callExpr) {
