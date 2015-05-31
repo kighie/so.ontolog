@@ -134,7 +134,12 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 	@Override
 	public void syntaxError(String message, Object offendingSymbol,
 			SourcePosition location, Exception cause) {
-		cause = ExceptionUtils.fillStackTrace(source, location, cause);
+		if(cause != null){
+			cause = ExceptionUtils.fillStackTrace(source, location, cause);
+		} else {
+			cause = ExceptionUtils.makeException(source, message, location);
+		}
+		
 		exceptions.add(cause);
 		if(errorHandler != null){
 			errorHandler.syntaxError(message, offendingSymbol, location, cause);

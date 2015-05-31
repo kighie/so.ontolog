@@ -76,7 +76,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 		if(decl != null){
 			typeSpec = decl.type(); 
 		} else {
-			context.getErrorHandler().buildError("Cannot find Declararion for " + qname, token);
+			context.getErrorHandler().buildWarning("Cannot find Declararion for " + qname, token);
 			typeSpec = TypeSpec.UNDEFINED;
 		}
 		ASTVariableExpr varExpr = new ASTVariableExpr(token, typeSpec, qname);

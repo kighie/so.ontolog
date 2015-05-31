@@ -18,7 +18,7 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.ParamDeclFactory;
-import so.ontolog.formula.ast.decl.ParamDecl;
+import so.ontolog.formula.ast.decl.ASTParamDecl;
 import so.ontolog.formula.runtime.QName;
 
 /**
@@ -30,7 +30,7 @@ public class DefaultParamDeclFactory implements ParamDeclFactory {
 	
 	
 	@Override
-	public ParamDecl create(ASTContext context, ASTToken token,
+	public ASTParamDecl create(ASTContext context, ASTToken token,
 			TypeSpec type, String paramName, String alias) {
 		QName qname;
 		QName paramQName = new QName(paramName);
@@ -39,7 +39,7 @@ public class DefaultParamDeclFactory implements ParamDeclFactory {
 		} else {
 			qname = paramQName;
 		}
-		ParamDecl paramDecl = new ParamDecl(token, qname, type, paramQName);
+		ASTParamDecl paramDecl = new ASTParamDecl(token, qname, type, paramQName);
 		
 		return paramDecl;
 	}

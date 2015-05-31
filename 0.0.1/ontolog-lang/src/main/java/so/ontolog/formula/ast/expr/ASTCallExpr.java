@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.ast.expr;
 
+import java.util.Collections;
 import java.util.List;
 
 import so.ontolog.data.type.TypeSpec;
@@ -29,6 +30,10 @@ import so.ontolog.formula.runtime.QName;
 public abstract class ASTCallExpr extends AbstractASTSymbol {
 
 	private static final long serialVersionUID = -976688139106286789L;
+
+	@SuppressWarnings("unchecked")
+	private static final List<ASTExpr> EMPTY_ARGS = (List<ASTExpr>)Collections.EMPTY_LIST;
+//	private static final Class<?>[] EMPTY_CLASSES = new Class<?>[0];
 	
 	protected List<ASTExpr> args;
 	protected Class<?>[]paramTypeArray;
@@ -43,7 +48,13 @@ public abstract class ASTCallExpr extends AbstractASTSymbol {
 	 */
 	public ASTCallExpr(ASTToken token, TypeSpec typeSpec, QName qname,  List<ASTExpr> args) {
 		super(token, typeSpec, qname);
-		this.args = args;
+		
+		if(args!=null){
+			this.args = args;
+		} else {
+			this.args = EMPTY_ARGS;
+		}
+		
 	}
 	
 	public List<ASTExpr> getArgs() {

@@ -191,6 +191,16 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitFunctionDecl(OntologParser.FunctionDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#argsDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgsDecl(OntologParser.ArgsDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#argsDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgsDecl(OntologParser.ArgsDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#expression}.
 	 * @param ctx the parse tree
 	 */

@@ -41,7 +41,7 @@ public class OntologLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'['", "']'", "'='", "'('", "')'", "'importJava'", "'import'", "'return'", 
 		"'if'", "'{'", "'}'", "'else'", "'foreach'", "'in'", "'while'", "'->'", 
-		"'param'", "'as'", "'function'", "':'", "'.'", "','", "'case'", "'=='", 
+		"'param'", "'as'", "'function'", "':'", "','", "'.'", "'case'", "'=='", 
 		"'is'", "'!='", "'<>'", "'not'", "'>'", "'>='", "'<'", "'<='", "'/'", 
 		"'-'", "'%'", "'^'", "'*'", "'+'", "'and'", "'or'", "'?'", "';'"
 	};
@@ -176,7 +176,7 @@ public class OntologLexer extends Lexer {
 		"\u00b6\7u\2\2\u00b6&\3\2\2\2\u00b7\u00b8\7h\2\2\u00b8\u00b9\7w\2\2\u00b9"+
 		"\u00ba\7p\2\2\u00ba\u00bb\7e\2\2\u00bb\u00bc\7v\2\2\u00bc\u00bd\7k\2\2"+
 		"\u00bd\u00be\7q\2\2\u00be\u00bf\7p\2\2\u00bf(\3\2\2\2\u00c0\u00c1\7<\2"+
-		"\2\u00c1*\3\2\2\2\u00c2\u00c3\7\60\2\2\u00c3,\3\2\2\2\u00c4\u00c5\7.\2"+
+		"\2\u00c1*\3\2\2\2\u00c2\u00c3\7.\2\2\u00c3,\3\2\2\2\u00c4\u00c5\7\60\2"+
 		"\2\u00c5.\3\2\2\2\u00c6\u00c7\7e\2\2\u00c7\u00c8\7c\2\2\u00c8\u00c9\7"+
 		"u\2\2\u00c9\u00ca\7g\2\2\u00ca\60\3\2\2\2\u00cb\u00cc\7?\2\2\u00cc\u00cd"+
 		"\7?\2\2\u00cd\62\3\2\2\2\u00ce\u00cf\7k\2\2\u00cf\u00d0\7u\2\2\u00d0\64"+

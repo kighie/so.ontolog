@@ -20,7 +20,6 @@ import java.io.StringWriter;
 import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTNode;
-import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.build.BuildException;
 import so.ontolog.formula.build.OntologSource;
 
@@ -31,7 +30,7 @@ import so.ontolog.formula.build.OntologSource;
  */
 public class ExceptionUtils {
 
-	public static ASTException makeException(OntologSource source, String message, ASTToken token) {
+	public static ASTException makeException(OntologSource source, String message, SourcePosition token) {
 		StackTraceElement element = makeStackTraceElement(source, token, token.getName());
 		
 		StringBuilder builder = new StringBuilder(message);
@@ -39,9 +38,15 @@ public class ExceptionUtils {
 		ASTException exception = new ASTException(builder.toString());
 		StackTraceElement[] stackTrace = exception.getStackTrace();
 		stackTrace[0] = element;
-		exception.setStackTrace(stackTrace);
+
+		int length = Math.min(stackTrace.length, 5);
+		StackTraceElement[] newStackTrace = new StackTraceElement[length];
+		System.arraycopy(stackTrace, 0, newStackTrace, 0, length);
+		
+		exception.setStackTrace(newStackTrace);
 		return exception;
 	}
+
 	
 	public static Exception fillStackTrace(OntologSource source, SourcePosition token, Exception cause) {
 		StackTraceElement element = makeStackTraceElement(source, token, cause);
@@ -92,6 +97,10 @@ public class ExceptionUtils {
 		
 		if(sourcePath == null){
 			sourcePath = source.getSourceString();
+		}
+		
+		if(methodName == null){
+			methodName = "unknwon";
 		}
 		
 		return new StackTraceElement("Ontolog", methodName, sourcePath, token.getLine());

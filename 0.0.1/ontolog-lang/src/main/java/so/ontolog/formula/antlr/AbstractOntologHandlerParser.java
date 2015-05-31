@@ -197,6 +197,12 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createVariableDecl(current, astToken, type, name, value);
 	}
 
+	public ASTBlock functionDecl( String token, TypeSpec type, String name,
+			List<ASTDeclaration> args) {
+		ASTToken astToken = createASTToken(token);
+		return (ASTBlock)factory.createFunctionDecl(current, astToken, type, name, args);
+	}
+
 
 	public ASTStatement asStatement(ASTDeclaration decl) {
 		return (ASTStatement)decl;
@@ -250,7 +256,7 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return location;
 	}
 
-	protected ASTToken createASTToken(){
+	public ASTToken createASTToken(){
 		ASTToken location = null;
 		
 		if(_ctx == null){
@@ -288,6 +294,12 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 			String msg, RecognitionException e) {
 		if(syntaxErrorHandler != null){
 			ASTToken location = new ASTToken(line, charPositionInLine);
+			if(offendingSymbol instanceof Token){
+				Token token = (Token)offendingSymbol;
+				location.setLine(token.getLine());
+				location.setStartIndex(token.getStartIndex());
+				location.setEndIndex(token.getStopIndex());
+			}
 			syntaxErrorHandler.syntaxError(msg, offendingSymbol, location, e);
 		}
 	}

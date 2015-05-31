@@ -36,6 +36,21 @@ public class QName implements Serializable {
 		}
 		return qname;
 	}
+
+	/**
+	 * <pre>
+	 * {functionName}/{argCount}
+	 * ex) testFnc/0, testFnc/2, etc.
+	 * 
+	 * </pre>
+	 * @param name
+	 * @param argCount
+	 * @return
+	 */
+	public static QName createFunctionQName(String name, int argCount){
+		QName qname = new QName(name +"/" + argCount);
+		return qname;
+	}
 	
 	
 	protected final QName parent;

@@ -32,10 +32,12 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
-import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.decl.ASTFunctionDecl;
+import so.ontolog.formula.ast.decl.ASTVariableDecl;
 import so.ontolog.formula.ast.expr.ASTArrayExpr;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
 import so.ontolog.formula.ast.expr.ASTLoopCondition;
+import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.expr.LiteralExpr;
 import so.ontolog.formula.ast.expr.TernaryExpr;
 import so.ontolog.formula.ast.expr.UnaryExpr;
@@ -436,30 +438,31 @@ public class DefaultASTFactory implements ASTFactory {
 	
 
 	@Override
-	public ASTStatement createAssignStatement(ASTContext context,
-			ASTToken token, ASTExpr varExpr, ASTExpr valueExpr) {
-		ASTAssignStatement assignStmt = new ASTAssignStatement(token, varExpr, valueExpr);
-		return assignStmt;
-	}
-
-	@Override
 	public ASTExpr createLoopCondition(ASTContext context, ASTToken token,
 			ASTDeclaration varDecl, ASTExpr iteratorExpr) {
-		ASTLoopCondition condition = new ASTLoopCondition(token, (VariableDecl)varDecl, iteratorExpr);
+		ASTLoopCondition condition = new ASTLoopCondition(token, (ASTVariableDecl)varDecl, iteratorExpr);
 		return condition;
 	}
-	
-	
-	@Override
-	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 
-			String name, String alias) {
-		ASTDeclaration paramDecl = paramDeclFactory.create(context, token, type, name, alias);
-		context.registerVarDecl(paramDecl);
-		return paramDecl;
-	}
 
-	protected ParamDeclFactory initParamDeclFactory() {
-		return new DefaultParamDeclFactory();
+	@Override
+	public ASTStatement createAssignStatement(ASTContext context,
+			ASTToken token, ASTExpr varExpr, ASTExpr valueExpr) {
+		// Check variable without declaration.
+		if(varExpr.type() == TypeSpec.UNDEFINED){
+			if(varExpr instanceof ASTVariableExpr ){
+				ASTVariableExpr astVar = (ASTVariableExpr)varExpr;
+				if( astVar.qname().getParent() == null){
+					token.setToken(GrammarTokens.VAR_DECL);
+					//returns Variable Declaration
+					return (ASTStatement)createVariableDecl(context, 
+							token, valueExpr.type(), astVar.qname().getName(), valueExpr);
+				}
+			}
+			context.getErrorHandler().buildError("Undefined Variable : " + varExpr , token);
+		}
+		
+		ASTAssignStatement assignStmt = new ASTAssignStatement(token, varExpr, valueExpr);
+		return assignStmt;
 	}
 
 
@@ -473,6 +476,30 @@ public class DefaultASTFactory implements ASTFactory {
 
 	protected VariableDeclFactory initVariableDeclFactory() {
 		return new DefaultVariableDeclFactory();
+	}
+
+	@Override
+	public ASTDeclaration createParamDecl(ASTContext context, ASTToken token,  TypeSpec type, 
+			String name, String alias) {
+		ASTDeclaration paramDecl = paramDeclFactory.create(context, token, type, name, alias);
+		context.registerVarDecl(paramDecl);
+		return paramDecl;
+	}
+
+	protected ParamDeclFactory initParamDeclFactory() {
+		return new DefaultParamDeclFactory();
+	}
+
+	
+
+	@Override
+	public ASTDeclaration createFunctionDecl(ASTContext context,
+			ASTToken token, TypeSpec type, String name,
+			List<ASTDeclaration> args) {
+		ASTFunctionDecl functionDecl = new ASTFunctionDecl(token, QName.createFunctionQName(name, args.size()),
+				name, type, args);
+		context.registerFuncDecl(functionDecl);
+		return functionDecl;
 	}
 
 	@Override

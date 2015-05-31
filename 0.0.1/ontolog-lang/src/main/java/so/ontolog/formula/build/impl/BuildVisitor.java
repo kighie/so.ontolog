@@ -16,6 +16,7 @@ package so.ontolog.formula.build.impl;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,8 +34,9 @@ import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.CompilationUnit;
 import so.ontolog.formula.ast.GrammarTokens;
-import so.ontolog.formula.ast.decl.ParamDecl;
-import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.decl.ASTFunctionDecl;
+import so.ontolog.formula.ast.decl.ASTParamDecl;
+import so.ontolog.formula.ast.decl.ASTVariableDecl;
 import so.ontolog.formula.ast.expr.ASTArrayExpr;
 import so.ontolog.formula.ast.expr.ASTCallExpr;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
@@ -74,14 +76,18 @@ import so.ontolog.formula.runtime.internal.GenericLiteral.BooleanLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.NumberLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.ObjectLiteral;
 import so.ontolog.formula.runtime.internal.GenericLiteral.TextLiteral;
+import so.ontolog.formula.runtime.internal.LocalFunction;
+import so.ontolog.formula.runtime.internal.LocalFunction.LocalFunctionBody;
 import so.ontolog.formula.runtime.module.ExprModule;
 import so.ontolog.formula.runtime.module.ScriptModule;
 import so.ontolog.formula.runtime.ref.VarIndexedRef;
 import so.ontolog.formula.runtime.ref.VariableRef;
+import so.ontolog.formula.runtime.ref.VariableRef.ArgDeclRef;
 import so.ontolog.formula.runtime.ref.VariableRef.PropertyRef;
 import so.ontolog.formula.runtime.stmt.AbstractBlock;
 import so.ontolog.formula.runtime.stmt.AssignStatement;
 import so.ontolog.formula.runtime.stmt.ForeachStatement;
+import so.ontolog.formula.runtime.stmt.FunctionDeclStatement;
 import so.ontolog.formula.runtime.stmt.GettablStatementWrapper;
 import so.ontolog.formula.runtime.stmt.IfStatement;
 import so.ontolog.formula.runtime.stmt.ParamDeclStmt;
@@ -285,13 +291,11 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			argGettableArr[i] = (Gettable<?>)argTypes.get(i).getNode();
 		}
 		
-		
-		
 		Node node = null;
 		if(expr instanceof ASTMethodCallExpr){
 			node = makeMethodCallExpr((ASTMethodCallExpr)expr, argGettableArr);
 		} else if(expr instanceof ASTFunctionCallExpr){
-			node = makeFunctionCallExpr((ASTFunctionCallExpr)expr, argGettableArr);
+			node = makeFunctionCallExpr((ASTFunctionCallExpr)expr, argGettableArr, context);
 		} else {
 			throw new BuildException("Unknown visit type : " + expr);
 		}
@@ -338,23 +342,26 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected FunctionCallExpr<?> makeFunctionCallExpr(ASTFunctionCallExpr expr,
-			Gettable<?>[] argGettableArr) {
-		
-		FunctionCallExpr<?> funcCall = new FunctionCallExpr(expr.getFunction(), argGettableArr);
+			Gettable<?>[] argGettableArr, BuildContext context) {
+		FunctionCallExpr<?> funcCall = new FunctionCallExpr( expr.qname(), argGettableArr, expr.getFunction());
+//		if(expr.getFunction() == null){
+//			
+//		}
 		return funcCall;
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public BuildContext visit(ASTDeclaration declStmt, BuildContext context) {
 		String tokenName = declStmt.getToken().getName();
 		
 		if(GrammarTokens.PARAM_DECL.equals(tokenName)){
-			ParamDecl paramDecl = (ParamDecl)declStmt;
+			ASTParamDecl paramDecl = (ASTParamDecl)declStmt;
 			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.qname(), paramDecl.type(), paramDecl.getParamName());
 			declStmt.setNode(stmt);
 		} else if(GrammarTokens.VAR_DECL.equals(tokenName)){
-			VariableDecl varDecl = (VariableDecl)declStmt;
+			ASTVariableDecl varDecl = (ASTVariableDecl)declStmt;
 			VariableDeclStatement stmt = new VariableDeclStatement(varDecl.qname(), varDecl.type());
 
 			ASTExpr valueExpr = varDecl.getValueExpr();
@@ -363,6 +370,28 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			}
 			
 			declStmt.setNode(stmt);
+		} else if(GrammarTokens.ARG_DECL.equals(tokenName)){
+			ASTVariableDecl varDecl = (ASTVariableDecl)declStmt;
+
+			VariableRef.ArgDeclRef<?> argDecl = new VariableRef.ArgDeclRef(varDecl.type(), varDecl.qname());
+			declStmt.setNode(argDecl);
+		} else if(GrammarTokens.FUNC_DECL.equals(tokenName)){
+			ASTFunctionDecl astFuncDecl = (ASTFunctionDecl)declStmt;
+			List<ArgDeclRef<?>>argList = new ArrayList<VariableRef.ArgDeclRef<?>>();
+			
+			for(ASTDeclaration d : astFuncDecl.getArgDecls() ){
+				argList.add((ArgDeclRef)d.getNode());
+			}
+			
+			LocalFunction<?> localFunction = new LocalFunction(astFuncDecl.qname(), astFuncDecl.getName(), 
+					astFuncDecl.type(), argList);
+			
+			LocalFunctionBody body = localFunction.getBody();
+			
+			buildBlock(astFuncDecl, body);
+			
+			FunctionDeclStatement fncDeclStmt = new FunctionDeclStatement(localFunction);
+			declStmt.setNode(fncDeclStmt);
 		} else {
 			throw new BuildException("Unknown Declaration token : " + tokenName).setNode(declStmt);
 		}

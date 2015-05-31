@@ -36,7 +36,15 @@ options {
 	import so.ontolog.formula.build.*;
 }
 
-
+/*
+@rulecatch {
+	catch (Exception ex) {
+		ASTToken token = createASTToken();
+		syntaxErrorHandler.buildError(token, ex);
+	}
+}
+ */
+ 
 ontologExpression returns [CompilationUnit result]
 	: { $result = createModule(EXPR_MODULE); }
 	( '[' paramDecl[$result]*  ']' )?
@@ -68,6 +76,7 @@ blockContents [ASTBlock stmtHolder]
 		| foreachStatement { $stmtHolder.append($foreachStatement.result); }
 		| whileStatement { $stmtHolder.append($whileStatement.result); }
 		| assignStatement { $stmtHolder.append($assignStatement.result); }
+		| functionDecl 	{ $stmtHolder.append($functionDecl.result); }
 	)*
 	( returnStatement { $stmtHolder.append($returnStatement.result); } )?
 	;
@@ -223,16 +232,38 @@ variableDecl returns [ASTStatement result]
 	END_OF_STMT
 	{	$result = asStatement(variableDecl(VAR_DECL, $typeExpr.result, $IDENT.text,valueExpr )); }
 	;
-
-//TODO
+	
+/*********************************************
+ * Function Decl
+ ******************************************* */
 functionDecl returns [ASTBlock result]
-	: 'function' { TypeSpec returnType = null; }
-		IDENT '(' ')' ( ':' typeExpr { returnType = $typeExpr.result; })?
+	: 'function' 
+		{ 	beginScope();
+			TypeSpec returnType = null; 
+			List<ASTDeclaration> args = new LinkedList<ASTDeclaration>();
+		}
+		IDENT '(' argsDecl[args]? ')' ( ':' typeExpr { returnType = $typeExpr.result; })?
+		{
+			$result = functionDecl(FUNC_DECL,returnType, $IDENT.text, args );
+		}
 		'{'
 		blockContents[$result]
 		'}'
+		END_OF_STMT?
+		{	endScope(); }
 	;
 
+
+argsDecl [List<ASTDeclaration> args]
+	: 
+	(
+		typeExpr IDENT { $args.add( variableDecl(ARG_DECL, $typeExpr.result, $IDENT.text, null ) ); }
+		(
+			',' typeExpr IDENT { $args.add( variableDecl(ARG_DECL, $typeExpr.result, $IDENT.text, null ) ); }
+		)*
+		
+	)
+	;
 
 
 

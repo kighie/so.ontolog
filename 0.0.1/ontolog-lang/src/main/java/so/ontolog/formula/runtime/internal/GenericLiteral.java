@@ -210,7 +210,7 @@ public abstract class GenericLiteral<T> implements Literal<T>{
 		}
 		
 		/**
-		 * @param typeSpec the typeSpec to set
+		 * @param returnType the typeSpec to set
 		 */
 		public void setType(TypeSpec type) {
 			this.typeSpec = type;

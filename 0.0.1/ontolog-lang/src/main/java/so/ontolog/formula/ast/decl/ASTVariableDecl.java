@@ -15,8 +15,10 @@
 package so.ontolog.formula.ast.decl;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
+import so.ontolog.formula.ast.util.TextUtils;
 import so.ontolog.formula.runtime.QName;
 
 /**
@@ -24,38 +26,50 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class FunctionDecl extends AbstractASTDeclaration {
+public class ASTVariableDecl extends AbstractASTDeclaration {
 
-	private static final long serialVersionUID = -4346562711378972474L;
+	private static final long serialVersionUID = -5739860630818499547L;
 
-	protected Class<?>[]paramTypeArray;
+	private ASTExpr valueExpr;
 	
 	/**
 	 * @param token
 	 * @param qname
 	 * @param typeSpec
 	 */
-	public FunctionDecl(ASTToken token, QName qname, TypeSpec typeSpec) {
+	public ASTVariableDecl(ASTToken token, QName qname, TypeSpec typeSpec) {
 		super(token, qname, typeSpec);
 	}
-	
-	public Class<?>[] getParamTypeArray() {
-		return paramTypeArray;
+
+	public ASTExpr getValueExpr() {
+		return valueExpr;
 	}
 
-	public void setParamTypeArray(Class<?>[] paramTypeArray) {
-		this.paramTypeArray = paramTypeArray;
+	public void setValueExpr(ASTExpr valueExpr) {
+		this.valueExpr = valueExpr;
 	}
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public void getText(StringBuilder buffer, int depth) {
-		// TODO Auto-generated method stub
+		if(valueExpr != null){
+			valueExpr.accept(visitor, context);
+		}
+		
+		return visitor.visit(this, context);
 	}
 
+	@Override
+	public void getText(StringBuilder buffer, int depth) {
+		if(depth>0){
+			buffer.append("\n").append(TextUtils.getIndent(depth));
+		}
+		
+		buffer.append("(").append(token.getName()).append(" ");
+		buffer.append(typeSpec.getName()).append(" ").append(qname);
+		if(valueExpr != null){
+			valueExpr.getText(buffer, depth+1);
+		}
+		buffer.append(")");
+	}
+	
 }

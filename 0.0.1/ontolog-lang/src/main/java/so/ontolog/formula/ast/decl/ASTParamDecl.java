@@ -14,8 +14,8 @@
  */
 package so.ontolog.formula.ast.decl;
 
+import so.ontolog.data.binding.BeanBinder;
 import so.ontolog.data.type.TypeSpec;
-import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.util.TextUtils;
@@ -26,35 +26,46 @@ import so.ontolog.formula.runtime.QName;
  * @author Ikchan Kwon
  *
  */
-public class VariableDecl extends AbstractASTDeclaration {
+public class ASTParamDecl extends AbstractASTDeclaration {
 
-	private static final long serialVersionUID = -5739860630818499547L;
-
-	private ASTExpr valueExpr;
+	private static final long serialVersionUID = 4702206536943488765L;
+	
+	private QName paramName;
+	private BeanBinder<?> beanBinder;
 	
 	/**
 	 * @param token
 	 * @param qname
 	 * @param typeSpec
 	 */
-	public VariableDecl(ASTToken token, QName qname, TypeSpec typeSpec) {
+	public ASTParamDecl(ASTToken token, QName qname, TypeSpec typeSpec, QName paramName) {
 		super(token, qname, typeSpec);
+		this.paramName = paramName;
 	}
-
-	public ASTExpr getValueExpr() {
-		return valueExpr;
+	
+	/**
+	 * @param beanBinder the beanBinder to set
+	 */
+	public void setBeanBinder(BeanBinder<?> beanBinder) {
+		this.beanBinder = beanBinder;
 	}
-
-	public void setValueExpr(ASTExpr valueExpr) {
-		this.valueExpr = valueExpr;
+	
+	/**
+	 * @return the beanBinder
+	 */
+	public BeanBinder<?> getBeanBinder() {
+		return beanBinder;
+	}
+	
+	/**
+	 * @return the paramName
+	 */
+	public QName getParamName() {
+		return paramName;
 	}
 
 	@Override
 	public <C> C accept(ASTVisitor<C> visitor, C context) {
-		if(valueExpr != null){
-			valueExpr.accept(visitor, context);
-		}
-		
 		return visitor.visit(this, context);
 	}
 
@@ -66,10 +77,9 @@ public class VariableDecl extends AbstractASTDeclaration {
 		
 		buffer.append("(").append(token.getName()).append(" ");
 		buffer.append(typeSpec.getName()).append(" ").append(qname);
-		if(valueExpr != null){
-			valueExpr.getText(buffer, depth+1);
-		}
+		buffer.append("<-").append(paramName);
 		buffer.append(")");
 	}
+	
 	
 }

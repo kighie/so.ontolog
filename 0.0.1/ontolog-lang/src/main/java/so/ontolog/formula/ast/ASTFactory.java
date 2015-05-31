@@ -79,7 +79,9 @@ public interface ASTFactory {
 	ASTDeclaration createVariableDecl(ASTContext context, ASTToken token, TypeSpec type, String name, ASTExpr value);
 	
 	ASTDeclaration createParamDecl(ASTContext context, ASTToken token, TypeSpec type, String name, String alias);
-
+	
+	ASTDeclaration createFunctionDecl(ASTContext context, ASTToken token, TypeSpec type, String name, List<ASTDeclaration> args);
+	
 	ASTStatement createEvalStmt(ASTToken token, ASTExpr expr);
 
 	ASTBlock createIfStmt(ASTContext context, ASTToken token, ASTExpr condition);

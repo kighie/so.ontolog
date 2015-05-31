@@ -63,4 +63,12 @@ public class ScriptBuildTests extends ScriptTests{
 		SimpleContext context = createSimpleContext();
 		buildAndRun("so/ontolog/formula/build/impl/while.ol", context);
 	}
+	
+
+	@Test
+	public void scriptFunctionDecls(){
+		SimpleContext context = createSimpleContext();
+		buildAndRun("so/ontolog/formula/build/impl/functionDecls.ol", context);
+	}
+
 }

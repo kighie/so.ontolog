@@ -20,7 +20,7 @@ import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.VariableDeclFactory;
-import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.decl.ASTVariableDecl;
 import so.ontolog.formula.runtime.QName;
 
 /**
@@ -33,7 +33,7 @@ public class DefaultVariableDeclFactory implements VariableDeclFactory {
 	@Override
 	public ASTDeclaration create(ASTContext context, ASTToken token,
 			TypeSpec typeSpec, String name, ASTExpr valueExpr) {
-		VariableDecl varDecl = new VariableDecl(token, new QName(name), typeSpec);
+		ASTVariableDecl varDecl = new ASTVariableDecl(token, new QName(name), typeSpec);
 		varDecl.setValueExpr(valueExpr);
 		return varDecl;
 	}

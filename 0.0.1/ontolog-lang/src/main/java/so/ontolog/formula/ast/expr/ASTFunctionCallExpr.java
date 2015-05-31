@@ -32,7 +32,7 @@ import so.ontolog.formula.runtime.QName;
 public class ASTFunctionCallExpr extends ASTCallExpr {
 
 	private static final long serialVersionUID = 8559481988681950984L;
-
+	
 	private Function<?> function;
 	
 	/**
@@ -59,7 +59,6 @@ public class ASTFunctionCallExpr extends ASTCallExpr {
 		for(ASTExpr e : args){
 			e.accept(visitor, context);
 		}
-		
 		return visitor.visit(this, context);
 	}
 	

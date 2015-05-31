@@ -17,7 +17,7 @@ package so.ontolog.formula.ast.expr;
 import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
-import so.ontolog.formula.ast.decl.VariableDecl;
+import so.ontolog.formula.ast.decl.ASTVariableDecl;
 
 /**
  * <pre></pre>
@@ -28,21 +28,21 @@ public class ASTLoopCondition extends AbstractASTExpr {
 
 	private static final long serialVersionUID = -2944616438543779976L;
 
-	private final VariableDecl varDelc;
+	private final ASTVariableDecl varDelc;
 	private final ASTExpr iteratorExpr;
 	
 	/**
 	 * @param token
 	 * @param typeSpec
 	 */
-	public ASTLoopCondition(ASTToken token, VariableDecl varDelc, ASTExpr iteratorExpr) {
+	public ASTLoopCondition(ASTToken token, ASTVariableDecl varDelc, ASTExpr iteratorExpr) {
 		super(token, varDelc.type());
 		this.varDelc = varDelc;
 		this.iteratorExpr = iteratorExpr;
 	}
 	
 	
-	public VariableDecl getVarDelc() {
+	public ASTVariableDecl getVarDelc() {
 		return varDelc;
 	}
 

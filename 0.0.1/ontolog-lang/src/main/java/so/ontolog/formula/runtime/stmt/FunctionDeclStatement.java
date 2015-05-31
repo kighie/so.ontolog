@@ -12,42 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.build.impl;
+package so.ontolog.formula.runtime.stmt;
 
-import org.junit.Test;
-
+import so.ontolog.formula.runtime.Context;
+import so.ontolog.formula.runtime.Statement;
+import so.ontolog.formula.runtime.internal.LocalFunction;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ScriptASTBuildTests extends ScriptTests{
+public class FunctionDeclStatement implements Statement {
+	private static final long serialVersionUID = 3346670355531074109L;
 	
-	@Test
-	public void scriptBasic(){
-		buildAst("so/ontolog/formula/build/impl/ScriptBasic.ol");
+	private LocalFunction<?> function;
+	
+	public FunctionDeclStatement(LocalFunction<?> function) {
+		this.function = function;
 	}
 
-	@Test
-	public void scriptIf(){
-		buildAst("so/ontolog/formula/build/impl/if.ol");
-	}
-	
-	@Test
-	public void scriptFor(){
-		buildAst("so/ontolog/formula/build/impl/foreach.ol");
-	}
-	
-
-	@Test
-	public void scriptWhile(){
-		buildAst("so/ontolog/formula/build/impl/while.ol");
-	}
-
-	@Test
-	public void scriptFunctionDecls(){
-		buildAst("so/ontolog/formula/build/impl/functionDecls.ol");
+	@Override
+	public Object eval(Context context) {
+		context.setReference(function.qname(), function);
+		return null;
 	}
 	
 }

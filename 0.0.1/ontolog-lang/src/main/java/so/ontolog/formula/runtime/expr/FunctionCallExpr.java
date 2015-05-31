@@ -17,8 +17,10 @@ package so.ontolog.formula.runtime.expr;
 
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.runtime.Context;
+import so.ontolog.formula.runtime.EvalException;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.Gettable;
+import so.ontolog.formula.runtime.QName;
 
 /**
  * <pre></pre>
@@ -30,11 +32,14 @@ public class FunctionCallExpr<T> implements Gettable<T> {
 	private static final long serialVersionUID = -873729882285860890L;
 
 	protected final Gettable<?>[] args;
-	protected final Function<T> function;
+	protected final QName funcName;
+	protected Function<T> function;
 	
-	public FunctionCallExpr(Function<T> function, Gettable<?>[] args) {
-		this.function = function;
+	
+	public FunctionCallExpr(QName funcName, Gettable<?>[] args, Function<T> function) {
+		this.funcName = funcName;
 		this.args = args;
+		this.function = function;
 	}
 
 	
@@ -43,9 +48,19 @@ public class FunctionCallExpr<T> implements Gettable<T> {
 		return function.returnType();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public T get(Context context) {
-		return function.eval(context, args);
+		Function<T> fnc;
+		if(function != null){
+			fnc = function;
+		} else {
+			fnc = (Function<T>)context.getReference(funcName);
+			if(fnc == null){
+				throw new EvalException("Function[" + funcName + "] is undefined.");
+			}
+		}
+		return fnc.eval(context, args);
 	}
 	
 	

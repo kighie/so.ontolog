@@ -24,7 +24,7 @@ import so.ontolog.formula.ast.ASTExpr;
 import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
-import so.ontolog.formula.ast.decl.FunctionDecl;
+import so.ontolog.formula.ast.decl.ASTFunctionDecl;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
@@ -43,7 +43,8 @@ public class FunctionCallExprFactory implements CallExprFactory {
 			throw new ASTException("TODO function Namespace ");
 		}
 		
-		QName qname = new QName(name);
+		int argCount = (args != null) ? args.size() : 0;
+		QName qname = QName.createFunctionQName(name, argCount);
 		
 		TypeSpec typeSpec;
 		Class<?>[] argTypeArray = null;
@@ -53,7 +54,15 @@ public class FunctionCallExprFactory implements CallExprFactory {
 		
 		if(fnDecl != null){
 			typeSpec = fnDecl.type(); 
-			argTypeArray = ((FunctionDecl)fnDecl).getParamTypeArray();
+			List<ASTDeclaration> argDecls = ((ASTFunctionDecl)fnDecl).getArgDecls();
+			if(argDecls != null){
+				argTypeArray = new Class<?>[argDecls.size()];
+				int index = 0;
+				for(ASTDeclaration a : argDecls){
+					argTypeArray[index] = a.type().getBaseType();
+					index++;
+				}
+			}
 		} else {
 			function = context.getBuiltInFunction(qname);
 			if(function != null){
