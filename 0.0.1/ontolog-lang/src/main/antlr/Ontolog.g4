@@ -343,8 +343,13 @@ pathExpr returns [String path]
 	
 typeExpr returns [TypeSpec result]
 	: { StringBuilder builder = new StringBuilder(); boolean isArray = false;}
-	IDENT 	{ builder.append( $IDENT.text); }
-	('.' IDENT	{ builder.append(".").append( $IDENT.text); } )*
+	(
+		( 'function' { builder.append( "function"); } )
+		| (
+			IDENT 	{ builder.append( $IDENT.text); }
+			('.' IDENT	{ builder.append(".").append( $IDENT.text); } )*
+		)
+	)
 	('[' ']' 	{ isArray = true; })?
 	{ $result = (isArray ? arrayType(builder.toString()) : type(builder.toString()) ); }
 	;

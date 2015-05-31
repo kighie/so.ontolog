@@ -31,7 +31,7 @@ public class TypeHelper {
 	protected final HashMap<String, TypeSpec> typeMap = new HashMap<String, TypeSpec>();
 
 	public static final TypeSpec VOID = new TypeSpec(Void.class, TypeKind.Void);
-	public static final TypeSpec FUNCTION = new TypeSpec(Function.class, TypeKind.Object);
+	public static final TypeSpec FUNCTION = new TypeSpec(Function.class, TypeKind.Executable);
 	
 	/**
 	 * 

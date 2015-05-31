@@ -95,15 +95,15 @@ public class OntologSource {
 	
 	public void getText(SourcePosition location, StringBuilder builder){
 		int start = location.getStartIndex();
-		int end = location.getEndIndex();
+		int end = location.getEndIndex()+1;
 		
 		if(start < 0){
 			start = 0;
 		}
 		
-		if(end<start){
+		if(end<start || end > sourceString.length()){
 			end = sourceString.length();
-		}
+		} 
 		
 		builder.append( sourceString.substring(start, end) ).append("\n");
 		builder.append(getLine(location));

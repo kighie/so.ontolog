@@ -34,6 +34,7 @@ public class ExceptionUtils {
 		StackTraceElement element = makeStackTraceElement(source, token, token.getName());
 		
 		StringBuilder builder = new StringBuilder(message);
+		builder.append(" : ");
 		source.getText(token, builder);
 		ASTException exception = new ASTException(builder.toString());
 		StackTraceElement[] stackTrace = exception.getStackTrace();
