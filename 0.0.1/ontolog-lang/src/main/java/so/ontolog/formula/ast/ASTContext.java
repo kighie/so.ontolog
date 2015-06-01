@@ -29,6 +29,7 @@ public interface ASTContext {
 	
 	ASTContext root();
 	
+	int depth();
 
 	ASTDeclaration getFuncDecl(QName qname);
 

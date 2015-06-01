@@ -18,8 +18,8 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTExpr;
-import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTFactory.VariableDeclFactory;
+import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.decl.ASTVariableDecl;
 import so.ontolog.formula.runtime.QName;
 

@@ -32,12 +32,16 @@ import so.ontolog.formula.runtime.QName;
 public class ScopeASTContext implements ASTContext {
 	private ASTContext parent;
 	private ASTContext child;
+	private int depth;
 	
 	private Map<QName, ASTDeclaration> varTable = new HashMap<QName, ASTDeclaration>();
 	private Map<QName, ASTDeclaration> funcTable = new HashMap<QName, ASTDeclaration>();
 	
 	public ScopeASTContext(ASTContext parent) {
 		this.parent = parent;
+		if(parent != null){
+			depth = parent.depth()+1;
+		}
 	}
 
 	@Override
@@ -48,6 +52,11 @@ public class ScopeASTContext implements ASTContext {
 	@Override
 	public ASTContext root() {
 		return parent.root();
+	}
+	
+	@Override
+	public int depth() {
+		return depth;
 	}
 	
 	@Override
@@ -74,6 +83,7 @@ public class ScopeASTContext implements ASTContext {
 	public ASTDeclaration getFuncDecl(QName qname) {
 		ASTDeclaration symbol = funcTable.get(qname);
 		if(symbol == null){
+			System.out.println("context[" + depth + "]getFuncDecl no func ::" + qname + " <- " + funcTable.keySet());
 			symbol = askParentFunc(qname);
 		}
 		return symbol;
@@ -85,6 +95,7 @@ public class ScopeASTContext implements ASTContext {
 
 	@Override
 	public void registerFuncDecl(ASTDeclaration symbol) {
+//		System.out.println("registerFuncDecl::" + symbol.qname());
 		funcTable.put(symbol.qname(), symbol);
 	}
 
@@ -120,7 +131,7 @@ public class ScopeASTContext implements ASTContext {
 		if(child == null){
 			child = new ScopeASTContext(this);
 		}
-		
+		System.out.println("Scope Conext[" + depth + "] down::" + funcTable.keySet());
 		return child;
 	}
 	
@@ -128,6 +139,7 @@ public class ScopeASTContext implements ASTContext {
 	public ASTContext up() {
 		varTable.clear();
 		funcTable.clear();
+		System.out.println("Scope Conext[" + depth + "] up::");
 		return parent;
 	}
 }

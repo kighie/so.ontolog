@@ -498,7 +498,7 @@ public class DefaultASTFactory implements ASTFactory {
 			List<ASTDeclaration> args) {
 		ASTFunctionDecl functionDecl = new ASTFunctionDecl(token, QName.createFunctionQName(name, args.size()),
 				name, type, args);
-		context.registerFuncDecl(functionDecl);
+		context.parent().registerFuncDecl(functionDecl);
 		return functionDecl;
 	}
 

@@ -16,6 +16,7 @@ package so.ontolog.formula.ast.factory;
 
 import java.util.List;
 
+import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
@@ -28,6 +29,7 @@ import so.ontolog.formula.ast.decl.ASTFunctionDecl;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
+import so.ontolog.formula.runtime.ref.VariableRef.ArgDeclRef;
 
 /**
  * <pre></pre>
@@ -46,7 +48,7 @@ public class FunctionCallExprFactory implements CallExprFactory {
 		int argCount = (args != null) ? args.size() : 0;
 		QName qname = QName.createFunctionQName(name, argCount);
 		
-		TypeSpec typeSpec;
+		TypeSpec typeSpec = null;
 		Class<?>[] argTypeArray = null;
 		
 		ASTDeclaration fnDecl = context.getFuncDecl(qname);
@@ -68,10 +70,27 @@ public class FunctionCallExprFactory implements CallExprFactory {
 			if(function != null){
 				typeSpec = function.returnType();
 				argTypeArray = function.argTypes();
-			}else {
-				typeSpec = TypeSpec.UNDEFINED;
 			}
 		} 
+		
+		if( fnDecl == null && function == null){
+			QName simpleName = new QName(name);
+			fnDecl = context.getFuncDecl(simpleName);
+			if(fnDecl != null){
+				if( fnDecl.type().getTypeKind() == TypeKind.Executable ){
+					if(fnDecl instanceof ArgDeclRef<?>){
+						qname = simpleName;
+						typeSpec = fnDecl.type();
+					} 
+				}
+			}
+		}
+		
+		if(typeSpec == null){
+			context.getErrorHandler().buildError("Cannot find function : " + qname , token);
+			typeSpec = TypeSpec.UNDEFINED;
+		}
+		
 		
 		ASTFunctionCallExpr callExpr = new ASTFunctionCallExpr(token, typeSpec, qname, args);
 		callExpr.setRequiredParamTypes(argTypeArray);

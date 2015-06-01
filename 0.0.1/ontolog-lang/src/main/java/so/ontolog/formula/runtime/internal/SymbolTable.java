@@ -44,5 +44,9 @@ public class SymbolTable implements Serializable {
 		return map.get(key);
 	}
 	
+	@Override
+	public String toString() {
+		return map.toString();
+	}
 	
 }
