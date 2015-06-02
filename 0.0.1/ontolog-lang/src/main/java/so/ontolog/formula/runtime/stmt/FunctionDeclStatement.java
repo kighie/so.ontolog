@@ -35,6 +35,7 @@ public class FunctionDeclStatement implements Statement {
 	@Override
 	public Object eval(Context context) {
 		context.setReference(function.qname(), function);
+//		System.out.println("FunctionDeclStatement::" + function.qname());
 		return null;
 	}
 	

@@ -95,6 +95,7 @@ public class LocalFunction<T> implements Function<T> {
 		int i=0;
 		for(ArgDeclRef<?> a : argList){
 			Object value = args[i].get(context);
+			System.out.println("LocalFunction eval :: " + args[i]+ "::" + a.toString() + "  " + value);
 			context.setReference(a.qualifiedName(), value);
 			i++;
 		}

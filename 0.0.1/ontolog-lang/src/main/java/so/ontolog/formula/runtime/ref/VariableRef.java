@@ -62,6 +62,7 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 				}
 			}
 		}
+
 		context.setReference(qname, value);
 	}
 

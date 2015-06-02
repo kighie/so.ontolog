@@ -471,6 +471,9 @@ public class DefaultASTFactory implements ASTFactory {
 			ASTToken token, TypeSpec type, String name, ASTExpr value) {
 		ASTDeclaration varDecl = variableDeclFactory.create(context, token, type, name, value);
 		context.registerVarDecl(varDecl);
+		if(varDecl.type().getTypeKind() == TypeKind.Executable){
+			context.registerFuncDecl(varDecl);
+		}
 		return varDecl;
 	}
 
@@ -496,6 +499,9 @@ public class DefaultASTFactory implements ASTFactory {
 	public ASTDeclaration createFunctionDecl(ASTContext context,
 			ASTToken token, TypeSpec type, String name,
 			List<ASTDeclaration> args) {
+		if(type == null){
+			type = TypeSpec.VOID;
+		}
 		ASTFunctionDecl functionDecl = new ASTFunctionDecl(token, QName.createFunctionQName(name, args.size()),
 				name, type, args);
 		context.parent().registerFuncDecl(functionDecl);

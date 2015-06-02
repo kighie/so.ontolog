@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.ast.factory;
 
+import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
@@ -33,7 +34,20 @@ public class DefaultVariableDeclFactory implements VariableDeclFactory {
 	@Override
 	public ASTDeclaration create(ASTContext context, ASTToken token,
 			TypeSpec typeSpec, String name, ASTExpr valueExpr) {
-		ASTVariableDecl varDecl = new ASTVariableDecl(token, new QName(name), typeSpec);
+		QName qname;
+//		if(typeSpec.getTypeKind() == TypeKind.Executable){
+//			ASTDeclaration fnDecl = context.findFuncDecl(name);
+//			if(fnDecl != null){
+//				qname = fnDecl.qname();
+//			} else {
+//				context.getErrorHandler().buildError("Cannot find function : " + name, token);
+//				qname = new QName(name);
+//			}
+//		} else {
+//			qname = new QName(name);
+//		}
+		qname = new QName(name);
+		ASTVariableDecl varDecl = new ASTVariableDecl(token, qname, typeSpec);
 		varDecl.setValueExpr(valueExpr);
 		return varDecl;
 	}

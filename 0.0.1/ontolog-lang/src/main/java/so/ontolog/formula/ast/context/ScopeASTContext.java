@@ -92,7 +92,22 @@ public class ScopeASTContext implements ASTContext {
 	protected ASTDeclaration askParentFunc(QName qname) {
 		return parent.getFuncDecl(qname);
 	}
-
+	
+	@Override
+	public ASTDeclaration findFuncDecl(String baseName) {
+		for(QName qn : funcTable.keySet() ){
+			if( qn.equalsBaseName(baseName) ){
+				return funcTable.get(qn);
+			}
+		}
+		
+		if(parent!=null){
+			return parent.findFuncDecl(baseName);
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public void registerFuncDecl(ASTDeclaration symbol) {
 //		System.out.println("registerFuncDecl::" + symbol.qname());

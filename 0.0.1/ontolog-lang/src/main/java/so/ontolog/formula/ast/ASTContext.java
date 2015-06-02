@@ -32,6 +32,8 @@ public interface ASTContext {
 	int depth();
 
 	ASTDeclaration getFuncDecl(QName qname);
+	
+	ASTDeclaration findFuncDecl(String baseName);
 
 	void registerFuncDecl(ASTDeclaration symbol);
 	

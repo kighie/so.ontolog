@@ -22,14 +22,14 @@ import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTExpr;
+import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
 import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
-import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
 import so.ontolog.formula.ast.decl.ASTFunctionDecl;
+import so.ontolog.formula.ast.decl.ASTVariableDecl;
 import so.ontolog.formula.ast.expr.ASTFunctionCallExpr;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
-import so.ontolog.formula.runtime.ref.VariableRef.ArgDeclRef;
 
 /**
  * <pre></pre>
@@ -78,7 +78,7 @@ public class FunctionCallExprFactory implements CallExprFactory {
 			fnDecl = context.getFuncDecl(simpleName);
 			if(fnDecl != null){
 				if( fnDecl.type().getTypeKind() == TypeKind.Executable ){
-					if(fnDecl instanceof ArgDeclRef<?>){
+					if(fnDecl instanceof ASTVariableDecl){
 						qname = simpleName;
 						typeSpec = fnDecl.type();
 					} 

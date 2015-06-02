@@ -103,6 +103,18 @@ public class QName implements Serializable {
 		}
 	}
 	
+	/**
+	 * <pre>
+	 * Check reference base name : "fncName"/{argCount}
+	 * baseName : fncName
+	 * </pre>
+	 * @param baseName
+	 * @return
+	 */
+	public boolean equalsBaseName(String baseName){
+		return name.startsWith(baseName + "/");
+	}
+	
 	@Override
 	public int hashCode() {
 		return hashcode;
