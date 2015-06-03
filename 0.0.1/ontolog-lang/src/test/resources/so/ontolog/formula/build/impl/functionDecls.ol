@@ -67,3 +67,6 @@ withFuncParam(funcWithArgs2, 10);
 withFuncParam(funcVar, 2);
 
 return funcInFunc();
+
+
+

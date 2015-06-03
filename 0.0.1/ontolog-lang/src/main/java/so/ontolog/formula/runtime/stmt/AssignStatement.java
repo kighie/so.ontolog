@@ -17,7 +17,6 @@ package so.ontolog.formula.runtime.stmt;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Gettable;
 import so.ontolog.formula.runtime.Settable;
-import so.ontolog.formula.runtime.Statement;
 
 /**
  * <pre></pre>
@@ -25,7 +24,7 @@ import so.ontolog.formula.runtime.Statement;
  *
  */
 @SuppressWarnings("rawtypes")
-public class AssignStatement implements Statement {
+public class AssignStatement extends AbstractStatement {
 
 	private static final long serialVersionUID = 238316198748422481L;
 
@@ -40,7 +39,7 @@ public class AssignStatement implements Statement {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object eval(Context context) {
+	protected Object evalImpl(Context context) {
 		varSettable.set(context, valueGettable.get(context));
 		return null;
 	}

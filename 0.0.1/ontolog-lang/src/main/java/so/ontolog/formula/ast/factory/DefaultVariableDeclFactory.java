@@ -14,7 +14,6 @@
  */
 package so.ontolog.formula.ast.factory;
 
-import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;

@@ -20,7 +20,7 @@ package so.ontolog.formula.runtime;
  * @since	1.0
  * @param <T>
  */
-public interface Statement extends Node {
+public interface Statement extends Node, PositionAware {
 
 	Object eval(Context context);
 	

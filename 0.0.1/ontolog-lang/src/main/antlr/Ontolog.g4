@@ -349,7 +349,7 @@ typeExpr returns [TypeSpec result]
 			IDENT 	{ builder.append( $IDENT.text); }
 			('.' IDENT	{ builder.append(".").append( $IDENT.text); } )*
 		)
-	)
+	) 
 	('[' ']' 	{ isArray = true; })?
 	{ $result = (isArray ? arrayType(builder.toString()) : type(builder.toString()) ); }
 	;
@@ -531,7 +531,7 @@ IDENT :  LETTER (LETTER|DIGIT)* ;
 //
 // Whitespace and comments
 //
-WS  :  [ \t\r\n\s\u000C]+ -> skip
+WS  :  [ \t\r\n\u000C]+ -> skip
     ;
 
 COMMENT

@@ -45,16 +45,20 @@ public class Assert implements Function<Void> {
 	}
 
 	@Override
+	public boolean isVariableArgs() {
+		return true;
+	}
+	
+	@Override
 	public Void eval(Context context, Gettable<?>[] args) {
 		if( !(Boolean)args[0].get(context) ){
 			StringBuilder messageBuf = new StringBuilder();
 			
-			if(args.length > 1){
-				messageBuf.append( (String)args[1].get(context) );
+			for(int i = 1; i<args.length ;i++){
+				messageBuf.append( (String)args[i].get(context) );
 				messageBuf.append("\n");
 			}
 			
-			messageBuf.append(args.toString());
 			throw new AssertException(messageBuf.toString());
 		}
 		return null;

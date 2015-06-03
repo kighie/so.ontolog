@@ -38,6 +38,7 @@ public class LocalFunction<T> implements Function<T> {
 	private Class<?>[] argTypes;
 	private QName qname;
 	private String name;
+	private boolean varArgs;
 	private TypeSpec returnType;
 	private LocalFunctionBody functionBody = new LocalFunctionBody();
 	
@@ -77,6 +78,18 @@ public class LocalFunction<T> implements Function<T> {
 	@Override
 	public Class<?>[] argTypes() {
 		return argTypes;
+	}
+	
+	@Override
+	public boolean isVariableArgs() {
+		return varArgs;
+	}
+	
+	/**
+	 * @param varArgs the varArgs to set
+	 */
+	public void setVariableArgs(boolean varArgs) {
+		this.varArgs = varArgs;
 	}
 	
 	public LocalFunctionBody getBody() {

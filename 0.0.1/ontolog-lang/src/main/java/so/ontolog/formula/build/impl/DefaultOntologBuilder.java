@@ -110,9 +110,16 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		Map<String, Function<?>> functionsMap = loader.loadFunctions(this.getClass().getClassLoader(),
 				new String[]{basicFuncDescPath, formulaFuncDescPath});
 		Function<?> func;
+		QName qname;
 		for(Map.Entry<String, Function<?>> e : functionsMap.entrySet()){
 			func = e.getValue();
-			repository.register(QName.createFunctionQName(e.getKey(), func.argTypes().length), func);
+			if(func.isVariableArgs()){
+				qname = new QName(e.getKey());
+			} else {
+				qname = QName.createFunctionQName(e.getKey(), func.argTypes().length);
+			}
+			
+			repository.register(qname, func);
 		}
 	}
 

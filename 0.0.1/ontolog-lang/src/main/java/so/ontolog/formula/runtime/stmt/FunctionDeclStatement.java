@@ -15,7 +15,6 @@
 package so.ontolog.formula.runtime.stmt;
 
 import so.ontolog.formula.runtime.Context;
-import so.ontolog.formula.runtime.Statement;
 import so.ontolog.formula.runtime.internal.LocalFunction;
 
 /**
@@ -23,7 +22,7 @@ import so.ontolog.formula.runtime.internal.LocalFunction;
  * @author Ikchan Kwon
  *
  */
-public class FunctionDeclStatement implements Statement {
+public class FunctionDeclStatement extends AbstractStatement {
 	private static final long serialVersionUID = 3346670355531074109L;
 	
 	private LocalFunction<?> function;
@@ -33,7 +32,7 @@ public class FunctionDeclStatement implements Statement {
 	}
 
 	@Override
-	public Object eval(Context context) {
+	protected Object evalImpl(Context context) {
 		context.setReference(function.qname(), function);
 //		System.out.println("FunctionDeclStatement::" + function.qname());
 		return null;

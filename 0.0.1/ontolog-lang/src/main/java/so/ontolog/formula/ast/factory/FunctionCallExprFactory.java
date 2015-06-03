@@ -67,6 +67,14 @@ public class FunctionCallExprFactory implements CallExprFactory {
 			}
 		} else {
 			function = context.getBuiltInFunction(qname);
+			if(function == null){
+				QName qname2 = new QName(name);
+				function = context.getBuiltInFunction(qname2);
+				if(function != null){
+					qname = qname2;
+				}
+			}
+			
 			if(function != null){
 				typeSpec = function.returnType();
 				argTypeArray = function.argTypes();

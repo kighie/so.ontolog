@@ -67,4 +67,10 @@ public class SimpleRepository<K> implements OntologRepository<K> {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(typeMap);
+		return builder.toString();
+	}
 }

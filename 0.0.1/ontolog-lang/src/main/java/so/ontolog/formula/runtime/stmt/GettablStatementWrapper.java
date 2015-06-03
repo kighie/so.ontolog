@@ -16,14 +16,13 @@ package so.ontolog.formula.runtime.stmt;
 
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Gettable;
-import so.ontolog.formula.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class GettablStatementWrapper implements Statement {
+public class GettablStatementWrapper extends AbstractStatement {
 
 	private static final long serialVersionUID = -4132464366372767215L;
 	
@@ -36,7 +35,7 @@ public class GettablStatementWrapper implements Statement {
 
 
 	@Override
-	public Object eval(Context context) {
+	protected Object evalImpl(Context context) {
 		gettable.get(context);
 		return null;
 	}

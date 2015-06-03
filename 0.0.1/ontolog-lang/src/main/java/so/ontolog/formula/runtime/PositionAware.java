@@ -14,27 +14,16 @@
  */
 package so.ontolog.formula.runtime;
 
-import java.io.Serializable;
-
-import so.ontolog.data.type.TypeKind;
-import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.SourcePosition;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public interface Function<T> extends Serializable {
-	
-	public static TypeSpec FUNCTION_TYPE = new TypeSpec(Function.class, TypeKind.Executable);
-	
-	String name();
+public interface PositionAware {
 
-	TypeSpec returnType();
+	void setSourcePosition(SourcePosition position);
 	
-	Class<?>[] argTypes();
-	
-	boolean isVariableArgs();
-	
-	T eval(Context context, Gettable<?>[]args);
+	SourcePosition getSourcePosition();
 }

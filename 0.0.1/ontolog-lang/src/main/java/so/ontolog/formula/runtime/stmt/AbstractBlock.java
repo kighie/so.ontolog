@@ -27,7 +27,7 @@ import so.ontolog.formula.runtime.internal.SymbolTable;
  * @author Ikchan Kwon
  *
  */
-public class AbstractBlock implements Block {
+public class AbstractBlock extends AbstractStatement implements Block {
 
 	private static final long serialVersionUID = -8149269987642137932L;
 
@@ -48,7 +48,7 @@ public class AbstractBlock implements Block {
 	}
 	
 	@Override
-	public final Object eval(Context context) {
+	protected final Object evalImpl(Context context) {
 		context = context.down(symbolTable);
 		Object rtn = evalInternal(context);
 		context.up();

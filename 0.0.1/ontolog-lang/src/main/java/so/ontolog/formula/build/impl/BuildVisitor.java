@@ -360,6 +360,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			ASTParamDecl paramDecl = (ASTParamDecl)declStmt;
 			ParamDeclStmt stmt = new ParamDeclStmt(paramDecl.qname(), paramDecl.type(), paramDecl.getParamName());
 			declStmt.setNode(stmt);
+			stmt.setSourcePosition(declStmt.getToken());
 		} else if(GrammarTokens.VAR_DECL.equals(tokenName)){
 			ASTVariableDecl varDecl = (ASTVariableDecl)declStmt;
 			VariableDeclStatement stmt = new VariableDeclStatement(varDecl.qname(), varDecl.type());
@@ -368,7 +369,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			if(valueExpr != null){
 				stmt.setInitialValue((Gettable<?>)valueExpr.getNode());
 			}
-			
+			stmt.setSourcePosition(declStmt.getToken());
 			declStmt.setNode(stmt);
 		} else if(GrammarTokens.ARG_DECL.equals(tokenName)){
 			ASTVariableDecl varDecl = (ASTVariableDecl)declStmt;
@@ -391,6 +392,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 			buildBlock(astFuncDecl, body);
 			
 			FunctionDeclStatement fncDeclStmt = new FunctionDeclStatement(localFunction);
+			fncDeclStmt.setSourcePosition(declStmt.getToken());
 			declStmt.setNode(fncDeclStmt);
 		} else {
 			throw new BuildException("Unknown Declaration token : " + tokenName).setNode(declStmt);
@@ -407,6 +409,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		}
 		GettablStatementWrapper stmtWrapper = new GettablStatementWrapper(gettable);
 		stmt.setNode(stmtWrapper);
+		stmtWrapper.setSourcePosition(stmt.getToken());
 		return context;
 	}
 	
@@ -418,6 +421,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		}
 		ReturnStatement rtnStmt = new ReturnStatement(gettable);
 		stmt.setNode(rtnStmt);
+		rtnStmt.setSourcePosition(stmt.getToken());
 		return context;
 	}
 	
@@ -450,6 +454,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		}
 		
 		stmt.setNode(ifStmt);
+		ifStmt.setSourcePosition(stmt.getToken());
 		return context;
 	}
 
@@ -462,6 +467,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		buildBlock(stmt, elseIf);
 
 		stmt.setNode(elseIf);
+		elseIf.setSourcePosition(stmt.getToken());
 		return context;
 	}
 	
@@ -472,6 +478,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		buildBlock(stmt, elseStmt);
 
 		stmt.setNode(elseStmt);
+		elseStmt.setSourcePosition(stmt.getToken());
 		return context;
 	}
 
@@ -482,6 +489,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		buildBlock(stmt, foreachStmt);
 		
 		stmt.setNode(foreachStmt);
+		foreachStmt.setSourcePosition(stmt.getToken());
 		return context;
 	}
 
@@ -502,6 +510,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 		buildBlock(stmt, whileStmt);
 		
 		stmt.setNode(whileStmt);
+		whileStmt.setSourcePosition(stmt.getToken());
 		return context;
 	}
 	
@@ -512,6 +521,7 @@ public class BuildVisitor implements ASTVisitor<BuildContext>{
 				(Settable)expr.getVarExpr().getNode(), 
 				(Gettable)expr.getValueExpr().getNode());
 		expr.setNode(assignStmt);
+		assignStmt.setSourcePosition(expr.getToken());
 		return context;
 	}
 }

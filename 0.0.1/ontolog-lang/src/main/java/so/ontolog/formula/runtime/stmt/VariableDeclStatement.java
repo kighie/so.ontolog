@@ -19,14 +19,13 @@ import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Gettable;
 import so.ontolog.formula.runtime.QName;
-import so.ontolog.formula.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class VariableDeclStatement implements Statement {
+public class VariableDeclStatement extends AbstractStatement {
 	private static final long serialVersionUID = -4365066019694115923L;
 	
 	protected final QName qname;
@@ -55,7 +54,7 @@ public class VariableDeclStatement implements Statement {
 	}
 
 	@Override
-	public Object eval(Context context) {
+	protected Object evalImpl(Context context) {
 		if(initialValue !=null){
 			Object value = initialValue.get(context);
 			

@@ -18,14 +18,13 @@ import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.QName;
-import so.ontolog.formula.runtime.Statement;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ParamDeclStmt implements Statement {
+public class ParamDeclStmt  extends AbstractStatement {
 	private static final long serialVersionUID = 987017160320384316L;
 	
 
@@ -41,7 +40,7 @@ public class ParamDeclStmt implements Statement {
 	}
 
 	@Override
-	public Object eval(Context context) {
+	protected Object evalImpl(Context context) {
 		Object value = context.getReference(paramName);
 		if(value != null){
 			if(!typeSpec.isAssignableFrom(value.getClass())){

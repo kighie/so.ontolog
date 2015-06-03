@@ -45,6 +45,11 @@ public class Sum extends AbstractMathFunction<BigDecimal>{
 		}
 		return sum;
 	}
+
+	@Override
+	public boolean isVariableArgs() {
+		return true;
+	}
 	
 	private BigDecimal add(BigDecimal sum, Object value){
 		if(value == null){

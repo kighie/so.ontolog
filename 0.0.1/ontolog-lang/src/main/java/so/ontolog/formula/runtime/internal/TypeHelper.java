@@ -16,7 +16,6 @@ package so.ontolog.formula.runtime.internal;
 
 import java.util.HashMap;
 
-import so.ontolog.data.type.TypeKind;
 import so.ontolog.data.type.TypeSpec;
 import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.runtime.Function;
@@ -30,8 +29,8 @@ public class TypeHelper {
 
 	protected final HashMap<String, TypeSpec> typeMap = new HashMap<String, TypeSpec>();
 
-	public static final TypeSpec VOID = new TypeSpec(Void.class, TypeKind.Void);
-	public static final TypeSpec FUNCTION = new TypeSpec(Function.class, TypeKind.Executable);
+//	public static final TypeSpec VOID = new TypeSpec(Void.class, TypeKind.Void);
+//	public static final TypeSpec FUNCTION = Function.FUNCTION_TYPE;
 	
 	/**
 	 * 
@@ -67,8 +66,8 @@ public class TypeHelper {
 		registerType("Float", TypeSpec.REAL);
 		
 
-		registerType("function", FUNCTION);
-		registerType("void", VOID);
+		registerType("function", Function.FUNCTION_TYPE);
+		registerType("void", TypeSpec.VOID);
 	}
 	
 	public void registerType(String typeName, TypeSpec type){

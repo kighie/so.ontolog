@@ -26,9 +26,9 @@ import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.ast.expr.CompositeSymbolExpr;
 import so.ontolog.formula.ast.util.ASTUtils;
+import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
 import so.ontolog.formula.runtime.VarQName;
-import so.ontolog.formula.runtime.internal.TypeHelper;
 
 /**
  * <pre></pre>
@@ -80,7 +80,7 @@ public class DefaultVariableExprFactory implements VariableExprFactory{
 			decl = context.findFuncDecl(qname.getName());
 			if(decl != null){
 				qname = decl.qname();
-				typeSpec = TypeHelper.FUNCTION; 
+				typeSpec = Function.FUNCTION_TYPE; 
 			} else {
 				context.getErrorHandler().buildWarning("Cannot find Declararion for " + qname, token);
 				typeSpec = TypeSpec.UNDEFINED;

@@ -46,6 +46,11 @@ public class Println implements Function<Void>{
 	}
 
 	@Override
+	public boolean isVariableArgs() {
+		return false;
+	}
+	
+	@Override
 	public Void eval(Context context, Gettable<?>[] args) {
 		System.out.println(args[0].get(context));
 		return null;
