@@ -531,7 +531,7 @@ IDENT :  LETTER (LETTER|DIGIT)* ;
 //
 // Whitespace and comments
 //
-WS  :  [ \t\r\n\u000C]+ -> skip
+WS  :  [ \t\r\n\s\u000C]+ -> skip
     ;
 
 COMMENT

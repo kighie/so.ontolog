@@ -24,7 +24,7 @@ import so.ontolog.data.type.TypeSpec;
  */
 public interface Ref extends Node {
 	
-	QName qualifiedName();
+	QName qname();
 
 	TypeSpec type();
 }

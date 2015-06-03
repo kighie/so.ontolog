@@ -57,6 +57,7 @@ public class FunctionCallExpr<T> implements Gettable<T> {
 		} else {
 			fnc = (Function<T>)context.getReference(funcName);
 			if(fnc == null){
+				System.out.println(context);
 				throw new EvalException("Function[" + funcName + "] is undefined.");
 			}
 		}

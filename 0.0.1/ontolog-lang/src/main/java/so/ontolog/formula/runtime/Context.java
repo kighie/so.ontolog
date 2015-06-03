@@ -37,4 +37,6 @@ public interface Context {
 	Context down(SymbolTable symbolTable);
 	
 	Context up();
+	
+	int depth();
 }

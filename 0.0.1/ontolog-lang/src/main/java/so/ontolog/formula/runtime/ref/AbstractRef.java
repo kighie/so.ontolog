@@ -36,7 +36,7 @@ public abstract class AbstractRef implements Ref {
 	}
 
 	@Override
-	public QName qualifiedName() {
+	public QName qname() {
 		return qname;
 	}
 	

@@ -53,7 +53,7 @@ public class LocalFunction<T> implements Function<T> {
 		for(ArgDeclRef<?> a : argList){
 			argTypes[i] = a.type().getBaseType();
 			i++;
-			symbolTable.register(a.qualifiedName(), a.type());
+			symbolTable.register(a.qname(), a.type());
 		}
 	}
 
@@ -95,8 +95,7 @@ public class LocalFunction<T> implements Function<T> {
 		int i=0;
 		for(ArgDeclRef<?> a : argList){
 			Object value = args[i].get(context);
-			System.out.println("LocalFunction eval :: " + args[i]+ "::" + a.toString() + "  " + value);
-			context.setReference(a.qualifiedName(), value);
+			context.setReference(a.qname(), value);
 			i++;
 		}
 		

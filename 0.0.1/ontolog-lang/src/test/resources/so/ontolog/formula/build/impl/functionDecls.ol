@@ -37,17 +37,33 @@ println( "funcInFunc()::" + funcInFunc() );
 
 
 function funcWithArgs2 (number x, number y) : text{
-	return 'funcWithArgs[2]::' + (x / y);
+	println( '  - funcWithArgs[2]::' + (x / y) );
 }
 
-//function funcVar = funcWithArgs2;
+function funcVar = funcWithArgs2;
+
 
 function withFuncParam(function fnc, number val) : text {
-	fnc(7, val);
+	int n = 1;
+	while( n < val ){
+		fnc(7, n);
+		n = n+1;
+	}
+
+	println("------------");
+
+	foreach(number m in [1:val]){
+		fnc(7, m);
+	}
+
+	println("------------");
+	
 	text rtn = fnc(4, val);
 	return fnc(3, val);
 }
 
-withFuncParam(funcWithArgs2, 6);
+withFuncParam(funcWithArgs2, 10);
+
+withFuncParam(funcVar, 2);
 
 return funcInFunc();

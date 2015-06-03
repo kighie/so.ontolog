@@ -83,7 +83,7 @@ public class ScopeASTContext implements ASTContext {
 	public ASTDeclaration getFuncDecl(QName qname) {
 		ASTDeclaration symbol = funcTable.get(qname);
 		if(symbol == null){
-			System.out.println("context[" + depth + "]getFuncDecl no func ::" + qname + " <- " + funcTable.keySet());
+//			System.out.println("context[" + depth + "]getFuncDecl no func ::" + qname + " <- " + funcTable.keySet());
 			symbol = askParentFunc(qname);
 		}
 		return symbol;
@@ -146,7 +146,7 @@ public class ScopeASTContext implements ASTContext {
 		if(child == null){
 			child = new ScopeASTContext(this);
 		}
-		System.out.println("Scope Conext[" + depth + "] down::" + funcTable.keySet());
+//		System.out.println("Scope Conext[" + depth + "] down::" + funcTable.keySet());
 		return child;
 	}
 	
@@ -154,7 +154,7 @@ public class ScopeASTContext implements ASTContext {
 	public ASTContext up() {
 		varTable.clear();
 		funcTable.clear();
-		System.out.println("Scope Conext[" + depth + "] up::");
+//		System.out.println("Scope Conext[" + depth + "] up::");
 		return parent;
 	}
 }

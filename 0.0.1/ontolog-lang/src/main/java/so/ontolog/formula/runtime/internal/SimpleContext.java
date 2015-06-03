@@ -31,6 +31,7 @@ public class SimpleContext implements Context {
 	private Context parent;
 	private Context child;
 	private SymbolTable symbolTable;
+	private int depth;
 	
 	public SimpleContext() {
 		super();
@@ -39,9 +40,16 @@ public class SimpleContext implements Context {
 	public SimpleContext(Context parent, SymbolTable symbolTable) {
 		this.parent = parent;
 		this.symbolTable = symbolTable;
+		if(parent != null){
+			depth = parent.depth()+1;
+		}
 	}
 	
-
+	@Override
+	public int depth() {
+		return depth;
+	}
+	
 	protected Context getSymbolOwner(QName name) {
 		if(symbolTable != null && symbolTable.contains(name)){
 			return this;
@@ -99,5 +107,18 @@ public class SimpleContext implements Context {
 		this.clear();
 		symbolTable = null;
 		return parent;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CTX[").append(depth).append("]{\n");
+		builder.append("\t").append(symbolTable).append("\n");
+		builder.append("\t").append(refMap).append("\n");
+		builder.append("}");
+		if(parent != null){
+			builder.append(parent.toString());
+		}
+		return builder.toString();
 	}
 }
