@@ -51,11 +51,12 @@ function withFuncParam(function fnc, number val) : text {
 	}
 
 	println("------------");
-
+	
+	
 	foreach(number m in [1:val]){
 		fnc(7, m);
-	}
-
+	} 
+	
 	println("------------");
 	
 	text rtn = fnc(4, val);

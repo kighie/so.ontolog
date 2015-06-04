@@ -15,6 +15,8 @@
 package so.ontolog.formula.func.math;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import so.ontolog.data.binding.convert.DefaultConverters;
 import so.ontolog.data.type.TypeSpec;
@@ -30,6 +32,11 @@ public abstract class AbstractMathFunction<T extends Number>  implements Functio
 	private static final long serialVersionUID = -8711825160593697940L;
 	
 	protected static final Class<?>[] SINGLE_DECIMAL_ARGS = new Class[]{Number.class};
+
+	public static final int DEFAULT_SCALE = 9;
+	public static final RoundingMode DEFAULT_ROUND = RoundingMode.HALF_UP;
+	public static final MathContext REAL_MATH_CONTEXT = new MathContext(10, RoundingMode.HALF_UP);
+	public static final MathContext INT_MATH_CONTEXT = new MathContext(10, RoundingMode.HALF_UP);
 	
 	@Override
 	public TypeSpec returnType() {
