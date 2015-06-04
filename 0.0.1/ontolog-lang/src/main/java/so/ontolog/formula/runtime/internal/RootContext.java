@@ -12,29 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.func.basic;
+package so.ontolog.formula.runtime.internal;
 
-import so.ontolog.formula.FormulaException;
+import so.ontolog.formula.OntologSource;
+import so.ontolog.formula.SourcePosition;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class AssertException extends FormulaException {
+public class RootContext extends SimpleContext {
 
-	private static final long serialVersionUID = -1076026248248029330L;
+	private OntologSource ontologSource;
 
-	public AssertException(String message, Throwable cause) {
-		super(message, cause);
+	public OntologSource getSource() {
+		return ontologSource;
 	}
 
-	public AssertException(String message) {
-		super(message);
+	public void setSource(OntologSource ontologSource) {
+		this.ontologSource = ontologSource;
 	}
-
-	public AssertException(Throwable cause) {
-		super(cause);
+	
+	@Override
+	public String getLine(SourcePosition position) {
+		if(ontologSource != null){
+			return ontologSource.getLine(position);
+		}
+		return "unknown source";
 	}
-
 }

@@ -64,8 +64,11 @@ function withFuncParam(function fnc, number val) : text {
 
 withFuncParam(funcWithArgs2, 10);
 
+withFuncParam(funcWithArgs, 2);
+
 withFuncParam(funcVar, 2);
 
+withFuncParam(null, 2);
 return funcInFunc();
 
 

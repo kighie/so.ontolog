@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.antlr.OntologLexer;
 import so.ontolog.formula.antlr.OntologParser;
 import so.ontolog.formula.antlr.OntologParser.OntologExpressionContext;
@@ -31,13 +32,12 @@ import so.ontolog.formula.ast.ASTFactory;
 import so.ontolog.formula.ast.ASTToken;
 import so.ontolog.formula.ast.ASTVisitor;
 import so.ontolog.formula.ast.CompilationUnit;
-import so.ontolog.formula.ast.context.ExceptionUtils;
+import so.ontolog.formula.ast.context.ASTExceptionUtils;
 import so.ontolog.formula.ast.context.RootASTContext;
 import so.ontolog.formula.ast.factory.DefaultASTFactory;
 import so.ontolog.formula.build.BuildContext;
 import so.ontolog.formula.build.BuildErrorHandler;
 import so.ontolog.formula.build.OntologBuilder;
-import so.ontolog.formula.build.OntologSource;
 import so.ontolog.formula.build.context.RootBuildContext;
 import so.ontolog.formula.build.factory.BuiltInFunctionLoader;
 import so.ontolog.formula.runtime.Function;
@@ -192,7 +192,7 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		RootASTContext context = parser.getRootContext();
 		
 		if(context.hasError()){
-			String message = ExceptionUtils.toString( context.getExceptions() );
+			String message = ASTExceptionUtils.toString( context.getExceptions() );
 			throw new ASTException(message);
 		}
 		return ctx.result;
@@ -211,10 +211,12 @@ public class DefaultOntologBuilder implements OntologBuilder {
 		}
 		
 		if(context.hasError()){
-			String message = ExceptionUtils.toString( context.getExceptions() );
+			String message = ASTExceptionUtils.toString( context.getExceptions() );
 			throw new ASTException(message);
 		}
-		return ctx.result;
+		CompilationUnit compilationUnit = ctx.result;
+		compilationUnit.setSource(source);
+		return compilationUnit;
 	}
 
 }

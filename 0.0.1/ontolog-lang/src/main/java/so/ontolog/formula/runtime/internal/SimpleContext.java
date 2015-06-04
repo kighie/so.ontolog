@@ -17,6 +17,8 @@ package so.ontolog.formula.runtime.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import so.ontolog.formula.OntologSource;
+import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.QName;
 
@@ -120,5 +122,21 @@ public class SimpleContext implements Context {
 			builder.append(parent.toString());
 		}
 		return builder.toString();
+	}
+	
+	@Override
+	public OntologSource getSource() {
+		if(parent != null){
+			return parent.getSource();
+		}
+		return null;
+	}
+	
+	@Override
+	public String getLine(SourcePosition position) {
+		if(parent != null){
+			return parent.getLine(position);
+		}
+		return "Unknown source.";
 	}
 }

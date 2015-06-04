@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.runtime.stmt;
 
+import so.ontolog.formula.FormulaException;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Gettable;
 
@@ -47,5 +48,9 @@ public class WhileStatement extends AbstractBlock {
 		}
 		return rtn;
 	}
-	
+
+	@Override
+	protected void fillStackTrace(Context context, FormulaException e) {
+		//SKIP
+	}
 }

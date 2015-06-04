@@ -16,11 +16,10 @@ package so.ontolog.formula.build.impl;
 
 import org.junit.Before;
 
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.ast.CompilationUnit;
-import so.ontolog.formula.build.OntologSource;
-import so.ontolog.formula.build.impl.DefaultOntologBuilder;
-import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Module;
+import so.ontolog.formula.runtime.internal.RootContext;
 import so.ontolog.test.StopWatch;
 
 /**
@@ -54,14 +53,15 @@ public class ScriptTests {
 		return node;
 	}
 
-	protected Module build(String scriptPath){
+	protected Module build(String scriptPath, RootContext context){
 		CompilationUnit moduleAst = buildAst(scriptPath);
+		context.setSource(moduleAst.getSource());
 		return build(moduleAst);
 	}
 	
 
-	protected Module buildAndRun(String scriptPath, Context context){
-		Module node = build(scriptPath);
+	protected Module buildAndRun(String scriptPath, RootContext context){
+		Module node = build(scriptPath, context);
 		stopwatch.start();
 		Object rtn = node.eval(context);
 		System.out.println("RUN :: " + stopwatch.ellapsedTime() +"\t" + rtn);

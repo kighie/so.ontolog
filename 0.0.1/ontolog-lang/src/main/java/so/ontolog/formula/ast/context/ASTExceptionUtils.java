@@ -17,18 +17,18 @@ package so.ontolog.formula.ast.context;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTNode;
 import so.ontolog.formula.build.BuildException;
-import so.ontolog.formula.build.OntologSource;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class ExceptionUtils {
+public class ASTExceptionUtils {
 
 	public static ASTException makeException(OntologSource source, String message, SourcePosition token) {
 		StackTraceElement element = makeStackTraceElement(source, token, token.getName());

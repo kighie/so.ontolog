@@ -20,9 +20,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Module;
-import so.ontolog.formula.runtime.internal.SimpleContext;
+import so.ontolog.formula.runtime.internal.RootContext;
 import so.ontolog.samples.bean.SampleBean;
 
 /**
@@ -34,7 +33,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildFormula(){
-		Context context = new SimpleContext();
+		RootContext context = new RootContext();
 		buildAndRunExpr("=3*4.5/(3+5) - 1.3", context);
 		buildAndRunExpr("= '*'*3 + (3*4.5/(3+5) - 1.3) + '*' *3", context);
 		buildAndRunExpr("= not (3*4 < 12) and (12 > 11/2)", context);
@@ -43,7 +42,7 @@ public class ExprBuildTests extends ExpressionTests {
 	
 	@Test
 	public void buildFormulaParamDef(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		context.setParameter("a", 1);
 		context.setParameter("b", 2);
 		context.setParameter("c", "6");
@@ -56,7 +55,7 @@ public class ExprBuildTests extends ExpressionTests {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void buildFormulaWizBeanParam(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(8);
@@ -93,7 +92,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildFormulaWizBeanParam2(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(8);
@@ -110,7 +109,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildFormulaWizVarIndex(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(3);
@@ -145,7 +144,7 @@ public class ExprBuildTests extends ExpressionTests {
 	@Test
 	public void buildFormulaWizMethodCall(){
 
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(3);
@@ -181,7 +180,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildFormulaWizFuncCall(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(3);
@@ -201,7 +200,7 @@ public class ExprBuildTests extends ExpressionTests {
 
 	@Test
 	public void buildTernary(){
-		SimpleContext context = new SimpleContext();
+		RootContext context = new RootContext();
 		
 		buildAndRunExpr("= (1 < 3) ? 100 : 300", context);
 		

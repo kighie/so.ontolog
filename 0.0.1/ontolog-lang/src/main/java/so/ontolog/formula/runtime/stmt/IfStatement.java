@@ -17,6 +17,7 @@ package so.ontolog.formula.runtime.stmt;
 import java.util.LinkedList;
 import java.util.List;
 
+import so.ontolog.formula.FormulaException;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Gettable;
 
@@ -67,7 +68,11 @@ public class IfStatement extends AbstractBlock {
 		
 		return null;
 	}
-	
+
+	@Override
+	protected void fillStackTrace(Context context, FormulaException e) {
+		//SKIP
+	}
 	
 	public static class ElseIf extends AbstractBlock {
 		private static final long serialVersionUID = -8630217146643767491L;
@@ -86,10 +91,19 @@ public class IfStatement extends AbstractBlock {
 			
 			return null;
 		}
+
+		@Override
+		protected void fillStackTrace(Context context, FormulaException e) {
+			//SKIP
+		}
 	}
 
 	public static class Else extends AbstractBlock {
 		private static final long serialVersionUID = 5725998838593451944L;
 		
+		@Override
+		protected void fillStackTrace(Context context, FormulaException e) {
+			//SKIP
+		}
 	}
 }

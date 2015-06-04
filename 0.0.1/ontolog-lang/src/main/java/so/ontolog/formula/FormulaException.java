@@ -24,6 +24,8 @@ public class FormulaException extends OntologLangException {
 
 	private static final long serialVersionUID = -6503663827943562820L;
 
+	private String sourceLine;
+	
 	public FormulaException(String message, Throwable cause) {
 		super(message, cause);
 	}
@@ -36,4 +38,24 @@ public class FormulaException extends OntologLangException {
 		super(cause);
 	}
 
+	public String getSourceLine() {
+		return sourceLine;
+	}
+
+	public void setSourceLine(String sourceLine) {
+		this.sourceLine = sourceLine;
+	}
+
+
+	@Override
+	public String toString() {
+		if(sourceLine != null){
+			StringBuilder buf = new StringBuilder();
+			buf.append(super.getMessage());
+			buf.append( "\n").append(sourceLine);
+			return buf.toString();
+		} else {
+			return super.toString();
+		}	
+	}
 }

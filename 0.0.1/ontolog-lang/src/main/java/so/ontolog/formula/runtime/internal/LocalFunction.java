@@ -17,6 +17,7 @@ package so.ontolog.formula.runtime.internal;
 import java.util.List;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.FormulaException;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.EvalException;
 import so.ontolog.formula.runtime.Function;
@@ -96,6 +97,7 @@ public class LocalFunction<T> implements Function<T> {
 		return functionBody;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public T eval(Context context, Gettable<?>[] args) {
@@ -120,5 +122,9 @@ public class LocalFunction<T> implements Function<T> {
 	public class LocalFunctionBody extends AbstractBlock {
 		private static final long serialVersionUID = -2260349972211447556L;
 		
+		@Override
+		protected void fillStackTrace(Context context, FormulaException e) {
+			//SKIP
+		}
 	}
 }

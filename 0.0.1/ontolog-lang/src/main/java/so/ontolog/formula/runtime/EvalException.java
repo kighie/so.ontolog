@@ -14,14 +14,14 @@
  */
 package so.ontolog.formula.runtime;
 
-import so.ontolog.formula.OntologLangException;
+import so.ontolog.formula.FormulaException;
 
 /**
  * <pre></pre>
  * @author Ikchan Kwon
  *
  */
-public class EvalException extends OntologLangException {
+public class EvalException extends FormulaException {
 	private static final long serialVersionUID = -148960022231244976L;
 	
 	private Node node;

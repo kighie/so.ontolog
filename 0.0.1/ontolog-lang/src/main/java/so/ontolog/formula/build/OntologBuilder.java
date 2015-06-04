@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.build;
 
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.runtime.Module;
 
 /**

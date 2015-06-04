@@ -14,6 +14,7 @@
  */
 package so.ontolog.formula.ast;
 
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.ast.stmt.AbstractASTBlock;
 
 /**
@@ -26,7 +27,8 @@ public class CompilationUnit extends AbstractASTBlock {
 	private static final long serialVersionUID = -3772387129534484495L;
 
 	protected final ASTContext context;
-	
+	private OntologSource ontologSource;
+
 	/**
 	 * @param token
 	 */
@@ -51,5 +53,12 @@ public class CompilationUnit extends AbstractASTBlock {
 		}
 		return context;
 	}
-	
+
+	public OntologSource getSource() {
+		return ontologSource;
+	}
+
+	public void setSource(OntologSource ontologSource) {
+		this.ontologSource = ontologSource;
+	}
 }

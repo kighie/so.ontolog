@@ -14,6 +14,8 @@
  */
 package so.ontolog.formula.runtime;
 
+import so.ontolog.formula.OntologSource;
+import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.runtime.internal.SymbolTable;
 
 
@@ -39,4 +41,8 @@ public interface Context {
 	Context up();
 	
 	int depth();
+	
+	OntologSource getSource();
+	
+	String getLine(SourcePosition position);
 }

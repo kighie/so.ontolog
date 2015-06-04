@@ -16,7 +16,7 @@ package so.ontolog.formula.build.impl;
 
 import org.junit.Test;
 
-import so.ontolog.formula.runtime.internal.SimpleContext;
+import so.ontolog.formula.runtime.internal.RootContext;
 import so.ontolog.samples.bean.SampleBean;
 
 
@@ -27,8 +27,8 @@ import so.ontolog.samples.bean.SampleBean;
  */
 public class ScriptBuildTests extends ScriptTests{
 	
-	SimpleContext createSimpleContext(){
-		SimpleContext context = new SimpleContext();
+	RootContext createContext(){
+		RootContext context = new RootContext();
 		SampleBean sample = new SampleBean();
 		sample.setPropA("Text:");
 		sample.setPropB(3);
@@ -42,32 +42,32 @@ public class ScriptBuildTests extends ScriptTests{
 	
 	@Test
 	public void scriptBasic(){
-		SimpleContext context = createSimpleContext();
+		RootContext context = createContext();
 		buildAndRun("so/ontolog/formula/build/impl/ScriptBasic.ol", context);
 	}
 
 	@Test
 	public void scriptIf(){
-		SimpleContext context = createSimpleContext();
+		RootContext context = createContext();
 		buildAndRun("so/ontolog/formula/build/impl/if.ol", context);
 	}
 
 	@Test
 	public void scriptFor(){
-		SimpleContext context = createSimpleContext();
+		RootContext context = createContext();
 		buildAndRun("so/ontolog/formula/build/impl/foreach.ol", context);
 	}
 
 	@Test
 	public void scriptWhile(){
-		SimpleContext context = createSimpleContext();
+		RootContext context = createContext();
 		buildAndRun("so/ontolog/formula/build/impl/while.ol", context);
 	}
 	
 
 	@Test
 	public void scriptFunctionDecls(){
-		SimpleContext context = createSimpleContext();
+		RootContext context = createContext();
 		buildAndRun("so/ontolog/formula/build/impl/functionDecls.ol", context);
 	}
 

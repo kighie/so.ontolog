@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 import so.ontolog.data.type.TypeSpec;
+import so.ontolog.formula.OntologSource;
 import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTDeclaration;
 import so.ontolog.formula.ast.ASTErrorHandler;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTToken;
-import so.ontolog.formula.build.OntologSource;
 import so.ontolog.formula.runtime.Function;
 import so.ontolog.formula.runtime.QName;
 import so.ontolog.repository.OntologRepository;
@@ -135,9 +135,9 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 	public void syntaxError(String message, Object offendingSymbol,
 			SourcePosition location, Exception cause) {
 		if(cause != null){
-			cause = ExceptionUtils.fillStackTrace(source, location, cause);
+			cause = ASTExceptionUtils.fillStackTrace(source, location, cause);
 		} else {
-			cause = ExceptionUtils.makeException(source, message, location);
+			cause = ASTExceptionUtils.makeException(source, message, location);
 		}
 		
 		exceptions.add(cause);
@@ -148,7 +148,7 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 
 	@Override
 	public void buildError(ASTToken token, Exception cause) {
-		cause = ExceptionUtils.fillStackTrace(source, token, cause);
+		cause = ASTExceptionUtils.fillStackTrace(source, token, cause);
 		exceptions.add(cause);
 		if(errorHandler != null){
 			errorHandler.buildError(token, cause);
@@ -157,7 +157,7 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 	
 	@Override
 	public void buildError(String message, ASTToken token, Exception cause) {
-		cause = ExceptionUtils.fillStackTrace(source, token, cause);
+		cause = ASTExceptionUtils.fillStackTrace(source, token, cause);
 		exceptions.add(cause);
 		if(errorHandler != null){
 			errorHandler.buildError(message, token, cause);
@@ -166,7 +166,7 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 	
 	@Override
 	public void buildError(String message, ASTToken token) {
-		ASTException exception = ExceptionUtils.makeException(source, message, token);
+		ASTException exception = ASTExceptionUtils.makeException(source, message, token);
 		exceptions.add(exception);
 		if(errorHandler != null){
 			errorHandler.buildError(message,token);
@@ -175,7 +175,7 @@ public class RootASTContext extends ScopeASTContext implements ASTErrorHandler {
 	
 	@Override
 	public void buildWarning(String message, ASTToken token) {
-		ASTException exception = ExceptionUtils.makeException(source, message, token);
+		ASTException exception = ASTExceptionUtils.makeException(source, message, token);
 		warnings.add(exception);
 		if(errorHandler != null){
 			errorHandler.buildWarning(exception);

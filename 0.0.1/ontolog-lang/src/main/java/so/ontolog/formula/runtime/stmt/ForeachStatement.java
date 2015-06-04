@@ -16,6 +16,7 @@ package so.ontolog.formula.runtime.stmt;
 
 import java.lang.reflect.Array;
 
+import so.ontolog.formula.FormulaException;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.QName;
 import so.ontolog.formula.runtime.expr.LoopCondition;
@@ -77,5 +78,11 @@ public class ForeachStatement extends AbstractBlock {
 			}
 		}
 		return null;
+	}
+	
+
+	@Override
+	protected void fillStackTrace(Context context, FormulaException e) {
+		//SKIP
 	}
 }

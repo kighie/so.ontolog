@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package so.ontolog.formula.build;
+package so.ontolog.formula;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +25,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import so.ontolog.formula.SourcePosition;
+import so.ontolog.formula.build.BuildException;
 
 
 /**
@@ -90,7 +90,8 @@ public class OntologSource {
 		} catch (IOException e) {
 			lineStr = "";
 		}
-		return lineStr + "\t[line:" + line + "]";
+//		return lineStr + "\tat ("+sourcePath+":" + line + ", " + location.getCharPositionInLine() + ")";
+		return lineStr;
 	}
 	
 	public void getText(SourcePosition location, StringBuilder builder){

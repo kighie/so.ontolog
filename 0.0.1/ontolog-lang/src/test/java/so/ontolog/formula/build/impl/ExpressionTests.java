@@ -17,9 +17,8 @@ package so.ontolog.formula.build.impl;
 import org.junit.Before;
 
 import so.ontolog.formula.ast.CompilationUnit;
-import so.ontolog.formula.build.impl.DefaultOntologBuilder;
-import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Module;
+import so.ontolog.formula.runtime.internal.RootContext;
 import so.ontolog.test.StopWatch;
 
 /**
@@ -56,7 +55,7 @@ public class ExpressionTests {
 		return buildExpr(moduleAst);
 	}
 	
-	protected Module buildAndRunExpr(String expression, Context context){
+	protected Module buildAndRunExpr(String expression, RootContext context){
 		Module node = buildExpr(expression);
 		stopwatch.start();
 		Object rtn = node.eval(context);

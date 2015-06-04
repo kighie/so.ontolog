@@ -19,6 +19,8 @@ import so.ontolog.formula.OntologLangException;
 import so.ontolog.formula.SourcePosition;
 import so.ontolog.formula.runtime.Context;
 import so.ontolog.formula.runtime.Statement;
+import so.ontolog.formula.runtime.internal.FormulaExceptionUtils;
+import so.ontolog.formula.util.ExceptionUtils;
 
 /**
  * <pre></pre>
@@ -46,16 +48,36 @@ public abstract class AbstractStatement implements Statement {
 		Object rtn = null;
 		try{
 			evalImpl(context);
+		} catch (FormulaException e){
+			FormulaException ote = (FormulaException)e;
+			
+			fillStackTrace(context, ote);
+			
+			throw ote;
 		} catch (OntologLangException e){
 			OntologLangException ote = (OntologLangException)e;
 			if(ote.getLocation() == null){
 				ote.setLocation(sourcePosition);
-			}
+			} 
 			throw ote;
 		} catch (Exception e){
-			throw new FormulaException(e).setLocation(sourcePosition);
+			FormulaException exception = FormulaExceptionUtils.makeException(context.getSource(), e.getMessage(), sourcePosition, e);
+			throw exception;
 		}
 		return rtn;
+	}
+	
+	protected void fillStackTrace(Context context, FormulaException e){
+		if(sourcePosition != null){
+			if(e.getLocation() == null){
+				e.setLocation(sourcePosition);
+			} 
+			if(e.getSourceLine() == null){
+				e.setSourceLine(context.getLine(sourcePosition));
+			} 
+			
+			ExceptionUtils.fillStackTrace(context.getSource(), sourcePosition, sourcePosition.getName(), e);
+		}
 	}
 	
 	protected abstract Object evalImpl(Context context);
