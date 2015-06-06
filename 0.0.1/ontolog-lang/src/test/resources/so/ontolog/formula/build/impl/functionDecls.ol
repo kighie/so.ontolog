@@ -42,6 +42,7 @@ function funcWithArgs2 (number x, number y) : text{
 
 function funcVar = funcWithArgs2;
 
+int[] intArray = [1,2,3,4,5,6];
 
 function withFuncParam(function fnc, number val) : text {
 	int n = 1;
@@ -52,11 +53,16 @@ function withFuncParam(function fnc, number val) : text {
 
 	println("------------");
 	
-	
-	foreach(number m in [1:val]){
+	foreach(number m in intArray){
 		fnc(7, m);
 	} 
 	
+
+	foreach(number m in [1:val]){
+		fnc(4, m);
+	} 
+
+
 	println("------------");
 	
 	text rtn = fnc(4, val);
@@ -70,6 +76,8 @@ withFuncParam(funcWithArgs, 2);
 withFuncParam(funcVar, 2);
 
 withFuncParam(null, 2);
+
+
 return funcInFunc();
 
 

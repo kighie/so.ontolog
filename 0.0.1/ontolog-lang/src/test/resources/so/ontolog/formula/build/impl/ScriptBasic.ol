@@ -41,5 +41,74 @@ println( "sample v ::" + v );
 
 x = 34;
 
+println( "average ::" + average(1,2,3,4,5,6,7,8,9,10) );
+
+
+
+
+
+
+
+
+println( "sample sum ::" + sum(sample.propArray) );
+
+println( "sample divide ::" + (dec1 / dec2) );
+
+(dec1 / dec2) -> a;
+
+println( "a ::" + a );
+
+a = (dec1 / dec2) * 3.3213;
+
+println( "a ::" + a );
+
+//assert( sum(sample.propArray) * 2 == 421 );
+
+number v = (dec1 > dec2) ? sample.propArray[2] : sample.propArray[3];
+
+println( "sample v ::" + v );
+
+
+
+println( "sample sum ::" + sum(sample.propArray) );
+
+println( "sample divide ::" + (dec1 / dec2) );
+
+(dec1 / dec2) -> a;
+
+println( "a ::" + a );
+
+a = (dec1 / dec2) * 3.3213;
+
+println( "a ::" + a );
+
+//assert( sum(sample.propArray) * 2 == 421 );
+
+number v = (dec1 > dec2) ? sample.propArray[2] : sample.propArray[3];
+
+println( "sample v ::" + v );
+
+
+
+
+
+
+println( "sample sum ::" + sum(sample.propArray) );
+
+println( "sample divide ::" + (dec1 / dec2) );
+
+(dec1 / dec2) -> a;
+
+println( "a ::" + a );
+
+a = (dec1 / dec2) * 3.3213;
+
+println( "a ::" + a );
+
+//assert( sum(sample.propArray) * 2 == 421 );
+
+number v = (dec1 > dec2) ? sample.propArray[2] : sample.propArray[3];
+
+println( "sample v ::" + v );
 
 return x * 2;

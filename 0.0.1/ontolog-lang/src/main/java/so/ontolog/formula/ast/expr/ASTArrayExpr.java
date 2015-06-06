@@ -52,8 +52,11 @@ public class ASTArrayExpr extends AbstractASTExpr {
 			}
 		}
 		
-		from.accept(visitor, context);
-		to.accept(visitor, context);
+		if(from != null){
+			from.accept(visitor, context);
+			to.accept(visitor, context);
+		}
+		
 		
 		return visitor.visit(this, context);
 	}
