@@ -61,7 +61,12 @@ public class ASTUtils {
 		
 		if(decl != null){
 			TypeSpec typeSpec = decl.type();
-			return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), qname.getName());
+			if(qname instanceof IndexedQName){
+				return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), 
+						((IndexedQName)qname).getIndex());
+			} else {
+				return CachedBeanBinderFactory.getInstance().createPropertyAccessor(typeSpec.getBaseType(), qname.getName());
+			}
 		} 
 		
 

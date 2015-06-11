@@ -178,11 +178,29 @@ public abstract class AbstractOntologHandlerParser extends Parser implements Gra
 		return factory.createArray(astToken, elements);
 	}
 
+	
+	
+	
+	public ASTExpr map(String token) {
+		ASTToken astToken = createASTToken(token);
+		return factory.createMap(current, astToken);
+	}
+
+
+	public ASTExpr mapEntry(String token, ASTExpr map, TypeSpec type, String name, ASTExpr value) {
+		ASTToken astToken = createASTToken(token);
+		return factory.mapEntry(current, astToken, map, type, name, value);
+	}
+
+
 	public ASTExpr call(String token, ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
 		ASTToken astToken = createASTToken(token);
 		return factory.createCall(current, astToken, beanSymbol, name, args);
 	}
 
+	
+	
+	
 
 	public ASTDeclaration paramDecl(String token, QName typeName,
 			String name, String alias) {

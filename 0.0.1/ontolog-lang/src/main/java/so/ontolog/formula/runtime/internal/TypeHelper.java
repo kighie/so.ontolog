@@ -44,7 +44,7 @@ public class TypeHelper {
 		registerType("text", TypeSpec.STRING);
 		registerType("boolean", TypeSpec.BOOLEAN);
 		registerType("date", TypeSpec.DATE);
-//		registerType("map", TypeSpec.MAP);
+		registerType("map", TypeSpec.MAP);
 //		registerType("record", TypeSpec.RECORD);
 //		registerType("table", TypeSpec.TABLE);
 		
@@ -66,6 +66,9 @@ public class TypeHelper {
 		registerType("Float", TypeSpec.REAL);
 		
 
+		registerType("object", TypeSpec.OBJECT);
+		registerType("Object", TypeSpec.OBJECT);
+		
 		registerType("function", Function.FUNCTION_TYPE);
 		registerType("void", TypeSpec.VOID);
 	}

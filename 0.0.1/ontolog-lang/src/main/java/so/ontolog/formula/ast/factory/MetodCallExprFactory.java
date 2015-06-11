@@ -16,6 +16,7 @@ package so.ontolog.formula.ast.factory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,9 +26,9 @@ import so.ontolog.data.type.TypeUtils;
 import so.ontolog.formula.ast.ASTContext;
 import so.ontolog.formula.ast.ASTException;
 import so.ontolog.formula.ast.ASTExpr;
+import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
 import so.ontolog.formula.ast.ASTSymbol;
 import so.ontolog.formula.ast.ASTToken;
-import so.ontolog.formula.ast.ASTFactory.CallExprFactory;
 import so.ontolog.formula.ast.expr.ASTMethodCallExpr;
 import so.ontolog.formula.ast.expr.ASTVariableExpr;
 import so.ontolog.formula.runtime.QName;
@@ -44,10 +45,15 @@ public class MetodCallExprFactory implements CallExprFactory {
 	public ASTSymbol create(ASTContext context, ASTToken token,
 			ASTSymbol beanRef, String name, List<ASTExpr> args) {
 		Class<?> beanClz = beanRef.type().getBaseType();
-		LinkedList list = new LinkedList();
+		List list;
 		
-		for(ASTExpr e : args){
-			list.add( e.type().getBaseType() );
+		if(args != null){
+			list = new LinkedList();
+			for(ASTExpr e : args){
+				list.add( e.type().getBaseType() );
+			}
+		} else {
+			list = Collections.EMPTY_LIST;
 		}
 		
 		Class<?>[]argTypeArray = new Class<?>[list.size()];

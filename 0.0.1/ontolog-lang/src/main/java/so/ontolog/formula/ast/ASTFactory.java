@@ -72,6 +72,12 @@ public interface ASTFactory {
 	ASTExpr createCall(ASTContext context, ASTToken token,
 			ASTSymbol beanSymbol, String name, List<ASTExpr> args);
 
+	ASTExpr createMap(ASTContext context, ASTToken token);
+	
+	ASTExpr mapEntry(ASTContext context, ASTToken token, ASTExpr map, TypeSpec type, String name, ASTExpr value);
+	
+	
+	
 	ASTStatement asStatement(ASTContext context, ASTExpr callExpr);
 
 	ASTStatement createReturnStatement(ASTContext context, ASTExpr callExpr);
@@ -153,6 +159,13 @@ public interface ASTFactory {
 		 * @return
 		 */
 		ASTSymbol create(ASTContext context, ASTToken token, ASTSymbol beanRef, String name, List<ASTExpr> args);
+	}
+
+
+	public interface MapExprFactory {
+		ASTExpr createMap(ASTContext context, ASTToken token);
+		
+		ASTExpr mapEntry(ASTContext context, ASTToken token, ASTExpr map, TypeSpec type, String name, ASTExpr value);
 	}
 
 }

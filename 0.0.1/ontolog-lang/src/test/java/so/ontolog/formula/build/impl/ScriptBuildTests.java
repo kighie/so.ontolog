@@ -71,4 +71,16 @@ public class ScriptBuildTests extends ScriptTests{
 		buildAndRun("so/ontolog/formula/build/impl/functionDecls.ol", context);
 	}
 
+	@Test
+	public void scriptMapExpr(){
+		RootContext context = createContext();
+		buildAndRun("so/ontolog/formula/build/impl/map.ol", context);
+	}
+
+	@Test
+	public void scriptArrayExpr(){
+		RootContext context = createContext();
+		buildAndRun("so/ontolog/formula/build/impl/array.ol", context);
+	}
+
 }

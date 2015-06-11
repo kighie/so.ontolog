@@ -363,7 +363,9 @@ qualifiedName returns [QName result]
 	;
 
 array   returns [ASTExpr result]
-	:  	( '['
+	:  	
+	(
+		( '['
 			{ List<ASTExpr> elements = new LinkedList<ASTExpr>(); }
 			( formulaTerm 		{ elements.add($formulaTerm.result); } )
 			(',' formulaTerm 		{ elements.add($formulaTerm.result); } )* 
@@ -378,8 +380,25 @@ array   returns [ASTExpr result]
 					arrayExpr.setTo($to.result);
 				} 
 		)
-	  
-	  
+	) 
+	;
+
+/**************************************
+ * MAP Expression
+ */
+mapExpr   returns [ASTExpr result]
+	: '{' 	{ $result = map(SIMPLE_MAP); String key;}
+		(
+			( ( IDENT {key = $IDENT.text; } ) | (STRING_LITERAL {key = strip($STRING_LITERAL.text); }) ) 
+			':' formulaTerm	
+				{ mapEntry( SIMPLE_MAP, $result, null, key, $formulaTerm.result ); }
+			(',' 
+				(( IDENT {key = $IDENT.text; } ) | (STRING_LITERAL {key = strip($STRING_LITERAL.text); })) 
+				 ':' formulaTerm 
+				{ mapEntry(SIMPLE_MAP,  $result, null, key, $formulaTerm.result ); }
+			)*
+		)?
+	  '}'
 	;
 
 /** iterableTerm used in loop condition */
@@ -398,6 +417,7 @@ formulaTerm returns [ASTExpr result]
 	| funcCallExp { $result =  $funcCallExp.result ; }
 	| methodCallExp { $result =  $methodCallExp.result ; }
 	| array { $result =  $array.result ; }
+	| mapExpr { $result =  $mapExpr.result ; }
 	| chooseExpr { $result =  $chooseExpr.result ; }
 	;
 

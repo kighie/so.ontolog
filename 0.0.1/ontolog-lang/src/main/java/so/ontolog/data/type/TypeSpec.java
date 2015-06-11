@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * <pre></pre>
@@ -38,6 +39,8 @@ public class TypeSpec implements Serializable {
 		private static final long serialVersionUID = 6989212413512268013L;
 	}
 
+	public static final TypeSpec OBJECT = new TypeSpec(Object.class, TypeKind.Object);
+	
 	public static final TypeSpec VOID = new TypeSpec(Void.class, TypeKind.Void);
 	
 	public static final TypeSpec BOOLEAN = new TypeSpec(Boolean.class, TypeKind.Bool);
@@ -74,7 +77,7 @@ public class TypeSpec implements Serializable {
 //	public static final TypeSpec COLLECTION = new TypeSpec(Collection.class, TypeKind.Collection);
 //	public static final TypeSpec LIST = new TypeSpec(List.class, TypeKind.Collection);
 //
-//	public static final TypeSpec MAP = new TypeSpec(Map.class, TypeKind.Map);
+	public static final TypeSpec MAP = new TypeSpec(Map.class, TypeKind.Map);
 //	
 //	public static final TypeSpec RECORD = new TypeSpec(Record.class, TypeKind.Record);
 //	public static final TypeSpec TABLE = new TypeSpec(Table.class, TypeKind.Table);
@@ -137,6 +140,13 @@ public class TypeSpec implements Serializable {
 		return componentType;
 	}
 
+	/**
+	 * @param componentType the componentType to set
+	 */
+	public void setComponentType(TypeSpec componentType) {
+		this.componentType = componentType;
+	}
+	
 	public String getSimpleName() {
 		return baseType.getSimpleName();
 	}

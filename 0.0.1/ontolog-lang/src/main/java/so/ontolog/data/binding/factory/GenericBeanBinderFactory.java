@@ -14,9 +14,9 @@
  */
 package so.ontolog.data.binding.factory;
 
-import java.awt.List;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import so.ontolog.data.binding.BeanBinderFactory;

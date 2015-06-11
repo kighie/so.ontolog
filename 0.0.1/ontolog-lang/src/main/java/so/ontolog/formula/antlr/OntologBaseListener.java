@@ -377,6 +377,18 @@ public class OntologBaseListener implements OntologListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMapExpr(OntologParser.MapExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMapExpr(OntologParser.MapExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIterableTerm(OntologParser.IterableTermContext ctx) { }
 	/**
 	 * {@inheritDoc}

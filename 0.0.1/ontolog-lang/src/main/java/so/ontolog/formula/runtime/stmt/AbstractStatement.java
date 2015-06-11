@@ -47,7 +47,7 @@ public abstract class AbstractStatement implements Statement {
 	public final Object eval(Context context) {
 		Object rtn = null;
 		try{
-			evalImpl(context);
+			rtn = evalImpl(context);
 		} catch (FormulaException e){
 			FormulaException ote = (FormulaException)e;
 			

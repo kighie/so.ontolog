@@ -51,4 +51,10 @@ public abstract class AbstractASTDeclaration extends AbstractASTNode implements 
 		return typeSpec;
 	}
 
+	/**
+	 * @param typeSpec the typeSpec to set
+	 */
+	public void setType(TypeSpec typeSpec) {
+		this.typeSpec = typeSpec;
+	}
 }

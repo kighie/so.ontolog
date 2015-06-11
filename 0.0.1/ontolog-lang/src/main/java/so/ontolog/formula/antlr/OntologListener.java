@@ -311,6 +311,16 @@ public interface OntologListener extends ParseTreeListener {
 	 */
 	void exitArray(OntologParser.ArrayContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link OntologParser#mapExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMapExpr(OntologParser.MapExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OntologParser#mapExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMapExpr(OntologParser.MapExprContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link OntologParser#iterableTerm}.
 	 * @param ctx the parse tree
 	 */

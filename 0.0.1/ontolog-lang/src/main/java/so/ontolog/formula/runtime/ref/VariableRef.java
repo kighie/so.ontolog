@@ -120,6 +120,14 @@ public class VariableRef<T> extends AbstractRef implements Gettable<T>, Settable
 			
 			return (T)propertyAccessor.get(rootValue);
 		}
+		
+
+		@Override
+		public void set(Context context, T value) {
+			Object bean = context.getReference(qname.getRoot());
+			propertyAccessor.set(bean, value);
+		}
+
 	}
 	
 }

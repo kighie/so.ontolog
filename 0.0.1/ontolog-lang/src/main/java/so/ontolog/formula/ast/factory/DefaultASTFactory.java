@@ -71,6 +71,8 @@ public class DefaultASTFactory implements ASTFactory {
 	private Map<String, VariableExprFactory> variableExprFactoryMap;
 	private Map<String, LiteralExprFactory> literalExprFactoryMap;
 	private Map<String, CallExprFactory> callExprFactoryMap;
+	private Map<String, MapExprFactory> mapExprFactoryMap;
+	
 	
 	private ParamDeclFactory paramDeclFactory;
 	private VariableDeclFactory variableDeclFactory;
@@ -85,6 +87,7 @@ public class DefaultASTFactory implements ASTFactory {
 		this.literalExprFactoryMap = initLiteralExprFactories();
 		this.variableExprFactoryMap = initVariableExprFactories();
 		this.callExprFactoryMap = initCallExprFactories();
+		this.mapExprFactoryMap = initMapExprFactoryMap();
 		
 		this.paramDeclFactory = initParamDeclFactory();
 		this.variableDeclFactory = initVariableDeclFactory();
@@ -367,6 +370,48 @@ public class DefaultASTFactory implements ASTFactory {
 	}
 	
 	
+	
+	
+	@Override
+	public ASTExpr createMap(ASTContext context, ASTToken token) {
+		String tokenName = token.getName();
+
+		MapExprFactory factory = mapExprFactoryMap.get(tokenName);
+		
+		if(factory == null){
+			throw new ASTException("Unknown map token " + tokenName ).setLocation(token);
+		}
+		
+		return factory.createMap(context, token);
+	}
+
+	@Override
+	public ASTExpr mapEntry(ASTContext context, ASTToken token, ASTExpr map,
+			TypeSpec type, String name, ASTExpr value) {
+		String tokenName = token.getName();
+
+		MapExprFactory factory = mapExprFactoryMap.get(tokenName);
+		
+		if(factory == null){
+			throw new ASTException("Unknown map token " + tokenName ).setLocation(token);
+		}
+		
+		return factory.mapEntry(context, token, map, type, tokenName, value);
+	}
+
+
+	/**<pre></pre>
+	 * @return
+	 */
+	protected Map<String, MapExprFactory> initMapExprFactoryMap() {
+		Map<String, MapExprFactory> map = new HashMap<String, ASTFactory.MapExprFactory>();
+
+		map.put(GrammarTokens.SIMPLE_MAP, new SimpleMapExprFactory());
+		
+		return map;
+	}
+
+	
 	@Override
 	public ASTExpr createCall(ASTContext context, ASTToken token,
 			ASTSymbol beanSymbol, String name, List<ASTExpr> args) {
@@ -456,9 +501,24 @@ public class DefaultASTFactory implements ASTFactory {
 					//returns Variable Declaration
 					return (ASTStatement)createVariableDecl(context, 
 							token, valueExpr.type(), astVar.qname().getName(), valueExpr);
+				} else if(astVar.qname() instanceof IndexedQName){
+					valueExpr.type().setComponentType(varExpr.type().getComponentType());
+					varExpr.setType(valueExpr.type());
+				} else {
+					context.getErrorHandler().buildError("Undefined Variable : " + varExpr , token);
 				}
+			} else {
+				context.getErrorHandler().buildError("Undefined Variable : " + varExpr , token);
 			}
-			context.getErrorHandler().buildError("Undefined Variable : " + varExpr , token);
+		} else if(varExpr.type().isArray()){
+			if(valueExpr.type().isSubclassOf(List.class) ) {
+				valueExpr.type().setComponentType(varExpr.type().getComponentType());
+				varExpr.setType(valueExpr.type());
+			}
+		}
+		
+		if(!varExpr.type().isAssignableFrom(valueExpr.type())){
+			context.getErrorHandler().buildError("Assign type mismatch : " + varExpr , token);
 		}
 		
 		ASTAssignStatement assignStmt = new ASTAssignStatement(token, varExpr, valueExpr);
@@ -473,6 +533,11 @@ public class DefaultASTFactory implements ASTFactory {
 		context.registerVarDecl(varDecl);
 		if(varDecl.type().getTypeKind() == TypeKind.Executable){
 			context.registerFuncDecl(varDecl);
+		} else if(varDecl.type().isArray() && value != null){
+			if(value.type().isSubclassOf(List.class)){
+				value.type().setComponentType(varDecl.type().getComponentType());
+				((ASTVariableDecl)varDecl).setType(value.type());
+			}
 		}
 		return varDecl;
 	}

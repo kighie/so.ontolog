@@ -49,5 +49,17 @@ public class ScriptASTBuildTests extends ScriptTests{
 	public void scriptFunctionDecls(){
 		buildAst("so/ontolog/formula/build/impl/functionDecls.ol");
 	}
+
+
+	@Test
+	public void scriptMapExpr(){
+		buildAst("so/ontolog/formula/build/impl/map.ol");
+	}
+
+
+	@Test
+	public void scriptArrayExpr(){
+		buildAst("so/ontolog/formula/build/impl/array.ol");
+	}
 	
 }
