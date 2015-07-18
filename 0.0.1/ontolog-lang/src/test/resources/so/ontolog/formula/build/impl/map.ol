@@ -72,16 +72,15 @@ println ( "KEYS2 : " + simpleMap2.keySet() );
 //simpleMap2['b'] = "tetst";
 simpleMap2.c = 11;
 
-println( "KEYS2 [1]: " + simpleMap2.keySet() );
+//println( "KEYS2 [1]: " + simpleMap2.keySet() );
 
 //println(complexMap["C0001"]);
-println(complexMap.C0001);
-println(complexMap.C0001.rate);
-println(complexMap.C0001.rate.age);
+//println(complexMap.C0001);
+//println(complexMap.C0001.rate);
+//println(complexMap.C0001.rate.age);
 //println(complexMap.C0001.rate.age["12"]);
 //println(complexMap.C0001.rate["age"]["12"]);
 //println(complexMap["C0001"]["rate"]["age"]["12"]);
-
 
 
 
